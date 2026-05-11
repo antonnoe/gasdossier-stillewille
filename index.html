@@ -134,7 +134,16 @@
     margin-bottom: 20px;
   }
 
-  .pdf-preview {
+  .preview-label {
+    font-size: 0.85em;
+    color: var(--grey-soft);
+    font-style: italic;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  /* Desktop: scrollbare iframe */
+  .pdf-preview-desktop {
     width: 100%;
     height: 520px;
     border: 1px solid var(--maroon-15);
@@ -144,12 +153,52 @@
     display: block;
   }
 
-  .preview-label {
-    font-size: 0.85em;
-    color: var(--grey-soft);
-    font-style: italic;
-    margin-bottom: 12px;
+  /* Mobiel: klikbare voorvertoning-afbeelding (verborgen op desktop) */
+  .pdf-preview-mobile {
+    display: none;
+  }
+
+  .pdf-preview-mobile a {
     display: block;
+    position: relative;
+    border: 1px solid var(--maroon-15);
+    border-radius: 4px;
+    overflow: hidden;
+    background: #f5f5f5;
+    margin-bottom: 16px;
+    text-decoration: none;
+  }
+
+  .pdf-preview-mobile img {
+    width: 100%;
+    height: auto;
+    display: block;
+    /* Toon ongeveer de bovenkant van de eerste pagina, niet de hele pagina */
+    max-height: 420px;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .pdf-preview-mobile .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    color: #fff;
+    text-align: center;
+    padding: 32px 16px 16px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95em;
+    font-weight: 600;
+  }
+
+  .pdf-preview-mobile .overlay span {
+    display: inline-block;
+    background: var(--maroon);
+    padding: 8px 16px;
+    border-radius: 4px;
+    color: #fff;
   }
 
   .download-row {
@@ -261,8 +310,10 @@
   .skip { position: absolute; left: -9999px; }
   .skip:focus { position: static; padding: 8px; background: var(--maroon); color: #fff; }
 
-  @media (max-width: 600px) {
-    .pdf-preview { height: 380px; }
+  /* Mobiel: verberg iframe, toon klikbare afbeelding, stack knoppen */
+  @media (max-width: 768px) {
+    .pdf-preview-desktop { display: none; }
+    .pdf-preview-mobile { display: block; }
     .container { padding: 32px 16px; }
     .doc-card { padding: 18px; }
     .download-row { flex-direction: column; align-items: stretch; }
@@ -317,14 +368,24 @@
 
   <section>
     <h2>Wat u kunt doen</h2>
-    <p>Laat deze naheffing — en de nieuwe maandprijs — niet zomaar passeren. Samen staan we sterk. Op deze pagina staan twee documenten klaar die direct gebruikt kunnen worden. U kunt elk document hieronder inzien (scrollen kan), en het Word-bestand downloaden om mee te werken.</p>
+    <p>Laat deze naheffing — en de nieuwe maandprijs — niet zomaar passeren. Samen staan we sterk. Op deze pagina staan twee documenten klaar die direct gebruikt kunnen worden. U kunt elk document hieronder inzien en downloaden om mee te werken.</p>
 
     <article class="doc-card">
       <h3>Het Dossier Gasproblematiek</h3>
       <p class="doc-desc">Een helder en compleet overzicht van alle feiten, de rechterlijke uitspraken uit 2013/2014 en de bewijzen rondom deze naheffing. U kunt dit dossier zelf doorlezen en het direct doorsturen naar uw rechtsbijstandsverzekeraar voor juridische ondersteuning.</p>
 
-      <span class="preview-label">Voorvertoning (scrollen om te lezen):</span>
-      <iframe class="pdf-preview" src="/Dossier_V2.2.pdf#view=FitH" title="Voorvertoning Dossier V2.2"></iframe>
+      <span class="preview-label">Voorvertoning:</span>
+
+      <!-- Desktop: scrollbare PDF -->
+      <iframe class="pdf-preview-desktop" src="/Dossier_V2.2.pdf#view=FitH" title="Voorvertoning Dossier V2.2"></iframe>
+
+      <!-- Mobiel: klikbare afbeelding die PDF opent -->
+      <div class="pdf-preview-mobile">
+        <a href="/Dossier_V2.2.pdf" target="_blank" rel="noopener" aria-label="Open dossier als PDF in nieuw tabblad">
+          <img src="/preview-dossier.jpg" alt="Voorvertoning eerste pagina dossier" loading="lazy">
+          <div class="overlay"><span>Tik om volledig te openen</span></div>
+        </a>
+      </div>
 
       <div class="download-row">
         <a href="/Dossier_V2.2.docx" download class="download-btn">
@@ -340,8 +401,16 @@
       <h3>De Voorbeeldbrief (Bezwaarschrift)</h3>
       <p class="doc-desc">Een juridisch onderbouwde bezwaarbrief. Downloaden als Word-bestand, invullen met uw eigen naam, huisnummer en factuurgegevens, en versturen aan SWB.</p>
 
-      <span class="preview-label">Voorvertoning (scrollen om te lezen):</span>
-      <iframe class="pdf-preview" src="/Bezwaarbrief_Template_Bewoners.pdf#view=FitH" title="Voorvertoning voorbeeldbrief"></iframe>
+      <span class="preview-label">Voorvertoning:</span>
+
+      <iframe class="pdf-preview-desktop" src="/Bezwaarbrief_Template_Bewoners.pdf#view=FitH" title="Voorvertoning voorbeeldbrief"></iframe>
+
+      <div class="pdf-preview-mobile">
+        <a href="/Bezwaarbrief_Template_Bewoners.pdf" target="_blank" rel="noopener" aria-label="Open voorbeeldbrief als PDF in nieuw tabblad">
+          <img src="/preview-brief.jpg" alt="Voorvertoning eerste pagina voorbeeldbrief" loading="lazy">
+          <div class="overlay"><span>Tik om volledig te openen</span></div>
+        </a>
+      </div>
 
       <div class="download-row">
         <a href="/Bezwaarbrief_Template_Bewoners.docx" download class="download-btn">
