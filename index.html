@@ -5,325 +5,121 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Gasnaheffing 2024-2025 — informatie voor gasgebruikers Landgoed De Stille Wille</title>
-<meta name="description" content="Informatie en documenten voor gasverbruikende bewoners van Landgoed De Stille Wille naar aanleiding van de gasafrekening en naheffing mei 2026.">
-
+<meta name="description" content="Informatie en documenten voor gasverbruikende bewoners van Landgoed De Stille Wille.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
-
 <style>
-  :root {
-    --maroon: #800000;
-    --maroon-deep: #660000;
-    --maroon-04: rgba(128, 0, 0, 0.04);
-    --maroon-08: rgba(128, 0, 0, 0.08);
-    --maroon-15: rgba(128, 0, 0, 0.15);
-    --grey-dark: #333;
-    --grey-mid: #555;
-    --grey-soft: #777;
-    --cream: #FBF7F2;
-    --attention: #FFF3E0;
+  :root{
+    --maroon:#800000;--maroon-deep:#660000;
+    --maroon-04:rgba(128,0,0,0.04);--maroon-08:rgba(128,0,0,0.08);--maroon-15:rgba(128,0,0,0.15);
+    --grey-dark:#333;--grey-mid:#555;--grey-soft:#777;
+    --cream:#FBF7F2;--attention:#FFF3E0;
   }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Mulish',-apple-system,sans-serif;font-size:17px;line-height:1.8em;color:var(--grey-dark);background:#fff}
+  h1,h2,h3{font-family:'Poppins',sans-serif;line-height:1.3em;color:var(--maroon)}
+  a{color:var(--maroon)}
+  a:hover{color:var(--maroon-deep)}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  /* Navigatie */
+  .nav{background:var(--maroon-deep);position:sticky;top:0;z-index:10}
+  .nav-inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;padding:0 12px}
+  .nav a{display:block;padding:12px 18px;color:#fff;text-decoration:none;font-family:'Poppins',sans-serif;font-weight:600;font-size:0.92em;border-bottom:3px solid transparent;transition:background 0.15s,border-color 0.15s}
+  .nav a:hover{background:rgba(255,255,255,0.08);color:#fff}
+  .nav a.active{border-bottom-color:#fff;background:rgba(255,255,255,0.1)}
 
-  body {
-    font-family: 'Mulish', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 17px;
-    line-height: 1.8em;
-    color: var(--grey-dark);
-    background: #fff;
-  }
+  .site-header{background:var(--maroon);color:#fff;padding:40px 24px;text-align:center;border-bottom:6px solid var(--maroon-deep)}
+  .site-header h1{color:#fff;font-size:clamp(1.6em,4vw,2.4em);font-weight:700;max-width:800px;margin:0 auto 12px}
+  .site-header .subtitle{font-size:1.05em;opacity:0.92;max-width:700px;margin:0 auto;line-height:1.5em}
 
-  h1, h2, h3 {
-    font-family: 'Poppins', sans-serif;
-    line-height: 1.3em;
-    color: var(--maroon);
-  }
+  .container{max-width:820px;margin:0 auto;padding:48px 24px}
+  section{margin-bottom:48px}
+  section h2{font-size:1.5em;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--maroon-15)}
+  section h3{font-size:1.15em;font-weight:600;color:var(--grey-dark);margin-top:24px;margin-bottom:8px}
+  section p{margin-bottom:16px}
+  ul.flow,ol.flow{margin:16px 0 20px 20px}
+  ul.flow li,ol.flow li{margin-bottom:12px}
 
-  .site-header {
-    background: var(--maroon);
-    color: #fff;
-    padding: 48px 24px;
-    text-align: center;
-    border-bottom: 6px solid var(--maroon-deep);
-  }
+  /* Aanpak-blok (twee sporen) */
+  .approach{background:#fff;border:2px solid var(--maroon);border-radius:8px;padding:24px;margin:0 0 40px}
+  .approach h2{color:var(--maroon);font-size:1.3em;margin:0 0 16px;padding-bottom:0;border:none}
+  .step{display:flex;gap:16px;padding:18px 0;border-top:1px solid var(--maroon-15)}
+  .step:first-of-type{border-top:none;padding-top:0}
+  .step-num{flex-shrink:0;width:36px;height:36px;background:var(--maroon);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:700;font-size:1.1em}
+  .step-body h3{color:var(--maroon);margin:0 0 6px;font-family:'Poppins',sans-serif;font-size:1.05em}
+  .step-body p{font-size:0.96em;line-height:1.65em;margin-bottom:0}
+  .closing{font-size:0.92em;color:var(--grey-mid);margin-top:16px;font-style:italic}
 
-  .site-header h1 {
-    color: #fff;
-    font-size: clamp(1.6em, 4vw, 2.4em);
-    font-weight: 700;
-    max-width: 800px;
-    margin: 0 auto 12px;
-  }
+  .problem-box{background:var(--maroon-04);border-left:4px solid var(--maroon);padding:20px 24px;margin:24px 0;border-radius:0 4px 4px 0}
+  .problem-box strong{color:var(--maroon)}
 
-  .site-header .subtitle {
-    font-family: 'Mulish', sans-serif;
-    font-size: 1.05em;
-    opacity: 0.92;
-    max-width: 700px;
-    margin: 0 auto;
-    line-height: 1.5em;
-  }
+  .doc-card{background:#fff;border:2px solid var(--maroon-15);border-radius:8px;padding:24px;margin-bottom:32px;transition:border-color 0.2s,box-shadow 0.2s}
+  .doc-card:hover{border-color:var(--maroon);box-shadow:0 4px 16px var(--maroon-08)}
+  .doc-card h3{font-family:'Poppins',sans-serif;color:var(--maroon);font-size:1.25em;margin-bottom:12px;margin-top:0}
+  .doc-card .doc-desc{font-size:0.97em;line-height:1.65em;color:var(--grey-mid);margin-bottom:20px}
 
-  .container {
-    max-width: 820px;
-    margin: 0 auto;
-    padding: 48px 24px;
-  }
+  .preview-label{font-size:0.85em;color:var(--grey-soft);font-style:italic;margin-bottom:12px;display:block}
+  .pdf-preview-desktop{width:100%;height:520px;border:1px solid var(--maroon-15);border-radius:4px;background:#f5f5f5;margin-bottom:16px;display:block}
+  .pdf-preview-mobile{display:none}
+  .pdf-preview-mobile a{display:block;position:relative;border:1px solid var(--maroon-15);border-radius:4px;overflow:hidden;background:#f5f5f5;margin-bottom:16px;text-decoration:none}
+  .pdf-preview-mobile img{width:100%;height:auto;display:block;max-height:420px;object-fit:cover;object-position:top}
+  .pdf-preview-mobile .overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.85));color:#fff;text-align:center;padding:32px 16px 16px;font-family:'Poppins',sans-serif;font-weight:600;font-size:0.95em}
+  .pdf-preview-mobile .overlay span{display:inline-block;background:var(--maroon);padding:8px 16px;border-radius:4px}
 
-  section { margin-bottom: 48px; }
+  .download-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:20px}
+  .download-btn{display:inline-block;background:var(--maroon);color:#fff;text-decoration:none;padding:12px 24px;border-radius:4px;font-weight:600;font-size:0.98em;text-align:center;transition:background 0.2s}
+  .download-btn:hover{background:var(--maroon-deep);color:#fff}
+  .download-btn.secondary{background:#fff;color:var(--maroon);border:2px solid var(--maroon);padding:10px 22px}
+  .download-btn.secondary:hover{background:var(--maroon-04)}
+  .download-btn .meta{font-weight:400;opacity:0.85;font-size:0.88em}
 
-  section h2 {
-    font-size: 1.5em;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid var(--maroon-15);
-  }
+  .infographic-link{background:var(--maroon-04);border-left:4px solid var(--maroon);padding:18px 22px;margin:24px 0;border-radius:0 4px 4px 0}
+  .infographic-link p{margin:0;font-size:0.96em}
+  .infographic-link a{font-weight:600}
 
-  section h3 {
-    font-size: 1.15em;
-    font-weight: 600;
-    color: var(--grey-dark);
-    margin-top: 24px;
-    margin-bottom: 8px;
-  }
+  .warning-box{background:var(--attention);border:2px solid var(--maroon);border-radius:6px;padding:24px;margin:32px 0}
+  .warning-box h2{margin-top:0;padding-bottom:0;border:none;color:var(--maroon);font-size:1.25em}
+  .warning-box .icon{font-size:1.2em;margin-right:8px}
+  .warning-box strong{color:var(--maroon-deep)}
 
-  section p { margin-bottom: 16px; }
+  .disclaimer{background:var(--cream);border-top:3px solid var(--maroon);border-bottom:3px solid var(--maroon);padding:36px 24px;margin:48px 0 0}
+  .disclaimer-inner{max-width:820px;margin:0 auto}
+  .disclaimer h2{font-size:1.2em;margin-bottom:20px;padding-bottom:0;border:none}
+  .disclaimer h3{color:var(--maroon);font-size:1em;font-weight:600;margin-top:20px;margin-bottom:8px}
+  .disclaimer p{font-size:0.92em;line-height:1.7em;margin-bottom:12px}
 
-  ul.flow, ol.flow { margin: 16px 0 20px 20px; }
-  ul.flow li, ol.flow li { margin-bottom: 12px; }
+  footer{background:#fff;text-align:center;padding:32px 24px;border-top:1px solid var(--maroon-15);color:var(--grey-soft);font-size:0.88em;font-style:italic}
+  footer strong{color:var(--maroon);font-style:normal}
 
-  .problem-box {
-    background: var(--maroon-04);
-    border-left: 4px solid var(--maroon);
-    padding: 20px 24px;
-    margin: 24px 0;
-    border-radius: 0 4px 4px 0;
-  }
+  .skip{position:absolute;left:-9999px}
+  .skip:focus{position:static;padding:8px;background:var(--maroon);color:#fff}
 
-  .problem-box strong { color: var(--maroon); }
-
-  .doc-card {
-    background: #fff;
-    border: 2px solid var(--maroon-15);
-    border-radius: 8px;
-    padding: 24px;
-    margin-bottom: 32px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-
-  .doc-card:hover {
-    border-color: var(--maroon);
-    box-shadow: 0 4px 16px var(--maroon-08);
-  }
-
-  .doc-card h3 {
-    font-family: 'Poppins', sans-serif;
-    color: var(--maroon);
-    font-size: 1.25em;
-    margin-bottom: 12px;
-    margin-top: 0;
-  }
-
-  .doc-card .doc-desc {
-    font-size: 0.97em;
-    line-height: 1.65em;
-    color: var(--grey-mid);
-    margin-bottom: 20px;
-  }
-
-  .preview-label {
-    font-size: 0.85em;
-    color: var(--grey-soft);
-    font-style: italic;
-    margin-bottom: 12px;
-    display: block;
-  }
-
-  /* Desktop: scrollbare iframe */
-  .pdf-preview-desktop {
-    width: 100%;
-    height: 520px;
-    border: 1px solid var(--maroon-15);
-    border-radius: 4px;
-    background: #f5f5f5;
-    margin-bottom: 16px;
-    display: block;
-  }
-
-  /* Mobiel: klikbare voorvertoning-afbeelding (verborgen op desktop) */
-  .pdf-preview-mobile {
-    display: none;
-  }
-
-  .pdf-preview-mobile a {
-    display: block;
-    position: relative;
-    border: 1px solid var(--maroon-15);
-    border-radius: 4px;
-    overflow: hidden;
-    background: #f5f5f5;
-    margin-bottom: 16px;
-    text-decoration: none;
-  }
-
-  .pdf-preview-mobile img {
-    width: 100%;
-    height: auto;
-    display: block;
-    /* Toon ongeveer de bovenkant van de eerste pagina, niet de hele pagina */
-    max-height: 420px;
-    object-fit: cover;
-    object-position: top;
-  }
-
-  .pdf-preview-mobile .overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(0,0,0,0.85));
-    color: #fff;
-    text-align: center;
-    padding: 32px 16px 16px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.95em;
-    font-weight: 600;
-  }
-
-  .pdf-preview-mobile .overlay span {
-    display: inline-block;
-    background: var(--maroon);
-    padding: 8px 16px;
-    border-radius: 4px;
-    color: #fff;
-  }
-
-  .download-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    align-items: center;
-    margin-top: 20px;
-  }
-
-  .download-btn {
-    display: inline-block;
-    background: var(--maroon);
-    color: #fff;
-    text-decoration: none;
-    padding: 12px 24px;
-    border-radius: 4px;
-    font-family: 'Mulish', sans-serif;
-    font-weight: 600;
-    font-size: 0.98em;
-    text-align: center;
-    transition: background 0.2s;
-  }
-
-  .download-btn:hover { background: var(--maroon-deep); }
-
-  .download-btn.secondary {
-    background: #fff;
-    color: var(--maroon);
-    border: 2px solid var(--maroon);
-    padding: 10px 22px;
-  }
-
-  .download-btn.secondary:hover { background: var(--maroon-04); }
-
-  .download-btn .meta {
-    font-weight: 400;
-    opacity: 0.85;
-    font-size: 0.88em;
-  }
-
-  .warning-box {
-    background: var(--attention);
-    border: 2px solid var(--maroon);
-    border-radius: 6px;
-    padding: 24px;
-    margin: 32px 0;
-  }
-
-  .warning-box h2 {
-    margin-top: 0;
-    padding-bottom: 0;
-    border: none;
-    color: var(--maroon);
-    font-size: 1.25em;
-  }
-
-  .warning-box .icon { font-size: 1.2em; margin-right: 8px; }
-  .warning-box strong { color: var(--maroon-deep); }
-
-  .disclaimer {
-    background: var(--cream);
-    border-top: 3px solid var(--maroon);
-    border-bottom: 3px solid var(--maroon);
-    padding: 36px 24px;
-    margin: 48px 0 0 0;
-  }
-
-  .disclaimer-inner { max-width: 820px; margin: 0 auto; }
-
-  .disclaimer h2 {
-    font-size: 1.2em;
-    margin-bottom: 20px;
-    padding-bottom: 0;
-    border: none;
-  }
-
-  .disclaimer h3 {
-    color: var(--maroon);
-    font-family: 'Poppins', sans-serif;
-    font-size: 1em;
-    font-weight: 600;
-    margin-top: 20px;
-    margin-bottom: 8px;
-  }
-
-  .disclaimer p {
-    font-size: 0.92em;
-    line-height: 1.7em;
-    color: var(--grey-dark);
-    margin-bottom: 12px;
-  }
-
-  footer {
-    background: #fff;
-    text-align: center;
-    padding: 32px 24px;
-    border-top: 1px solid var(--maroon-15);
-    color: var(--grey-soft);
-    font-size: 0.88em;
-    font-style: italic;
-  }
-
-  footer strong {
-    color: var(--maroon);
-    font-style: normal;
-  }
-
-  .skip { position: absolute; left: -9999px; }
-  .skip:focus { position: static; padding: 8px; background: var(--maroon); color: #fff; }
-
-  /* Mobiel: verberg iframe, toon klikbare afbeelding, stack knoppen */
-  @media (max-width: 768px) {
-    .pdf-preview-desktop { display: none; }
-    .pdf-preview-mobile { display: block; }
-    .container { padding: 32px 16px; }
-    .doc-card { padding: 18px; }
-    .download-row { flex-direction: column; align-items: stretch; }
-    .download-btn { text-align: center; }
+  @media (max-width:768px){
+    .pdf-preview-desktop{display:none}
+    .pdf-preview-mobile{display:block}
+    .container{padding:32px 16px}
+    .doc-card,.approach{padding:18px}
+    .download-row{flex-direction:column;align-items:stretch}
+    .download-btn{text-align:center}
+    .step-num{width:30px;height:30px;font-size:1em}
+    .nav a{padding:10px 12px;font-size:0.82em}
   }
 </style>
 </head>
 <body>
 
 <a href="#main" class="skip">Naar inhoud</a>
+
+<nav class="nav" aria-label="Hoofdnavigatie">
+  <div class="nav-inner">
+    <a href="/" class="active">Hoofdpagina</a>
+    <a href="/overzicht.html">Overzicht in één oogopslag</a>
+    <a href="/historie.html">Historie</a>
+    <a href="/bronnen.html">Bronnen</a>
+  </div>
+</nav>
 
 <header class="site-header">
   <h1>Gasnaheffing 2024-2025</h1>
@@ -337,13 +133,41 @@
     <p>Velen van ons zijn onlangs enorm geschrokken van de gasafrekening over de periode 2024-2025. Bovenop de reguliere gasprijs is een onverwachte naheffing opgelegd van maar liefst <strong>€ 1,95 per verbruikte kubieke meter</strong>. Voor veel huishoudens leidt dit tot rekeningen die oplopen tot € 800 à € 900 extra.</p>
   </section>
 
+  <div class="approach">
+    <h2>De aanpak: twee sporen</h2>
+    <p style="margin-bottom:20px">Om iedere gedupeerde bewoner zo goed mogelijk te beschermen — ook degenen die de termijn van veertien dagen dreigen te missen — kiezen wij voor een gefaseerde aanpak.</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Eerst: collectief bezwaar via Stille Wille Wonen</h3>
+        <p>Op initiatief van een bewoner is aan het bestuur van bewonersvereniging Stille Wille Wonen gevraagd om <strong>namens alle gedupeerde bewoners collectief bezwaar</strong> aan te tekenen bij SWB. Het bestuur krijgt enkele dagen om hierover te beslissen. Een collectief bezwaar voorkomt dat 100+ bewoners individueel moeten reageren en dekt ook degenen die de termijn anders zouden missen.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Daarna: individueel bezwaar, indien nodig</h3>
+        <p>Stemt het bestuur niet of niet tijdig in met spoor 1, of wilt u zelf uw rechtsbijstandsverzekering inschakelen, dan kunt u zelf bezwaar maken met de voorbeeldbrief verderop op deze pagina. <strong>Wacht hier niet te lang mee: de termijn is twee weken na uw factuurdatum.</strong></p>
+      </div>
+    </div>
+
+    <p class="closing">Beide sporen versterken elkaar. Een collectief bezwaar dwingt SWB tot inhoudelijke heroverweging; individuele bezwaren beschermen uw persoonlijke factuur en uw aanspraak op rechtsbijstand.</p>
+  </div>
+
+  <div class="infographic-link">
+    <p>Wilt u eerst het hele verhaal in één oogopslag zien? Bekijk de pagina <a href="/overzicht.html"><strong>Overzicht in één oogopslag</strong></a>.</p>
+  </div>
+
   <section>
     <h2>Waar komt deze torenhoge rekening vandaan?</h2>
     <p>De exploitant (SWB) is geconfronteerd met een tekort van bijna € 37.000,- en heeft besloten dit bedrag eenzijdig over ons — de overgebleven gasgebruikers — te verdelen. Dit tekort is ontstaan door twee oorzaken:</p>
     <ol class="flow">
       <li><strong>Slordige administratie.</strong> Bij de overdracht naar het nieuwe administratiekantoor bleek dat grote inkoopfacturen (van Benegas en de huur van de gastank) in het verleden simpelweg zijn vergeten.</li>
-      <li><strong>Een lek netwerk.</strong> Ons gasnet op het park is zwaar verouderd en verliest structureel gigantische hoeveelheden gas in de bodem. Onafhankelijk onderzoek toonde eerder al verliezen tot 35% aan.</li>
+      <li><strong>Een lek netwerk.</strong> Ons gasnet op het park is zwaar verouderd en verliest structureel grote hoeveelheden gas in de bodem. Onafhankelijk onderzoek uit 2020 (Breedveld/Schoenmaker) toonde verliezen aan in een bandbreedte van <strong>15% tot 35%</strong>, afhankelijk van de gehanteerde rekenmethode en correctie voor verdamperverbruik.</li>
     </ol>
+    <p style="font-size:0.95em;color:var(--grey-mid);font-style:italic">Meer weten over hoe deze situatie is ontstaan? Zie de pagina <a href="/historie.html">Historie</a>.</p>
   </section>
 
   <section>
@@ -362,63 +186,45 @@
   <section>
     <h2>En er is een derde probleem: de maandprijs gaat fors omhoog</h2>
     <p>De naheffing van € 1,95 per m³ is een eenmalige correctie over het verleden. Maar SWB heeft tegelijkertijd ook het maandelijkse voorschotbedrag voor de komende periode fors verhoogd. Voor menig huishouden gaat het maandbedrag in één klap met meer dan € 50 omhoog, oplopend tot ruim € 200 per maand.</p>
-    <p>Daarmee wordt het overprijzen structureel verankerd — los van de naheffing, los van de vraag of er nog een keer een administratieve fout opduikt, los van de werkelijke marktprijs van propaangas, en los van de lekverliezen die alleen verdwijnen door eindelijk het leidingnet te vernieuwen. Wij betalen vanaf nu maandelijks méér voor gas dan in een vrije markt gerechtvaardigd zou zijn, op een infrastructuur die SWB en de landgoedeigenaar weigeren te vervangen. Wie het maandbedrag zonder bezwaar laat passeren, accepteert die structurele verhoging stilzwijgend voor de toekomst.</p>
+    <p>Daarmee wordt het overprijzen structureel verankerd — los van de naheffing, los van de vraag of er nog een keer een administratieve fout opduikt, los van de werkelijke marktprijs van propaangas, en los van de lekverliezen die alleen verdwijnen door eindelijk het leidingnet te vernieuwen. Wij betalen vanaf nu maandelijks méér voor gas dan in een vrije markt gerechtvaardigd zou zijn, op een infrastructuur die SWB en de landgoedeigenaar weigeren te vervangen.</p>
     <p>Het is dus van belang om bij uw bezwaar tegen de naheffing <strong>óók de hoogte van het nieuwe voorschotbedrag aan de orde te stellen.</strong></p>
   </section>
 
   <section>
-    <h2>Wat u kunt doen</h2>
-    <p>Laat deze naheffing — en de nieuwe maandprijs — niet zomaar passeren. Samen staan we sterk. Op deze pagina staan twee documenten klaar die direct gebruikt kunnen worden. U kunt elk document hieronder inzien en downloaden om mee te werken.</p>
+    <h2>Documenten</h2>
+    <p>Op deze pagina staan twee documenten klaar die direct gebruikt kunnen worden. U kunt elk document hieronder inzien en downloaden om mee te werken.</p>
 
     <article class="doc-card">
       <h3>Het Dossier Gasproblematiek</h3>
       <p class="doc-desc">Een helder en compleet overzicht van alle feiten, de rechterlijke uitspraken uit 2013/2014 en de bewijzen rondom deze naheffing. U kunt dit dossier zelf doorlezen en het direct doorsturen naar uw rechtsbijstandsverzekeraar voor juridische ondersteuning.</p>
-
       <span class="preview-label">Voorvertoning:</span>
-
-      <!-- Desktop: scrollbare PDF -->
       <iframe class="pdf-preview-desktop" src="/Dossier_V2.2.pdf#view=FitH" title="Voorvertoning Dossier V2.2"></iframe>
-
-      <!-- Mobiel: klikbare afbeelding die PDF opent -->
       <div class="pdf-preview-mobile">
         <a href="/Dossier_V2.2.pdf" target="_blank" rel="noopener" aria-label="Open dossier als PDF in nieuw tabblad">
           <img src="/preview-dossier.jpg" alt="Voorvertoning eerste pagina dossier" loading="lazy">
           <div class="overlay"><span>Tik om volledig te openen</span></div>
         </a>
       </div>
-
       <div class="download-row">
-        <a href="/Dossier_V2.2.docx" download class="download-btn">
-          Download dossier <span class="meta">(Word, ~31 KB)</span>
-        </a>
-        <a href="/Dossier_V2.2.pdf" target="_blank" rel="noopener" class="download-btn secondary">
-          Open als PDF <span class="meta">(~287 KB)</span>
-        </a>
+        <a href="/Dossier_V2.2.docx" download class="download-btn">Download dossier <span class="meta">(Word, ~31 KB)</span></a>
+        <a href="/Dossier_V2.2.pdf" target="_blank" rel="noopener" class="download-btn secondary">Open als PDF <span class="meta">(~287 KB)</span></a>
       </div>
     </article>
 
     <article class="doc-card">
       <h3>De Voorbeeldbrief (Bezwaarschrift)</h3>
-      <p class="doc-desc">Een juridisch onderbouwde bezwaarbrief. Downloaden als Word-bestand, invullen met uw eigen naam, huisnummer en factuurgegevens, en versturen aan SWB.</p>
-
+      <p class="doc-desc">Een juridisch onderbouwde bezwaarbrief. Downloaden als Word-bestand, invullen met uw eigen naam, huisnummer en factuurgegevens, en versturen aan SWB. <strong>Gebruik deze brief indien spoor 1 (collectief bezwaar) niet of niet tijdig tot stand komt.</strong></p>
       <span class="preview-label">Voorvertoning:</span>
-
       <iframe class="pdf-preview-desktop" src="/Bezwaarbrief_Template_Bewoners.pdf#view=FitH" title="Voorvertoning voorbeeldbrief"></iframe>
-
       <div class="pdf-preview-mobile">
         <a href="/Bezwaarbrief_Template_Bewoners.pdf" target="_blank" rel="noopener" aria-label="Open voorbeeldbrief als PDF in nieuw tabblad">
           <img src="/preview-brief.jpg" alt="Voorvertoning eerste pagina voorbeeldbrief" loading="lazy">
           <div class="overlay"><span>Tik om volledig te openen</span></div>
         </a>
       </div>
-
       <div class="download-row">
-        <a href="/Bezwaarbrief_Template_Bewoners.docx" download class="download-btn">
-          Download voorbeeldbrief <span class="meta">(Word, ~15 KB)</span>
-        </a>
-        <a href="/Bezwaarbrief_Template_Bewoners.pdf" target="_blank" rel="noopener" class="download-btn secondary">
-          Open als PDF <span class="meta">(~89 KB)</span>
-        </a>
+        <a href="/Bezwaarbrief_Template_Bewoners.docx" download class="download-btn">Download voorbeeldbrief <span class="meta">(Word, ~15 KB)</span></a>
+        <a href="/Bezwaarbrief_Template_Bewoners.pdf" target="_blank" rel="noopener" class="download-btn secondary">Open als PDF <span class="meta">(~89 KB)</span></a>
       </div>
     </article>
   </section>
@@ -439,18 +245,15 @@
 <aside class="disclaimer">
   <div class="disclaimer-inner">
     <h2>Belangrijk: lees dit voor u de documenten gebruikt</h2>
-
     <h3>1. Aansprakelijkheid en eigen verantwoordelijkheid</h3>
     <p>De documenten op deze pagina zijn opgesteld door en namens gasverbruikende bewoners van Landgoed De Stille Wille, op basis van openbaar toegankelijke bronnen, gepubliceerde rechterlijke uitspraken, contractuele documenten in eigen bezit, en marktinformatie zoals beschikbaar in mei 2026. De inhoud is met de grootst mogelijke zorgvuldigheid samengesteld, maar bevat geen juridisch advies in de zin van de Wet op het Notarisambt, de Advocatenwet of enige andere beroepsregeling. Voor een bindend juridisch advies dient u zich te wenden tot uw eigen rechtsbijstandsverzekeraar of een onafhankelijke advocaat. Iedere bewoner die de documenten gebruikt, doet dit <strong>op eigen initiatief en voor eigen rekening en risico</strong>. De opstellers aanvaarden geen aansprakelijkheid voor de gevolgen van het gebruik of de toepassing van deze documenten in een individuele situatie. U bent zelf verantwoordelijk voor het controleren van uw eigen factuurgegevens, uw persoonlijke contractuele positie en de juistheid van de door u in de brief in te vullen gegevens, alvorens deze te verzenden aan SWB.</p>
-
     <h3>2. Standpunt jegens de exploitant en de grondeigenaar</h3>
     <p>De op deze pagina geuite kritiek op de wijze van afrekening door Stille Wille Brabant B.V. (SWB) en op het uitblijven van vervanging van de gasinfrastructuur door de grondeigenaar betreft een <strong>juridisch en feitelijk standpunt van betrokken bewoners</strong>, gebaseerd op de hierboven genoemde bronnen. Het is geen vaststelling van onrechtmatig handelen door enige rechter; die beoordeling is voorbehouden aan de bevoegde rechter. De gebruikte juridische gronden — waaronder artikel 6:248 lid 2 BW, artikel 24 Mededingingswet en artikel 6:193a e.v. BW — vormen de juridische sporen waarlangs bewoners individueel of collectief verweer kunnen voeren; of deze sporen in een concrete procedure zullen worden gehonoreerd, is aan de rechter. SWB en de grondeigenaar staan vanzelfsprekend vrij hun eigen standpunt naar voren te brengen en zijn van harte uitgenodigd dit binnen de bezwaarprocedure of via hun gemachtigde te doen.</p>
   </div>
 </aside>
 
 <footer>
-  <p>Deze pagina is opgesteld namens en in overleg met gasverbruikende bewoners van Landgoed De Stille Wille.<br>
-  <strong>Versie mei 2026 — Dossier V2.2</strong></p>
+  <p>Deze pagina is opgesteld namens en in overleg met gasverbruikende bewoners van Landgoed De Stille Wille.<br><strong>Versie mei 2026 — Dossier V2.2</strong></p>
 </footer>
 
 </body>
