@@ -4,106 +4,181 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Gasnaheffing 2024-2025 — informatie voor gasgebruikers Landgoed De Stille Wille</title>
-<meta name="description" content="Informatie en documenten voor gasverbruikende bewoners van Landgoed De Stille Wille.">
+<title>Gasdossier Landgoed De Stille Wille — stand van zaken</title>
+<meta name="description" content="Feitelijk overzicht van de gasproblematiek op Landgoed De Stille Wille: financiën, collectiviteit, veiligheid, bewonersinitiatief PEZ, toekomstrichtingen en open vragen aan SWB, LSW en Bewonersraad.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --maroon:#800000;--maroon-deep:#660000;
-    --maroon-04:rgba(128,0,0,0.04);--maroon-08:rgba(128,0,0,0.08);--maroon-15:rgba(128,0,0,0.15);
+    --maroon-04:rgba(128,0,0,0.04);--maroon-08:rgba(128,0,0,0.08);--maroon-15:rgba(128,0,0,0.15);--maroon-25:rgba(128,0,0,0.25);
     --grey-dark:#333;--grey-mid:#555;--grey-soft:#777;
-    --cream:#FBF7F2;--attention:#FFF3E0;
+    --cream:#FBF7F2;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:'Mulish',-apple-system,sans-serif;font-size:17px;line-height:1.8em;color:var(--grey-dark);background:#fff}
-  h1,h2,h3{font-family:'Poppins',sans-serif;line-height:1.3em;color:var(--maroon)}
+  h1,h2,h3,h4{font-family:'Poppins',sans-serif;line-height:1.3em;color:var(--maroon)}
   a{color:var(--maroon)}
   a:hover{color:var(--maroon-deep)}
 
-  /* Navigatie */
   .nav{background:var(--maroon-deep);position:sticky;top:0;z-index:10}
   .nav-inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;padding:0 12px}
   .nav a{display:block;padding:12px 18px;color:#fff;text-decoration:none;font-family:'Poppins',sans-serif;font-weight:600;font-size:0.92em;border-bottom:3px solid transparent;transition:background 0.15s,border-color 0.15s}
   .nav a:hover{background:rgba(255,255,255,0.08);color:#fff}
   .nav a.active{border-bottom-color:#fff;background:rgba(255,255,255,0.1)}
 
-  .site-header{background:var(--maroon);color:#fff;padding:40px 24px;text-align:center;border-bottom:6px solid var(--maroon-deep)}
-  .site-header h1{color:#fff;font-size:clamp(1.6em,4vw,2.4em);font-weight:700;max-width:800px;margin:0 auto 12px}
-  .site-header .subtitle{font-size:1.05em;opacity:0.92;max-width:700px;margin:0 auto;line-height:1.5em}
+  .site-header{background:var(--maroon);color:#fff;padding:48px 24px;text-align:center;border-bottom:6px solid var(--maroon-deep)}
+  .site-header h1{color:#fff;font-size:clamp(1.7em,4vw,2.4em);font-weight:700;max-width:820px;margin:0 auto 14px}
+  .site-header .subtitle{font-size:1.05em;opacity:0.92;max-width:720px;margin:0 auto;line-height:1.5em}
 
-  .container{max-width:820px;margin:0 auto;padding:48px 24px}
-  section{margin-bottom:48px}
-  section h2{font-size:1.5em;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--maroon-15)}
-  section h3{font-size:1.15em;font-weight:600;color:var(--grey-dark);margin-top:24px;margin-bottom:8px}
-  section p{margin-bottom:16px}
-  ul.flow,ol.flow{margin:16px 0 20px 20px}
-  ul.flow li,ol.flow li{margin-bottom:12px}
+  .container{max-width:1080px;margin:0 auto;padding:48px 24px}
 
-  /* Aanpak-blok (twee sporen) */
-  .approach{background:#fff;border:2px solid var(--maroon);border-radius:8px;padding:24px;margin:0 0 40px}
-  .approach h2{color:var(--maroon);font-size:1.3em;margin:0 0 16px;padding-bottom:0;border:none}
-  .step{display:flex;gap:16px;padding:18px 0;border-top:1px solid var(--maroon-15)}
-  .step:first-of-type{border-top:none;padding-top:0}
-  .step-num{flex-shrink:0;width:36px;height:36px;background:var(--maroon);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:700;font-size:1.1em}
-  .step-body h3{color:var(--maroon);margin:0 0 6px;font-family:'Poppins',sans-serif;font-size:1.05em}
-  .step-body p{font-size:0.96em;line-height:1.65em;margin-bottom:0}
-  .closing{font-size:0.92em;color:var(--grey-mid);margin-top:16px;font-style:italic}
+  .lead{max-width:780px;margin:0 auto 32px;font-size:1.02em;line-height:1.75em;color:var(--grey-dark)}
+  .lead p{margin-bottom:14px}
+  .lead p:last-child{margin-bottom:0}
 
-  .problem-box{background:var(--maroon-04);border-left:4px solid var(--maroon);padding:20px 24px;margin:24px 0;border-radius:0 4px 4px 0}
-  .problem-box strong{color:var(--maroon)}
+  .reading-note{max-width:780px;margin:0 auto 56px;background:var(--cream);border-left:3px solid var(--maroon);padding:18px 22px;font-size:0.93em;line-height:1.65em;color:var(--grey-mid);border-radius:0 4px 4px 0}
+  .reading-note strong{color:var(--maroon)}
 
-  .doc-card{background:#fff;border:2px solid var(--maroon-15);border-radius:8px;padding:24px;margin-bottom:32px;transition:border-color 0.2s,box-shadow 0.2s}
-  .doc-card:hover{border-color:var(--maroon);box-shadow:0 4px 16px var(--maroon-08)}
-  .doc-card h3{font-family:'Poppins',sans-serif;color:var(--maroon);font-size:1.25em;margin-bottom:12px;margin-top:0}
-  .doc-card .doc-desc{font-size:0.97em;line-height:1.65em;color:var(--grey-mid);margin-bottom:20px}
+  /* Oriëntatie-tegel — blijft open, geen details/summary */
+  .tile-orientation{background:var(--cream);border:2px solid var(--maroon);max-width:1080px;margin:0 auto 48px;padding:32px 36px;border-radius:8px}
+  .tile-orientation h2{font-size:1.4em;color:var(--maroon);margin-bottom:16px}
+  .tile-orientation p{font-size:0.98em;line-height:1.7em;margin-bottom:14px}
+  .tile-orientation ul{margin:14px 0 16px 22px}
+  .tile-orientation li{margin-bottom:10px;font-size:0.98em;line-height:1.65em}
+  .tile-orientation .closing{font-style:italic;color:var(--grey-mid);margin-top:16px;font-size:0.96em}
 
-  .preview-label{font-size:0.85em;color:var(--grey-soft);font-style:italic;margin-bottom:12px;display:block}
-  .pdf-preview-desktop{width:100%;height:520px;border:1px solid var(--maroon-15);border-radius:4px;background:#f5f5f5;margin-bottom:16px;display:block}
-  .pdf-preview-mobile{display:none}
-  .pdf-preview-mobile a{display:block;position:relative;border:1px solid var(--maroon-15);border-radius:4px;overflow:hidden;background:#f5f5f5;margin-bottom:16px;text-decoration:none}
-  .pdf-preview-mobile img{width:100%;height:auto;display:block;max-height:420px;object-fit:cover;object-position:top}
-  .pdf-preview-mobile .overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.85));color:#fff;text-align:center;padding:32px 16px 16px;font-family:'Poppins',sans-serif;font-weight:600;font-size:0.95em}
-  .pdf-preview-mobile .overlay span{display:inline-block;background:var(--maroon);padding:8px 16px;border-radius:4px}
+  /* Klikbare tegels via details/summary */
+  .tile{background:#fff;border:1px solid var(--maroon-15);border-radius:8px;transition:box-shadow 0.2s,border-color 0.2s;overflow:hidden}
+  .tile[open]{box-shadow:0 4px 20px var(--maroon-08);border-color:var(--maroon-25)}
+  .tile summary{padding:22px 28px;cursor:pointer;list-style:none;position:relative;display:block;transition:background 0.15s}
+  .tile summary::-webkit-details-marker{display:none}
+  .tile summary::after{content:'+';position:absolute;right:24px;top:50%;transform:translateY(-50%);font-family:'Poppins',sans-serif;font-size:1.6em;font-weight:400;color:var(--maroon);transition:transform 0.2s}
+  .tile[open] summary::after{content:'−'}
+  .tile summary:hover{background:var(--maroon-04)}
+  .tile summary h3{color:var(--maroon);font-size:1.2em;margin-bottom:6px;font-weight:700;padding-right:32px}
+  .tile summary .preview{font-size:0.93em;line-height:1.55em;color:var(--grey-mid);margin:0;padding-right:32px}
+  .tile-body{padding:4px 28px 26px}
+  .tile-body p{font-size:0.96em;line-height:1.7em;margin-bottom:12px}
+  .tile-body p:last-of-type{margin-bottom:0}
+  .tile-readmore{display:inline-block;margin-top:14px;font-size:0.9em;font-weight:600;color:var(--maroon);text-decoration:none;border-bottom:1px solid var(--maroon-25);padding-bottom:1px}
+  .tile-readmore:hover{border-bottom-color:var(--maroon)}
+  .tile-readmore::after{content:' →';opacity:0.7}
 
-  .download-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:20px}
-  .download-btn{display:inline-block;background:var(--maroon);color:#fff;text-decoration:none;padding:12px 24px;border-radius:4px;font-weight:600;font-size:0.98em;text-align:center;transition:background 0.2s}
-  .download-btn:hover{background:var(--maroon-deep);color:#fff}
-  .download-btn.secondary{background:#fff;color:var(--maroon);border:2px solid var(--maroon);padding:10px 22px}
-  .download-btn.secondary:hover{background:var(--maroon-04)}
-  .download-btn .meta{font-weight:400;opacity:0.85;font-size:0.88em}
+  /* Cluster A — tegels onder elkaar, volle breedte */
+  .cluster-a{display:flex;flex-direction:column;gap:20px;margin-bottom:32px}
+  .cluster-a .tile{border-left:4px solid var(--maroon)}
 
-  .infographic-link{background:var(--maroon-04);border-left:4px solid var(--maroon);padding:18px 22px;margin:24px 0;border-radius:0 4px 4px 0}
-  .infographic-link p{margin:0;font-size:0.96em}
-  .infographic-link a{font-weight:600}
+  /* PEZ-tegel — volle breedte, eigen markering */
+  .tile-pez{background:#fff;border:1px solid var(--maroon-15);border-radius:8px;margin-bottom:48px;overflow:hidden;border-top:4px solid var(--maroon-deep);transition:box-shadow 0.2s,border-color 0.2s}
+  .tile-pez[open]{box-shadow:0 4px 20px var(--maroon-08);border-color:var(--maroon-25);border-top-color:var(--maroon-deep)}
+  .tile-pez summary{padding:24px 32px;cursor:pointer;list-style:none;position:relative;display:block;transition:background 0.15s}
+  .tile-pez summary::-webkit-details-marker{display:none}
+  .tile-pez summary::after{content:'+';position:absolute;right:28px;top:50%;transform:translateY(-50%);font-family:'Poppins',sans-serif;font-size:1.6em;font-weight:400;color:var(--maroon);transition:transform 0.2s}
+  .tile-pez[open] summary::after{content:'−'}
+  .tile-pez summary:hover{background:var(--maroon-04)}
+  .tile-pez summary .marker{font-family:'Poppins',sans-serif;font-size:0.8em;font-weight:600;color:var(--maroon-deep);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:6px}
+  .tile-pez summary h3{color:var(--maroon);font-size:1.3em;margin-bottom:6px;font-weight:700;padding-right:32px}
+  .tile-pez summary .preview{font-size:0.95em;line-height:1.6em;color:var(--grey-mid);margin:0;padding-right:32px}
+  .tile-pez .tile-body{padding:4px 32px 30px}
+  .pez-blocks{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:18px;margin-bottom:24px}
+  .pez-block h4{font-size:0.85em;color:var(--maroon);text-transform:uppercase;letter-spacing:0.05em;font-family:'Poppins',sans-serif;font-weight:700;margin-bottom:10px}
+  .pez-block p{font-size:0.93em;line-height:1.65em;margin-bottom:10px}
+  .pez-block p:last-child{margin-bottom:0}
+  .pez-positioning{background:var(--cream);border-left:3px solid var(--maroon);padding:18px 22px;border-radius:0 4px 4px 0;font-size:0.94em;line-height:1.7em;color:var(--grey-dark);margin-top:8px}
 
-  .warning-box{background:var(--attention);border:2px solid var(--maroon);border-radius:6px;padding:24px;margin:32px 0}
-  .warning-box h2{margin-top:0;padding-bottom:0;border:none;color:var(--maroon);font-size:1.25em}
-  .warning-box .icon{font-size:1.2em;margin-right:8px}
-  .warning-box strong{color:var(--maroon-deep)}
+  /* Cluster B — scenario's, klikbare tegel met 2x2 grid */
+  .tile-scenarios{background:var(--cream);border:1px solid var(--maroon-15);border-radius:8px;margin-bottom:32px;overflow:hidden;transition:box-shadow 0.2s,border-color 0.2s}
+  .tile-scenarios[open]{box-shadow:0 4px 20px var(--maroon-08);border-color:var(--maroon-25)}
+  .tile-scenarios summary{padding:24px 32px;cursor:pointer;list-style:none;position:relative;display:block;transition:background 0.15s}
+  .tile-scenarios summary::-webkit-details-marker{display:none}
+  .tile-scenarios summary::after{content:'+';position:absolute;right:28px;top:50%;transform:translateY(-50%);font-family:'Poppins',sans-serif;font-size:1.6em;font-weight:400;color:var(--maroon);transition:transform 0.2s}
+  .tile-scenarios[open] summary::after{content:'−'}
+  .tile-scenarios summary:hover{background:rgba(128,0,0,0.06)}
+  .tile-scenarios summary h3{color:var(--maroon);font-size:1.25em;margin-bottom:6px;font-weight:700;padding-right:32px}
+  .tile-scenarios summary .preview{font-size:0.93em;line-height:1.6em;color:var(--grey-mid);margin:0;padding-right:32px}
+  .tile-scenarios .tile-body{padding:4px 32px 30px}
+  .tile-scenarios .intro{font-size:0.96em;line-height:1.7em;color:var(--grey-dark);margin:14px 0 22px;max-width:820px}
+  .scenarios{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .scenario{background:#fff;border:1px solid var(--maroon-15);border-radius:6px;padding:22px}
+  .scenario h4{font-size:1.05em;color:var(--maroon);margin-bottom:10px;font-family:'Poppins',sans-serif;font-weight:700}
+  .scenario p{font-size:0.93em;line-height:1.65em;margin-bottom:10px;color:var(--grey-dark)}
+  .scenario p:last-child{margin-bottom:0}
+  .scenario .question{font-size:0.9em;color:var(--grey-mid);border-top:1px solid var(--maroon-15);padding-top:10px;margin-top:12px}
+  .scenario .question strong{color:var(--maroon);font-weight:600}
 
-  .disclaimer{background:var(--cream);border-top:3px solid var(--maroon);border-bottom:3px solid var(--maroon);padding:36px 24px;margin:48px 0 0}
-  .disclaimer-inner{max-width:820px;margin:0 auto}
-  .disclaimer h2{font-size:1.2em;margin-bottom:20px;padding-bottom:0;border:none}
-  .disclaimer h3{color:var(--maroon);font-size:1em;font-weight:600;margin-top:20px;margin-bottom:8px}
-  .disclaimer p{font-size:0.92em;line-height:1.7em;margin-bottom:12px}
+  /* Cluster C — tegels onder elkaar, volle breedte */
+  .cluster-c{display:flex;flex-direction:column;gap:20px;margin-bottom:48px}
+  .cluster-c .tile{border-top:4px solid var(--maroon)}
 
-  footer{background:#fff;text-align:center;padding:32px 24px;border-top:1px solid var(--maroon-15);color:var(--grey-soft);font-size:0.88em;font-style:italic}
+  .questions-columns{display:grid;grid-template-columns:1fr;gap:18px;margin-top:14px;margin-bottom:14px}
+  .question-group h4{font-size:0.82em;color:var(--maroon);margin-bottom:8px;font-family:'Poppins',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:0.06em}
+  .question-group ul{margin:0 0 0 18px}
+  .question-group li{font-size:0.92em;line-height:1.6em;margin-bottom:8px;color:var(--grey-dark)}
+
+  .action-steps{margin:14px 0;padding:0;list-style:none;counter-reset:step}
+  .action-steps li{counter-increment:step;position:relative;padding-left:34px;margin-bottom:14px;font-size:0.94em;line-height:1.6em}
+  .action-steps li::before{content:counter(step);position:absolute;left:0;top:1px;width:24px;height:24px;background:var(--maroon);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:700;font-size:0.78em}
+  .action-steps li strong{color:var(--maroon-deep)}
+
+  /* Vogelvlucht-tijdlijn binnen tegel */
+  .timeline-mini{margin:14px 0 18px;padding:0;border-left:2px solid var(--maroon-15);padding-left:20px}
+  .timeline-row{display:grid;grid-template-columns:160px 1fr;gap:16px;padding:10px 0;border-bottom:1px solid var(--maroon-15);font-size:0.93em;line-height:1.55em}
+  .timeline-row:last-child{border-bottom:none;padding-bottom:0}
+  .timeline-row:first-child{padding-top:0}
+  .timeline-when{font-family:'Poppins',sans-serif;font-weight:700;color:var(--maroon);font-size:0.92em}
+  .timeline-what{color:var(--grey-dark)}
+  @media (max-width:640px){
+    .timeline-mini{padding-left:14px}
+    .timeline-row{grid-template-columns:1fr;gap:2px;padding:10px 0}
+    .timeline-when{font-size:0.88em}
+  }
+
+  /* Prijsgrafiek binnen financiële tegel */
+  .price-compare{background:var(--cream);border-left:3px solid var(--maroon);padding:20px 22px;margin:18px 0 14px;border-radius:0 4px 4px 0}
+  .price-compare h4{margin:0 0 14px;font-family:'Poppins',sans-serif;color:var(--maroon);font-size:0.95em;font-weight:700}
+  .price-row{display:flex;align-items:center;gap:12px;padding:8px 0;font-size:0.9em}
+  .price-row + .price-row{border-top:1px solid var(--maroon-15)}
+  .price-bar{flex-grow:1;height:14px;background:#fff;border:1px solid var(--maroon-15);border-radius:3px;overflow:hidden}
+  .price-bar-fill{height:100%;background:var(--maroon);border-radius:0}
+  .price-bar-fill.light{background:var(--maroon-25)}
+  .price-label{flex-basis:200px;flex-shrink:0;font-weight:600;color:var(--grey-dark);font-size:0.85em;line-height:1.35em}
+  .price-amount{flex-basis:90px;flex-shrink:0;text-align:right;font-family:'Poppins',sans-serif;font-weight:600;color:var(--maroon);font-size:0.9em}
+  .price-note{font-size:0.86em;color:var(--grey-mid);font-style:normal;margin-top:14px;line-height:1.55em}
+  @media (max-width:720px){
+    .price-compare{padding:16px 14px;margin-left:-6px;margin-right:-6px}
+    .price-row{display:block;padding:12px 0;position:relative}
+    .price-label{display:block;font-size:0.88em;margin-bottom:8px}
+    .price-bar{display:block;height:12px;width:calc(100% - 90px)}
+    .price-amount{display:block;position:absolute;right:0;bottom:12px;font-size:0.92em;width:80px;text-align:right}
+  }
+
+  .closing-note{max-width:780px;margin:0 auto;text-align:center;font-size:0.95em;line-height:1.65em;color:var(--grey-mid);font-style:italic;padding:24px 0 8px}
+
+  footer{background:#fff;text-align:center;padding:36px 24px;border-top:1px solid var(--maroon-15);color:var(--grey-soft);font-size:0.88em;font-style:italic;margin-top:32px}
   footer strong{color:var(--maroon);font-style:normal}
 
   .skip{position:absolute;left:-9999px}
   .skip:focus{position:static;padding:8px;background:var(--maroon);color:#fff}
 
-  @media (max-width:768px){
-    .pdf-preview-desktop{display:none}
-    .pdf-preview-mobile{display:block}
+  @media (max-width:880px){
+    .cluster-a{grid-template-columns:1fr;gap:16px}
+    .cluster-c{grid-template-columns:1fr;gap:16px}
+    .scenarios{grid-template-columns:1fr}
+    .pez-blocks{grid-template-columns:1fr;gap:18px}
+  }
+  @media (max-width:640px){
     .container{padding:32px 16px}
-    .doc-card,.approach{padding:18px}
-    .download-row{flex-direction:column;align-items:stretch}
-    .download-btn{text-align:center}
-    .step-num{width:30px;height:30px;font-size:1em}
+    .site-header{padding:36px 20px}
+    .tile summary{padding:18px 22px}
+    .tile-body{padding:4px 22px 22px}
+    .tile-pez summary{padding:20px 24px}
+    .tile-pez .tile-body{padding:4px 24px 24px}
+    .tile-scenarios summary{padding:20px 24px}
+    .tile-scenarios .tile-body{padding:4px 24px 24px}
+    .tile-orientation{padding:24px 22px}
     .nav a{padding:10px 12px;font-size:0.82em}
   }
 </style>
@@ -115,158 +190,280 @@
 <nav class="nav" aria-label="Hoofdnavigatie">
   <div class="nav-inner">
     <a href="/" class="active">Hoofdpagina</a>
-    <a href="/overzicht.html">Overzicht in één oogopslag</a>
     <a href="/historie.html">Historie</a>
     <a href="/bronnen.html">Bronnen</a>
   </div>
 </nav>
 
 <header class="site-header">
-  <h1>Gasnaheffing 2024-2025</h1>
-  <p class="subtitle">Informatie en documenten voor gasverbruikende bewoners van Landgoed De Stille Wille</p>
+  <h1>Gasdossier Landgoed De Stille Wille</h1>
+  <p class="subtitle">Stand van zaken: techniek, kosten, collectiviteit, veiligheid en toekomstrichtingen — peildatum mei 2026</p>
 </header>
 
 <main id="main" class="container">
 
-  <section>
-    <p>Beste buren en mede-gasgebruikers,</p>
-    <p>Op 7 mei 2026 ontvingen ruim honderd huishoudens een gecorrigeerde gasafrekening met een eenmalige naheffing van € 1,95 per m³ en een fors verhoogd maandvoorschot. Op 13 mei 2026 heeft SWB die factuur ingetrokken. Daarmee is een acuut probleem weggenomen. Het onderliggende vraagstuk — een verouderd gasdistributienet dat structureel lekt — staat onverminderd open.</p>
-  </section>
-
-  <div class="approach">
-    <h2>Stand van zaken — 13 mei 2026</h2>
-
-    <p>In een brief van 13 mei 2026 heeft Wil van Loon, directeur SWB, bevestigd dat de factuur van 7 mei jl. <strong>als niet verzonden moet worden beschouwd</strong>. Reeds betaalde bedragen worden volgens hem begin de week van 18 mei terugbetaald. Een nieuwe eindafrekening volgt op een later moment. Tegelijk meldt SWB dat lekverliezen boven 5% voortaan in de algemene exploitatie worden opgenomen in plaats van uitsluitend bij de gasverbruikers.</p>
-
-    <p>Wat met deze intrekking niet is opgelost, gaat dieper dan de teruggetrokken factuur:</p>
-
-    <ol class="flow">
-      <li>Het verschuiven van lekverliezen van de gasverbruiker naar de algemene exploitatie creëert een nieuwe scheidslijn: bewoners die juist hebben geïnvesteerd om van het gas af te komen, betalen via servicekosten alsnog mee aan een lekkend net waar zij geen gebruik meer van maken.</li>
-      <li>Het lekkende net zelf — propaaninfrastructuur uit 1975 met 20% tot 35% verlies — is door deze rectificatie niet vernieuwd. Tien lekken vastgesteld in oktober 2025, acht daarvan op moment van rapportage nog niet hersteld.</li>
-      <li>Volgens de arresten van het Gerechtshof 's-Hertogenbosch (ECLI:NL:GHSHE:2013:3708 en 2014:3639) komen de vervangingskosten van het gasdistributienet voor rekening van de grondeigenaar (LSW), niet van SWB-exploitatie en niet van bewoners. SWB heeft hierover in haar brief van 13 mei niets vermeld.</li>
-    </ol>
-
-    <p class="closing">De intrekking van 13 mei is een tussenstap. Het structurele vraagstuk — wie investeert in een deugdelijke en veilige gasinfrastructuur — staat onverminderd open.</p>
+  <div class="lead">
+    <p>Op 7 mei 2026 ontvingen gasverbruikende huishoudens op het landgoed een gecorrigeerde eindafrekening over 2024–2025 met een naheffing van € 1,95 per m³ en een verhoogd maandvoorschot. Op 13 mei 2026 heeft SWB die factuur ingetrokken. Een nieuwe eindafrekening volgt op een later moment.</p>
+    <p>Daarmee is de directe aanleiding tot bezwaar weggenomen, maar de onderliggende vraagstukken zijn niet opgelost. Deze pagina ordent de stand van zaken in afzonderlijke onderwerpen — financiën, collectiviteit, veiligheid, een lopend bewonersinitiatief, en de vier toekomstrichtingen — en formuleert de vragen die nog beantwoord moeten worden door SWB, LSW en de Bewonersraad voordat een houdbare kostenverdeling en infrastructuurkeuze kunnen worden vastgesteld.</p>
+    <p style="font-size:0.95em;color:var(--grey-mid);margin-top:18px"><em>De tegels hieronder zijn klikbaar. Tik of klik op een tegel om de inhoud te openen.</em></p>
   </div>
 
-  <div class="approach" style="background:var(--cream)">
-    <h2>Waar het uiteindelijk om gaat</h2>
-    <p style="margin-bottom:0">Het werkelijke doel van dit dossier is niet één rechtgezette factuur, maar een <strong>structurele oplossing</strong>: een landgoedeigenaar die zijn verantwoordelijkheid aanvaardt en investeert in een deugdelijke gasinfrastructuur — of in een gedragen alternatief voor de huidige gasvoorziening. Zolang die investering uitblijft, blijven bewoners financieel én technisch verbonden aan een net dat zijn levensduur ver heeft overschreden.</p>
+  <div class="reading-note">
+    <p>Deze pagina is bedoeld voor bewoners van Landgoed De Stille Wille, en is open te lezen voor SWB, LSW en de Bewonersraad. De toon is feitelijk en vragend. Verschillen van inzicht zijn zichtbaar gemaakt door open vragen, niet door conclusies.</p>
   </div>
 
-  <div class="infographic-link">
-    <p>Wilt u eerst het hele verhaal in één oogopslag zien? Bekijk de pagina <a href="/overzicht.html"><strong>Overzicht in één oogopslag</strong></a>.</p>
-  </div>
+  <article class="tile-orientation">
+    <h2>Wat speelt er, in één minuut</h2>
+    <p>De gasafrekening over 2024–2025 is op 7 mei verzonden en op 13 mei ingetrokken. Een nieuwe afrekening volgt. Daaronder ligt een complex van langer lopende kwesties:</p>
+    <ul>
+      <li>Het gasdistributienet dateert grotendeels uit circa 1975 en heeft volgens het onafhankelijke onderzoek Breedveld/Schoenmaker (2020) een bandbreedte aan verliezen van 20% tot 35%. In oktober 2025 bracht een externe lekdetectie tien lekken in kaart, waarvan op het moment van rapportage twee waren hersteld.</li>
+      <li>Het aantal gasgebruikers neemt af. In de bewonersraadpleging van 2023 gaf 41,7% van de 218 respondenten aan niet (meer) op gas aangesloten te zijn. Sinds 2023 zijn meer bewoners overgestapt op andere warmtevoorzieningen.</li>
+      <li>SWB heeft in de brief van 13 mei 2026 aangegeven dat lekverliezen boven 5% voortaan in de algemene exploitatie worden opgenomen. Daarmee verandert de verdeelsleutel: niet alleen gasgebruikers, maar alle bewoners dragen via de servicekosten bij aan een deel van deze kosten.</li>
+      <li>Een groep bewoners onderzoekt sinds augustus 2024 in projectvorm — Project Energie Zelfvoorzienend (PEZ) — collectieve en individuele alternatieven voor de huidige energievoorziening, in samenwerking met KempenEnergie.</li>
+      <li>Er ligt nog geen openbaar plan voor de toekomst van de gasvoorziening zelf: doorgaan met het bestaande net, decentraliseren of gefaseerd uitfaseren.</li>
+    </ul>
+    <p class="closing">Hieronder de drie probleemonderwerpen, het bewonersinitiatief, de vier toekomstrichtingen die in het stand-van-zakenrapport worden onderscheiden, de open vragen aan de drie betrokken partijen, en de stappen die nodig zijn om verder te komen.</p>
+  </article>
 
-  <section>
-    <h2>Waar komt deze torenhoge rekening vandaan?</h2>
-    <p>De exploitant (SWB) is geconfronteerd met een tekort van bijna € 37.000,- en heeft besloten dit bedrag eenzijdig over ons — de overgebleven gasgebruikers — te verdelen. Dit tekort is ontstaan door twee oorzaken:</p>
-    <ol class="flow">
-      <li><strong>Slordige administratie.</strong> Bij de overdracht naar het nieuwe administratiekantoor bleek dat grote inkoopfacturen (van Benegas en de huur van de gastank) in het verleden simpelweg zijn vergeten.</li>
-      <li><strong>Een lek netwerk.</strong> Ons gasnet op het park is zwaar verouderd en verliest structureel grote hoeveelheden gas in de bodem. Onafhankelijk onderzoek uit 2020 (Breedveld/Schoenmaker) en herberekening in 2026 op basis van de actuele facturatie wijzen op verliezen in een bandbreedte van <strong>20% tot 35%</strong>.</li>
-    </ol>
-    <p style="font-size:0.95em;color:var(--grey-mid);font-style:italic">Meer weten over hoe deze situatie is ontstaan? Zie de pagina <a href="/historie.html">Historie</a>.</p>
-  </section>
-
-  <section>
-    <h2>Waarom dit niet zomaar geaccepteerd hoeft te worden</h2>
-    <p>Het is oneerlijk — en juridisch sterk aanvechtbaar — dat wij in ons eentje opdraaien voor deze fouten en gebreken:</p>
-
-    <div class="problem-box">
-      <p><strong>U betaalt voor vertrokken buren.</strong> Omdat de vergeten facturen pas in 2025 zijn ontdekt, zijn bewoners die in de tussentijd hun huis hebben verkocht, afgerekend op basis van een te lage gasprijs. Het gas dat zíj hebben opgestookt, zit nu verwerkt in het grote tekort. Door dit bedrag simpelweg te delen door de kubieke meters van de huidige blijvers, betaalt u via de toeslag letterlijk voor het verbruik van inmiddels vertrokken buren.</p>
+  <!-- Vogelvlucht-tegel: tussen oriëntatie en cluster A -->
+  <details class="tile" style="margin-bottom:48px;border-left:4px solid var(--maroon-deep)">
+    <summary>
+      <h3>De aanloop in vogelvlucht</h3>
+      <p class="preview">Van de aanleg van het gasnetwerk in 1975, via het Breedveld/Schoenmaker-onderzoek in 2020, tot de intrekking van 13 mei 2026 — de hoofdgebeurtenissen op één rij.</p>
+    </summary>
+    <div class="tile-body">
+      <div class="timeline-mini">
+        <div class="timeline-row"><span class="timeline-when">1975</span><span class="timeline-what">Aanleg gasnetwerk door toenmalige grondeigenaar De Jong Beleggingen (DJB): centrale tank, hoofdleidingen en stalen standpijpen.</span></div>
+        <div class="timeline-row"><span class="timeline-when">Maart – juni 2020</span><span class="timeline-what">Onafhankelijk onderzoek Breedveld/Schoenmaker stelt lekverlies vast in een bandbreedte van 20% tot 35%. Dertien aanbevelingen, waaronder vervanging van 113 verouderde gasmeters met bijbehorende standpijpen.</span></div>
+        <div class="timeline-row"><span class="timeline-when">2020 – 2024</span><span class="timeline-what">Een deel van de aanbevelingen wordt opgevolgd. Vervanging van het distributienet en de standpijpen blijft grotendeels achterwege.</span></div>
+        <div class="timeline-row"><span class="timeline-when">10 maart 2025</span><span class="timeline-what">Bewonersraad besluit dat netwerkverliezen evenredig aan individueel gebruik worden verrekend.</span></div>
+        <div class="timeline-row"><span class="timeline-when">25 oktober 2025</span><span class="timeline-what">Externe lekdetectie met snuffelapparatuur: tien ondergrondse lekken in kaart gebracht, waarvan op het moment van rapportage twee hersteld.</span></div>
+        <div class="timeline-row"><span class="timeline-when">2025 – 2026</span><span class="timeline-what">LSW maakt in de Bewonersraad kenbaar het landgoed binnen 1,5 tot 2 jaar van het gas af te willen halen.</span></div>
+        <div class="timeline-row"><span class="timeline-when">7 mei 2026</span><span class="timeline-what">Gecorrigeerde eindafrekening 2024–2025: naheffing € 1,95/m³ over een tekort van € 36.797,48, basisprijs € 5,55/m³, maandvoorschot € 203 voor een individueel huishouden.</span></div>
+        <div class="timeline-row"><span class="timeline-when">13 mei 2026</span><span class="timeline-what">SWB trekt de factuur in. Lekverliezen boven 5% worden voortaan in de algemene exploitatie opgenomen; een nieuwe eindafrekening volgt.</span></div>
+      </div>
+      <a href="/historie.html" class="tile-readmore">Lees de uitgebreide historie</a>
     </div>
+  </details>
 
-    <div class="problem-box">
-      <p><strong>De landgoedeigenaar is verantwoordelijk voor vervanging.</strong> Het Gerechtshof in Den Bosch heeft in 2013 en 2014 al klip-en-klaar geoordeeld dat de kosten voor de noodzakelijke vervanging van ons verouderde gasnetwerk voor rekening van de landgoedeigenaar (LSW) komen, en niet via de exploitatie mogen worden doorberekend aan bewoners. De eigenaar verzuimt echter dit netwerk te vernieuwen. Het is onrechtmatig dat wij nu via een naheffing de torenhoge inkoopkosten voor het weglekkende gas uit dit falende netwerk moeten betalen.</p>
-    </div>
-  </section>
+  <!-- Cluster A — drie probleemonderwerpen -->
+  <div class="cluster-a">
 
-  <section>
-    <h2>En er is een derde probleem: de maandprijs gaat fors omhoog</h2>
-    <p>De naheffing van € 1,95 per m³ is een eenmalige correctie over het verleden. Maar SWB heeft tegelijkertijd ook het maandelijkse voorschotbedrag voor de komende periode fors verhoogd. Voor menig huishouden gaat het maandbedrag in één klap met meer dan € 50 omhoog, oplopend tot ruim € 200 per maand.</p>
-    <p>Daarmee wordt het overprijzen structureel verankerd — los van de naheffing, los van de vraag of er nog een keer een administratieve fout opduikt, los van de werkelijke marktprijs van propaangas, en los van de lekverliezen die alleen verdwijnen door eindelijk het leidingnet te vernieuwen. Wij betalen vanaf nu maandelijks méér voor gas dan in een vrije markt gerechtvaardigd zou zijn, op een infrastructuur die SWB en de landgoedeigenaar weigeren te vervangen.</p>
-    <p>Het is dus van belang om bij uw bezwaar tegen de naheffing <strong>óók de hoogte van het nieuwe voorschotbedrag aan de orde te stellen.</strong></p>
-  </section>
+    <details class="tile">
+      <summary>
+        <h3>De financiële kant</h3>
+        <p class="preview">Een tekort van € 36.797 omgeslagen over een krimpende gebruikersgroep, waardoor de m³-prijs voor de overgebleven gasgebruikers stijgt.</p>
+      </summary>
+      <div class="tile-body">
+        <p>De ingetrokken factuur van 7 mei was gebaseerd op een vastgesteld tekort van € 36.797,48 over de boekperiode 2024–2025. Dit bedrag werd omgeslagen over 22.784 m³ verbruik, leidend tot een naheffing van € 1,95 per m³ bovenop de basisprijs van € 5,55 per m³. Het maandvoorschot werd voor een individueel huishouden gesteld op € 203.</p>
+        <p>Twee oorzaken werden in de toelichting genoemd: niet eerder geboekte inkoopfacturen die bij overdracht naar een nieuw administratiekantoor zichtbaar werden, en het lekverlies in het distributienet. Bij een afnemend aantal gasgebruikers en een lekverlies dat onafhankelijk is van het aantal aansluitingen, leidt een verdeelsleutel op basis van afgenomen m³ tot een stijgende prijs per m³ voor de overgebleven groep.</p>
 
-  <section>
-    <h2>En een vierde dimensie: veiligheid</h2>
-    <p>De financiële discussie staat niet los van een technische realiteit. Propaangas is zwaarder dan lucht: bij ondergrondse lekken zakt het in de bodem en hoopt zich op in laagtes en kruipruimtes voordat het bovengronds waarneembaar is. Het Breedveld/Schoenmaker-rapport uit 2020 noemt dit expliciet als kenmerk van het propaan-distributienet op het landgoed.</p>
-    <p>In de Bewonersraadpleging 2023 (218 respondenten) gaf <strong>17,4% van de bewoners aan op het landgoed weleens gas geroken te hebben</strong>. Een snuffeldetectie door een extern bureau bracht in oktober 2025 <strong>tien ondergrondse lekken</strong> in kaart, waarvan er bij rapportage twee waren hersteld. Tegelijk gaf <strong>41,7% van de respondenten in 2023 aan niet (meer) op gas aangesloten te zijn</strong>; sinds 2023 zijn meer bewoners overgestapt op andere energiebronnen, waardoor de kosten van het lekkende net op een steeds kleinere groep komen te liggen.</p>
-    <p>De financiële naheffing is dus geen op zichzelf staand verbruiksprobleem maar een symptoom van een infrastructuur waarvan de vervangingskosten — volgens de arresten van het Gerechtshof 's-Hertogenbosch uit 2013 en 2014 — bij de grondeigenaar horen, niet bij de overgebleven gasgebruikers.</p>
-  </section>
+        <div class="price-compare">
+          <h4>De prijs per m³ in perspectief (incl. BTW)</h4>
+          <div class="price-row">
+            <div class="price-label">Wettelijke vloer<br><span style="font-weight:400;color:var(--grey-soft)">accijns + voorraadheffing</span></div>
+            <div class="price-bar"><div class="price-bar-fill light" style="width:12%"></div></div>
+            <div class="price-amount">€ 0,89</div>
+          </div>
+          <div class="price-row">
+            <div class="price-label">Internationale groothandelsreferentie<br><span style="font-weight:400;color:var(--grey-soft)">ICE/Argus Propane CIF ARA</span></div>
+            <div class="price-bar"><div class="price-bar-fill light" style="width:28%"></div></div>
+            <div class="price-amount">€ 2,13</div>
+          </div>
+          <div class="price-row">
+            <div class="price-label">Indicatie eindgebruikersprijs<br><span style="font-weight:400;color:var(--grey-soft)">zonder lekverlies</span></div>
+            <div class="price-bar"><div class="price-bar-fill light" style="width:45%"></div></div>
+            <div class="price-amount">€ 3,00–3,60</div>
+          </div>
+          <div class="price-row">
+            <div class="price-label">Indicatie eindgebruikersprijs<br><span style="font-weight:400;color:var(--grey-soft)">inclusief lekverlies 20–35%</span></div>
+            <div class="price-bar"><div class="price-bar-fill" style="width:58%"></div></div>
+            <div class="price-amount">€ 3,65–4,85</div>
+          </div>
+          <div class="price-row">
+            <div class="price-label">Basisprijs SWB 2026</div>
+            <div class="price-bar"><div class="price-bar-fill" style="width:74%"></div></div>
+            <div class="price-amount">€ 5,55</div>
+          </div>
+          <div class="price-row">
+            <div class="price-label">Basisprijs SWB + naheffing<br><span style="font-weight:400;color:var(--grey-soft)">factuur 7 mei 2026, ingetrokken op 13 mei</span></div>
+            <div class="price-bar"><div class="price-bar-fill" style="width:100%"></div></div>
+            <div class="price-amount">€ 7,50</div>
+          </div>
+          <p class="price-note">Onderscheid tussen vier niveaus: de wettelijke vloer (accijns en voorraadheffing 2026), de internationale groothandelsreferentie (ICE/Argus Propane CIF ARA futures, gemiddelde 24 maandcontracten mei 2026 – april 2028), een indicatie van de eindgebruikersprijs in een goed werkend collectief net, en een indicatie die rekening houdt met het feitelijke lekverlies van 20–35% volgens het onderzoek Breedveld/Schoenmaker (2020). Voor de uitgebreide berekening: zie de pagina <a href="/bronnen.html">Bronnen</a>.</p>
+        </div>
 
-  <section>
-    <h2>En een vijfde dimensie: waar zit het onderhoud in de begroting?</h2>
-    <p>Bij nader onderzoek van de financiële stukken die voor bewoners beschikbaar zijn, blijkt een opvallend punt. De post <em>"huur gas- watermeters"</em> staat in de conceptbegrotingen voor 2024, 2025 én 2026 nog steeds als regel vermeld onder de inkomsten — maar in alle drie de jaren <strong>op € 0,- begroot</strong>.</p>
-    <p>Deze meterhuur is volgens artikel 15a en 15c-1 van de Algemene Bepalingen uit 1997 contractueel verschuldigd aan de exploitant en diende oorspronkelijk ter financiering van het onderhoud van het distributienet. In de actielijst van de Bewonersraad van 24 februari 2018 wordt melding gemaakt van een wijziging rond de gas- en watermeters die destijds onduidelijkheid opriep onder bewoners. Een formeel besluit waarin deze post is geschrapt, samengevoegd of anders verwerkt, is in de beschikbare stukken niet terug te vinden.</p>
-    <p>De vraag die hieruit volgt: <strong>waaruit wordt het onderhoud van het gasdistributienet sinds 2018 dan wel gefinancierd?</strong> Komt deze kostenpost ergens anders zichtbaar in de exploitatie terug, of is hij feitelijk opgelost in de algemene servicekosten zonder dat dit voor bewoners traceerbaar is?</p>
-    <p>Hiermee verbonden is een tweede principekwestie. Het onafhankelijke onderzoek Breedveld/Schoenmaker stelde in juni 2020 dat verlies een algemene kostenpost behoort te zijn en niet — op basis van afgenomen kubieke meters — alleen op de verbruikende groep moet worden omgeslagen. Het onderzoek voegt expliciet toe dat dit ook voor water geldt. In de zes jaar sinds 2020 is op dit punt niets gewijzigd: zowel gas- als waterverliezen worden conform artikel 5.7 en 6.1 van de Exploitatieovereenkomst nog steeds selectief over de verbruikende groep omgeslagen. Bij een krimpende gebruikersgroep — en een gasnet met lekverlies dat onafhankelijk van het aantal aansluitingen optreedt — leidt deze systematiek noodzakelijkerwijs tot escalerende m³-prijzen voor de resterende huishoudens.</p>
-  </section>
-
-  <section>
-    <h2>Documenten</h2>
-    <p>De volgende documenten blijven beschikbaar als onderbouwing van het dossier. Het juridische dossier kan dienen als basis voor verdere gesprekken met de landgoedeigenaar, de bewonersvereniging Stille Wille Wonen of een rechtsbijstandsverzekeraar.</p>
-
-    <article class="doc-card">
-      <h3>Het Dossier Gasproblematiek</h3>
-      <p class="doc-desc">Een helder en compleet overzicht van alle feiten, de rechterlijke uitspraken uit 2013/2014 en de bewijzen rondom deze naheffing. U kunt dit dossier zelf doorlezen en het direct doorsturen naar uw rechtsbijstandsverzekeraar voor juridische ondersteuning.</p>
-      <span class="preview-label">Voorvertoning:</span>
-      <iframe class="pdf-preview-desktop" src="/Dossier_V2.2.pdf#view=FitH" title="Voorvertoning Dossier V2.2"></iframe>
-      <div class="pdf-preview-mobile">
-        <a href="/Dossier_V2.2.pdf" target="_blank" rel="noopener" aria-label="Open dossier als PDF in nieuw tabblad">
-          <img src="/preview-dossier.jpg" alt="Voorvertoning eerste pagina dossier" loading="lazy">
-          <div class="overlay"><span>Tik om volledig te openen</span></div>
-        </a>
+        <a href="/historie.html#financien" class="tile-readmore">Lees de uitwerking</a>
       </div>
-      <div class="download-row">
-        <a href="/Dossier_V2.2.docx" download class="download-btn">Download dossier <span class="meta">(Word, ~31 KB)</span></a>
-        <a href="/Dossier_V2.2.pdf" target="_blank" rel="noopener" class="download-btn secondary">Open als PDF <span class="meta">(~287 KB)</span></a>
-      </div>
-    </article>
+    </details>
 
-    <article class="doc-card">
-      <h3>De Voorbeeldbrief (Bezwaarschrift)</h3>
-      <p class="doc-desc">Een juridisch onderbouwde bezwaarbrief. Met de intrekking van de factuur door SWB op 13 mei is een directe bezwaarbrief op dit moment niet meer aan de orde. Het document blijft beschikbaar als referentie voor het geval een nieuwe afrekening alsnog onvolkomenheden bevat, en als basis voor correspondentie met rechtsbijstand.</p>
-      <span class="preview-label">Voorvertoning:</span>
-      <iframe class="pdf-preview-desktop" src="/Bezwaarbrief_Template_Bewoners.pdf#view=FitH" title="Voorvertoning voorbeeldbrief"></iframe>
-      <div class="pdf-preview-mobile">
-        <a href="/Bezwaarbrief_Template_Bewoners.pdf" target="_blank" rel="noopener" aria-label="Open voorbeeldbrief als PDF in nieuw tabblad">
-          <img src="/preview-brief.jpg" alt="Voorvertoning eerste pagina voorbeeldbrief" loading="lazy">
-          <div class="overlay"><span>Tik om volledig te openen</span></div>
-        </a>
+    <details class="tile">
+      <summary>
+        <h3>Het collectiviteitsprincipe</h3>
+        <p class="preview">Vanaf 13 mei dragen via de servicekosten ook bewoners zonder gasaansluiting bij aan lekverlies boven de 5%. Onder welke grondslag, en met welke begrenzing?</p>
+      </summary>
+      <div class="tile-body">
+        <p>In de brief van 13 mei 2026 heeft SWB aangegeven dat lekverliezen boven 5% voortaan in de algemene exploitatie worden opgenomen. Daarmee dragen ook bewoners die niet meer op gas zijn aangesloten — via de servicekosten — bij aan een deel van de gaskosten.</p>
+        <p>Een gedeeltelijke collectieve bijdrage aan gemeenschappelijke infrastructuur is op zichzelf niet ongebruikelijk. Tegelijk roept de keuze vragen op over de grondslag en de begrenzing: welke kosten zijn algemene infrastructuurkosten, welke zijn het gevolg van lekkage of veroudering, en op welke contractuele bepaling berust de toerekening aan alle bewoners?</p>
+        <p>De tegenstelling die hierdoor kan ontstaan ligt niet tussen gasgebruikers en niet-gasgebruikers, maar tussen jaarlijkse correcties achteraf en een onderbouwd toekomstplan vooraf.</p>
+        <a href="/historie.html#collectiviteit" class="tile-readmore">Lees de uitwerking</a>
       </div>
-      <div class="download-row">
-        <a href="/Bezwaarbrief_Template_Bewoners.docx" download class="download-btn">Download voorbeeldbrief <span class="meta">(Word, ~15 KB)</span></a>
-        <a href="/Bezwaarbrief_Template_Bewoners.pdf" target="_blank" rel="noopener" class="download-btn secondary">Open als PDF <span class="meta">(~89 KB)</span></a>
-      </div>
-    </article>
-  </section>
+    </details>
 
-  <div class="warning-box">
-    <h2><span class="icon">ℹ️</span> Praktische aandachtspunten</h2>
-    <p><strong>De factuur van 7 mei is administratief van tafel.</strong> SWB heeft in de brief van 13 mei 2026 bevestigd dat deze factuur als niet verzonden moet worden beschouwd. Een nieuwe eindafrekening over de periode 2024–2025 volgt op een later moment. Bewaar de brief van Wil van Loon van 13 mei voor uw eigen administratie.</p>
-    <p><strong>Automatische incasso.</strong> Heeft u een automatische incasso afgegeven? Controleer uw bankafschriften of de factuur al is afgeschreven. Zo ja, dan wordt het bedrag volgens de brief van 13 mei begin de week van 18 mei teruggestort. Mocht dit niet gebeuren, neem dan zelf contact op met SWB en met uw bank.</p>
-    <p><strong>Maandvoorschot.</strong> Controleer of het verhoogde maandvoorschot van € 203 al wordt geïncasseerd en of dit ook wordt teruggebracht naar het eerdere niveau. Vraag eventueel SWB om schriftelijk te bevestigen welk voorschotbedrag vanaf nu geldt.</p>
+    <details class="tile">
+      <summary>
+        <h3>De veiligheid</h3>
+        <p class="preview">Propaan is zwaarder dan lucht en kan ophopen in laaggelegen ruimten. Een onafhankelijk onderzoek naar kruipruimtes, ontstekingsbronnen en het distributienet ontbreekt.</p>
+      </summary>
+      <div class="tile-body">
+        <p>Propaan is volgens PGS 19 zwaarder dan lucht, zeer licht ontvlambaar en kan zich bij vrijkomen verspreiden over de grond en ophopen op laaggelegen plaatsen. In de bewonersraadpleging 2023 gaf 17,4% van de 218 respondenten aan op het landgoed weleens gas geroken te hebben; van die meldingen kwamen 15 van bewoners die zelf niet op gas waren aangesloten. De lekdetectie van oktober 2025 bracht tien ondergrondse lekken in kaart.</p>
+        <p>Op het landgoed staan veel woningen met een kruipruimte. Een onafhankelijk onderzoek naar de combinatie van het distributienet, kruipruimtes en aanwezige verwarmingsbronnen — waaronder houtkachels en pelletkachels die volgens bewonersinformatie regelmatig voorkomen — is op dit moment niet beschikbaar.</p>
+        <p>Dat betekent niet dat een concreet gevaar is vastgesteld; het betekent wel dat een risicoprofiel bestaat dat aandacht verdient en niet weerlegd kan worden zonder onderzoek.</p>
+        <a href="/historie.html#veiligheid" class="tile-readmore">Lees de uitwerking</a>
+      </div>
+    </details>
+
   </div>
 
-  <section>
-    <p>De factuur van 7 mei is een symptoom. De onderliggende oorzaak — een verouderd gasdistributienet dat structureel lekt en niet wordt vernieuwd door de partij die daarvoor volgens de Bossche arresten verantwoordelijk is — vraagt om een blijvende oplossing. De documenten op deze pagina blijven beschikbaar als feitelijke onderbouwing voor het gesprek dat daarop volgt.</p>
-  </section>
+  <!-- PEZ-tegel — volle breedte tussen cluster A en cluster B -->
+  <details class="tile-pez">
+    <summary>
+      <span class="marker">Bewonersinitiatief</span>
+      <h3>Project Energie Zelfvoorzienend (PEZ)</h3>
+      <p class="preview">Sinds augustus 2024 onderzoekt een projectgroep van bewoners — samen met KempenEnergie — hoe het landgoed op termijn duurzaam in zijn energieconsumptie kan voorzien.</p>
+    </summary>
+    <div class="tile-body">
+
+      <div class="pez-blocks">
+        <div class="pez-block">
+          <h4>Wat het is</h4>
+          <p>PEZ is een projectgroep van bewoners die sinds medio augustus 2024 onderzoekt of en hoe het landgoed op duurzame wijze kan voorzien in de energieconsumptie — elektriciteit, gas en/of hout. De projectgroep werkt samen met de energiecoöperatie KempenEnergie. In november 2024 heeft PEZ een presentatie verzorgd in de Bewonersraad, waarbij ook LSW aanwezig was; de projectgroep heeft groen licht gekregen om verder onderzoek te doen.</p>
+        </div>
+        <div class="pez-block">
+          <h4>Wat in scope is</h4>
+          <p>Lokale opwek (zonnepanelen), energieopslag (thuisbatterij en buurtbatterij), collectieve inkoop, een coöperatie­model rond zonnepanelen, bio-based isolatie en bredere bespaaropties. Er is een concept-businessplan opgesteld in augustus 2025, een vragenlijst Inventarisatie Energieverbruik is uitgezet onder deelnemers, en een offerte van All-Energy is besproken.</p>
+        </div>
+        <div class="pez-block">
+          <h4>Hoe het loopt</h4>
+          <p>Tussen december 2024 en april 2026 zijn vier Energiecafés gehouden in dorpshuis 't Hart van Spoordonk, met telkens tussen 35 en 60 deelnemende bewoners. Op 11 april 2026 vond een presentatie plaats over bio-based isolatiemateriaal; op 6 juni 2026 staat een voorlichting over thuis- en buurtbatterijen gepland. Documenten en verslagen zijn openbaar beschikbaar.</p>
+        </div>
+      </div>
+
+      <div class="pez-positioning">
+        <p>Het PEZ-traject onderzoekt collectieve en individuele alternatieven voor de huidige energievoorziening. Daarmee raakt het direct aan twee van de vier toekomstrichtingen die hieronder genoemd worden: individuele warmtepompen en collectieve warmtepompen per cluster. PEZ is daarmee een waardevolle verkenning, maar geen vervanging voor de bestuurlijke en juridische vragen die op deze pagina aan SWB, LSW en de Bewonersraad worden gesteld. Zolang het bestaande gasnet in gebruik blijft, blijft ook de vraag wie de vervangings- en infrastructuurkosten draagt — een vraag die in de arresten van het Gerechtshof 's-Hertogenbosch uit 2013 en 2014 aan de orde is geweest — open. Die vraag kan niet door een bewonersinitiatief worden beantwoord; zij ligt bij de grondeigenaar en de exploitant.</p>
+      </div>
+
+      <p style="margin-top:18px"><a href="https://www.stillewille.nl/over-de-stille-wille/projecten/energie-zelfvoorzienend" target="_blank" rel="noopener" class="tile-readmore">Officiële PEZ-projectpagina op stillewille.nl</a></p>
+
+    </div>
+  </details>
+
+  <!-- Cluster B — vier toekomstrichtingen als klikbare tegel met 2x2 grid -->
+  <details class="tile-scenarios">
+    <summary>
+      <h3>Vier toekomstrichtingen voor de gasvoorziening</h3>
+      <p class="preview">Doorgaan en repareren, decentrale propaantanks per cluster, individuele warmtepompen of collectieve warmtepompen per cluster — geen scenario is op dit moment doorgerekend.</p>
+    </summary>
+    <div class="tile-body">
+      <p class="intro">Voor de gasvoorziening op het landgoed worden in het stand-van-zakenrapport vier richtingen onderscheiden. Geen daarvan is op dit moment doorgerekend of bestuurlijk vastgesteld. De richtingen verschillen in techniek, kosten, veiligheid en gevolgen voor de verschillende bewonersgroepen. Een onderbouwde scenariovergelijking ontbreekt vooralsnog.</p>
+
+      <div class="scenarios">
+        <div class="scenario">
+          <h4>A · Doorgaan en repareren</h4>
+          <p>Het bestaande gasnet blijft in gebruik. Lekkages worden hersteld wanneer zij worden ontdekt. Tekorten worden jaarlijks administratief verdeeld via de exploitatie.</p>
+          <p class="question"><strong>Vraag:</strong> tot welke termijn acht SWB/LSW reactief herstel verantwoord, en hoe worden oplopende lekverliezen en veiligheidsrisico's daarbij beheerst?</p>
+        </div>
+        <div class="scenario">
+          <h4>B · Decentrale propaantanks per cluster</h4>
+          <p>Het centrale leidingnet wordt vervangen of omzeild door tanks per cluster van woningen. De leidingen worden korter; investering en gebruik blijven dichter bij de feitelijke gasgebruikers. Veiligheidsafstanden en vergunningseisen volgens PGS 19 zijn van toepassing.</p>
+          <p class="question"><strong>Vraag:</strong> is technische haalbaarheid van clustertanks onderzocht, en welke vergunningseisen, veiligheidsafstanden en investeringskosten zijn daarbij in beeld?</p>
+        </div>
+        <div class="scenario">
+          <h4>C · Individuele warmtepompen</h4>
+          <p>Ieder huishouden stapt afzonderlijk over op een eigen warmtepomp of ander elektrisch alternatief. Een deel van de bewoners heeft deze stap reeds gezet. Voor andere woningen moet de technische haalbaarheid per geval worden vastgesteld; mogelijk is netverzwaring nodig.</p>
+          <p class="question"><strong>Vraag:</strong> is per woningtype onderzocht of een individuele warmtepomp haalbaar is, en is de capaciteit van het elektriciteitsnet op het landgoed daarbij in beeld?</p>
+        </div>
+        <div class="scenario">
+          <h4>D · Collectieve warmtepompen per cluster</h4>
+          <p>Warmte wordt opgewekt voor kleine clusters van drie tot vijf woningen. Eigendom, beheer, onderhoud en kostenverdeling vragen om een afzonderlijke regeling. Draagvlak binnen elk cluster is een randvoorwaarde.</p>
+          <p class="question"><strong>Vraag:</strong> welke clusterindeling is praktisch denkbaar op het landgoed, en hoe worden eigendom, beheer en kosten verdeeld in een dergelijk model?</p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- Cluster C — vragen en actieplan -->
+  <div class="cluster-c">
+
+    <details class="tile">
+      <summary>
+        <h3>Wat moet er duidelijk worden, en wie weet het</h3>
+        <p class="preview">Per partij — SWB, LSW, Bewonersraad — de vragen die binnen het eigen domein vallen. Ieder kan alleen vertellen wat in zijn eigen bevoegdheid en kennisgebied ligt.</p>
+      </summary>
+      <div class="tile-body">
+        <p>Hieronder per partij de vragen die binnen het eigen domein vallen. De volledige vragenlijst staat op de bronnenpagina.</p>
+
+        <div class="questions-columns">
+          <div class="question-group">
+            <h4>SWB — exploitatie</h4>
+            <ul>
+              <li>Welke kosten worden gerekend tot normaal onderhoud, welke tot reparatie, welke tot lekverlies en welke tot vervanging?</li>
+              <li>Op welke bepaling in de Exploitatieovereenkomst berust de toerekening van lekverlies boven 5% aan de algemene exploitatie?</li>
+              <li>Waarop is de grens van 5% gebaseerd: meetgegevens, branchenorm, deskundigenadvies of bestuurlijke keuze?</li>
+            </ul>
+          </div>
+          <div class="question-group">
+            <h4>LSW — eigendom infrastructuur</h4>
+            <ul>
+              <li>Wie is eigenaar van welke onderdelen van het gasnet: centrale tank, hoofdleidingen, aftakkingen, standpijpen, meters?</li>
+              <li>Hoe verhoudt het voornemen om het landgoed binnen 1,5 tot 2 jaar van het gas te halen zich tot de actuele staat en kosten van het bestaande net?</li>
+              <li>Welke rol neemt LSW in de financiering van nieuwe of wezenlijk gewijzigde infrastructuur?</li>
+              <li>Welke rol ziet LSW voor cofinanciering of medefinanciering van bewonersinitiatieven zoals het Project Energie Zelfvoorzienend (PEZ), naast of in plaats van investering in de bestaande gasinfrastructuur?</li>
+            </ul>
+          </div>
+          <div class="question-group">
+            <h4>Bewonersraad — mandaat</h4>
+            <ul>
+              <li>Op welke grondslag is het besluit van 10 maart 2025 — verliezen evenredig aan gebruik verrekenen — bindend voor individuele bewoners?</li>
+              <li>Hoe verhoudt dit besluit zich tot de wijziging die SWB op 13 mei 2026 heeft aangekondigd?</li>
+              <li>Hoe wordt communicatie tussen gasgebruikers en niet-gasgebruikers belegd, zonder dat groepen tegenover elkaar komen te staan?</li>
+            </ul>
+          </div>
+        </div>
+        <a href="/bronnen.html#vragenlijst" class="tile-readmore">Volledige vragenlijst</a>
+      </div>
+    </details>
+
+    <details class="tile">
+      <summary>
+        <h3>Wat is er nodig om verder te komen</h3>
+        <p class="preview">Zeven stappen om van jaarlijkse correcties achteraf naar een houdbare aanpak vooraf te bewegen — geen oproep tot bezwaar, maar een horizon van wat nog moet gebeuren.</p>
+      </summary>
+      <div class="tile-body">
+        <p>Het stand-van-zakenrapport noemt zeven stappen die het mogelijk maken om van jaarlijkse correcties achteraf naar een houdbare aanpak vooraf te bewegen.</p>
+
+        <ol class="action-steps">
+          <li><strong>Voorlopig karakter bevestigen.</strong> Bevestiging dat de huidige correctie van 13 mei een tussenstap is en geen definitief besluit over toekomstige structurele kostentoedeling.</li>
+          <li><strong>Onafhankelijk technisch en veiligheidsonderzoek.</strong> Naar leidingmateriaal, corrosie, ligging, lekgeschiedenis, kruipruimterisico en ontstekingsbronnen, met opdrachtformulering vooraf gedeeld met bewoners.</li>
+          <li><strong>Financiële reconstructie 2019–2026.</strong> Ingekocht gas, gemeten verbruik, berekend verlies, reparatiekosten, vaste kosten, onderhoudskosten en eerdere verrekeningen op één rij.</li>
+          <li><strong>Bewonerscategorieën-matrix.</strong> Per categorie — gasgebruiker, niet-gasgebruiker, eigen grond, erfpacht, kruipruimte, warmtepomp — vaststellen welke kosten redelijkerwijs en contractueel kunnen worden toegerekend.</li>
+          <li><strong>Scenariovergelijking.</strong> De vier richtingen doorrekenen op techniek, veiligheid, investering, exploitatie, overgangstermijn en gevolgen per bewonersgroep.</li>
+          <li><strong>Tijdelijke verdeelregel.</strong> Tot het onderzoek gereed is, een regeling die voorkomt dat bewonersgroepen tegenover elkaar komen te staan.</li>
+          <li><strong>Neutrale communicatie.</strong> Het probleem benoemen als infrastructuurkwestie, niet als conflict tussen bewoners.</li>
+        </ol>
+      </div>
+    </details>
+
+  </div>
+
+  <div class="closing-note">
+    <p>De vraag is niet wie op korte termijn het tekort betaalt, maar welk plan SWB en LSW presenteren voor een gasnet waarvan gebruik, kosten, technische staat en veiligheidsrisico's structureel veranderen.</p>
+  </div>
 
 </main>
 
-<aside class="disclaimer">
-  <div class="disclaimer-inner">
-    <h2>Belangrijk: lees dit voor u de documenten gebruikt</h2>
-    <h3>1. Aansprakelijkheid en eigen verantwoordelijkheid</h3>
-    <p>De documenten op deze pagina zijn opgesteld door en namens gasverbruikende bewoners van Landgoed De Stille Wille, op basis van openbaar toegankelijke bronnen, gepubliceerde rechterlijke uitspraken, contractuele documenten in eigen bezit, en marktinformatie zoals beschikbaar in mei 2026. De inhoud is met de grootst mogelijke zorgvuldigheid samengesteld, maar bevat geen juridisch advies in de zin van de Wet op het Notarisambt, de Advocatenwet of enige andere beroepsregeling. Voor een bindend juridisch advies dient u zich te wenden tot uw eigen rechtsbijstandsverzekeraar of een onafhankelijke advocaat. Iedere bewoner die de documenten gebruikt, doet dit <strong>op eigen initiatief en voor eigen rekening en risico</strong>. De opstellers aanvaarden geen aansprakelijkheid voor de gevolgen van het gebruik of de toepassing van deze documenten in een individuele situatie. U bent zelf verantwoordelijk voor het controleren van uw eigen factuurgegevens, uw persoonlijke contractuele positie en de juistheid van de door u in de brief in te vullen gegevens, alvorens deze te verzenden aan SWB.</p>
-    <h3>2. Standpunt jegens de exploitant en de grondeigenaar</h3>
-    <p>De op deze pagina geuite kritiek op de wijze van afrekening door Stille Wille Brabant B.V. (SWB) en op het uitblijven van vervanging van de gasinfrastructuur door de grondeigenaar betreft een <strong>juridisch en feitelijk standpunt van betrokken bewoners</strong>, gebaseerd op de hierboven genoemde bronnen. Het is geen vaststelling van onrechtmatig handelen door enige rechter; die beoordeling is voorbehouden aan de bevoegde rechter. De gebruikte juridische gronden — waaronder artikel 6:248 lid 2 BW, artikel 24 Mededingingswet en artikel 6:193a e.v. BW — vormen de juridische sporen waarlangs bewoners individueel of collectief verweer kunnen voeren; of deze sporen in een concrete procedure zullen worden gehonoreerd, is aan de rechter. SWB en de grondeigenaar staan vanzelfsprekend vrij hun eigen standpunt naar voren te brengen en zijn van harte uitgenodigd dit binnen de bezwaarprocedure of via hun gemachtigde te doen.</p>
-  </div>
-</aside>
-
 <footer>
-  <p>Deze pagina is opgesteld namens en in overleg met gasverbruikende bewoners van Landgoed De Stille Wille.<br><strong>Versie mei 2026 — Dossier V2.2</strong></p>
+  <p>Deze pagina is opgesteld namens en in overleg met bewoners van Landgoed De Stille Wille.<br><strong>Stand van zaken — mei 2026</strong></p>
 </footer>
 
 </body>
