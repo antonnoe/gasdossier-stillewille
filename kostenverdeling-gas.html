@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Kostenverdeling gas — Gasdossier Stille Wille</title>
+<meta name="description" content="Landingpage over gasverlies en kostenverdeling op Landgoed De Stille Wille: waarom gasgebruikers en niet-gasgebruikers geen tegenpartijen zijn.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --maroon:#800000;--maroon-deep:#660000;
+    --blue:#102b4e;--blue-soft:#eaf1f8;
+    --green:#4d7a47;--green-soft:#edf5ec;
+    --grey-dark:#303030;--grey-mid:#555;--grey-soft:#777;
+    --grey-line:#d8d8d8;--cream:#FBF7F2;
+    --shadow:0 8px 28px rgba(16,43,78,0.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Mulish',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:17px;line-height:1.8em;color:var(--grey-dark);background:#fff}
+  h1,h2,h3,h4{font-family:'Poppins',sans-serif;line-height:1.25em;color:var(--blue)}
+  a{color:var(--maroon)}a:hover{color:var(--maroon-deep)}
+
+  .nav{background:var(--maroon-deep);position:sticky;top:0;z-index:10}
+  .nav-inner{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;padding:0 12px}
+  .nav a{display:block;padding:12px 15px;color:#fff;text-decoration:none;font-family:'Poppins',sans-serif;font-weight:600;font-size:0.88em;border-bottom:3px solid transparent;transition:background .15s,border-color .15s}
+  .nav a:hover{background:rgba(255,255,255,.08);color:#fff}.nav a.active{border-bottom-color:#fff;background:rgba(255,255,255,.1)}
+
+  .hero{background:linear-gradient(135deg,#fff 0%,#f7f9fb 55%,#eef4f8 100%);border-bottom:6px solid var(--maroon);padding:58px 24px 46px;text-align:center}
+  .hero-inner{max-width:980px;margin:0 auto}
+  .eyebrow{display:inline-block;font-family:'Poppins',sans-serif;font-weight:700;font-size:.78em;letter-spacing:.08em;text-transform:uppercase;color:var(--maroon);background:rgba(128,0,0,.08);padding:6px 12px;border-radius:999px;margin-bottom:18px}
+  .hero h1{font-size:clamp(2em,4.8vw,3.35em);font-weight:700;color:var(--blue);max-width:900px;margin:0 auto 18px}
+  .hero .subtitle{font-size:1.14em;line-height:1.7em;color:var(--grey-mid);max-width:820px;margin:0 auto 26px}
+  .hero-callout{background:#fff;border:1px solid rgba(16,43,78,.12);border-left:5px solid var(--maroon);box-shadow:var(--shadow);text-align:left;max-width:860px;margin:0 auto;padding:22px 26px;border-radius:0 10px 10px 0}
+  .hero-callout p{margin-bottom:10px;font-size:1em}.hero-callout p:last-child{margin-bottom:0}.hero-callout strong{color:var(--maroon)}
+
+  .container{max-width:1120px;margin:0 auto;padding:52px 24px}
+  .intro-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:stretch;margin-bottom:42px}
+  .panel{background:#fff;border:1px solid rgba(16,43,78,.13);border-radius:14px;box-shadow:var(--shadow);padding:28px}
+  .panel h2{font-size:1.42em;margin-bottom:14px;color:var(--maroon)}
+  .panel p{margin-bottom:12px}.panel p:last-child{margin-bottom:0}
+  .principle{background:var(--blue);color:#fff;border-radius:14px;padding:28px;box-shadow:var(--shadow)}
+  .principle h2{color:#fff;font-size:1.38em;margin-bottom:14px}.principle p{color:rgba(255,255,255,.92);margin-bottom:12px}.principle strong{color:#fff}
+
+  .infographic{margin:46px 0 40px;background:#fff;border:1px solid rgba(16,43,78,.14);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+  .info-title{padding:30px 28px 18px;text-align:center;background:linear-gradient(180deg,#fff 0%,#f7fafc 100%);border-bottom:1px solid rgba(16,43,78,.12)}
+  .info-title h2{font-size:clamp(1.7em,3.8vw,2.45em);max-width:820px;margin:0 auto;color:var(--blue)}
+  .info-title p{margin-top:10px;color:var(--grey-mid);font-size:.98em}
+  .columns{display:grid;grid-template-columns:1fr 1.06fr 1fr;gap:0}
+  .col{padding:0 0 24px;border-right:1px solid rgba(16,43,78,.12);background:#fff}.col:last-child{border-right:none}
+  .col-header{font-family:'Poppins',sans-serif;font-weight:700;color:#fff;padding:15px 18px;font-size:.96em;letter-spacing:.02em;text-transform:uppercase}
+  .col-header.green{background:var(--green)}.col-header.grey{background:#777}.col-header.blue{background:var(--blue)}
+  .block{padding:22px 22px 18px;border-bottom:1px solid rgba(16,43,78,.10)}.block:last-child{border-bottom:none}
+  .block h3{font-size:1.15em;margin-bottom:10px;color:var(--blue);display:flex;gap:10px;align-items:flex-start}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-family:'Poppins',sans-serif;font-weight:700;font-size:.86em;flex:0 0 30px}.badge.blue{background:var(--blue)}.badge.grey{background:#5f6670}
+  .block p{font-size:.94em;line-height:1.65em;color:var(--grey-dark)}
+  .icon-row{display:flex;gap:14px;align-items:center;margin-top:16px;color:var(--blue)}
+  .big-icon{font-size:3em;line-height:1}.small-label{font-family:'Poppins',sans-serif;font-weight:700;font-size:.88em;color:var(--grey-mid)}
+  .pipe{height:16px;background:linear-gradient(90deg,#bfc3c7,#e1e1e1,#a5a9ad);border:2px solid #5d6266;border-radius:20px;position:relative;margin:18px 0 8px}.pipe:before,.pipe:after{content:'';position:absolute;top:-5px;width:12px;height:22px;background:#d8d8d8;border:2px solid #5d6266}.pipe:before{left:-7px}.pipe:after{right:-7px}.crack{position:absolute;left:52%;top:-8px;color:#333;font-weight:700}.drop{position:absolute;left:51%;top:15px;color:#3176a6;font-size:1.2em}
+  .flow{padding:20px 22px}.flow-card{background:#f7f8f9;border:1px solid rgba(16,43,78,.18);border-radius:12px;padding:16px;margin-bottom:14px;text-align:center}.flow-card h3{font-size:1.05em;margin-bottom:10px}.flow-card p{font-size:.9em;line-height:1.55em}.arrow{height:34px;position:relative}.arrow:after{content:'↓';position:absolute;left:50%;transform:translateX(-50%);font-size:1.7em;color:#777;font-weight:700}.owner{width:132px;height:132px;background:var(--blue);border-radius:50%;color:#fff;margin:8px auto 16px;display:flex;align-items:center;justify-content:center;text-align:center;font-family:'Poppins',sans-serif;font-weight:700;box-shadow:0 0 0 6px rgba(16,43,78,.12)}
+  .split-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.mini{background:#fff;border:1px solid rgba(16,43,78,.14);border-radius:10px;padding:12px;text-align:center}.mini .mini-icon{font-size:2.1em;display:block;margin-bottom:4px}.mini span{font-size:.82em;color:var(--grey-mid);font-weight:700}
+  .quote{background:var(--blue-soft);border:1px solid rgba(16,43,78,.18);border-radius:12px;padding:18px;margin-top:16px;font-family:'Poppins',sans-serif;font-weight:700;color:var(--blue);line-height:1.5em;text-align:center}.quote:before{content:'“';font-size:2em;color:var(--maroon);vertical-align:-.3em}.quote:after{content:'”';font-size:2em;color:var(--maroon);vertical-align:-.45em}
+  .footer-note{border-top:1px solid rgba(16,43,78,.13);padding:18px 24px;background:#f9fbfc;font-size:.9em;color:var(--grey-mid);display:flex;gap:12px;align-items:flex-start}.footer-note span{font-size:1.8em;color:var(--blue);line-height:1}
+
+  .section{margin:42px 0}.section h2{font-size:1.55em;margin-bottom:16px;color:var(--maroon)}.section p{margin-bottom:14px;max-width:860px}.section ul{margin:14px 0 0 22px;max-width:860px}.section li{margin-bottom:10px}
+  .warning{background:var(--cream);border-left:5px solid var(--maroon);padding:22px 26px;border-radius:0 10px 10px 0;margin:28px 0;max-width:900px}.warning h3{font-size:1.15em;color:var(--maroon);margin-bottom:10px}
+  .cta{background:linear-gradient(135deg,var(--blue) 0%,#173c67 100%);color:#fff;border-radius:16px;padding:32px;margin-top:42px;box-shadow:var(--shadow)}.cta h2{color:#fff;font-size:1.55em;margin-bottom:14px}.cta p{color:rgba(255,255,255,.92);max-width:880px;margin-bottom:16px}.cta ul{margin:14px 0 0 22px}.cta li{margin-bottom:8px;color:#fff}
+  .links{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}.btn{display:inline-block;background:#fff;color:var(--blue);text-decoration:none;border-radius:999px;padding:10px 16px;font-family:'Poppins',sans-serif;font-weight:700;font-size:.9em}.btn.secondary{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35)}
+  footer{background:#fff;text-align:center;padding:34px 24px;border-top:1px solid var(--grey-line);color:var(--grey-soft);font-size:.88em;font-style:italic}footer strong{color:var(--maroon);font-style:normal}
+  @media(max-width:980px){.intro-grid{grid-template-columns:1fr}.columns{grid-template-columns:1fr}.col{border-right:none;border-bottom:1px solid rgba(16,43,78,.14)}.col:last-child{border-bottom:none}.nav a{font-size:.82em;padding:10px 10px}}
+  @media(max-width:620px){body{font-size:16px}.hero{padding:38px 18px}.container{padding:36px 16px}.panel,.principle,.cta{padding:22px}.block,.flow{padding-left:18px;padding-right:18px}.footer-note{display:block}.footer-note span{display:block;margin-bottom:8px}.split-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="Hoofdnavigatie">
+  <div class="nav-inner">
+    <a href="/">Hoofdpagina</a>
+    <a href="/historie.html">Historie</a>
+    <a href="/kostenverdeling-gas.html" class="active">Kostenverdeling gas</a>
+    <a href="/juridische-basis.html">Juridische basis</a>
+    <a href="/financiele-basis.html">Financiële basis</a>
+    <a href="/bronnen.html">Bronnen</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Gasverlies en kostenverdeling</span>
+    <h1>Laat bewoners niet tegen elkaar uitspelen</h1>
+    <p class="subtitle">De discussie gaat niet over gasgebruikers tegen niet-gasgebruikers. De kernvraag is wie verantwoordelijk is voor lekverlies, onderhoud en vervanging van het gemeenschappelijke gasnet.</p>
+    <div class="hero-callout">
+      <p><strong>Het probleem is niet dat sommige bewoners gas gebruiken en anderen niet.</strong></p>
+      <p>Het probleem is dat lekverlies en verouderde infrastructuur worden vertaald naar een verdeelvraag tussen bewoners. Daardoor verdwijnt de infrastructuurverantwoordelijkheid uit beeld.</p>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="intro-grid">
+    <section class="panel">
+      <h2>Waar deze pagina over gaat</h2>
+      <p>Deze pagina gaat uitsluitend over het verdeelmechanisme rond gasgebruikers en niet-gasgebruikers. Zij gaat niet over een algemene tegenstelling tussen eigen grond en erfpacht, en ook niet over persoonlijke keuzes van bewoners om wel of niet op gas aangesloten te blijven.</p>
+      <p>De feitelijke vraag is eenvoudiger: hoe voorkom je dat een technisch en juridisch infrastructuurprobleem wordt omgezet in een onderlinge rekening tussen bewonersgroepen?</p>
+    </section>
+    <aside class="principle">
+      <h2>Gezamenlijk uitgangspunt</h2>
+      <p><strong>Gasgebruikers en niet-gasgebruikers zijn geen tegenpartijen.</strong></p>
+      <p>Beide groepen hebben belang bij transparantie over lekverlies, eigendom, onderhoudsplicht, vervangingsplicht en kostenverdeling.</p>
+    </aside>
+  </div>
+
+  <section class="infographic" aria-labelledby="infographic-title">
+    <div class="info-title">
+      <h2 id="infographic-title">De feiten over kostenverdeling rond het gasnet</h2>
+      <p>Oorzaak → verdeelmechanisme → gezamenlijke lijn</p>
+    </div>
+
+    <div class="columns">
+      <article class="col">
+        <div class="col-header green">1. De structurele oorzaak</div>
+        <div class="block">
+          <h3><span class="badge">A</span>Een gasnet uit circa 1975</h3>
+          <p>Het propaan-distributienet is oud. In het onderzoek Breedveld/Schoenmaker uit 2020 werd een verliesbandbreedte van 20% tot 35% berekend.</p>
+          <div class="pipe"><span class="crack">╱╲</span><span class="drop">●</span></div>
+          <div class="small-label">Oud netwerk · structureel verliesrisico</div>
+        </div>
+        <div class="block">
+          <h3><span class="badge">B</span>Rechtspraak 2013/2014</h3>
+          <p>De arresten van het Gerechtshof ’s-Hertogenbosch zijn relevant voor de vraag waar onderhoud ophoudt en grootschalige vervanging van basisinfrastructuur begint.</p>
+          <div class="icon-row"><span class="big-icon">⚖</span><span class="big-icon">📄</span><span class="big-icon">⌁</span></div>
+        </div>
+        <div class="block">
+          <h3><span class="badge">C</span>Gevolg van uitstel</h3>
+          <p>Zolang structurele keuzes worden uitgesteld, blijven onderhoud, lekverlies en tijdelijke oplossingen financieel doorwerken.</p>
+          <div class="icon-row"><span class="big-icon">↗</span><span class="big-icon">€</span><span class="small-label">kosten lopen op</span></div>
+        </div>
+      </article>
+
+      <article class="col">
+        <div class="col-header grey">2. Het verdeelmechanisme</div>
+        <div class="flow">
+          <div class="flow-card">
+            <h3><span class="badge grey">A</span>Splitsing 1: gasgebruikers versus niet-gasgebruikers</h3>
+            <div class="split-row">
+              <div class="mini"><span class="mini-icon">🏠🔥</span><span>Gasgebruikers</span></div>
+              <div class="mini"><span class="mini-icon">🏠</span><span>Niet-gasgebruikers</span></div>
+            </div>
+          </div>
+          <div class="arrow"></div>
+          <div class="flow-card">
+            <h3>Per mei 2026</h3>
+            <p>Lekverlies boven 5% wordt in de algemene exploitatie opgenomen.</p>
+          </div>
+          <div class="flow-card">
+            <p>Daardoor betalen ook bewoners zonder gasaansluiting mee.</p>
+          </div>
+          <div class="owner">Eigenaar<br>(LSW)</div>
+          <div class="flow-card">
+            <h3><span class="badge grey">B</span>De valkuil</h3>
+            <p>De aandacht verschuift van infrastructuurverantwoordelijkheid naar een discussie tussen bewonersgroepen.</p>
+          </div>
+          <div class="flow-card">
+            <h3><span class="badge grey">C</span>De toetsingsvraag</h3>
+            <p>Welke kosten zijn individueel verbruik, welke kosten zijn lekverlies, en welke kosten horen bij onderhoud of vervanging van het gemeenschappelijke net?</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="col">
+        <div class="col-header blue">3. De verbindende stap</div>
+        <div class="block">
+          <h3><span class="badge blue">A</span>Sta boven de verdeeldheid</h3>
+          <p>Laat de discussie niet versmallen tot gasgebruikers tegen niet-gasgebruikers.</p>
+          <div class="icon-row"><span class="big-icon">🤝</span><span class="small-label">één bewonersbelang</span></div>
+        </div>
+        <div class="block">
+          <h3><span class="badge blue">B</span>Spreek de eigenaar gezamenlijk aan</h3>
+          <p>De centrale vraag blijft: wie is verantwoordelijk voor onderhoud, vervanging en financiering van de gemeenschappelijke infrastructuur?</p>
+          <div class="icon-row"><span class="big-icon">👥</span><span class="big-icon">⚖</span><span class="big-icon">€</span></div>
+        </div>
+        <div class="block">
+          <h3><span class="badge blue">C</span>Samen sterk voor één landgoed</h3>
+          <p>Alleen een gezamenlijke, feitelijke en juridisch onderbouwde lijn kan leiden tot een verdedigbare oplossing.</p>
+          <div class="quote">Een gezamenlijke lijn geeft meer duidelijkheid over kosten, verantwoordelijkheid en rechtspositie.</div>
+        </div>
+      </article>
+    </div>
+
+    <div class="footer-note">
+      <span>📖</span>
+      <p>Deze infographic is een vereenvoudigde weergave. Voor bronnen, rechtspraak en onderliggende documenten: zie de pagina <a href="/bronnen.html">Bronnen</a>.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>1. Het echte probleem</h2>
+    <p>Het gasnet op Landgoed De Stille Wille dateert grotendeels uit circa 1975. Het onderzoek Breedveld/Schoenmaker uit 2020 berekende een verliesbandbreedte van 20% tot 35%. In 2025 zijn opnieuw lekkages vastgesteld.</p>
+    <p>Dat wijst op een infrastructuurprobleem. Niet op een conflict tussen bewoners.</p>
+  </section>
+
+  <section class="section">
+    <h2>2. De verschuiving</h2>
+    <p>Zolang het verlies via de gasprijs wordt verdeeld, betalen vooral de overgebleven gasgebruikers. Zodra lekverlies boven 5% in de algemene exploitatie wordt opgenomen, betalen ook bewoners zonder gasaansluiting mee.</p>
+    <div class="warning">
+      <h3>De kernvraag blijft dezelfde</h3>
+      <p>Waarom wordt een structureel infrastructuurprobleem vertaald naar een verdeling tussen bewoners, in plaats van eerst volledig technisch, financieel en juridisch te worden uitgesplitst?</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>3. Het risico</h2>
+    <p>De discussie kan verschuiven van: <strong>“Wie is verantwoordelijk voor het oude gasnet?”</strong> naar: <strong>“Welke bewonersgroep moet betalen?”</strong></p>
+    <p>Dat is de valkuil. Gasgebruikers en niet-gasgebruikers hebben op dit punt een gezamenlijk belang: duidelijkheid over eigendom, onderhoudsplicht, vervangingsplicht en kostenverdeling.</p>
+  </section>
+
+  <section class="section">
+    <h2>4. De gezamenlijke lijn</h2>
+    <p>Bewoners hoeven het niet eens te zijn over gasgebruik, energietransitie of individuele keuzes. Zij hebben wél een gezamenlijk belang bij één uitgangspunt:</p>
+    <div class="warning">
+      <p><strong>Lekverlies door verouderde gemeenschappelijke infrastructuur mag niet ongemerkt worden omgezet in een onderlinge rekening tussen bewoners zonder volledige technische, financiële en juridische onderbouwing.</strong></p>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2>Vraag niet alleen: wie betaalt de volgende factuur?</h2>
+    <p>Vraag vooral welke feiten en grondslagen eerst op tafel moeten komen.</p>
+    <ul>
+      <li>Waar ontstaat het verlies?</li>
+      <li>Welke kosten zijn individueel verbruik?</li>
+      <li>Welke kosten zijn lekverlies?</li>
+      <li>Welke kosten zijn onderhoud?</li>
+      <li>Welke kosten zijn vervanging?</li>
+      <li>Wie is eigenaar van de infrastructuur?</li>
+      <li>Wie heeft juridisch de verplichting tot instandhouding of vervanging?</li>
+    </ul>
+    <div class="links">
+      <a class="btn" href="/juridische-basis.html">Lees de juridische basis</a>
+      <a class="btn" href="/financiele-basis.html">Lees de financiële basis</a>
+      <a class="btn secondary" href="/bronnen.html">Controleer de bronnen</a>
+    </div>
+  </section>
+</main>
+
+<footer><strong>Gasdossier Landgoed De Stille Wille</strong> — landingpage kostenverdeling gas, peildatum mei 2026.</footer>
+</body>
+</html>
