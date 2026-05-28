@@ -1,69 +1,83 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Bronnen — Gasdossier Stille Wille</title>
+<title>Bronnen · Kerndossiers Landgoed De Stille Wille</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/components.css">
 <style>
-  :root{
-    --maroon:#800000;--maroon-deep:#660000;
-    --maroon-04:rgba(128,0,0,0.04);--maroon-08:rgba(128,0,0,0.08);--maroon-15:rgba(128,0,0,0.15);
-    --grey-dark:#333;--grey-mid:#555;--grey-soft:#777;
-    --cream:#FBF7F2;
+  .source-card {
+    background: var(--white);
+    border-left: 3px solid var(--green);
+    padding: 20px 24px;
+    margin: 14px 0;
+    max-width: 820px;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Mulish',-apple-system,sans-serif;font-size:17px;line-height:1.8em;color:var(--grey-dark);background:#fff}
-  h1,h2,h3,h4{font-family:'Poppins',sans-serif;line-height:1.3em;color:var(--maroon)}
-  a{color:var(--maroon)}
-
-  .nav{background:var(--maroon-deep);position:sticky;top:0;z-index:10}
-  .nav-inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;padding:0 12px}
-  .nav a{display:block;padding:12px 18px;color:#fff;text-decoration:none;font-family:'Poppins',sans-serif;font-weight:600;font-size:0.92em;border-bottom:3px solid transparent}
-  .nav a:hover{background:rgba(255,255,255,0.08)}
-  .nav a.active{border-bottom-color:#fff;background:rgba(255,255,255,0.1)}
-
-  .site-header{background:var(--maroon);color:#fff;padding:40px 24px;text-align:center;border-bottom:6px solid var(--maroon-deep)}
-  .site-header h1{color:#fff;font-size:clamp(1.6em,4vw,2.2em);font-weight:700;max-width:800px;margin:0 auto 12px}
-  .site-header .subtitle{font-size:1em;opacity:0.92;max-width:700px;margin:0 auto;line-height:1.5em}
-
-  .container{max-width:820px;margin:0 auto;padding:48px 24px}
-  .lead{font-size:1em;color:var(--grey-mid);margin-bottom:32px;line-height:1.7em}
-
-  .source-section{margin-bottom:44px}
-  .source-section h2{font-size:1.35em;color:var(--maroon);margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid var(--maroon-15)}
-  .source-section .intro{font-size:0.94em;color:var(--grey-mid);margin-bottom:18px;font-style:italic;line-height:1.6em}
-
-  .source-card{background:#fff;border:1px solid var(--maroon-15);border-left:4px solid var(--maroon);border-radius:0 6px 6px 0;padding:18px 22px;margin-bottom:14px}
-  .source-card h3{font-size:1.02em;color:var(--maroon);margin:0 0 6px;font-weight:600}
-  .source-card p{font-size:0.94em;line-height:1.55em;margin:0 0 8px;color:var(--grey-dark)}
-  .source-card p:last-child{margin-bottom:0}
-  .source-card .ref{font-size:0.85em;color:var(--grey-soft);font-style:italic;display:block;margin-top:6px;word-break:break-word}
-  .source-card a{font-weight:600}
-
-  .source-card.highlight{border-left-color:var(--maroon-deep);background:var(--maroon-04)}
-
-  .marktnote{background:var(--cream);padding:18px 22px;border-radius:6px;margin:18px 0;font-size:0.92em;line-height:1.6em;color:var(--grey-mid);font-style:italic;border:1px solid var(--maroon-15)}
-
-  .download-note{background:var(--cream);border-left:4px solid var(--maroon);padding:18px 22px;margin:14px 0;border-radius:0 4px 4px 0;font-size:0.94em}
-  .download-note strong{color:var(--maroon)}
-
-  footer{background:#fff;text-align:center;padding:32px 24px;border-top:1px solid var(--maroon-15);color:var(--grey-soft);font-size:0.88em;font-style:italic}
-  footer strong{color:var(--maroon);font-style:normal}
-
-  @media (max-width:768px){
-    .container{padding:32px 16px}
-    .nav a{padding:10px 12px;font-size:0.82em}
+  .source-card.highlight {
+    background: var(--green-tint);
+    border-left-color: var(--green-deep);
+  }
+  .source-card h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--green-deep);
+    margin: 0 0 8px;
+  }
+  .source-card p {
+    font-size: 15px;
+    line-height: 1.65;
+    margin: 0 0 8px;
+    max-width: none;
+  }
+  .source-card p:last-child { margin-bottom: 0; }
+  .source-card ul {
+    margin: 8px 0;
+    font-size: 14px;
+    line-height: 1.7;
+    max-width: none;
+  }
+  .source-card .ref {
+    display: block;
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--grey-soft);
+    line-height: 1.6;
+    word-break: break-word;
+  }
+  .source-card .ref a { font-family: var(--font-body); font-size: 13px; }
+  .source-card .pdf-link {
+    display: inline-block;
+    background: var(--green);
+    color: #fff !important;
+    text-decoration: none !important;
+    padding: 8px 16px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 13px;
+    margin-top: 12px;
+  }
+  .source-card .pdf-link:hover { background: var(--green-deep); }
+  .status-block {
+    background: var(--cream);
+    border-left: 3px solid var(--yellow);
+    padding: 14px 18px;
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.65;
   }
 </style>
 </head>
 <body>
 
-<nav class="nav" aria-label="Hoofdnavigatie">
-  <div class="nav-inner">
+<nav class="sw-nav">
+  <div class="sw-nav-inner">
     <a href="/">Hoofdpagina</a>
     <a href="/historie.html">Historie</a>
     <a href="/juridische-basis.html">Juridische basis</a>
@@ -74,352 +88,351 @@
   </div>
 </nav>
 
-<header class="site-header">
-  <h1>Bronnen en referenties</h1>
-  <p class="subtitle">Primaire documenten waar het dossier op gebaseerd is</p>
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-kicker">
+      <span class="square"></span>
+      Dossier · 06 van 06
+    </div>
+    <h1 class="page-title">Bronnen en referenties</h1>
+    <p class="page-lede">Primaire documenten waar het dossier op gebaseerd is.</p>
+  </div>
 </header>
 
-<main class="container">
+<main class="page-main">
 
-  <p class="lead">Hieronder vindt u de bronnen waarop het dossier en de voorbeeldbrief zijn gebaseerd. Iedereen — bewoner, rechtsbijstandsverzekeraar, journalist of advocaat — kan deze zelf controleren. Waar mogelijk wordt verwezen naar de primaire publicatie van de bron.</p>
+  <p>Hieronder vindt u de bronnen waarop het dossier en de voorbeeldbrief zijn gebaseerd. Iedereen — bewoner, rechtsbijstandsverzekeraar, journalist of advocaat — kan deze zelf controleren. Waar mogelijk wordt verwezen naar de primaire publicatie van de bron.</p>
 
-  <section class="source-section">
-    <h2>Rechterlijke uitspraken</h2>
-    <p class="intro">Arresten van het Gerechtshof 's-Hertogenbosch over de verdeling van vervangingskosten van de gasinfrastructuur tussen exploitant, grondeigenaar en bewoners.</p>
+  <h2>Rechterlijke uitspraken</h2>
+  <p>Arresten van het Gerechtshof 's-Hertogenbosch over de verdeling van vervangingskosten van de gasinfrastructuur tussen exploitant, grondeigenaar en bewoners.</p>
 
-    <div class="source-card highlight">
-      <h3>Hof 's-Hertogenbosch 27 augustus 2013 (tussenarrest)</h3>
-      <p>Tussenarrest inzake de exploitatie van het distributienetwerk op het landgoed. Het hof oordeelt dat vervanging van het gasnetwerk voor rekening van de grondeigenaar komt (r.o. 5.13.9 en 5.13.10).</p>
-      <span class="ref">ECLI:NL:GHSHE:2013:3708 · <a href="https://uitspraken.rechtspraak.nl/details?id=ECLI:NL:GHSHE:2013:3708" target="_blank" rel="noopener">rechtspraak.nl</a></span>
-    </div>
-
-    <div class="source-card highlight">
-      <h3>Hof 's-Hertogenbosch 23 september 2014 (eindarrest)</h3>
-      <p>Eindarrest in dezelfde zaak. Bevestigt het uitgangspunt dat vervangingskosten van het distributienet bij de grondeigenaar liggen.</p>
-      <span class="ref">ECLI:NL:GHSHE:2014:3639 · <a href="https://uitspraken.rechtspraak.nl/details?id=ECLI:NL:GHSHE:2014:3639" target="_blank" rel="noopener">rechtspraak.nl</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>Hof 's-Hertogenbosch 4 februari 2020</h3>
-      <p>Bevestigt de eerdere lijn over de verdeling van vervangings- en onderhoudskosten.</p>
-      <span class="ref">ECLI:NL:GHSHE:2020:332 · <a href="https://uitspraken.rechtspraak.nl/details?id=ECLI:NL:GHSHE:2020:332" target="_blank" rel="noopener">rechtspraak.nl</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>Hof 's-Hertogenbosch 7 maart 2023</h3>
-      <p>Latere bevestiging van de gevestigde rechtspraak op dit punt.</p>
-      <span class="ref">ECLI:NL:GHSHE:2023:733 · <a href="https://uitspraken.rechtspraak.nl/details?id=ECLI:NL:GHSHE:2023:733" target="_blank" rel="noopener">rechtspraak.nl</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>Rb. Rotterdam 13 februari 2025 — Leadiant / ACM</h3>
-      <p>Bevestigt het toetsingskader voor misbruik van een economische machtspositie (artikel 24 Mededingingswet) in een situatie van gedwongen winkelnering.</p>
-      <span class="ref">ECLI:NL:RBROT:2025:1811 · <a href="https://uitspraken.rechtspraak.nl/details?id=ECLI:NL:RBROT:2025:1811" target="_blank" rel="noopener">rechtspraak.nl</a></span>
-    </div>
-  </section>
-
-  <section class="source-section">
-    <h2>Wetteksten</h2>
-    <p class="intro">De juridische gronden die in het dossier worden aangevoerd.</p>
-
-    <div class="source-card">
-      <h3>Artikel 6:248 lid 2 BW — Beperkende werking redelijkheid en billijkheid</h3>
-      <p>Een tussen partijen geldende regel is niet van toepassing voor zover dit naar maatstaven van redelijkheid en billijkheid onaanvaardbaar zou zijn.</p>
-      <span class="ref"><a href="https://wetten.overheid.nl/jci1.3:c:BWBR0005289&boek=6&titeldeel=5&afdeling=3&artikel=248" target="_blank" rel="noopener">wetten.overheid.nl</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>Artikel 24 Mededingingswet — Misbruik economische machtspositie</h3>
-      <p>Het is ondernemingen verboden misbruik te maken van een economische machtspositie.</p>
-      <span class="ref"><a href="https://wetten.overheid.nl/jci1.3:c:BWBR0008691&hoofdstuk=4&paragraaf=4.2&artikel=24" target="_blank" rel="noopener">wetten.overheid.nl</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>Artikelen 6:193a e.v. BW — Oneerlijke handelspraktijken</h3>
-      <p>Bepalingen over misleidende handelspraktijken, waaronder misleidende omissie (artikel 6:193d) en agressieve handelspraktijken.</p>
-      <span class="ref"><a href="https://wetten.overheid.nl/jci1.3:c:BWBR0005289&boek=6&titeldeel=3&afdeling=3a" target="_blank" rel="noopener">wetten.overheid.nl</a></span>
-    </div>
-  </section>
-
-  <section class="source-section">
-    <h2>Onderzoek</h2>
-    <p class="intro">Het onafhankelijke onderzoek dat in 2020 in opdracht van de toenmalige verenigingen VHSW en Bestwil is uitgevoerd.</p>
-
-    <div class="source-card highlight">
-      <h3>Onderzoeksverslag naar de gasprijsontwikkeling Stille Wille 2020</h3>
-      <p>Onderzoek uitgevoerd door Jaap Breedveld en Paul Schoenmaker, op initiatief van VHSW onder regie van VHSW en Bestwil. Bestaat uit een tussenrapportage (31 maart 2020) en een eindrapportage (juni 2020), met bijlagen over de correspondentie met DJB en het gesprek met de monteurs van Arvotech Waalwijk.</p>
-      <p>Bevat de bevindingen over lekverliezen (bandbreedte 20% tot 35%), de opslag van € 0,10/liter aan DJB zonder contractuele grondslag, de inventarisatie van 113 te vervangen gasmeters en de dertien aanbevelingen.</p>
-      <p style="background:var(--cream);border-left:3px solid var(--maroon);padding:12px 16px;margin-top:14px;font-size:0.92em;font-style:italic;line-height:1.6em"><strong>Status:</strong> dit onafhankelijke onderzoek is in 2020 uitgevoerd op initiatief van de toenmalige bewonersverenigingen VHSW en Bestwil en aangeboden aan de directie van SWB en aan de Bewonersraad. Het rapport is door de Bewonersraad nooit formeel bekrachtigd. De bevindingen en aanbevelingen worden in dit dossier gehanteerd als feitelijke onderbouwing van de in 2020 vastgestelde technische en financiële vraagstukken op het gasdistributienet, niet als juridisch geformaliseerd standpunt van de Bewonersraad.</p>
-      <p style="margin-top:12px"><a href="/Onderzoek_Breedveld_Schoenmaker_2020.pdf" target="_blank" rel="noopener" style="display:inline-block;background:var(--maroon);color:#fff;text-decoration:none;padding:8px 16px;border-radius:4px;font-weight:600;font-size:0.92em">Open rapport (PDF)</a></p>
-      <span class="ref">Ook beschikbaar via het <a href="https://stillewillewonen.nl/archief/" target="_blank" rel="noopener">archief van Stille Wille Wonen</a>.</span>
-    </div>
-  </section>
-
-  <section class="source-section">
-    <h2>Contractuele documenten</h2>
-    <p class="intro">De contracten die de relatie tussen bewoners, exploitant en grondeigenaar regelen. Beide overeenkomsten zijn als PDF publiek beschikbaar via het archief van SWB.</p>
-
-    <div class="source-card">
-      <h3>Exploitatieovereenkomst Landgoed De Stille Wille</h3>
-      <p>Bevat onder meer artikel 6 (gasleverantie en kostenverdeling), artikel 6.4 (verplichte afname), artikel 7.11 en artikel 15 (bezwaartermijn van veertien dagen na factuurdatum).</p>
-      <span class="ref"><a href="https://www.stillewille.nl/images/bestanden/documenten/Exploitatieovereenkomst.pdf" target="_blank" rel="noopener">Open Exploitatieovereenkomst (PDF)</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>Beheersovereenkomst SWB / DJB</h3>
-      <p>Regelt de verhouding tussen exploitant en grondeigenaar. Artikel 3.5c verplicht tot het instandhouden en onderhouden van de bestaande netten. Artikel 6.6 stelt dat aan de erfpachter een rekening wordt gestuurd van de werkelijk gemaakte kosten.</p>
-      <span class="ref"><a href="https://www.stillewille.nl/images/bestanden/documenten/Beheersovereenkomst.pdf" target="_blank" rel="noopener">Open Beheersovereenkomst (PDF)</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>Algemene Bepalingen Erfpacht</h3>
-      <p>Bevat onder meer artikel 15b inzake gebruiksrechten en -plichten.</p>
-      <p>In persoonlijk bezit van iedere erfpachter.</p>
-    </div>
-  </section>
-
-  <section class="source-section">
-    <h2>Notulen Bewonersraad</h2>
-    <p class="intro">Beslissingen en bevindingen van de Bewonersraad over het gasverbruik, publiek beschikbaar via het archief van SWB.</p>
-
-    <div class="source-card highlight">
-      <h3>Notulen Bewonersraad 10 maart 2025</h3>
-      <p>Bevat het besluit dat netwerkverliezen evenredig aan het individuele gebruik worden verrekend, en dus exclusief op de overgebleven gasgebruikers komen te liggen.</p>
-      <span class="ref"><a href="https://www.stillewille.nl/images/bestanden/verslagen/20250407_Notulen_Bewonersraad_10-03-2025.pdf" target="_blank" rel="noopener">Open notulen (PDF)</a></span>
-    </div>
-
-    <div class="source-card highlight">
-      <h3>Notulen Bewonersraad 25 oktober 2025</h3>
-      <p>Bevat de bevindingen van de externe lekdetectie met snuffelapparatuur: tien ondergrondse lekken in kaart, twee hersteld bij rapportage.</p>
-      <span class="ref"><a href="https://www.stillewille.nl/images/bestanden/verslagen/20250111_BR-verslag_van_25_okt_25.pdf" target="_blank" rel="noopener">Open notulen (PDF)</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>Tussendoortje-nieuwsbrief SWB (mei 2026)</h3>
-      <p>Kondigt aan dat SWB een notitie aan de Bewonersraad zal toezenden inzake het gasverbruik, met de Exploitatieovereenkomst als uitgangspunt.</p>
-      <span class="ref"><a href="https://www.stillewille.nl/images/bestanden/nieuwsbrieven/Nieuwsbrief_april_2026_tussendoortje.pdf" target="_blank" rel="noopener">Open nieuwsbrief (PDF)</a></span>
-    </div>
-  </section>
-
-  <section class="source-section">
-    <h2>Bewonersraadpleging 2023</h2>
-    <p class="intro">In 2023 is onder bewoners van Landgoed De Stille Wille een raadpleging gehouden over uiteenlopende onderwerpen. De uitkomsten zijn gepubliceerd door de samenwerkende bewonersverenigingen VHSW en Bestwil, voorlopers van Stille Wille Wonen.</p>
-
-    <div class="source-card highlight">
-      <h3>Bewonersraadpleging Stille Wille 2023</h3>
-      <p>Onderzoek onder 218 respondenten. Voor het gasdossier zijn met name relevant:</p>
-      <ul style="margin:8px 0 8px 20px;font-size:0.94em;line-height:1.6em">
-        <li>41,7% van de respondenten gaf in 2023 aan niet (meer) op gas aangesloten te zijn. Het werkelijke aandeel is sindsdien naar verwachting verder toegenomen.</li>
-        <li>17,4% van de respondenten gaf aan op het landgoed weleens gas geroken te hebben, met geconcentreerde meldingen rond de Bremlaan en kruisende lanen.</li>
-        <li>78% vond de lange-termijnplannen van LSW onduidelijk; 44% vond de informatievoorziening over de erfpachtcontracten 2028 onduidelijk.</li>
-        <li>30% gaf aan zich zorgen te maken over bosbrandgevaar.</li>
-      </ul>
-      <span class="ref"><a href="https://stillewillewonen.nl/wp-content/uploads/2023/10/Weergave-van-de-bewonersenquete-v0.5.pdf" target="_blank" rel="noopener">Open volledig rapport raadpleging (PDF)</a></span>
-    </div>
-  </section>
-
-  <section class="source-section">
-    <h2>Bewonersorganisatie</h2>
-    <p class="intro">De huidige, en eerdere, bewonersverenigingen op het landgoed.</p>
-
-    <div class="source-card highlight">
-      <h3>Stille Wille Wonen</h3>
-      <p>Sinds 27 juni 2023 de enige actieve bewonersvereniging op het landgoed, ontstaan uit de voormalige verenigingen VHSW en Bestwil. Heeft commissies voor onder meer Rechten &amp; Plichten en Financiën.</p>
-      <span class="ref">Website: <a href="https://stillewillewonen.nl/" target="_blank" rel="noopener">stillewillewonen.nl</a> · Archief: <a href="https://stillewillewonen.nl/archief/" target="_blank" rel="noopener">stillewillewonen.nl/archief</a> · Contact: <a href="mailto:commissies@stillewillewonen.nl">commissies@stillewillewonen.nl</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>VHSW en Bestwil (historisch)</h3>
-      <p>Voormalige bewonersverenigingen, actief van 2015 tot 2023 respectievelijk eerdere jaren. Initiatiefnemers van het onafhankelijke gasprijsonderzoek in 2020. Op 27 juni 2023 opgegaan in Stille Wille Wonen.</p>
-    </div>
-  </section>
-
-  <section class="source-section">
-    <h2>Marktreferenties propaangas 2026</h2>
-    <p class="intro">Voor de prijsvergelijking op de pagina <a href="/overzicht.html">Overzicht in één oogopslag</a> zijn de volgende referenties gehanteerd, gebaseerd op stabielere lange-termijn-noteringen in plaats van dagprijzen.</p>
-
-    <div class="source-card highlight">
-      <h3>Internationale groothandelsreferentie (B2B)</h3>
-      <p>ICE / Argus European Propane CIF ARA futures, gemiddelde van de 24 maandcontracten mei 2026 tot en met april 2028. Dit is de Noordwest-Europese groothandelsreferentie voor propaangas.</p>
-      <span class="ref"><a href="https://www.theice.com/products/9221289/European-Propane-CIF-ARA-Argus-Future" target="_blank" rel="noopener">ICE Futures — European Propane CIF ARA Argus</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>Nederlandse heffingen 2026</h3>
-      <p>Accijns LPG en propaan: € 0,1924 per liter excl. BTW. Voorraadheffing COVA: € 0,0041 per liter excl. BTW. Tarieven 2026 vastgesteld door de Belastingdienst.</p>
-      <span class="ref"><a href="https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/zakelijk/douane/accijns_en_verbruiksbelastingen/accijns/" target="_blank" rel="noopener">Belastingdienst — Accijns LPG</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>Technische verrekenfactor (Kiwa G31)</h3>
-      <p>Eén m³ gasvormig propaan komt voort uit 3,724 liter vloeibaar propaan, op basis van Kiwa Useful Gas Information Leaflet voor gastype G31 bij standaardcondities (15 °C, 1013,25 mbar). Dichtheid vloeibaar propaan 0,510 kg/liter, dichtheid gasvormig propaan 1,899 kg/m³.</p>
-      <span class="ref">Bron: Kiwa Technology, gas information leaflets.</span>
-    </div>
-
-    <div class="source-card">
-      <h3>Benegas</h3>
-      <p>De huidige gasleverancier voor het landgoed. Publiceert algemene informatie over propaangastanken en levering voor particulieren, geen openbare dagprijs.</p>
-      <span class="ref"><a href="https://benegas.com/gastank/thuis/" target="_blank" rel="noopener">benegas.com/gastank/thuis</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>Antargaz</h3>
-      <p>Alternatieve leverancier van propaan voor particuliere en zakelijke tanken in Nederland.</p>
-      <span class="ref"><a href="https://www.antargaz.nl/" target="_blank" rel="noopener">antargaz.nl</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>Tankgas</h3>
-      <p>Alternatieve leverancier met dagprijs op offertebasis voor tankleveringen in Nederland.</p>
-      <span class="ref"><a href="https://tankgas.nl/" target="_blank" rel="noopener">tankgas.nl</a></span>
-    </div>
-
-    <div class="marktnote">
-      <strong>Let op:</strong> deze referenties dienen uitsluitend als marktvergelijking. Op grond van artikel 6.4 van de Exploitatieovereenkomst geldt op het landgoed een verplichting tot afname via de exploitant. Bewoners kunnen niet zonder meer overstappen naar een andere leverancier zolang deze clausule van kracht is. De vermelding van alternatieve leveranciers is bedoeld om de actuele marktprijs aantoonbaar te maken, niet als suggestie tot overstap.
-    </div>
-  </section>
-
-  <section class="source-section">
-    <h2>Toezicht en consumenteninformatie</h2>
-
-    <div class="source-card">
-      <h3>Autoriteit Consument &amp; Markt — ConsuWijzer</h3>
-      <p>Voorlichting voor consumenten over rechten bij oneerlijke handelspraktijken en misbruik van machtspositie.</p>
-      <span class="ref"><a href="https://www.consuwijzer.nl/" target="_blank" rel="noopener">consuwijzer.nl</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>Autoriteit Consument &amp; Markt — Meldpunt</h3>
-      <p>Mogelijkheid tot het melden van vermoedelijk misbruik van een economische machtspositie.</p>
-      <span class="ref"><a href="https://www.acm.nl/" target="_blank" rel="noopener">acm.nl</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>Staatstoezicht op de Mijnen (SodM)</h3>
-      <p>Toezichthouder op kleine particuliere gasnetten, waaronder die op recreatieparken, sinds 2018. Aandachtspunten: veiligheid van netwerk, gasmeter en gas; vervanging van oude gasleidingen.</p>
-      <span class="ref"><a href="https://www.sodm.nl/" target="_blank" rel="noopener">sodm.nl</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>PGS 19 — Propaan en butaan</h3>
-      <p>Publicatiereeks Gevaarlijke Stoffen 19, versie 1.0 van september 2021. Bevat de risicobenadering en maatregelen voor propaan- en butaaninstallaties; voor propaantanks die onder het Besluit activiteiten leefomgeving vallen, geldt deze versie sinds 1 januari 2024 (IPLO).</p>
-      <span class="ref"><a href="https://publicatiereeksgevaarlijkestoffen.nl/" target="_blank" rel="noopener">publicatiereeksgevaarlijkestoffen.nl</a></span>
-    </div>
-  </section>
-
-  <section class="source-section">
-    <h2>Bewonersinitiatief PEZ</h2>
-    <p class="intro">Project Energie Zelfvoorzienend — bewonersinitiatief sinds augustus 2024, samenwerkend met de energiecoöperatie KempenEnergie.</p>
-
-    <div class="source-card highlight">
-      <h3>Officiële PEZ-projectpagina</h3>
-      <p>Maandelijkse updates, verslagen van Energiecafés (december 2024 — april 2026), presentaties, vragenlijst Inventarisatie Energieverbruik, concept-businessplan augustus 2025, en projectvoorstel All-Energy.</p>
-      <span class="ref"><a href="https://www.stillewille.nl/over-de-stille-wille/projecten/energie-zelfvoorzienend" target="_blank" rel="noopener">stillewille.nl/over-de-stille-wille/projecten/energie-zelfvoorzienend</a></span>
-    </div>
-
-    <div class="source-card">
-      <h3>KempenEnergie</h3>
-      <p>Energiecoöperatie en samenwerkingspartner van PEZ. Vermeldt het Stille Wille-traject op de eigen website onder Energie Gemeenschap.</p>
-      <span class="ref"><a href="https://kempenenergie.nl/" target="_blank" rel="noopener">kempenenergie.nl</a> · <a href="https://kempenenergie.nl/energie-in-de-stille-wille/" target="_blank" rel="noopener">kempenenergie.nl/energie-in-de-stille-wille</a></span>
-    </div>
-  </section>
-
-  <section class="source-section">
-    <h2>Documenten en sjablonen</h2>
-    <p class="intro">Werkdocumenten die in de periode rond de afrekening 2024–2025 zijn opgesteld en beschikbaar blijven als referentie.</p>
-
-    <div class="source-card">
-      <h3>Voorbeeldbrief bezwaarschrift</h3>
-      <p>Sjabloon voor een bezwaarbrief, opgesteld in mei 2026 in de periode tussen factuurverzending op 7 mei en intrekking op 13 mei. Beschikbaar als referentie voor correspondentie, voor het geval een nieuwe afrekening alsnog onvolkomenheden bevat.</p>
-      <span class="ref"><a href="/Bezwaarbrief_Template_Bewoners.docx" download>Download Word (~15 KB)</a> · <a href="/Bezwaarbrief_Template_Bewoners.pdf" target="_blank" rel="noopener">Open PDF (~89 KB)</a></span>
-    </div>
-  </section>
-
-  <section class="source-section" id="vragenlijst">
-    <h2>Volledige vragenlijst</h2>
-    <p class="intro">Onderstaande vragen zijn ontleend aan het stand-van-zakenrapport en geordend per cluster. Zij zijn vragend geformuleerd: ieder van de drie partijen — SWB, LSW, Bewonersraad — kan binnen het eigen domein antwoord geven. De vragen vormen geen aanklacht maar een uitnodiging tot transparante besluitvorming.</p>
-
-    <div class="source-card">
-      <h3>A · Over techniek</h3>
-      <ul style="margin:8px 0 8px 20px;font-size:0.94em;line-height:1.7em">
-        <li>Uit welk materiaal bestaan de hoofdleidingen, aftakkingen, standpijpen en aansluitingen?</li>
-        <li>Welke delen dateren uit circa 1975?</li>
-        <li>Welke delen zijn sinds aanleg vervangen?</li>
-        <li>Waar zijn de laatste vijf jaar lekkages vastgesteld?</li>
-        <li>Waar zijn alleen reparaties uitgevoerd en waar is structureel vervangen?</li>
-        <li>Is het volledige net op lekdichtheid getest?</li>
-        <li>Welke inspectiemethode is gebruikt?</li>
-        <li>Is er een actueel leidingplan?</li>
-      </ul>
-    </div>
-
-    <div class="source-card">
-      <h3>B · Over veiligheid</h3>
-      <ul style="margin:8px 0 8px 20px;font-size:0.94em;line-height:1.7em">
-        <li>Is onderzocht of propaan zich kan ophopen in kruipruimtes?</li>
-        <li>Is onderzocht welke woningen kruipruimtes hebben?</li>
-        <li>Is onderzocht waar houtkachels of pelletkachels aanwezig zijn?</li>
-        <li>Is er een noodprocedure bij gaslucht?</li>
-        <li>Is er een meldprotocol voor bewoners?</li>
-        <li>Wordt elke gasluchtmelding geregistreerd en teruggekoppeld?</li>
-        <li>Is de Veiligheidsregio betrokken?</li>
-        <li>Is SodM geïnformeerd of geraadpleegd?</li>
-        <li>Is een onafhankelijk deskundige ingeschakeld?</li>
-      </ul>
-    </div>
-
-    <div class="source-card">
-      <h3>C · Over kosten</h3>
-      <ul style="margin:8px 0 8px 20px;font-size:0.94em;line-height:1.7em">
-        <li>Wat waren de totale gaskosten per boekjaar?</li>
-        <li>Wat was de totale ingekochte hoeveelheid gas?</li>
-        <li>Wat was het totaal gemeten bewonersverbruik?</li>
-        <li>Wat was het berekende lekverlies?</li>
-        <li>Welke kosten zijn vaste kosten, welke variabele verbruikskosten, welke reparatiekosten, welke onderhoudskosten, welke vervangingskosten?</li>
-        <li>Welke kosten worden aan gasgebruikers toegerekend?</li>
-        <li>Welke kosten worden aan alle bewoners toegerekend?</li>
-        <li>Waarop is de grens van 5% gebaseerd: meetgegevens, branchenorm, deskundigenadvies of bestuurlijke keuze?</li>
-      </ul>
-    </div>
-
-    <div class="source-card">
-      <h3>D · Over contractuele grondslag</h3>
-      <ul style="margin:8px 0 8px 20px;font-size:0.94em;line-height:1.7em">
-        <li>Welke bepaling verplicht gasgebruikers tot betaling van lekverliezen?</li>
-        <li>Welke bepaling verplicht niet-gasgebruikers tot betaling van vaste gaskosten?</li>
-        <li>Welke bepaling verplicht alle bewoners tot betaling van lekverlies boven 5%?</li>
-        <li>Geldt dezelfde verplichting voor eigen grond en erfpachtgrond?</li>
-        <li>Geldt dezelfde verplichting voor bewoners die niet zijn aangesloten?</li>
-        <li>Geldt dezelfde verplichting voor bewoners die zijn afgesloten?</li>
-        <li>Heeft de Bewonersraad hierover beslissingsbevoegdheid of slechts adviesrecht?</li>
-        <li>Welke rol heeft LSW als eigenaar of verantwoordelijke partij voor infrastructuur?</li>
-      </ul>
-    </div>
-
-    <div class="source-card">
-      <h3>E · Over toekomstscenario's</h3>
-      <ul style="margin:8px 0 8px 20px;font-size:0.94em;line-height:1.7em">
-        <li>Is vervanging van het bestaande gasnet doorgerekend?</li>
-        <li>Zijn decentrale clustertanks doorgerekend?</li>
-        <li>Zijn individuele warmtepompen doorgerekend?</li>
-        <li>Zijn collectieve warmtepompen per cluster doorgerekend?</li>
-        <li>Is gefaseerde beëindiging van gaslevering onderzocht?</li>
-        <li>Is onderzocht welke bewoners op korte termijn kunnen overstappen en welke afhankelijk blijven van gas?</li>
-        <li>Is onderzocht hoe de kosten redelijk kunnen worden verdeeld?</li>
-        <li>Is een tijdpad opgesteld en wanneer wordt een besluit genomen?</li>
-        <li>Welke rol ziet LSW voor cofinanciering of medefinanciering van bewonersinitiatieven zoals PEZ, naast of in plaats van investering in de bestaande gasinfrastructuur?</li>
-      </ul>
-    </div>
-  </section>
-
-  <div class="download-note">
-    <p><strong>Bronnen onvolledig?</strong> Heeft u aanvullende relevante documenten, notulen of correspondentie? Neem dan contact op met de commissie Rechten &amp; Plichten van Stille Wille Wonen via <a href="mailto:commissies@stillewillewonen.nl">commissies@stillewillewonen.nl</a>.</p>
+  <div class="source-card highlight">
+    <h3>Hof 's-Hertogenbosch 27 augustus 2013 (tussenarrest)</h3>
+    <p>Tussenarrest inzake de exploitatie van het distributienetwerk op het landgoed. Het hof oordeelt dat vervanging van het gasnetwerk voor rekening van de grondeigenaar komt (r.o. 5.13.9 en 5.13.10).</p>
+    <span class="ref">ECLI:NL:GHSHE:2013:3708 · <a href="https://uitspraken.rechtspraak.nl/details?id=ECLI:NL:GHSHE:2013:3708" target="_blank" rel="noopener">rechtspraak.nl</a></span>
   </div>
 
+  <div class="source-card highlight">
+    <h3>Hof 's-Hertogenbosch 23 september 2014 (eindarrest)</h3>
+    <p>Eindarrest in dezelfde zaak. Bevestigt het uitgangspunt dat vervangingskosten van het distributienet bij de grondeigenaar liggen.</p>
+    <span class="ref">ECLI:NL:GHSHE:2014:3639 · <a href="https://uitspraken.rechtspraak.nl/details?id=ECLI:NL:GHSHE:2014:3639" target="_blank" rel="noopener">rechtspraak.nl</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>Hof 's-Hertogenbosch 4 februari 2020</h3>
+    <p>Bevestigt de eerdere lijn over de verdeling van vervangings- en onderhoudskosten.</p>
+    <span class="ref">ECLI:NL:GHSHE:2020:332 · <a href="https://uitspraken.rechtspraak.nl/details?id=ECLI:NL:GHSHE:2020:332" target="_blank" rel="noopener">rechtspraak.nl</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>Hof 's-Hertogenbosch 7 maart 2023</h3>
+    <p>Latere bevestiging van de gevestigde rechtspraak op dit punt.</p>
+    <span class="ref">ECLI:NL:GHSHE:2023:733 · <a href="https://uitspraken.rechtspraak.nl/details?id=ECLI:NL:GHSHE:2023:733" target="_blank" rel="noopener">rechtspraak.nl</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>Rb. Rotterdam 13 februari 2025 — Leadiant / ACM</h3>
+    <p>Bevestigt het toetsingskader voor misbruik van een economische machtspositie (artikel 24 Mededingingswet) in een situatie van gedwongen winkelnering.</p>
+    <span class="ref">ECLI:NL:RBROT:2025:1811 · <a href="https://uitspraken.rechtspraak.nl/details?id=ECLI:NL:RBROT:2025:1811" target="_blank" rel="noopener">rechtspraak.nl</a></span>
+  </div>
+
+  <h2>Wetteksten</h2>
+  <p>De juridische gronden die in het dossier worden aangevoerd.</p>
+
+  <div class="source-card">
+    <h3>Artikel 6:248 lid 2 BW — Beperkende werking redelijkheid en billijkheid</h3>
+    <p>Een tussen partijen geldende regel is niet van toepassing voor zover dit naar maatstaven van redelijkheid en billijkheid onaanvaardbaar zou zijn.</p>
+    <span class="ref"><a href="https://wetten.overheid.nl/jci1.3:c:BWBR0005289&boek=6&titeldeel=5&afdeling=3&artikel=248" target="_blank" rel="noopener">wetten.overheid.nl</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>Artikel 24 Mededingingswet — Misbruik economische machtspositie</h3>
+    <p>Het is ondernemingen verboden misbruik te maken van een economische machtspositie.</p>
+    <span class="ref"><a href="https://wetten.overheid.nl/jci1.3:c:BWBR0008691&hoofdstuk=4&paragraaf=4.2&artikel=24" target="_blank" rel="noopener">wetten.overheid.nl</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>Artikelen 6:193a e.v. BW — Oneerlijke handelspraktijken</h3>
+    <p>Bepalingen over misleidende handelspraktijken, waaronder misleidende omissie (artikel 6:193d) en agressieve handelspraktijken.</p>
+    <span class="ref"><a href="https://wetten.overheid.nl/jci1.3:c:BWBR0005289&boek=6&titeldeel=3&afdeling=3a" target="_blank" rel="noopener">wetten.overheid.nl</a></span>
+  </div>
+
+  <h2>Onderzoek</h2>
+  <p>Het onafhankelijke onderzoek dat in 2020 in opdracht van de toenmalige verenigingen VHSW en Bestwil is uitgevoerd.</p>
+
+  <div class="source-card highlight">
+    <h3>Onderzoeksverslag naar de gasprijsontwikkeling Stille Wille 2020</h3>
+    <p>Onderzoek uitgevoerd door Jaap Breedveld en Paul Schoenmaker, op initiatief van VHSW onder regie van VHSW en Bestwil. Bestaat uit een tussenrapportage (31 maart 2020) en een eindrapportage (juni 2020), met bijlagen over de correspondentie met DJB en het gesprek met de monteurs van Arvotech Waalwijk.</p>
+    <p>Bevat de bevindingen over lekverliezen (bandbreedte 20% tot 35%), de opslag van € 0,10/liter aan DJB zonder contractuele grondslag, de inventarisatie van 113 te vervangen gasmeters en de dertien aanbevelingen.</p>
+    <div class="status-block"><strong>Status:</strong> dit onafhankelijke onderzoek is in 2020 uitgevoerd op initiatief van de toenmalige bewonersverenigingen VHSW en Bestwil en aangeboden aan de directie van SWB en aan de Bewonersraad. Het rapport is door de Bewonersraad nooit formeel bekrachtigd. De bevindingen en aanbevelingen worden in dit dossier gehanteerd als feitelijke onderbouwing van de in 2020 vastgestelde technische en financiële vraagstukken op het gasdistributienet, niet als juridisch geformaliseerd standpunt van de Bewonersraad.</div>
+    <p><a href="/Onderzoek_Breedveld_Schoenmaker_2020.pdf" target="_blank" rel="noopener" class="pdf-link">Open rapport (PDF)</a></p>
+    <span class="ref">Ook beschikbaar via het <a href="https://stillewillewonen.nl/archief/" target="_blank" rel="noopener">archief van Stille Wille Wonen</a>.</span>
+  </div>
+
+  <h2>Contractuele documenten</h2>
+  <p>De contracten die de relatie tussen bewoners, exploitant en grondeigenaar regelen. Beide overeenkomsten zijn als PDF publiek beschikbaar via het archief van SWB.</p>
+
+  <div class="source-card">
+    <h3>Exploitatieovereenkomst Landgoed De Stille Wille</h3>
+    <p>Bevat onder meer artikel 6 (gasleverantie en kostenverdeling), artikel 6.4 (verplichte afname), artikel 7.11 en artikel 15 (bezwaartermijn van veertien dagen na factuurdatum).</p>
+    <span class="ref"><a href="https://www.stillewille.nl/images/bestanden/documenten/Exploitatieovereenkomst.pdf" target="_blank" rel="noopener">Open Exploitatieovereenkomst (PDF)</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>Beheersovereenkomst SWB / DJB</h3>
+    <p>Regelt de verhouding tussen exploitant en grondeigenaar. Artikel 3.5c verplicht tot het instandhouden en onderhouden van de bestaande netten. Artikel 6.6 stelt dat aan de erfpachter een rekening wordt gestuurd van de werkelijk gemaakte kosten.</p>
+    <span class="ref"><a href="https://www.stillewille.nl/images/bestanden/documenten/Beheersovereenkomst.pdf" target="_blank" rel="noopener">Open Beheersovereenkomst (PDF)</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>Algemene Bepalingen Erfpacht</h3>
+    <p>Bevat onder meer artikel 15b inzake gebruiksrechten en -plichten.</p>
+    <p>In persoonlijk bezit van iedere erfpachter.</p>
+  </div>
+
+  <h2>Notulen Bewonersraad</h2>
+  <p>Beslissingen en bevindingen van de Bewonersraad over het gasverbruik, publiek beschikbaar via het archief van SWB.</p>
+
+  <div class="source-card highlight">
+    <h3>Notulen Bewonersraad 10 maart 2025</h3>
+    <p>Bevat het besluit dat netwerkverliezen evenredig aan het individuele gebruik worden verrekend, en dus exclusief op de overgebleven gasgebruikers komen te liggen.</p>
+    <span class="ref"><a href="https://www.stillewille.nl/images/bestanden/verslagen/20250407_Notulen_Bewonersraad_10-03-2025.pdf" target="_blank" rel="noopener">Open notulen (PDF)</a></span>
+  </div>
+
+  <div class="source-card highlight">
+    <h3>Notulen Bewonersraad 25 oktober 2025</h3>
+    <p>Bevat de bevindingen van de externe lekdetectie met snuffelapparatuur: tien ondergrondse lekken in kaart, twee hersteld bij rapportage.</p>
+    <span class="ref"><a href="https://www.stillewille.nl/images/bestanden/verslagen/20250111_BR-verslag_van_25_okt_25.pdf" target="_blank" rel="noopener">Open notulen (PDF)</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>Tussendoortje-nieuwsbrief SWB (mei 2026)</h3>
+    <p>Kondigt aan dat SWB een notitie aan de Bewonersraad zal toezenden inzake het gasverbruik, met de Exploitatieovereenkomst als uitgangspunt.</p>
+    <span class="ref"><a href="https://www.stillewille.nl/images/bestanden/nieuwsbrieven/Nieuwsbrief_april_2026_tussendoortje.pdf" target="_blank" rel="noopener">Open nieuwsbrief (PDF)</a></span>
+  </div>
+
+  <h2>Bewonersraadpleging 2023</h2>
+  <p>In 2023 is onder bewoners van Landgoed De Stille Wille een raadpleging gehouden over uiteenlopende onderwerpen. De uitkomsten zijn gepubliceerd door de samenwerkende bewonersverenigingen VHSW en Bestwil, voorlopers van Stille Wille Wonen.</p>
+
+  <div class="source-card highlight">
+    <h3>Bewonersraadpleging Stille Wille 2023</h3>
+    <p>Onderzoek onder 218 respondenten. Voor het gasdossier zijn met name relevant:</p>
+    <ul>
+      <li>41,7% van de respondenten gaf in 2023 aan niet (meer) op gas aangesloten te zijn. Het werkelijke aandeel is sindsdien naar verwachting verder toegenomen.</li>
+      <li>17,4% van de respondenten gaf aan op het landgoed weleens gas geroken te hebben, met geconcentreerde meldingen rond de Bremlaan en kruisende lanen.</li>
+      <li>78% vond de lange-termijnplannen van LSW onduidelijk; 44% vond de informatievoorziening over de erfpachtcontracten 2028 onduidelijk.</li>
+      <li>30% gaf aan zich zorgen te maken over bosbrandgevaar.</li>
+    </ul>
+    <span class="ref"><a href="https://stillewillewonen.nl/wp-content/uploads/2023/10/Weergave-van-de-bewonersenquete-v0.5.pdf" target="_blank" rel="noopener">Open volledig rapport raadpleging (PDF)</a></span>
+  </div>
+
+  <h2>Bewonersorganisatie</h2>
+  <p>De huidige, en eerdere, bewonersverenigingen op het landgoed.</p>
+
+  <div class="source-card highlight">
+    <h3>Stille Wille Wonen</h3>
+    <p>Sinds 27 juni 2023 de enige actieve bewonersvereniging op het landgoed, ontstaan uit de voormalige verenigingen VHSW en Bestwil. Heeft commissies voor onder meer Rechten &amp; Plichten en Financiën.</p>
+    <span class="ref">Website: <a href="https://stillewillewonen.nl/" target="_blank" rel="noopener">stillewillewonen.nl</a> · Archief: <a href="https://stillewillewonen.nl/archief/" target="_blank" rel="noopener">stillewillewonen.nl/archief</a> · Contact: <a href="mailto:commissies@stillewillewonen.nl">commissies@stillewillewonen.nl</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>VHSW en Bestwil (historisch)</h3>
+    <p>Voormalige bewonersverenigingen, actief van 2015 tot 2023 respectievelijk eerdere jaren. Initiatiefnemers van het onafhankelijke gasprijsonderzoek in 2020. Op 27 juni 2023 opgegaan in Stille Wille Wonen.</p>
+  </div>
+
+  <h2>Marktreferenties propaangas 2026</h2>
+  <p>Voor de prijsvergelijking op de pagina <a href="/overzicht.html">Overzicht in één oogopslag</a> zijn de volgende referenties gehanteerd, gebaseerd op stabielere lange-termijn-noteringen in plaats van dagprijzen.</p>
+
+  <div class="source-card highlight">
+    <h3>Internationale groothandelsreferentie (B2B)</h3>
+    <p>ICE / Argus European Propane CIF ARA futures, gemiddelde van de 24 maandcontracten mei 2026 tot en met april 2028. Dit is de Noordwest-Europese groothandelsreferentie voor propaangas.</p>
+    <span class="ref"><a href="https://www.theice.com/products/9221289/European-Propane-CIF-ARA-Argus-Future" target="_blank" rel="noopener">ICE Futures — European Propane CIF ARA Argus</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>Nederlandse heffingen 2026</h3>
+    <p>Accijns LPG en propaan: € 0,1924 per liter excl. BTW. Voorraadheffing COVA: € 0,0041 per liter excl. BTW. Tarieven 2026 vastgesteld door de Belastingdienst.</p>
+    <span class="ref"><a href="https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/zakelijk/douane/accijns_en_verbruiksbelastingen/accijns/" target="_blank" rel="noopener">Belastingdienst — Accijns LPG</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>Technische verrekenfactor (Kiwa G31)</h3>
+    <p>Eén m³ gasvormig propaan komt voort uit 3,724 liter vloeibaar propaan, op basis van Kiwa Useful Gas Information Leaflet voor gastype G31 bij standaardcondities (15 °C, 1013,25 mbar). Dichtheid vloeibaar propaan 0,510 kg/liter, dichtheid gasvormig propaan 1,899 kg/m³.</p>
+    <span class="ref">Bron: Kiwa Technology, gas information leaflets.</span>
+  </div>
+
+  <div class="source-card">
+    <h3>Benegas</h3>
+    <p>De huidige gasleverancier voor het landgoed. Publiceert algemene informatie over propaangastanken en levering voor particulieren, geen openbare dagprijs.</p>
+    <span class="ref"><a href="https://benegas.com/gastank/thuis/" target="_blank" rel="noopener">benegas.com/gastank/thuis</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>Antargaz</h3>
+    <p>Alternatieve leverancier van propaan voor particuliere en zakelijke tanken in Nederland.</p>
+    <span class="ref"><a href="https://www.antargaz.nl/" target="_blank" rel="noopener">antargaz.nl</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>Tankgas</h3>
+    <p>Alternatieve leverancier met dagprijs op offertebasis voor tankleveringen in Nederland.</p>
+    <span class="ref"><a href="https://tankgas.nl/" target="_blank" rel="noopener">tankgas.nl</a></span>
+  </div>
+
+  <aside class="callout callout-yellow">
+    <div class="callout-label">Let op</div>
+    <p>Deze referenties dienen uitsluitend als marktvergelijking. Op grond van artikel 6.4 van de Exploitatieovereenkomst geldt op het landgoed een verplichting tot afname via de exploitant. Bewoners kunnen niet zonder meer overstappen naar een andere leverancier zolang deze clausule van kracht is. De vermelding van alternatieve leveranciers is bedoeld om de actuele marktprijs aantoonbaar te maken, niet als suggestie tot overstap.</p>
+  </aside>
+
+  <h2>Toezicht en consumenteninformatie</h2>
+
+  <div class="source-card">
+    <h3>Autoriteit Consument &amp; Markt — ConsuWijzer</h3>
+    <p>Voorlichting voor consumenten over rechten bij oneerlijke handelspraktijken en misbruik van machtspositie.</p>
+    <span class="ref"><a href="https://www.consuwijzer.nl/" target="_blank" rel="noopener">consuwijzer.nl</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>Autoriteit Consument &amp; Markt — Meldpunt</h3>
+    <p>Mogelijkheid tot het melden van vermoedelijk misbruik van een economische machtspositie.</p>
+    <span class="ref"><a href="https://www.acm.nl/" target="_blank" rel="noopener">acm.nl</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>Staatstoezicht op de Mijnen (SodM)</h3>
+    <p>Toezichthouder op kleine particuliere gasnetten, waaronder die op recreatieparken, sinds 2018. Aandachtspunten: veiligheid van netwerk, gasmeter en gas; vervanging van oude gasleidingen.</p>
+    <span class="ref"><a href="https://www.sodm.nl/" target="_blank" rel="noopener">sodm.nl</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>PGS 19 — Propaan en butaan</h3>
+    <p>Publicatiereeks Gevaarlijke Stoffen 19, versie 1.0 van september 2021. Bevat de risicobenadering en maatregelen voor propaan- en butaaninstallaties; voor propaantanks die onder het Besluit activiteiten leefomgeving vallen, geldt deze versie sinds 1 januari 2024 (IPLO).</p>
+    <span class="ref"><a href="https://publicatiereeksgevaarlijkestoffen.nl/" target="_blank" rel="noopener">publicatiereeksgevaarlijkestoffen.nl</a></span>
+  </div>
+
+  <h2>Bewonersinitiatief PEZ</h2>
+  <p>Project Energie Zelfvoorzienend — bewonersinitiatief sinds augustus 2024, samenwerkend met de energiecoöperatie KempenEnergie.</p>
+
+  <div class="source-card highlight">
+    <h3>Officiële PEZ-projectpagina</h3>
+    <p>Maandelijkse updates, verslagen van Energiecafés (december 2024 — april 2026), presentaties, vragenlijst Inventarisatie Energieverbruik, concept-businessplan augustus 2025, en projectvoorstel All-Energy.</p>
+    <span class="ref"><a href="https://www.stillewille.nl/over-de-stille-wille/projecten/energie-zelfvoorzienend" target="_blank" rel="noopener">stillewille.nl/over-de-stille-wille/projecten/energie-zelfvoorzienend</a></span>
+  </div>
+
+  <div class="source-card">
+    <h3>KempenEnergie</h3>
+    <p>Energiecoöperatie en samenwerkingspartner van PEZ. Vermeldt het Stille Wille-traject op de eigen website onder Energie Gemeenschap.</p>
+    <span class="ref"><a href="https://kempenenergie.nl/" target="_blank" rel="noopener">kempenenergie.nl</a> · <a href="https://kempenenergie.nl/energie-in-de-stille-wille/" target="_blank" rel="noopener">kempenenergie.nl/energie-in-de-stille-wille</a></span>
+  </div>
+
+  <h2>Documenten en sjablonen</h2>
+  <p>Werkdocumenten die in de periode rond de afrekening 2024–2025 zijn opgesteld en beschikbaar blijven als referentie.</p>
+
+  <div class="source-card">
+    <h3>Voorbeeldbrief bezwaarschrift</h3>
+    <p>Sjabloon voor een bezwaarbrief, opgesteld in mei 2026 in de periode tussen factuurverzending op 7 mei en intrekking op 13 mei. Beschikbaar als referentie voor correspondentie, voor het geval een nieuwe afrekening alsnog onvolkomenheden bevat.</p>
+    <span class="ref"><a href="/Bezwaarbrief_Template_Bewoners.docx" download>Download Word (~15 KB)</a> · <a href="/Bezwaarbrief_Template_Bewoners.pdf" target="_blank" rel="noopener">Open PDF (~89 KB)</a></span>
+  </div>
+
+  <h2 id="vragenlijst">Volledige vragenlijst</h2>
+  <p>Onderstaande vragen zijn ontleend aan het stand-van-zakenrapport en geordend per cluster. Zij zijn vragend geformuleerd: ieder van de drie partijen — SWB, LSW, Bewonersraad — kan binnen het eigen domein antwoord geven. De vragen vormen geen aanklacht maar een uitnodiging tot transparante besluitvorming.</p>
+
+  <div class="source-card">
+    <h3>A · Over techniek</h3>
+    <ul>
+      <li>Uit welk materiaal bestaan de hoofdleidingen, aftakkingen, standpijpen en aansluitingen?</li>
+      <li>Welke delen dateren uit circa 1975?</li>
+      <li>Welke delen zijn sinds aanleg vervangen?</li>
+      <li>Waar zijn de laatste vijf jaar lekkages vastgesteld?</li>
+      <li>Waar zijn alleen reparaties uitgevoerd en waar is structureel vervangen?</li>
+      <li>Is het volledige net op lekdichtheid getest?</li>
+      <li>Welke inspectiemethode is gebruikt?</li>
+      <li>Is er een actueel leidingplan?</li>
+    </ul>
+  </div>
+
+  <div class="source-card">
+    <h3>B · Over veiligheid</h3>
+    <ul>
+      <li>Is onderzocht of propaan zich kan ophopen in kruipruimtes?</li>
+      <li>Is onderzocht welke woningen kruipruimtes hebben?</li>
+      <li>Is onderzocht waar houtkachels of pelletkachels aanwezig zijn?</li>
+      <li>Is er een noodprocedure bij gaslucht?</li>
+      <li>Is er een meldprotocol voor bewoners?</li>
+      <li>Wordt elke gasluchtmelding geregistreerd en teruggekoppeld?</li>
+      <li>Is de Veiligheidsregio betrokken?</li>
+      <li>Is SodM geïnformeerd of geraadpleegd?</li>
+      <li>Is een onafhankelijk deskundige ingeschakeld?</li>
+    </ul>
+  </div>
+
+  <div class="source-card">
+    <h3>C · Over kosten</h3>
+    <ul>
+      <li>Wat waren de totale gaskosten per boekjaar?</li>
+      <li>Wat was de totale ingekochte hoeveelheid gas?</li>
+      <li>Wat was het totaal gemeten bewonersverbruik?</li>
+      <li>Wat was het berekende lekverlies?</li>
+      <li>Welke kosten zijn vaste kosten, welke variabele verbruikskosten, welke reparatiekosten, welke onderhoudskosten, welke vervangingskosten?</li>
+      <li>Welke kosten worden aan gasgebruikers toegerekend?</li>
+      <li>Welke kosten worden aan alle bewoners toegerekend?</li>
+      <li>Waarop is de grens van 5% gebaseerd: meetgegevens, branchenorm, deskundigenadvies of bestuurlijke keuze?</li>
+    </ul>
+  </div>
+
+  <div class="source-card">
+    <h3>D · Over contractuele grondslag</h3>
+    <ul>
+      <li>Welke bepaling verplicht gasgebruikers tot betaling van lekverliezen?</li>
+      <li>Welke bepaling verplicht niet-gasgebruikers tot betaling van vaste gaskosten?</li>
+      <li>Welke bepaling verplicht alle bewoners tot betaling van lekverlies boven 5%?</li>
+      <li>Geldt dezelfde verplichting voor eigen grond en erfpachtgrond?</li>
+      <li>Geldt dezelfde verplichting voor bewoners die niet zijn aangesloten?</li>
+      <li>Geldt dezelfde verplichting voor bewoners die zijn afgesloten?</li>
+      <li>Heeft de Bewonersraad hierover beslissingsbevoegdheid of slechts adviesrecht?</li>
+      <li>Welke rol heeft LSW als eigenaar of verantwoordelijke partij voor infrastructuur?</li>
+    </ul>
+  </div>
+
+  <div class="source-card">
+    <h3>E · Over toekomstscenario's</h3>
+    <ul>
+      <li>Is vervanging van het bestaande gasnet doorgerekend?</li>
+      <li>Zijn decentrale clustertanks doorgerekend?</li>
+      <li>Zijn individuele warmtepompen doorgerekend?</li>
+      <li>Zijn collectieve warmtepompen per cluster doorgerekend?</li>
+      <li>Is gefaseerde beëindiging van gaslevering onderzocht?</li>
+      <li>Is onderzocht welke bewoners op korte termijn kunnen overstappen en welke afhankelijk blijven van gas?</li>
+      <li>Is onderzocht hoe de kosten redelijk kunnen worden verdeeld?</li>
+      <li>Is een tijdpad opgesteld en wanneer wordt een besluit genomen?</li>
+      <li>Welke rol ziet LSW voor cofinanciering of medefinanciering van bewonersinitiatieven zoals PEZ, naast of in plaats van investering in de bestaande gasinfrastructuur?</li>
+    </ul>
+  </div>
+
+  <aside class="callout callout-yellow">
+    <div class="callout-label">Bronnen onvolledig?</div>
+    <p>Heeft u aanvullende relevante documenten, notulen of correspondentie? Neem dan contact op met de commissie Rechten &amp; Plichten van Stille Wille Wonen via <a href="mailto:commissies@stillewillewonen.nl">commissies@stillewillewonen.nl</a>.</p>
+  </aside>
+
+  <nav class="pager">
+    <a class="pager-prev" href="/in-beeld.html">
+      <span class="pager-dir">← Vorige dossier</span>
+      <span class="pager-title">In beeld</span>
+    </a>
+    <a class="pager-next" href="/">
+      <span class="pager-dir">Terug naar hoofdpagina →</span>
+      <span class="pager-title">Alle dossiers</span>
+    </a>
+  </nav>
+
+  <aside class="leeswijzer">
+    <div class="leeswijzer-label">Leeswijzer</div>
+    <p>Deze site is opgesteld namens en in overleg met bewoners van Landgoed De Stille Wille. De toon is feitelijk en vragend. Voor vragen of aanvullingen: neem contact op via de Bewonersraad.</p>
+  </aside>
 </main>
 
-<footer>
-  <p>Deze pagina is opgesteld namens en in overleg met gasverbruikende bewoners van Landgoed De Stille Wille.<br><strong>Versie mei 2026</strong></p>
+<footer class="sw-footer">
+  <strong>Dossier Landgoed De Stille Wille</strong> — feitelijke werkpagina, peildatum mei 2026.
 </footer>
 
 </body>
