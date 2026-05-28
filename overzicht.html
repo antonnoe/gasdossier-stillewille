@@ -1,112 +1,135 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Overzicht in één oogopslag — Gasdossier Stille Wille</title>
+<title>Overzicht in één oogopslag · Kerndossiers Landgoed De Stille Wille</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/components.css">
 <style>
-  :root{
-    --maroon:#800000;--maroon-deep:#660000;
-    --maroon-04:rgba(128,0,0,0.04);--maroon-08:rgba(128,0,0,0.08);--maroon-15:rgba(128,0,0,0.15);--maroon-25:rgba(128,0,0,0.25);
-    --grey-dark:#333;--grey-mid:#555;--grey-soft:#777;
-    --cream:#FBF7F2;--attention:#FFF3E0;
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin: 28px 0 40px;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Mulish',-apple-system,sans-serif;font-size:17px;line-height:1.8em;color:var(--grey-dark);background:#fff}
-  h1,h2,h3{font-family:'Poppins',sans-serif;line-height:1.3em;color:var(--maroon)}
-  a{color:var(--maroon)}
+  .kpi {
+    background: var(--green-tint);
+    border-left: 3px solid var(--green);
+    padding: 22px 24px;
+  }
+  .kpi-value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--green-deep);
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .kpi-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--grey-mid);
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+  }
+  .timeline { position: relative; margin: 32px 0; padding-left: 32px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 8px; top: 6px; bottom: 6px;
+    width: 2px; background: var(--green-25);
+  }
+  .timeline-item { position: relative; margin-bottom: 28px; }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -28px; top: 8px;
+    width: 11px; height: 11px; background: var(--green); border: 2px solid #fff;
+    box-shadow: 0 0 0 2px var(--green-25);
+  }
+  .timeline-year {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--green);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .timeline-text { font-size: 15px; line-height: 1.6; color: var(--grey-dark); }
 
-  .nav{background:var(--maroon-deep);position:sticky;top:0;z-index:10}
-  .nav-inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;padding:0 12px}
-  .nav a{display:block;padding:12px 18px;color:#fff;text-decoration:none;font-family:'Poppins',sans-serif;font-weight:600;font-size:0.92em;border-bottom:3px solid transparent}
-  .nav a:hover{background:rgba(255,255,255,0.08)}
-  .nav a.active{border-bottom-color:#fff;background:rgba(255,255,255,0.1)}
+  .price-compare { margin: 28px 0; }
+  .price-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 0;
+    font-size: 14px;
+    border-bottom: 1px solid var(--green-15);
+  }
+  .price-row:last-of-type { border-bottom: none; }
+  .price-bar { flex-grow: 1; height: 14px; background: var(--cream); }
+  .price-bar-fill { height: 100%; background: var(--green); }
+  .price-bar-fill.light { background: var(--green-25); }
+  .price-label { flex-basis: 220px; flex-shrink: 0; color: var(--grey-dark); }
+  .price-amount {
+    flex-basis: 90px; flex-shrink: 0;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--green-deep);
+  }
 
-  .site-header{background:var(--maroon);color:#fff;padding:40px 24px;text-align:center;border-bottom:6px solid var(--maroon-deep)}
-  .site-header h1{color:#fff;font-size:clamp(1.6em,4vw,2.2em);font-weight:700;max-width:800px;margin:0 auto 12px}
-  .site-header .subtitle{font-size:1em;opacity:0.92;max-width:700px;margin:0 auto;line-height:1.5em}
+  .problems { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 28px 0; }
+  .problem-card {
+    background: var(--cream);
+    border-left: 3px solid var(--orange);
+    padding: 18px 22px;
+  }
+  .problem-card h4 {
+    font-family: var(--font-display);
+    color: var(--orange-deep);
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .problem-card p { font-size: 14px; line-height: 1.6; margin: 0; }
 
-  .container{max-width:880px;margin:0 auto;padding:48px 24px}
+  .two-tracks { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0; }
+  .track {
+    background: var(--yellow-tint);
+    border-left: 3px solid var(--yellow);
+    padding: 22px 24px;
+    position: relative;
+  }
+  .track-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--yellow-deep);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .track h4 {
+    font-family: var(--font-display);
+    color: var(--grey-dark);
+    margin: 0 0 10px;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .track p { font-size: 14px; line-height: 1.6; margin: 0; }
 
-  /* Kern-kerngetallen */
-  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:32px 0 48px}
-  .kpi{background:#fff;border:2px solid var(--maroon-15);border-radius:8px;padding:20px;text-align:center}
-  .kpi-value{font-family:'Poppins',sans-serif;font-size:1.8em;font-weight:700;color:var(--maroon);line-height:1.1;margin-bottom:6px}
-  .kpi-label{font-size:0.86em;color:var(--grey-mid);line-height:1.4em}
-
-  /* Tijdlijn */
-  .timeline{position:relative;margin:32px 0;padding-left:40px}
-  .timeline::before{content:'';position:absolute;left:14px;top:6px;bottom:6px;width:3px;background:var(--maroon-25);border-radius:2px}
-  .timeline-item{position:relative;margin-bottom:28px}
-  .timeline-item::before{content:'';position:absolute;left:-32px;top:6px;width:15px;height:15px;border-radius:50%;background:var(--maroon);border:3px solid #fff;box-shadow:0 0 0 2px var(--maroon-25)}
-  .timeline-year{font-family:'Poppins',sans-serif;font-weight:700;color:var(--maroon);font-size:1.05em;margin-bottom:4px}
-  .timeline-text{font-size:0.96em;line-height:1.55em;color:var(--grey-dark)}
-
-  /* Bedrag-vergelijking */
-  .price-compare{background:var(--cream);border-left:4px solid var(--maroon);padding:24px;margin:32px 0;border-radius:0 6px 6px 0}
-  .price-compare h3{margin:0 0 12px;font-family:'Poppins',sans-serif;color:var(--maroon);font-size:1.1em}
-  .price-row{display:flex;align-items:center;gap:12px;padding:10px 0;font-size:0.95em}
-  .price-row + .price-row{border-top:1px solid var(--maroon-15)}
-  .price-bar{flex-grow:1;height:18px;background:#fff;border:1px solid var(--maroon-15);border-radius:3px;overflow:hidden}
-  .price-bar-fill{height:100%;background:var(--maroon);border-radius:0}
-  .price-bar-fill.light{background:var(--maroon-25)}
-  .price-label{flex-basis:160px;flex-shrink:0;font-weight:600;color:var(--grey-dark)}
-  .price-amount{flex-basis:80px;flex-shrink:0;text-align:right;font-family:'Poppins',sans-serif;font-weight:600;color:var(--maroon)}
-
-  /* Drie problemen */
-  .problems{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:32px 0}
-  .problem-card{background:#fff;border:2px solid var(--maroon-15);border-left:4px solid var(--maroon);border-radius:6px;padding:18px}
-  .problem-card h4{font-family:'Poppins',sans-serif;color:var(--maroon);margin:0 0 8px;font-size:1em;font-weight:700}
-  .problem-card p{font-size:0.92em;line-height:1.55em;margin:0;color:var(--grey-dark)}
-
-  /* Aanpak — twee sporen */
-  .two-tracks{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
-  .track{background:#fff;border:2px solid var(--maroon);border-radius:8px;padding:20px;position:relative}
-  .track-num{position:absolute;top:-14px;left:18px;background:var(--maroon);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:700;font-size:0.95em}
-  .track h4{font-family:'Poppins',sans-serif;color:var(--maroon);margin:6px 0 10px;font-size:1.05em}
-  .track p{font-size:0.92em;line-height:1.55em;margin:0;color:var(--grey-dark)}
-
-  /* CTA */
-  .cta{background:var(--maroon);color:#fff;padding:28px;border-radius:8px;text-align:center;margin:40px 0}
-  .cta h3{color:#fff;font-family:'Poppins',sans-serif;margin:0 0 12px;font-size:1.25em}
-  .cta p{margin:0 0 20px;font-size:0.96em;line-height:1.55em;opacity:0.95;color:#fff}
-  .cta-btn{display:inline-block;background:#fff;color:var(--maroon);text-decoration:none;padding:12px 24px;border-radius:4px;font-family:'Poppins',sans-serif;font-weight:600;font-size:0.98em;margin:6px}
-  .cta-btn:hover{background:var(--cream)}
-
-  .section-title{font-size:1.4em;margin:32px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--maroon-15);color:var(--maroon)}
-  .lead{font-size:1em;color:var(--grey-mid);margin-bottom:24px}
-
-  .warning-deadline{background:var(--attention);border:2px solid var(--maroon);border-radius:6px;padding:18px 22px;margin:32px 0;text-align:center}
-  .warning-deadline strong{color:var(--maroon-deep);display:block;font-size:1.05em;margin-bottom:4px}
-  .warning-deadline span{font-size:0.92em;color:var(--grey-dark)}
-
-  footer{background:#fff;text-align:center;padding:32px 24px;border-top:1px solid var(--maroon-15);color:var(--grey-soft);font-size:0.88em;font-style:italic}
-  footer strong{color:var(--maroon);font-style:normal}
-
-  @media (max-width:768px){
-    .container{padding:32px 16px}
-    .kpi-value{font-size:1.5em}
-    .two-tracks{grid-template-columns:1fr}
-    .price-label{flex-basis:130px;font-size:0.85em}
-    .price-amount{flex-basis:70px;font-size:0.85em}
-    .timeline{padding-left:32px}
-    .timeline::before{left:10px}
-    .timeline-item::before{left:-30px}
-    .nav a{padding:10px 12px;font-size:0.82em}
-    .cta-btn{display:block;margin:6px 0}
+  @media (max-width: 768px) {
+    .two-tracks { grid-template-columns: 1fr; }
+    .price-label { flex-basis: 140px; font-size: 13px; }
+    .price-amount { flex-basis: 80px; font-size: 13px; }
   }
 </style>
 </head>
 <body>
 
-<nav class="nav" aria-label="Hoofdnavigatie">
-  <div class="nav-inner">
+<nav class="sw-nav">
+  <div class="sw-nav-inner">
     <a href="/">Hoofdpagina</a>
-    <a href="/overzicht.html" class="active">Overzicht in één oogopslag</a>
     <a href="/historie.html">Historie</a>
     <a href="/juridische-basis.html">Juridische basis</a>
     <a href="/financiele-basis.html">Gasrekening</a>
@@ -116,38 +139,44 @@
   </div>
 </nav>
 
-<header class="site-header">
-  <h1>Het hele verhaal in één oogopslag</h1>
-  <p class="subtitle">Wat er aan de hand is, hoe het zover kwam, en wat u kunt doen</p>
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-kicker">
+      <span class="square"></span>
+      Aanvullend overzicht
+    </div>
+    <h1 class="page-title">Het hele verhaal in één oogopslag</h1>
+    <p class="page-lede">Wat er aan de hand is, hoe het zover kwam, en wat u kunt doen.</p>
+  </div>
 </header>
 
-<main class="container">
+<main class="page-main">
 
-  <p class="lead">De gasnaheffing van mei 2026 is geen toevalligheid. Hieronder de kerncijfers, de tijdlijn, de drie hoofdproblemen en de aanpak die nu loopt.</p>
+  <p>De gasnaheffing van mei 2026 is geen toevalligheid. Hieronder de kerncijfers, de tijdlijn, de drie hoofdproblemen en de aanpak die nu loopt.</p>
 
-  <h2 class="section-title">De kerncijfers</h2>
+  <h2>De kerncijfers</h2>
   <div class="kpi-grid">
     <div class="kpi">
       <div class="kpi-value">€ 1,95</div>
-      <div class="kpi-label">naheffing per m³<br>bovenop de basisprijs</div>
+      <div class="kpi-label">naheffing per m³ bovenop de basisprijs</div>
     </div>
     <div class="kpi">
       <div class="kpi-value">€ 36.797</div>
-      <div class="kpi-label">tekort dat SWB<br>over gasverbruikende bewoners verdeelt</div>
+      <div class="kpi-label">tekort dat SWB over gasverbruikende bewoners verdeelt</div>
     </div>
     <div class="kpi">
       <div class="kpi-value">20 – 35%</div>
-      <div class="kpi-label">lekverlies in het<br>gasnet (onderzoek 2020<br>+ herberekening 2026)</div>
+      <div class="kpi-label">lekverlies in het gasnet (onderzoek 2020 + herberekening 2026)</div>
     </div>
     <div class="kpi">
       <div class="kpi-value">21 mei 2026</div>
-      <div class="kpi-label">deadline voor bezwaar<br>(factuur 7 mei)</div>
+      <div class="kpi-label">deadline voor bezwaar (factuur 7 mei)</div>
     </div>
   </div>
 
-  <h2 class="section-title">De gasprijs in perspectief</h2>
+  <h2>De gasprijs in perspectief</h2>
+  <p>Wat een eerlijke prijs zou zijn — wat u nu betaalt (incl. BTW per m³).</p>
   <div class="price-compare">
-    <h3>Wat een eerlijke prijs zou zijn — wat u nu betaalt (incl. BTW per m³)</h3>
     <div class="price-row">
       <div class="price-label">Wettelijke vloer (accijns + heffing)</div>
       <div class="price-bar"><div class="price-bar-fill light" style="width:12%"></div></div>
@@ -179,9 +208,9 @@
       <div class="price-amount">€ 7,50</div>
     </div>
   </div>
-  <p style="font-size:0.92em;color:var(--grey-mid);font-style:italic;margin-top:-12px">De vergelijking onderscheidt vier niveaus: de wettelijke vloer (accijns en voorraadheffing 2026), de internationale groothandelsreferentie (ICE Argus futures mei 2026–april 2028 plus heffingen), de eerlijke eindgebruikersprijs in een goed werkend collectief net, en de prijs die rekening houdt met het feitelijke lekverlies van 20–35%. SWB rekent in 2026 een basisprijs van € 5,55 per m³, met de naheffing erbij komt dat effectief op € 7,50 per m³. Alle bedragen inclusief BTW. Voor de uitgebreide berekening: zie de pagina <a href="/bronnen.html">Bronnen</a>.</p>
+  <p>De vergelijking onderscheidt vier niveaus: de wettelijke vloer (accijns en voorraadheffing 2026), de internationale groothandelsreferentie (ICE Argus futures mei 2026–april 2028 plus heffingen), de eerlijke eindgebruikersprijs in een goed werkend collectief net, en de prijs die rekening houdt met het feitelijke lekverlies van 20–35%. SWB rekent in 2026 een basisprijs van € 5,55 per m³, met de naheffing erbij komt dat effectief op € 7,50 per m³. Alle bedragen inclusief BTW. Voor de uitgebreide berekening: zie de pagina <a href="/bronnen.html">Bronnen</a>.</p>
 
-  <h2 class="section-title">Vier problemen tegelijk</h2>
+  <h2>Vier problemen tegelijk</h2>
   <div class="problems">
     <div class="problem-card">
       <h4>1. U betaalt voor vertrokken buren</h4>
@@ -201,7 +230,7 @@
     </div>
   </div>
 
-  <h2 class="section-title">De aanloop in vogelvlucht</h2>
+  <h2>De aanloop in vogelvlucht</h2>
   <div class="timeline">
     <div class="timeline-item">
       <div class="timeline-year">2015</div>
@@ -229,36 +258,38 @@
     </div>
   </div>
 
-  <h2 class="section-title">De aanpak: twee sporen</h2>
+  <h2>De aanpak: twee sporen</h2>
   <div class="two-tracks">
     <div class="track">
-      <div class="track-num">1</div>
+      <div class="track-num">Spoor 01</div>
       <h4>Collectief bezwaar via Stille Wille Wonen</h4>
       <p>Een overweging is dat het bestuur van bewonersvereniging Stille Wille Wonen zal worden gevraagd namens alle gedupeerden bezwaar te maken bij SWB. Beslissing volgt binnen enkele dagen.</p>
     </div>
     <div class="track">
-      <div class="track-num">2</div>
+      <div class="track-num">Spoor 02</div>
       <h4>Individueel bezwaar als achtervang</h4>
       <p>Komt spoor 1 niet of niet tijdig tot stand, dan kunt u zelf bezwaar maken met de voorbeeldbrief op de hoofdpagina. De termijn is twee weken na factuurdatum.</p>
     </div>
   </div>
 
-  <div class="warning-deadline">
-    <strong>⚠️ Deadline bezwaar: woensdag 21 mei 2026</strong>
-    <span>Bij aangetekende verzending: brief uiterlijk maandag 19 mei de deur uit.</span>
-  </div>
+  <aside class="callout callout-orange">
+    <div class="callout-label">Deadline bezwaar: woensdag 21 mei 2026</div>
+    <p>Bij aangetekende verzending: brief uiterlijk maandag 19 mei de deur uit.</p>
+  </aside>
 
-  <div class="cta">
-    <h3>Wat u nu kunt doen</h3>
-    <p>Op de hoofdpagina staan het volledige dossier en de voorbeeldbrief klaar om te downloaden.</p>
-    <a href="/" class="cta-btn">Naar de hoofdpagina</a>
-    <a href="/historie.html" class="cta-btn">Meer over de historie</a>
-  </div>
+  <aside class="callout callout-green">
+    <div class="callout-label">Wat u nu kunt doen</div>
+    <p>Op de <a href="/">hoofdpagina</a> staan het volledige dossier en de voorbeeldbrief klaar om te downloaden. Voor de achtergrond: <a href="/historie.html">meer over de historie</a>.</p>
+  </aside>
 
+  <aside class="leeswijzer">
+    <div class="leeswijzer-label">Leeswijzer</div>
+    <p>Deze site is opgesteld namens en in overleg met bewoners van Landgoed De Stille Wille. De toon is feitelijk en vragend. Voor vragen of aanvullingen: neem contact op via de Bewonersraad.</p>
+  </aside>
 </main>
 
-<footer>
-  <p>Deze pagina is opgesteld namens en in overleg met gasverbruikende bewoners van Landgoed De Stille Wille.<br><strong>Versie mei 2026</strong></p>
+<footer class="sw-footer">
+  <strong>Dossier Landgoed De Stille Wille</strong> — feitelijke werkpagina, peildatum mei 2026.
 </footer>
 
 </body>

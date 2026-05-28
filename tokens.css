@@ -18,7 +18,7 @@
   /* ─ Brand: vibrant palette ─ */
 
   /* Green — primary */
-  --green:        #1F7F4E;   /* main brand green, used like the old maroon was */
+  --green:        #1F7F4E;   /* main brand: structure, nav, primary CTA, accents */
   --green-deep:   #134E2F;   /* nav background, primary CTA :hover */
   --green-tint:   #E8F1EC;   /* soft surface (leeswijzer bg, tile-icon bg) */
   --green-08:     rgba(31, 127, 78, 0.08);
