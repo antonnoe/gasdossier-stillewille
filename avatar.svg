@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Kerndossiers Landgoed De Stille Wille">
+  
+  <rect width="200" height="200" fill="#FBF7F2"></rect>
+
+  
+  <circle cx="100" cy="100" r="86" fill="#1F7F4E"></circle>
+
+  
+  <path d="M100 14 A 86 86 0 0 1 186 100 L100 100 Z" fill="#E8B021"></path>
+
+  
+  <path d="M100 100 L186 100 A 86 86 0 0 1 100 186 Z" fill="#E76F2C"></path>
+
+  
+  <circle cx="100" cy="100" r="42" fill="#FBF7F2"></circle>
+
+  
+  <circle cx="100" cy="100" r="36" fill="none" stroke="#1F7F4E" stroke-width="1"></circle>
+
+  
+  <text x="100" y="111" text-anchor="middle" font-family="Poppins, &#39;Helvetica Neue&#39;, Arial, sans-serif" font-weight="700" font-size="32" fill="#1F7F4E" letter-spacing="-1">SW</text>
+
+  
+  <g stroke="#E76F2C" stroke-width="1.5" fill="none">
+    <line x1="170" y1="22" x2="178" y2="22"></line>
+    <line x1="178" y1="22" x2="178" y2="30"></line>
+  </g>
+</svg>
