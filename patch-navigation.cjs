@@ -8,15 +8,18 @@ const pages = [
   'kostenverdeling-gas.html',
   'juridische-basis.html',
   'financiele-basis.html',
+  'financieel-overzicht.html',
+  'in-beeld.html',
   'bronnen.html'
 ];
 
 const navItems = [
   { href: '/', label: 'Hoofdpagina', file: 'index.html' },
   { href: '/historie.html', label: 'Historie', file: 'historie.html' },
-  { href: '/kostenverdeling-gas.html', label: 'Kostenverdeling gas', file: 'kostenverdeling-gas.html' },
   { href: '/juridische-basis.html', label: 'Juridische basis', file: 'juridische-basis.html' },
-  { href: '/financiele-basis.html', label: 'Financiële basis', file: 'financiele-basis.html' },
+  { href: '/financiele-basis.html', label: 'Gasrekening', file: 'financiele-basis.html' },
+  { href: '/financieel-overzicht.html', label: 'Financieel overzicht', file: 'financieel-overzicht.html' },
+  { href: '/in-beeld.html', label: 'In beeld', file: 'in-beeld.html' },
   { href: '/bronnen.html', label: 'Bronnen', file: 'bronnen.html' }
 ];
 
