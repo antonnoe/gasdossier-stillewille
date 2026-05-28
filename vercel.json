@@ -1,4 +1,3 @@
 {
-  "buildCommand": "node patch-navigation.cjs && node patch-gas-landing.cjs && node patch-gas-landing-extra.cjs",
   "outputDirectory": "."
 }
