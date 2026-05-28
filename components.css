@@ -1,0 +1,362 @@
+/* ─────────────────────────────────────────────────────────────
+   Kerndossiers Landgoed De Stille Wille — shared components
+   These are the patterns that should appear on every page so the
+   site reads as one whole. Drop this file in alongside tokens.css:
+     <link rel="stylesheet" href="/tokens.css">
+     <link rel="stylesheet" href="/components.css">
+   ───────────────────────────────────────────────────────────── */
+
+
+/* ─── 1. Site nav (sticky) ─────────────────────────────
+   Markup:
+   <nav class="sw-nav">
+     <div class="sw-nav-inner">
+       <a href="/">Hoofdpagina</a>
+       <a href="/historie.html" class="active">Historie</a>
+       ...
+     </div>
+   </nav>
+   On each page, give the corresponding link class="active".
+   ──────────────────────────────────────────────────────── */
+.sw-nav {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--green-deep);
+}
+.sw-nav-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 28px;
+  padding: 16px var(--page-pad-x);
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.sw-nav a {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  text-decoration: none;
+  padding: 6px 2px;
+  position: relative;
+  opacity: 0.78;
+  transition: opacity .2s ease;
+}
+.sw-nav a:hover { opacity: 1; }
+.sw-nav a.active { opacity: 1; }
+.sw-nav a.active::after {
+  content: '';
+  position: absolute; left: 2px; right: 2px; bottom: -6px;
+  height: 2px; background: var(--yellow);
+}
+
+
+/* ─── 2. Page header (for sub-pages) ────────────────────
+   On the landing page (index.html) we use the colorful hero with
+   the geometric SVG composition. On every other page we use this
+   leaner page-header. It keeps the green-deep band of the nav, the
+   yellow underline accent, and the same display type — without the
+   hero art, so content stays the focus.
+
+   Markup:
+   <header class="page-header">
+     <div class="page-header-inner">
+       <div class="page-kicker"><span class="square"></span>Dossier · 02 van 06</div>
+       <h1 class="page-title">Juridische basis</h1>
+       <p class="page-lede">Wat de rechter heeft gezegd over het gasnet…</p>
+     </div>
+   </header>
+   ──────────────────────────────────────────────────────── */
+.page-header {
+  background: var(--cream);
+  border-bottom: 1px solid var(--green-15);
+  padding: 64px var(--page-pad-x) 56px;
+}
+.page-header-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+.page-kicker {
+  display: inline-flex; align-items: center; gap: 12px;
+  margin-bottom: 24px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--green);
+  font-weight: 600;
+}
+.page-kicker .square {
+  width: 9px; height: 9px; background: var(--green); display: inline-block;
+}
+.page-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h1);
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: var(--grey-dark);
+  margin: 0 0 20px;
+}
+.page-title em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--orange);
+}
+.page-lede {
+  font-family: var(--font-body);
+  font-size: var(--fs-lede);
+  line-height: 1.5;
+  color: var(--grey-mid);
+  margin: 0;
+  max-width: 720px;
+}
+
+
+/* ─── 3. Page content ───────────────────────────────────
+   Use this wrapper to constrain body content on every sub-page.
+   ──────────────────────────────────────────────────────── */
+.page-main {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 64px var(--page-pad-x) 80px;
+}
+
+/* Long-form prose */
+.page-main h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h2);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--grey-dark);
+  margin: 56px 0 16px;
+}
+.page-main h2:first-child { margin-top: 0; }
+.page-main h2::before {
+  content: '';
+  display: block;
+  width: 36px; height: 3px;
+  background: var(--green);
+  margin-bottom: 16px;
+}
+.page-main h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--green-deep);
+  margin: 40px 0 12px;
+}
+.page-main p {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--grey-dark);
+  max-width: 70ch;
+  margin: 0 0 1em;
+}
+.page-main a {
+  color: var(--green);
+  text-decoration: underline;
+  text-decoration-color: var(--green-25);
+  text-underline-offset: 3px;
+}
+.page-main a:hover { text-decoration-color: var(--green); }
+
+/* Lists */
+.page-main ul, .page-main ol {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  max-width: 70ch;
+  padding-left: 1.2em;
+}
+.page-main li { margin-bottom: 0.4em; }
+.page-main ul li::marker { color: var(--green); }
+
+
+/* ─── 4. Callout box (warm cream + accent border) ───────
+   For pull-quotes, vragen-blokken, samenvattingen.
+   <aside class="callout callout-green">
+     <div class="callout-label">Korte conclusie</div>
+     <p>De rechter heeft op 12 mei 2026 …</p>
+   </aside>
+   Accent variants: callout-green | callout-yellow | callout-orange
+   ──────────────────────────────────────────────────────── */
+.callout {
+  --callout-accent: var(--green);
+  --callout-bg:     var(--green-tint);
+  background: var(--callout-bg);
+  border-left: 3px solid var(--callout-accent);
+  padding: 24px 28px;
+  margin: 32px 0;
+  max-width: 760px;
+}
+.callout-yellow { --callout-accent: var(--yellow); --callout-bg: var(--yellow-tint); }
+.callout-orange { --callout-accent: var(--orange); --callout-bg: var(--orange-tint); }
+.callout-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--callout-accent);
+  margin-bottom: 10px;
+}
+.callout p { margin: 0; font-size: 16px; line-height: 1.7; color: var(--grey-dark); }
+
+
+/* ─── 5. Tabellen ──────────────────────────────────────── */
+.page-main table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 28px 0;
+  font-size: 15px;
+}
+.page-main th {
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-align: left;
+  padding: 14px 16px;
+  background: var(--green-tint);
+  color: var(--green-deep);
+  border-bottom: 1px solid var(--green-25);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.page-main td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--green-15);
+  color: var(--grey-dark);
+  font-family: var(--font-body);
+}
+.page-main td.num {
+  font-family: var(--font-mono);
+  text-align: right;
+  color: var(--grey-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* ─── 6. Leeswijzer (also used on index) ────────────────
+   <aside class="leeswijzer">
+     <div class="leeswijzer-label">Leeswijzer</div>
+     <p>…</p>
+   </aside>
+   ──────────────────────────────────────────────────────── */
+.leeswijzer {
+  margin-top: 56px;
+  background: var(--green-tint);
+  border-left: 3px solid var(--green);
+  padding: 28px 32px;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+.leeswijzer-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--green);
+  padding-top: 4px;
+}
+.leeswijzer p {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--grey-dark);
+  margin: 0;
+  max-width: none;
+}
+
+
+/* ─── 7. Pager (vorige / volgende dossier) ──────────────
+   For the bottom of every sub-page. Lets bewoners walk the dossier.
+   <nav class="pager">
+     <a class="pager-prev" href="/historie.html">
+       <span class="pager-dir">← Vorige dossier</span>
+       <span class="pager-title">Historie</span>
+     </a>
+     <a class="pager-next" href="/financiele-basis.html">
+       <span class="pager-dir">Volgende dossier →</span>
+       <span class="pager-title">Gasrekening</span>
+     </a>
+   </nav>
+   ──────────────────────────────────────────────────────── */
+.pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--green-15);
+  border-top: 1px solid var(--green-15);
+  border-bottom: 1px solid var(--green-15);
+  margin-top: 80px;
+}
+.pager > a {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 24px 32px;
+  background: var(--white);
+  text-decoration: none;
+  transition: background .2s ease;
+}
+.pager > a:hover { background: var(--green-tint); }
+.pager-next { text-align: right; }
+.pager-dir {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--green);
+  font-weight: 600;
+}
+.pager-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--grey-dark);
+  letter-spacing: -0.01em;
+}
+
+
+/* ─── 8. Site footer ────────────────────────────────────
+   <footer class="sw-footer">
+     <strong>Dossier Landgoed De Stille Wille</strong> —
+     feitelijke werkpagina, peildatum mei 2026.
+   </footer>
+   ──────────────────────────────────────────────────────── */
+.sw-footer {
+  padding: 32px var(--page-pad-x);
+  border-top: 1px solid var(--green-15);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--grey-soft);
+  text-align: center;
+}
+.sw-footer strong {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--green);
+}
+
+
+/* ─── 9. Responsive ─────────────────────────────────────
+   The site uses a desktop-first 1-column collapse around 960px.
+   ──────────────────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .sw-nav-inner { padding: 12px var(--page-pad-x-mobile); gap: 4px 20px; }
+  .page-header  { padding: 40px var(--page-pad-x-mobile) 40px; }
+  .page-title   { font-size: 40px; }
+  .page-lede    { font-size: 18px; }
+  .page-main    { padding: 48px var(--page-pad-x-mobile) 64px; }
+  .page-main h2 { font-size: 28px; }
+  .page-main h3 { font-size: 22px; }
+
+  .leeswijzer { grid-template-columns: 1fr; gap: 12px; padding: 22px 24px; }
+  .pager      { grid-template-columns: 1fr; }
+  .pager-next { text-align: left; }
+  .sw-footer  { padding: 24px var(--page-pad-x-mobile); }
+}

@@ -1,0 +1,102 @@
+/* ─────────────────────────────────────────────────────────────
+   Kerndossiers Landgoed De Stille Wille — design tokens
+   Drop this file into the site root and link it from EVERY page:
+     <link rel="stylesheet" href="/tokens.css">
+   Then use the var(--*) names below in your component CSS.
+
+   Palette philosophy:
+   - GREEN is the primary, used for structure (nav, primary CTA,
+     section rules, headings of meta info).
+   - YELLOW and ORANGE are joyful accents, rotated across tiles
+     and section markers. They should never carry the same weight
+     as green — they are highlights, not surfaces.
+   - CREAM is the warm neutral for soft surfaces (leeswijzer,
+     hover backgrounds, tile-icon backgrounds).
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* ─ Brand: vibrant palette ─ */
+
+  /* Green — primary */
+  --green:        #1F7F4E;   /* main brand green, used like the old maroon was */
+  --green-deep:   #134E2F;   /* nav background, primary CTA :hover */
+  --green-tint:   #E8F1EC;   /* soft surface (leeswijzer bg, tile-icon bg) */
+  --green-08:     rgba(31, 127, 78, 0.08);
+  --green-15:     rgba(31, 127, 78, 0.15);   /* dividers, rules */
+  --green-25:     rgba(31, 127, 78, 0.25);   /* faint accents */
+
+  /* Yellow — joyful accent */
+  --yellow:       #E8B021;
+  --yellow-deep:  #B98410;
+  --yellow-tint:  #FBF1D6;
+
+  /* Orange — warm accent */
+  --orange:       #E76F2C;
+  --orange-deep:  #B85214;
+  --orange-tint:  #FBE5D5;
+
+  /* ─ Neutrals ─ */
+  --cream:        #FBF7F2;
+  --white:        #ffffff;
+  --grey-dark:    #222;     /* body text */
+  --grey-mid:     #555;     /* secondary text, ledes */
+  --grey-soft:    #777;     /* metadata, captions */
+
+  /* ─ Type ─ */
+  --font-display: 'Poppins', system-ui, sans-serif;     /* H1/H2/H3, CTAs, kickers — wght 600/700 */
+  --font-body:    'Mulish', system-ui, sans-serif;      /* body, ledes — wght 400/600 */
+  --font-mono:    'JetBrains Mono', ui-monospace, Menlo, monospace;  /* metadata, peildatums */
+
+  /* ─ Type scale ─ */
+  --fs-hero:      88px;
+  --fs-h1:        56px;
+  --fs-h2:        42px;
+  --fs-h3:        28px;
+  --fs-lede:      20px;
+  --fs-body:      17px;
+  --fs-small:     15px;
+  --fs-mono:      11px;
+  --lh-body:      1.8em;
+  --lh-tight:     1.15;
+  --lh-display:   0.96;
+
+  /* ─ Spacing (8px scale) ─ */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 40px;
+  --space-6: 56px;
+  --space-7: 80px;
+  --space-8: 96px;
+
+  /* ─ Layout ─ */
+  --content-max: 1280px;
+  --page-pad-x:  80px;
+  --page-pad-x-mobile: 28px;
+}
+
+/* ─ Base resets and body type ─ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--white);
+  color: var(--grey-dark);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { color: inherit; }
+
+/* ─ Utility: monospace metadata label ─ */
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--green);
+  font-weight: 600;
+}
