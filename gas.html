@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Gas · Kerndossiers Landgoed De Stille Wille</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/components.css">
+<style>
+  .sw-section-list { display: grid; gap: 0; margin: 32px 0 8px; }
+  .sw-section-card {
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    gap: 20px;
+    align-items: center;
+    padding: 24px 28px;
+    border-top: 1px solid var(--green-15);
+    text-decoration: none;
+    color: var(--grey-dark);
+    transition: background .2s ease;
+  }
+  .sw-section-card:last-child { border-bottom: 1px solid var(--green-15); }
+  .sw-section-card:hover { background: var(--cream); }
+  .sw-section-n {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--green);
+    font-weight: 700;
+  }
+  .sw-section-body h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 20px;
+    margin: 0 0 4px;
+    color: var(--grey-dark);
+  }
+  .sw-section-body p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--grey-mid);
+  }
+  .sw-section-card .pager-dir { font-family: var(--font-mono); font-size: 12px; color: var(--green); }
+</style>
+</head>
+<body data-slug="gas">
+
+<nav class="sw-nav"><div class="sw-nav-inner"></div></nav>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-kicker"><span class="square"></span></div>
+    <h1 class="page-title">Gas</h1>
+    <p class="page-lede">Het gasnet op het landgoed: historie, juridische basis en de gasrekening. Dit dossier is opgebouwd uit drie hoofdstukken.</p>
+  </div>
+</header>
+
+<main class="page-main">
+
+  <div data-sw-status></div>
+
+  <h2>Hoofdstukken</h2>
+  <p>Klik door naar het betreffende hoofdstuk voor de uitwerking.</p>
+
+  <div class="sw-section-list">
+    <a class="sw-section-card" href="/gas-historie.html">
+      <div class="sw-section-n">01</div>
+      <div class="sw-section-body">
+        <h3>Historie</h3>
+        <p>Tijdlijn van het gasnet — van aanleg tot de afrekening van 2024–2025.</p>
+      </div>
+      <span class="pager-dir">→</span>
+    </a>
+    <a class="sw-section-card" href="/gas-juridisch.html">
+      <div class="sw-section-n">02</div>
+      <div class="sw-section-body">
+        <h3>Juridische basis</h3>
+        <p>Hofuitspraken en contractuele basis rond gasafname en kostenverdeling.</p>
+      </div>
+      <span class="pager-dir">→</span>
+    </a>
+    <a class="sw-section-card" href="/gas-kosten.html">
+      <div class="sw-section-n">03</div>
+      <div class="sw-section-body">
+        <h3>Kosten</h3>
+        <p>De gasrekening ontleed: bedragen, verdeelsleutels en open vragen.</p>
+      </div>
+      <span class="pager-dir">→</span>
+    </a>
+  </div>
+
+  <nav class="pager" data-sw-pager></nav>
+</main>
+
+<footer class="sw-footer">
+  <strong>Kerndossiers Landgoed De Stille Wille</strong> — dit is een groeiend dossier. Meer onderwerpen volgen.
+</footer>
+
+<script src="/dossiers.js"></script>
+<script src="/chrome.js"></script>
+</body>
+</html>
