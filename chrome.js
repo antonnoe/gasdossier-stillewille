@@ -168,6 +168,7 @@
 
   function buildTile(d) {
     var a = el('a', { class: 'sw-tile sw-tile-' + d.accent, href: href(d) });
+    a.setAttribute('data-status', d.status);
 
     var meta = el('div', { class: 'sw-tile-meta' });
     var titleEl = el('h3', { class: 'sw-tile-title', text: d.titel });
@@ -183,6 +184,47 @@
     a.appendChild(titleEl);
     a.appendChild(desc);
     return a;
+  }
+
+  // --- Render: status-filter (Hoofdpagina) ---------------------------------
+
+  function renderStatusFilter() {
+    var host = document.querySelector('[data-sw-status-filter]');
+    if (!host) return;
+
+    var btns = [
+      { value: 'alles',           label: 'Alles' },
+      { value: 'actief',          label: 'Nu live' },
+      { value: 'in-voorbereiding', label: 'In voorbereiding' }
+    ];
+
+    host.innerHTML = '';
+    btns.forEach(function (b) {
+      var btn = el('button', { type: 'button', class: 'sw-filter-btn', 'data-filter': b.value });
+      btn.textContent = b.label;
+      if (b.value === 'alles') btn.className += ' is-active';
+      host.appendChild(btn);
+    });
+
+    host.addEventListener('click', function (ev) {
+      var t = ev.target;
+      if (!t.matches('.sw-filter-btn')) return;
+      var v = t.getAttribute('data-filter');
+      host.querySelectorAll('.sw-filter-btn').forEach(function (n) {
+        n.classList.toggle('is-active', n === t);
+      });
+      // Show/hide tiles. Categorie-groups with zero visible tiles get hidden too.
+      document.querySelectorAll('.sw-tile[data-status]').forEach(function (tile) {
+        var match = v === 'alles' || tile.getAttribute('data-status') === v;
+        tile.style.display = match ? '' : 'none';
+      });
+      document.querySelectorAll('.sw-group').forEach(function (g) {
+        var anyVisible = Array.from(g.querySelectorAll('.sw-tile')).some(function (t) {
+          return t.style.display !== 'none';
+        });
+        g.style.display = anyVisible ? '' : 'none';
+      });
+    });
   }
 
   // --- Render: pager -------------------------------------------------------
@@ -276,6 +318,7 @@
     renderDossierSelect();
     renderStatusBanner();
     renderBijgewerkt();
+    renderStatusFilter();
   }
 
   if (document.readyState === 'loading') {

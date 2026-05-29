@@ -449,6 +449,32 @@
   margin: 0;
 }
 
+/* Status-filter (Hoofdpagina) */
+.sw-status-filter {
+  display: flex;
+  gap: 0;
+  margin: 0 0 32px;
+  border-bottom: 1px solid var(--green-15);
+}
+.sw-filter-btn {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px 18px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--grey-mid);
+  cursor: pointer;
+  margin-bottom: -1px;
+  transition: color .15s, border-color .15s;
+}
+.sw-filter-btn:hover { color: var(--grey-dark); }
+.sw-filter-btn.is-active {
+  color: var(--green-deep);
+  border-bottom-color: var(--green);
+}
+
 /* Dossier-filter dropdown (doorsneden) */
 .sw-dossier-filter {
   display: flex;
