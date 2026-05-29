@@ -75,24 +75,42 @@
     var groups = groupKerndossiers();
     groups.forEach(function (g) {
       if (g.categorie) {
-        // grouped — render label + items, label is non-link
-        var label = el('span', { class: 'sw-nav-group' });
-        label.textContent = g.categorie;
-        inner.appendChild(label);
+        // Real grouping: trigger + panel, CSS-driven dropdown.
+        var grp = el('div', { class: 'sw-nav-grp' });
+        var anyActive = g.items.some(function (d) { return d.slug === slug; });
+        var trigger = el('button', {
+          type: 'button',
+          class: 'sw-nav-grp-trigger' + (anyActive ? ' is-active' : ''),
+          'aria-haspopup': 'true',
+          'aria-expanded': 'false'
+        });
+        trigger.appendChild(document.createTextNode(g.categorie + ' '));
+        trigger.appendChild(el('span', { class: 'sw-nav-grp-caret', 'aria-hidden': 'true', text: '▾' }));
+        grp.appendChild(trigger);
+
+        var panel = el('div', { class: 'sw-nav-grp-panel', role: 'menu' });
+        g.items.forEach(function (d) {
+          var a = el('a', { href: href(d), role: 'menuitem' });
+          a.textContent = d.titel;
+          if (d.slug === slug) a.className = 'active';
+          panel.appendChild(a);
+        });
+        grp.appendChild(panel);
+        inner.appendChild(grp);
+      } else {
+        g.items.forEach(function (d) {
+          inner.appendChild(linkNav(href(d), d.titel, d.slug === slug));
+        });
       }
-      g.items.forEach(function (d) {
-        inner.appendChild(linkNav(href(d), d.titel, d.slug === slug));
-      });
     });
 
-    // Doorsneden in a separate visual block
+    // Doorsneden in a separate visual block.
     if (doorsneden.length) {
-      var sep = el('span', { class: 'sw-nav-sep' });
-      sep.textContent = '·';
-      inner.appendChild(sep);
+      var ds = el('div', { class: 'sw-nav-doorsneden' });
       doorsneden.forEach(function (d) {
-        inner.appendChild(linkNav(href(d), d.titel, d.slug === slug));
+        ds.appendChild(linkNav(href(d), d.titel, d.slug === slug));
       });
+      inner.appendChild(ds);
     }
   }
 
