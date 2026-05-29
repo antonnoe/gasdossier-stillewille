@@ -17,6 +17,7 @@
   'use strict';
 
   var R = window.SW_DOSSIERS || [];
+  var META = window.SW_META || {};
   var body = document.body;
   var slug = body.getAttribute('data-slug') || '';
 
@@ -257,6 +258,14 @@
     host.appendChild(box);
   }
 
+  // --- Render: bijgewerkt-datum (any element with [data-sw-bijgewerkt]) ----
+
+  function renderBijgewerkt() {
+    var nodes = document.querySelectorAll('[data-sw-bijgewerkt]');
+    if (!nodes.length || !META.bijgewerkt) return;
+    nodes.forEach(function (n) { n.textContent = META.bijgewerkt; });
+  }
+
   // --- Boot ----------------------------------------------------------------
 
   function boot() {
@@ -266,6 +275,7 @@
     renderPager();
     renderDossierSelect();
     renderStatusBanner();
+    renderBijgewerkt();
   }
 
   if (document.readyState === 'loading') {

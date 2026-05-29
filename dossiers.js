@@ -32,6 +32,14 @@
  * de primaire bron geverifieerd vóór publicatie en pas dan toegevoegd.
  */
 
+window.SW_META = {
+  // Datum die de hoofdpagina toont als "Bijgewerkt {bijgewerkt}". Pas aan
+  // bij iedere inhoudelijke release. Bewuste handmatige knop — geen
+  // build-step en geen file-mtime, zodat de getoonde datum overeenstemt
+  // met de bedoelde release, niet met willekeurige commits.
+  bijgewerkt: "mei 2026"
+};
+
 window.SW_DOSSIERS = [
 
   /* ============================================================
