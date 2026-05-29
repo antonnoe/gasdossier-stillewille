@@ -343,7 +343,142 @@
 }
 
 
-/* ─── 9. Responsive ─────────────────────────────────────
+/* ─── 9. Registry-driven chrome (chrome.js) ─────────────
+   Styles for nav groups, tile grid, status badges, dossier-filter.
+   ──────────────────────────────────────────────────────── */
+
+/* Nav group label (the category name as a non-link) */
+.sw-nav .sw-nav-group {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  padding: 6px 2px;
+  white-space: nowrap;
+}
+.sw-nav .sw-nav-sep {
+  color: rgba(255,255,255,0.25);
+  padding: 6px 0;
+}
+
+/* Status badge (in-voorbereiding) */
+.sw-status-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--yellow-tint);
+  color: var(--yellow-deep);
+  padding: 2px 8px;
+  border: 1px solid var(--yellow);
+  vertical-align: middle;
+}
+.sw-nav .sw-status-badge {
+  background: rgba(232, 176, 33, 0.15);
+  color: var(--yellow);
+  border-color: rgba(232, 176, 33, 0.4);
+}
+
+/* Tile grid (home page) */
+.sw-group { margin-bottom: 56px; }
+.sw-group-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--grey-dark);
+  margin: 0 0 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--green-15);
+}
+.sw-tile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.sw-tile {
+  display: block;
+  padding: 28px 32px;
+  text-decoration: none;
+  color: var(--grey-dark);
+  border-top: 1px solid var(--green-15);
+  border-right: 1px solid var(--green-15);
+  border-bottom: 1px solid var(--green-15);
+  transition: background .2s ease;
+  position: relative;
+}
+.sw-tile:nth-child(even) { border-right: none; }
+.sw-tile:hover { background: var(--cream); }
+.sw-tile::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--sw-tile-accent, var(--green));
+}
+.sw-tile-green  { --sw-tile-accent: var(--green);  }
+.sw-tile-yellow { --sw-tile-accent: var(--yellow); }
+.sw-tile-orange { --sw-tile-accent: var(--orange); }
+
+.sw-tile-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  min-height: 18px;
+  color: var(--sw-tile-accent);
+}
+.sw-tile-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  margin: 0 0 8px;
+  color: var(--grey-dark);
+}
+.sw-tile-desc {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--grey-mid);
+  margin: 0;
+}
+
+/* Dossier-filter dropdown (doorsneden) */
+.sw-dossier-filter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 32px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--green-15);
+}
+.sw-dossier-filter label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green);
+  font-weight: 600;
+}
+.sw-dossier-filter select {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 14px;
+  border: 1px solid var(--green-25);
+  background: #fff;
+  color: var(--grey-dark);
+  cursor: pointer;
+}
+
+
+/* ─── 10. Responsive ────────────────────────────────────
    The site uses a desktop-first 1-column collapse around 960px.
    ──────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
@@ -359,4 +494,7 @@
   .pager      { grid-template-columns: 1fr; }
   .pager-next { text-align: left; }
   .sw-footer  { padding: 24px var(--page-pad-x-mobile); }
+  .sw-tile-grid { grid-template-columns: 1fr; }
+  .sw-tile { border-right: none; }
+  .sw-tile:nth-child(even) { border-right: none; }
 }
