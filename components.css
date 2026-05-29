@@ -592,6 +592,18 @@
 }
 
 
+/* Wide tables: horizontaal scrollbaar kader. Op smal scherm krijgt de
+   eerste kolom sticky-positie, zodat het label van een rij in beeld
+   blijft terwijl de bezoeker naar de bedragen veegt. Op desktop een
+   no-op (overflow-x: auto activeert alleen als de tabel breder is dan
+   het kader). */
+.sw-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 28px 0;
+}
+.page-main .sw-table-wrap > table { margin: 0; min-width: 100%; }
+
 /* Mobile-only hamburger toggle (hidden on desktop) */
 .sw-nav-toggle {
   display: none;
@@ -749,5 +761,28 @@
   .sw-nav .sw-nav-doorsneden a {
     padding: 12px 0;
     font-size: 16px;
+  }
+
+  /* Brede tabellen: eerste kolom vastgezet zodat labels in beeld
+     blijven tijdens horizontaal vegen. Subtiele schaduw op de rand
+     als visuele hint dat er meer naar rechts staat. */
+  .sw-table-wrap {
+    /* Scrollhint via box-shadow op de wrapper-rand (rechts). */
+    box-shadow: inset -8px 0 8px -8px rgba(0,0,0,0.18);
+  }
+  .page-main .sw-table-wrap th:first-child,
+  .page-main .sw-table-wrap td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--white);
+    box-shadow: 4px 0 6px -4px rgba(0,0,0,0.10);
+  }
+  .page-main .sw-table-wrap th:first-child {
+    background: var(--green-tint);
+  }
+  /* Behoud bestaande achtergrond-accenten op sticky cellen */
+  .page-main .sw-table-wrap tr.row-total td:first-child {
+    background: var(--green-tint);
   }
 }
