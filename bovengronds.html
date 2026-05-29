@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Bovengrondse infrastructuur · Kerndossiers Landgoed De Stille Wille</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/components.css">
+<style>
+  details.sw-acc {
+    border-top: 1px solid var(--green-15);
+    padding: 0;
+  }
+  details.sw-acc:last-of-type { border-bottom: 1px solid var(--green-15); }
+  details.sw-acc summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 22px 28px;
+    display: grid;
+    grid-template-columns: 48px 1fr 24px;
+    gap: 20px;
+    align-items: center;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--grey-dark);
+  }
+  details.sw-acc summary::-webkit-details-marker { display: none; }
+  details.sw-acc summary::after {
+    content: '+';
+    font-family: var(--font-mono);
+    color: var(--green);
+    font-size: 18px;
+  }
+  details.sw-acc[open] summary::after { content: '–'; }
+  details.sw-acc summary:hover { background: var(--cream); }
+  details.sw-acc .sw-acc-n {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--green);
+    font-weight: 700;
+  }
+  details.sw-acc .sw-acc-body {
+    padding: 4px 28px 24px 96px;
+    color: var(--grey-mid);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  details.sw-acc .sw-acc-body p { margin: 0; max-width: 70ch; }
+</style>
+</head>
+<body data-slug="bovengronds">
+
+<nav class="sw-nav"><div class="sw-nav-inner"></div></nav>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-kicker"><span class="square"></span></div>
+    <h1 class="page-title">Bovengrondse infrastructuur</h1>
+    <p class="page-lede">Wegen, verlichting, recreatie, veiligheid en afval op het landgoed.</p>
+  </div>
+</header>
+
+<main class="page-main">
+
+  <div data-sw-status></div>
+
+  <h2>Secties</h2>
+  <p>Onderstaande indeling is voorlopig; per sectie wordt de inhoud opgebouwd op basis van geverifieerde brondocumenten.</p>
+
+  <details class="sw-acc">
+    <summary><span class="sw-acc-n">01</span><span>Wegen & paden</span></summary>
+    <div class="sw-acc-body"><p>Staat van de wegen en de afweging verharding versus boskarakter.</p></div>
+  </details>
+  <details class="sw-acc">
+    <summary><span class="sw-acc-n">02</span><span>Straatverlichting</span></summary>
+    <div class="sw-acc-body"><p>Veiligheid versus natuur en de moderniseringsplannen.</p></div>
+  </details>
+  <details class="sw-acc">
+    <summary><span class="sw-acc-n">03</span><span>Recreatieve voorzieningen</span></summary>
+    <div class="sw-acc-body"><p>Zwembad, tennisbanen en de Boskiosk / het buurthuis.</p></div>
+  </details>
+  <details class="sw-acc">
+    <summary><span class="sw-acc-n">04</span><span>Veiligheid & toegang</span></summary>
+    <div class="sw-acc-body"><p>Slagbomen, camera's, AED's en bereikbaarheid voor hulpdiensten.</p></div>
+  </details>
+  <details class="sw-acc">
+    <summary><span class="sw-acc-n">05</span><span>Afvalverwerking</span></summary>
+    <div class="sw-acc-body"><p>Containerkosten en de wens voor milieustraten of ondergrondse containers.</p></div>
+  </details>
+
+  <nav class="pager" data-sw-pager></nav>
+</main>
+
+<footer class="sw-footer">
+  <strong>Kerndossiers Landgoed De Stille Wille</strong> — dit is een groeiend dossier. Meer onderwerpen volgen.
+</footer>
+
+<script src="/dossiers.js"></script>
+<script src="/chrome.js"></script>
+</body>
+</html>
