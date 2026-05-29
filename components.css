@@ -592,6 +592,22 @@
 }
 
 
+/* Mobile-only hamburger toggle (hidden on desktop) */
+.sw-nav-toggle {
+  display: none;
+  background: transparent;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px;
+  margin: 0;
+  line-height: 0;
+}
+.sw-nav-toggle .sw-nav-toggle-cross { display: none; }
+.sw-nav.is-open .sw-nav-toggle .sw-nav-toggle-bars { display: none; }
+.sw-nav.is-open .sw-nav-toggle .sw-nav-toggle-cross { display: inline; }
+
+
 /* ─── 10. Responsive ────────────────────────────────────
    The site uses a desktop-first 1-column collapse around 960px.
    ──────────────────────────────────────────────────────── */
@@ -633,5 +649,105 @@
     padding-top: 8px;
     margin-top: 4px;
     border-top: 1px solid rgba(255,255,255,0.18);
+  }
+}
+
+
+/* ─── 11. Mobile hamburger nav (≤768px) ─────────────────
+   Below 768px: hamburger toggle, drawer-style menu. Respects the
+   two-tier structure: categorie als kop, sub-dossiers ingesprongen
+   eronder. Losse kerndossiers en doorsneden als directe links;
+   doorsneden visueel gescheiden door een bovengrens.
+   ──────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sw-nav {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 4px var(--page-pad-x-mobile);
+  }
+  .sw-nav-toggle {
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    margin-left: auto;
+  }
+  .sw-nav-inner {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0; right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--green-deep);
+    padding: 8px 20px 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    max-height: calc(100vh - 100%);
+    overflow-y: auto;
+  }
+  .sw-nav.is-open .sw-nav-inner { display: flex; }
+
+  /* Direct top-level links (Hoofdpagina, losse kerndossiers) */
+  .sw-nav-inner > a {
+    display: block;
+    padding: 12px 0;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* Categorie-groep: trigger wordt een leeskop (geen knopgevoel) */
+  .sw-nav .sw-nav-grp { display: block; width: 100%; position: static; }
+  .sw-nav .sw-nav-grp-trigger {
+    display: block;
+    width: 100%;
+    text-align: left;
+    cursor: default;
+    padding: 16px 0 6px;
+    margin-top: 4px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    background: transparent;
+    opacity: 1;
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .sw-nav .sw-nav-grp-trigger::after { display: none; }
+  .sw-nav .sw-nav-grp-caret { display: none; }
+
+  /* Sub-dossiers ingesprongen onder de categorie-kop */
+  .sw-nav .sw-nav-grp-panel {
+    position: static;
+    display: block;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    margin: 0 0 0 14px;
+    min-width: 0;
+    border-left: 2px solid rgba(255,255,255,0.18);
+  }
+  .sw-nav .sw-nav-grp-panel a {
+    padding: 10px 14px;
+    font-size: 15px;
+  }
+
+  /* Doorsneden-blok: visueel gescheiden door bovenlijn */
+  .sw-nav .sw-nav-doorsneden {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    border-left: 0;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    padding-left: 0;
+    padding-top: 14px;
+    margin-top: 14px;
+    margin-left: 0;
+    width: auto;
+  }
+  .sw-nav .sw-nav-doorsneden a {
+    padding: 12px 0;
+    font-size: 16px;
   }
 }

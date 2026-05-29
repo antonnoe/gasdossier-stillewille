@@ -65,6 +65,41 @@
 
   // --- Render: sw-nav ------------------------------------------------------
 
+  function ensureMobileToggle() {
+    var nav = document.querySelector('.sw-nav');
+    if (!nav || nav.querySelector('.sw-nav-toggle')) return;
+
+    var btn = el('button', {
+      type: 'button',
+      class: 'sw-nav-toggle',
+      'aria-label': 'Menu',
+      'aria-expanded': 'false',
+      'aria-controls': 'sw-nav-inner'
+    });
+    // Hamburger icon (CSS-driven) — three bars rendered via SVG for crispness.
+    btn.innerHTML =
+      '<svg viewBox="0 0 24 24" aria-hidden="true" width="24" height="24">' +
+      '<path class="sw-nav-toggle-bars" d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+      '<path class="sw-nav-toggle-cross" d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+      '</svg>';
+    nav.insertBefore(btn, nav.firstChild);
+
+    var inner = nav.querySelector('.sw-nav-inner');
+    if (inner && !inner.id) inner.id = 'sw-nav-inner';
+
+    btn.addEventListener('click', function () {
+      var open = nav.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    // Esc closes the drawer.
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+        nav.classList.remove('is-open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
   function renderNav() {
     var inner = document.querySelector('.sw-nav .sw-nav-inner');
     if (!inner) return;
@@ -329,6 +364,7 @@
   // --- Boot ----------------------------------------------------------------
 
   function boot() {
+    ensureMobileToggle();
     renderNav();
     renderKicker();
     renderTileGrid();
