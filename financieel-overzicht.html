@@ -67,17 +67,8 @@
   }
 </style>
 </head>
-<body>
-<nav class="sw-nav">
-  <div class="sw-nav-inner">
-    <a href="/">Hoofdpagina</a>
-    <a href="/gas-historie.html">Historie</a>
-    <a href="/gas-juridisch.html">Juridische basis</a>
-    <a href="/gas-kosten.html">Gasrekening</a>
-    <a href="/financieel-overzicht.html" class="active">Financieel overzicht</a>
-    <a href="/bronnen.html">Bronnen</a>
-  </div>
-</nav>
+<body data-slug="financieel-overzicht">
+<nav class="sw-nav"><div class="sw-nav-inner"></div></nav>
 
 <header class="page-header">
   <div class="page-header-inner">
@@ -91,6 +82,12 @@
 </header>
 
 <main class="page-main">
+
+
+  <div class="sw-dossier-filter">
+    <label for="sw-dossier-select">Kies kerndossier:</label>
+    <select id="sw-dossier-select" data-sw-dossier-select></select>
+  </div>
 
   <aside class="callout callout-green">
     <div class="callout-label">Leeswijzer</div>
@@ -365,20 +362,13 @@
 
   <p>Voor de juridische onderbouwing: zie <a href="/gas-juridisch.html">Juridische basis</a>. Voor de gasrekening zelf: zie <a href="/gas-kosten.html">Gasrekening</a>. Voor alle brondocumenten: zie <a href="/bronnen.html">Bronnen</a>.</p>
 
-  <nav class="pager">
-    <a class="pager-prev" href="/gas-kosten.html">
-      <span class="pager-dir">← Vorige dossier</span>
-      <span class="pager-title">Gasrekening</span>
-    </a>
-    <a class="pager-next" href="/in-beeld.html">
-      <span class="pager-dir">Volgende dossier →</span>
-      <span class="pager-title">In beeld</span>
-    </a>
-  </nav>
+  <nav class="pager" data-sw-pager></nav>
 </main>
 
 <footer class="sw-footer">
   <strong>Kerndossiers Landgoed De Stille Wille</strong> — dit is een groeiend dossier. Meer onderwerpen volgen.
 </footer>
+<script src="/dossiers.js"></script>
+<script src="/chrome.js"></script>
 </body>
 </html>

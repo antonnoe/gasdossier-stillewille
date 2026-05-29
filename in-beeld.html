@@ -114,18 +114,8 @@
   }
 </style>
 </head>
-<body>
-<nav class="sw-nav">
-  <div class="sw-nav-inner">
-    <a href="/">Hoofdpagina</a>
-    <a href="/gas-historie.html">Historie</a>
-    <a href="/gas-juridisch.html">Juridische basis</a>
-    <a href="/gas-kosten.html">Gasrekening</a>
-    <a href="/financieel-overzicht.html">Financieel overzicht</a>
-    <a href="/in-beeld.html" class="active">In beeld</a>
-    <a href="/bronnen.html">Bronnen</a>
-  </div>
-</nav>
+<body data-slug="in-beeld">
+<nav class="sw-nav"><div class="sw-nav-inner"></div></nav>
 
 <header class="page-header">
   <div class="page-header-inner">
@@ -139,6 +129,12 @@
 </header>
 
 <main class="page-main">
+
+
+  <div class="sw-dossier-filter">
+    <label for="sw-dossier-select">Kies kerndossier:</label>
+    <select id="sw-dossier-select" data-sw-dossier-select></select>
+  </div>
 
   <h2>Kerncijfers eind 2025</h2>
   <p>Vier getallen die de financiële staat van exploitatiemaatschappij SWB samenvatten.</p>
@@ -249,16 +245,7 @@
     <p>Concept-jaarrekeningen Stille Wille Brabant B.V. 2021, 2022, 2023, 2024 (d.d. 29-12-2025) en 2025 (d.d. 10-03-2026). Gerechtshof 's-Hertogenbosch, ECLI:NL:GHSHE:2013:3708 en ECLI:NL:GHSHE:2014:3639. Voor het volledige financiële overzicht met toelichting: <a href="/financieel-overzicht.html">Financieel overzicht</a>. Voor alle brondocumenten: <a href="/bronnen.html">Bronnen</a>.</p>
   </aside>
 
-  <nav class="pager">
-    <a class="pager-prev" href="/financieel-overzicht.html">
-      <span class="pager-dir">← Vorige dossier</span>
-      <span class="pager-title">Financieel overzicht</span>
-    </a>
-    <a class="pager-next" href="/bronnen.html">
-      <span class="pager-dir">Volgende dossier →</span>
-      <span class="pager-title">Bronnen</span>
-    </a>
-  </nav>
+  <nav class="pager" data-sw-pager></nav>
 </main>
 
 <footer class="sw-footer">
@@ -335,5 +322,7 @@ new Chart(document.getElementById('ch4'), {
   }
 });
 </script>
+<script src="/dossiers.js"></script>
+<script src="/chrome.js"></script>
 </body>
 </html>
