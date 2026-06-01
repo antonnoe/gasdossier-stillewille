@@ -417,23 +417,50 @@
   border-left: 1px solid rgba(255,255,255,0.18);
 }
 
-/* Status badge (in-voorbereiding) */
+/* ── Readiness-stip (vorm-gecodeerd, neutraal via currentColor) ──────────
+   READINESS-as (voltooid/in-uitvoering/gepland) — staat LOS van de
+   verificatie-stoplicht (groen/geel/oranje). Daarom geen kleurcodering:
+   alleen vorm (vol / half / open). currentColor zorgt dat de stip klopt op
+   zowel de donkere nav als de lichte tegel/kicker. */
 .sw-status-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  background: var(--yellow-tint);
-  color: var(--yellow-deep);
-  padding: 2px 8px;
-  border: 1px solid var(--yellow);
+  background: var(--green-08);
+  color: var(--grey-mid);
+  padding: 3px 9px;
+  border: 1px solid var(--green-15);
+  border-radius: 999px;
   vertical-align: middle;
+  white-space: nowrap;
 }
-.sw-nav .sw-status-badge {
-  background: rgba(232, 176, 33, 0.15);
-  color: var(--yellow);
-  border-color: rgba(232, 176, 33, 0.4);
+.sw-status-badge--voltooid { color: var(--grey-dark); }
+
+.sw-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-right: 7px;
+  vertical-align: baseline;
+  flex: none;
+}
+.sw-dot--vol  { background: currentColor; }
+.sw-dot--open { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
+.sw-dot--half { background: linear-gradient(90deg, currentColor 0 50%, transparent 50% 100%); box-shadow: inset 0 0 0 1.5px currentColor; }
+
+.sw-nav .sw-nav-grp-panel a .sw-dot { opacity: 0.85; }
+
+.sw-status-legend {
+  margin: 12px 0 0;
+  max-width: 560px;
+  font-family: var(--font-body);
+  font-size: var(--fs-small);
+  line-height: 1.55;
+  color: var(--grey-mid);
 }
 
 /* Tile grid (home page) */

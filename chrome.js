@@ -6,11 +6,11 @@
  *   - kicker         (replaces .page-kicker contents — keeps the .square)
  *   - tile grid      (fills [data-sw-tile-grid] on the home page)
  *   - pager          (fills [data-sw-pager])
- *   - status badge   ([data-sw-status]) — for "in-voorbereiding" pages
- *   - dropdown       ([data-sw-dossier-select]) — doorsnede-pagina's
+ *   - status badge   ([data-sw-status]) — banner for in-uitvoering / gepland
+ *   - status filter  ([data-sw-status-filter]) — readiness-toggle
+ *   - dropdown       ([data-sw-dossier-select]) — overzicht-pagina's
  *
- * Current page is identified via <body data-slug="..."> (slug = filename
- * without .html). Slug "home" is the landing page.
+ * Current page is identified via <body data-slug="...">. Slug "home" = landing.
  */
 
 (function () {
@@ -61,6 +61,41 @@
 
   function href(d) {
     return '/' + d.slug + '.html';
+  }
+
+  // --- Status (readiness) helpers ------------------------------------------
+  // LET OP: readiness (voltooid/in-uitvoering/gepland) is een ANDERE as dan
+  // de verificatie-stoplicht (groen/geel/oranje). Readiness = VORM-gecodeerd
+  // (vol/half/open) in neutrale kleur via currentColor — nooit het
+  // stoplicht-palet, om verwarring te voorkomen.
+  var STATUS_LABEL = {
+    'voltooid': 'Voltooid',
+    'in-uitvoering': 'Werk in uitvoering',
+    'gepland': 'Later in 2026 gepland'
+  };
+  var STATUS_DOT = {
+    'voltooid': 'sw-dot--vol',
+    'in-uitvoering': 'sw-dot--half',
+    'gepland': 'sw-dot--open'
+  };
+
+  function statusLabel(d) {
+    var base = STATUS_LABEL[d.status] || '';
+    if (d.status === 'voltooid' && META.bijgewerkt) base += ' · ' + META.bijgewerkt;
+    return base;
+  }
+
+  function statusBadge(d) {
+    if (!d || !d.status) return null;
+    var b = el('span', { class: 'sw-status-badge sw-status-badge--' + d.status });
+    b.appendChild(el('span', { class: 'sw-dot ' + (STATUS_DOT[d.status] || ''), 'aria-hidden': 'true' }));
+    b.appendChild(document.createTextNode(statusLabel(d)));
+    return b;
+  }
+
+  function statusDot(d) {
+    if (!d || !d.status) return null;
+    return el('span', { class: 'sw-dot ' + (STATUS_DOT[d.status] || ''), 'aria-hidden': 'true', title: STATUS_LABEL[d.status] || '' });
   }
 
   // --- Render: sw-nav ------------------------------------------------------
@@ -126,7 +161,8 @@
         var panel = el('div', { class: 'sw-nav-grp-panel', role: 'menu' });
         g.items.forEach(function (d) {
           var a = el('a', { href: href(d), role: 'menuitem' });
-          a.textContent = d.titel;
+          var dot = statusDot(d); if (dot) a.appendChild(dot);
+          a.appendChild(document.createTextNode(d.titel));
           if (d.slug === slug) a.className = 'active';
           panel.appendChild(a);
         });
@@ -139,13 +175,30 @@
       }
     });
 
-    // Doorsneden in a separate visual block.
+    // Doorsneden onder één dropdown "Overzichten".
     if (doorsneden.length) {
-      var ds = el('div', { class: 'sw-nav-doorsneden' });
-      doorsneden.forEach(function (d) {
-        ds.appendChild(linkNav(href(d), d.titel, d.slug === slug));
+      var dgrp = el('div', { class: 'sw-nav-grp' });
+      var dAnyActive = doorsneden.some(function (d) { return d.slug === slug; });
+      var dTrigger = el('button', {
+        type: 'button',
+        class: 'sw-nav-grp-trigger' + (dAnyActive ? ' is-active' : ''),
+        'aria-haspopup': 'true',
+        'aria-expanded': 'false'
       });
-      inner.appendChild(ds);
+      dTrigger.appendChild(document.createTextNode('Overzichten '));
+      dTrigger.appendChild(el('span', { class: 'sw-nav-grp-caret', 'aria-hidden': 'true', text: '▾' }));
+      dgrp.appendChild(dTrigger);
+
+      var dPanel = el('div', { class: 'sw-nav-grp-panel', role: 'menu' });
+      doorsneden.forEach(function (d) {
+        var a = el('a', { href: href(d), role: 'menuitem' });
+        var dot = statusDot(d); if (dot) a.appendChild(dot);
+        a.appendChild(document.createTextNode(d.titel));
+        if (d.slug === slug) a.className = 'active';
+        dPanel.appendChild(a);
+      });
+      dgrp.appendChild(dPanel);
+      inner.appendChild(dgrp);
     }
   }
 
@@ -166,7 +219,7 @@
 
     var text;
     if (d.type === 'doorsnede') {
-      text = 'Doorsnede';
+      text = 'Overzicht';
     } else if (d.categorie) {
       text = 'Kerndossier · ' + d.categorie;
     } else {
@@ -178,12 +231,8 @@
     k.appendChild(el('span', { class: 'square' }));
     k.appendChild(document.createTextNode(' ' + text));
 
-    if (d.status === 'in-voorbereiding') {
-      var b = el('span', { class: 'sw-status-badge' });
-      b.textContent = 'in voorbereiding';
-      k.appendChild(document.createTextNode(' '));
-      k.appendChild(b);
-    }
+    var kb = statusBadge(d);
+    if (kb) { k.appendChild(document.createTextNode(' ')); k.appendChild(kb); }
   }
 
   // --- Render: tile grid (home page) --------------------------------------
@@ -211,7 +260,7 @@
     // Doorsneden in own block
     if (doorsneden.length) {
       var ds = el('section', { class: 'sw-group sw-group-doorsneden' });
-      ds.appendChild(el('h2', { class: 'sw-group-title', text: 'Doorsneden' }));
+      ds.appendChild(el('h2', { class: 'sw-group-title', text: 'Overzichten' }));
       var dgrid = el('div', { class: 'sw-tile-grid' });
       doorsneden.forEach(function (d) { dgrid.appendChild(buildTile(d)); });
       ds.appendChild(dgrid);
@@ -227,11 +276,8 @@
     var titleEl = el('h3', { class: 'sw-tile-title', text: d.titel });
     var desc = el('p', { class: 'sw-tile-desc', text: d.omschrijving });
 
-    if (d.status === 'in-voorbereiding') {
-      var b = el('span', { class: 'sw-status-badge' });
-      b.textContent = 'in voorbereiding';
-      meta.appendChild(b);
-    }
+    var tb = statusBadge(d);
+    if (tb) meta.appendChild(tb);
 
     a.appendChild(meta);
     a.appendChild(titleEl);
@@ -246,27 +292,22 @@
     if (!host) return;
 
     var btns = [
-      { value: 'alles',           label: 'Alles' },
-      { value: 'actief',          label: 'Nu live' },
-      { value: 'in-voorbereiding', label: 'In voorbereiding' }
+      { value: 'voltooid',      label: 'Voltooid' },
+      { value: 'in-uitvoering', label: 'Werk in uitvoering' },
+      { value: 'gepland',       label: 'Later in 2026 gepland' },
+      { value: 'alles',         label: 'Alles' }
     ];
+    var DEFAULT = 'voltooid';
 
     host.innerHTML = '';
     btns.forEach(function (b) {
       var btn = el('button', { type: 'button', class: 'sw-filter-btn', 'data-filter': b.value });
       btn.textContent = b.label;
-      if (b.value === 'alles') btn.className += ' is-active';
+      if (b.value === DEFAULT) btn.className += ' is-active';
       host.appendChild(btn);
     });
 
-    host.addEventListener('click', function (ev) {
-      var t = ev.target;
-      if (!t.matches('.sw-filter-btn')) return;
-      var v = t.getAttribute('data-filter');
-      host.querySelectorAll('.sw-filter-btn').forEach(function (n) {
-        n.classList.toggle('is-active', n === t);
-      });
-      // Show/hide tiles. Categorie-groups with zero visible tiles get hidden too.
+    function applyFilter(v) {
       document.querySelectorAll('.sw-tile[data-status]').forEach(function (tile) {
         var match = v === 'alles' || tile.getAttribute('data-status') === v;
         tile.style.display = match ? '' : 'none';
@@ -277,7 +318,19 @@
         });
         g.style.display = anyVisible ? '' : 'none';
       });
+    }
+
+    host.addEventListener('click', function (ev) {
+      var t = ev.target;
+      if (!t.matches('.sw-filter-btn')) return;
+      var v = t.getAttribute('data-filter');
+      host.querySelectorAll('.sw-filter-btn').forEach(function (n) {
+        n.classList.toggle('is-active', n === t);
+      });
+      applyFilter(v);
     });
+
+    applyFilter(DEFAULT); // hoofdpagina opent met "Voltooid"
   }
 
   // --- Render: pager -------------------------------------------------------
@@ -309,7 +362,7 @@
     host.appendChild(nextA);
   }
 
-  // --- Render: dossier-filter dropdown (doorsneden) ------------------------
+  // --- Render: dossier-filter dropdown (overzicht-pagina's) ----------------
 
   function renderDossierSelect() {
     var sel = document.querySelector('[data-sw-dossier-select]');
@@ -337,19 +390,24 @@
     });
   }
 
-  // --- Render: in-voorbereiding banner on the page header ------------------
+  // --- Render: status-banner op de page header -----------------------------
 
   function renderStatusBanner() {
     var d = findBySlug(slug);
-    if (!d || d.status !== 'in-voorbereiding') return;
+    if (!d) return;
+    if (d.status !== 'in-uitvoering' && d.status !== 'gepland') return; // 'voltooid' krijgt geen banner
     var host = document.querySelector('[data-sw-status]');
     if (!host) return;
-    var box = el('aside', { class: 'callout callout-yellow sw-voorbereiding' });
-    box.appendChild(el('div', { class: 'callout-label', text: 'In voorbereiding' }));
-    var p = el('p');
-    p.textContent = 'Dit dossier is een werkpagina. De secties hieronder zijn neutraal omschreven; ' +
-      'specifieke cijfers, datums en bronverwijzingen worden pas opgenomen na verificatie tegen de primaire bron.';
-    box.appendChild(p);
+
+    var cfg = d.status === 'in-uitvoering'
+      ? { cls: 'callout-yellow', label: 'Werk in uitvoering',
+          txt: 'Dit dossier is in bewerking. Onderdelen kunnen nog onvolledig zijn; specifieke cijfers, datums en bronverwijzingen worden pas opgenomen na verificatie tegen de primaire bron.' }
+      : { cls: 'callout-orange', label: 'Later in 2026 gepland',
+          txt: 'Dit dossier is gepland voor later in 2026. De indeling hieronder is voorlopig; er is nog geen geverifieerde inhoud opgenomen.' };
+
+    var box = el('aside', { class: 'callout ' + cfg.cls + ' sw-voorbereiding' });
+    box.appendChild(el('div', { class: 'callout-label', text: cfg.label }));
+    box.appendChild(el('p', { text: cfg.txt }));
     host.appendChild(box);
   }
 
