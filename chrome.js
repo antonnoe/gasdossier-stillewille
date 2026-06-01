@@ -411,6 +411,20 @@
     host.appendChild(box);
   }
 
+  // --- Tabellen: scrollbaar kader om elke <table> in .page-main -----------
+  // Wikkelt elke tabel die nog niet in een .sw-table-wrap zit. Tabellen die
+  // al (handmatig) gewrapt zijn worden overgeslagen, zodat er nooit een
+  // dubbele wrapper ontstaat.
+  function wrapTables() {
+    var tables = document.querySelectorAll('.page-main table');
+    tables.forEach(function (table) {
+      if (table.closest('.sw-table-wrap')) return;
+      var wrap = el('div', { class: 'sw-table-wrap' });
+      table.parentNode.insertBefore(wrap, table);
+      wrap.appendChild(table);
+    });
+  }
+
   // --- Render: bijgewerkt-datum (any element with [data-sw-bijgewerkt]) ----
 
   function renderBijgewerkt() {
@@ -431,6 +445,7 @@
     renderStatusBanner();
     renderBijgewerkt();
     renderStatusFilter();
+    wrapTables();
   }
 
   if (document.readyState === 'loading') {
