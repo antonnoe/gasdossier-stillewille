@@ -73,6 +73,90 @@
     font-size: 14px;
     line-height: 1.65;
   }
+
+  /* ── Verificatieregister ─────────────────────────────────────
+     Eigen stoplicht-idioom: een DONKERE pil met een gekleurde
+     status-stip. Bewust losgehouden van de getinte groen/geel/
+     oranje dossier-accenten (die zijn gevulde vlakken). Het
+     tekstlabel draagt de betekenis; de kleur ondersteunt slechts.
+     Alle kleuren uit bestaande tokens; geen nieuwe basiskleuren.
+     ──────────────────────────────────────────────────────────── */
+  .verif-legend {
+    list-style: none;
+    margin: 16px 0 22px;
+    padding: 16px 20px;
+    max-width: 820px;
+    background: var(--cream);
+    border: 1px solid var(--green-15);
+    border-radius: 8px;
+  }
+  .verif-legend li { margin: 0 0 8px; font-size: 14px; line-height: 1.6; }
+  .verif-legend li:last-child { margin-bottom: 0; }
+  .verif-register {
+    width: 100%;
+    min-width: 660px;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .verif-register th,
+  .verif-register td {
+    text-align: left;
+    vertical-align: top;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--green-15);
+  }
+  .verif-register thead th {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--green-deep);
+    border-bottom: 2px solid var(--green-25);
+  }
+  .verif-register .claim { font-weight: 600; color: var(--grey-dark); }
+  .verif-register .verif-note td {
+    padding-top: 0;
+    font-size: 13px;
+    color: var(--grey-mid);
+    line-height: 1.6;
+  }
+  .verif-note-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--grey-soft);
+    margin-right: 6px;
+  }
+  .verif-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: var(--grey-dark);
+    padding: 4px 11px 4px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .verif-badge::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex: none;
+    background: var(--grey-soft);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.18);
+  }
+  .verif-badge--groen::before  { background: var(--green); }
+  .verif-badge--geel::before   { background: var(--yellow); }
+  .verif-badge--oranje::before { background: var(--orange); }
 </style>
 </head>
 <body data-slug="bronnen">
@@ -97,6 +181,70 @@
   </div>
 
   <p>Hieronder vindt u de bronnen waarop het dossier en de voorbeeldbrief zijn gebaseerd. Iedereen — bewoner, rechtsbijstandsverzekeraar, journalist of advocaat — kan deze zelf controleren. Waar mogelijk wordt verwezen naar de primaire publicatie van de bron.</p>
+
+  <h2>Verificatieregister</h2>
+  <p>Dit register toont per gepubliceerde claim hoe hard het cijfer is, zodat iedere bewoner het zelf kan natrekken. De status geeft aan tegen hoeveel bronnen de claim is bevestigd:</p>
+  <ul class="verif-legend">
+    <li>🟢 <strong>Groen — dubbel geverifieerd:</strong> bevestigd tegen de primaire bron én een onafhankelijke tweede bron (bv. openbare rechtspraak).</li>
+    <li>🟡 <strong>Geel — bronbevestigd:</strong> letterlijk terug te vinden in het primaire brondocument; berust op één bron.</li>
+    <li>🟠 <strong>Oranje — bronbevestigd met kanttekening:</strong> het cijfer klopt en is geciteerd, maar er is een toelichting die de lezer moet kennen.</li>
+  </ul>
+  <div class="sw-table-wrap">
+    <table class="verif-register">
+      <thead>
+        <tr>
+          <th scope="col">Claim</th>
+          <th scope="col">Cijfer / inhoud</th>
+          <th scope="col">Bron</th>
+          <th scope="col">Periode</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="claim">Netwerkverlies gasnet</td>
+          <td>20,4% verlies = € 26.718 (37.454 l van 183.578 l)</td>
+          <td>SWB-DJB_OnderzoekGas-DEF2.pdf, Eindverslag §7</td>
+          <td>2019–2020</td>
+          <td><span class="verif-badge verif-badge--geel">Geel</span></td>
+        </tr>
+        <tr>
+          <td class="claim">Vervangingskosten gasnet komen voor rekening van de eigenaar, niet de erfpachters</td>
+          <td>—</td>
+          <td>Arrest Gerechtshof 's-Hertogenbosch, ECLI:NL:GHSHE:2013:3708 (13-8-2013)</td>
+          <td>2013</td>
+          <td><span class="verif-badge verif-badge--groen">Groen</span></td>
+        </tr>
+        <tr>
+          <td class="claim">Naheffing gas</td>
+          <td>€ 36.797,48 over 22.784 m³ → € 1,95/m³ incl. btw</td>
+          <td>Toelichting eindafrekening gas 2024–2025</td>
+          <td>2024–2025</td>
+          <td><span class="verif-badge verif-badge--oranje">Oranje</span></td>
+        </tr>
+        <tr class="verif-note">
+          <td colspan="5"><span class="verif-note-label">Kanttekening</span>De afrekening vermeldt niet of de € 36.797,48 in- of exclusief btw is; rekenkundig sluit het bedrag aan op € 1,95/m³ wanneer 21% btw wordt toegepast (€ 36.797,48 ÷ 22.784 = € 1,62; × 1,21 = € 1,95).</td>
+        </tr>
+        <tr>
+          <td class="claim">Basisprijs gas</td>
+          <td>€ 5,55 per m³ incl. btw</td>
+          <td>factuur (naheffing gaskosten A-174) + gasdossier</td>
+          <td>2024–2025</td>
+          <td><span class="verif-badge verif-badge--groen">Groen</span></td>
+        </tr>
+        <tr>
+          <td class="claim">Verdamperverbruik</td>
+          <td>± 10.000 liter (2.500 m³) per jaar</td>
+          <td>SWB-DJB_OnderzoekGas-DEF2.pdf, Eindverslag §7</td>
+          <td>2019–2020</td>
+          <td><span class="verif-badge verif-badge--geel">Geel</span></td>
+        </tr>
+        <tr class="verif-note">
+          <td colspan="5"><span class="verif-note-label">Kanttekening</span>Een eerder tussenverslag noemde ± 2.000 liter; het eindverslag corrigeerde dit naar ± 10.000 liter.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Rechterlijke uitspraken</h2>
   <p>Arresten van het Gerechtshof 's-Hertogenbosch over de verdeling van vervangingskosten van de gasinfrastructuur tussen exploitant, grondeigenaar en bewoners.</p>
