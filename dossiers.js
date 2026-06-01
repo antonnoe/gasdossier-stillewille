@@ -143,7 +143,7 @@ window.SW_DOSSIERS = [
     titel: "Exploitatieovereenkomst",
     categorie: null,
     accent: "green",
-    status: "in-voorbereiding",
+    status: "actief",
     omschrijving: "Rechten en plichten tussen bewoners en exploitant.",
     secties: [
       { titel: "De juridische basis", omschrijving: "Rechten en plichten op basis van de notariële aktes en jurisprudentie." },
