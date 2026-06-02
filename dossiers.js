@@ -141,7 +141,7 @@ window.SW_DOSSIERS = [
     titel: "Ecologie",
     categorie: "Bovengronds & omgeving",
     accent: "orange",
-    status: "gepland",
+    status: "voltooid",
     omschrijving: "Bos, biodiversiteit, bomenkap en omliggende zonneparken.",
     secties: [
       { titel: "Het wandelbos & biodiversiteit", omschrijving: "Beheer van het bos en de afweging park versus natuur." },
