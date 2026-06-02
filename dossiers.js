@@ -192,7 +192,7 @@ window.SW_DOSSIERS = [
     titel: "SWW (bewonersvereniging)",
     categorie: "Organisatie & beheer",
     accent: "orange",
-    status: "gepland",
+    status: "in-uitvoering",
     omschrijving: "De bewonersvereniging: historie, herstructurering en bestuur.",
     secties: [
       { titel: "De fusiehistorie", omschrijving: "Achtergrond van het samengaan van de voorgaande verenigingen." },
