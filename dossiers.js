@@ -268,7 +268,7 @@ window.SW_DOSSIERS = [
     titel: "Stakeholders",
     categorie: null,
     accent: "green",
-    status: "in-uitvoering",
+    status: "voltooid",
     omschrijving: "Wie is wie op het landgoed: een structuur- en relatiekaart van grondeigenaar, exploitant, bewoners en vertegenwoordiging.",
     secties: []
   },
