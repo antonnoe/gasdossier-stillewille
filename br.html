@@ -12,47 +12,37 @@
 <link rel="stylesheet" href="/tokens.css">
 <link rel="stylesheet" href="/components.css">
 <style>
-  details.sw-acc {
-    border-top: 1px solid var(--green-15);
-    padding: 0;
+  .br-intro-card { background: var(--cream); border: 1px solid var(--green-15); border-left: 3px solid var(--green); border-radius: 6px; padding: 20px 24px; margin: 8px 0 32px; }
+  .br-intro-card p { margin: 0; font-size: 15px; line-height: 1.7; color: var(--grey-mid); max-width: 72ch; }
+
+  /* Bevoegdheden-lijst */
+  .rights { margin: 14px 0 8px; }
+  .rights h4 { font-family: var(--font-display); font-size: 16px; color: var(--grey-dark); margin: 18px 0 8px; }
+  .rights ul { margin: 0; padding-left: 22px; }
+  .rights li { font-size: 15px; line-height: 1.65; color: var(--grey-mid); margin-bottom: 5px; }
+  .rights .art { font-family: var(--font-mono); font-size: 11px; color: var(--green); font-weight: 600; }
+
+  /* Norm-vs-praktijk blok */
+  .np { border: 1px solid var(--green-15); border-radius: 8px; margin: 20px 0; overflow: hidden; }
+  .np-head { background: var(--white); padding: 16px 22px; border-bottom: 1px solid var(--green-15); }
+  .np-head h3 { font-family: var(--font-display); font-size: 17px; color: var(--grey-dark); margin: 0; }
+  .np-cols { display: grid; grid-template-columns: 1fr 1fr; }
+  .np-col { padding: 18px 22px; }
+  .np-col:first-child { border-right: 1px solid var(--green-15); background: rgba(31,127,78,0.03); }
+  .np-col .lbl { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 8px; }
+  .np-col.vastgelegd .lbl { color: var(--green); }
+  .np-col.praktijk .lbl { color: var(--grey-dark); }
+  .np-col p { font-size: 14px; line-height: 1.6; color: var(--grey-mid); margin: 0 0 8px; }
+  .np-col p:last-child { margin-bottom: 0; }
+  .np-col .art { font-family: var(--font-mono); font-size: 10.5px; color: var(--green); font-weight: 600; }
+  @media (max-width: 640px) {
+    .np-cols { grid-template-columns: 1fr; }
+    .np-col:first-child { border-right: none; border-bottom: 1px solid var(--green-15); }
   }
-  details.sw-acc:last-of-type { border-bottom: 1px solid var(--green-15); }
-  details.sw-acc summary {
-    list-style: none;
-    cursor: pointer;
-    padding: 22px 28px;
-    display: grid;
-    grid-template-columns: 48px 1fr 24px;
-    gap: 20px;
-    align-items: center;
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--grey-dark);
-  }
-  details.sw-acc summary::-webkit-details-marker { display: none; }
-  details.sw-acc summary::after {
-    content: '+';
-    font-family: var(--font-mono);
-    color: var(--green);
-    font-size: 18px;
-  }
-  details.sw-acc[open] summary::after { content: '–'; }
-  details.sw-acc summary:hover { background: var(--cream); }
-  details.sw-acc .sw-acc-n {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    color: var(--green);
-    font-weight: 700;
-  }
-  details.sw-acc .sw-acc-body {
-    padding: 4px 28px 24px 96px;
-    color: var(--grey-mid);
-    font-size: 15px;
-    line-height: 1.65;
-  }
-  details.sw-acc .sw-acc-body p { margin: 0; max-width: 70ch; }
+
+  .sources { margin: 10px 0 0; font-family: var(--font-mono); font-size: 11px; line-height: 1.5; color: var(--grey-soft); }
+  .sources strong { color: var(--grey-mid); display: block; margin-bottom: 3px; }
+  .sources span { display: block; }
 </style>
 </head>
 <body data-slug="br">
@@ -63,7 +53,7 @@
   <div class="page-header-inner">
     <div class="page-kicker"><span class="square"></span></div>
     <h1 class="page-title">BR (bewonersraad)</h1>
-    <p class="page-lede">De bewonersraad: bevoegdheden en vertegenwoordiging.</p>
+    <p class="page-lede">Het mandaat van de Bewonersraad — wat is vastgelegd, en hoe verhoudt de praktijk zich daartoe?</p>
   </div>
 </header>
 
@@ -71,17 +61,122 @@
 
   <div data-sw-status></div>
 
-  <h2>Secties</h2>
-  <p>Onderstaande indeling is voorlopig; per sectie wordt de inhoud opgebouwd op basis van geverifieerde brondocumenten.</p>
+  <div class="br-intro-card">
+    <p>De Bewonersraad is geen vereniging, maar een overlegorgaan dat is vastgelegd in de exploitatieovereenkomst. Deze pagina zet steeds twee dingen naast elkaar: wat de overeenkomst en de afspraken <strong>vastleggen</strong>, en hoe de <strong>praktijk</strong> daar volgens de stukken mee omgaat. De bedoeling is niet om partijen te beoordelen, maar om de afstand tussen afspraak en uitvoering zichtbaar en navolgbaar te maken. Wie de bewoners vertegenwoordigt — de weg van twee verenigingen naar Stille Wille Wonen — staat op de pagina <a href="/sww.html">SWW (bewonersvereniging)</a>.</p>
+  </div>
 
-  <details class="sw-acc">
-    <summary><span class="sw-acc-n">01</span><span>Positie & mandaat</span></summary>
-    <div class="sw-acc-body"><p>De vraag of de raad adviesrecht of instemmingsrecht heeft.</p></div>
-  </details>
-  <details class="sw-acc">
-    <summary><span class="sw-acc-n">02</span><span>Samenstelling & transparantie</span></summary>
-    <div class="sw-acc-body"><p>Wie de raad vertegenwoordigt en de terugkoppeling naar de achterban.</p></div>
-  </details>
+  <h2>1. Wat is de Bewonersraad?</h2>
+  <p>De Bewonersraad is het overlegorgaan tussen de exploitant en de bewoners. De exploitant verbindt zich ten minste eenmaal per twee maanden te overleggen met de Bewonersraad over het beheer en de exploitatie (art. 4.5). De raad wordt gekozen uit de leden van de erkende bewonersvereniging(en), naar rato van het ledental (art. 4.2). De raad telt drie tot zeven leden.</p>
+  <p>Eén bepaling bindt iedere individuele bewoner aan deze structuur: <span class="art">art. 4.13</span> — eigenaren en erfpachters gaan ermee akkoord dat zij alleen via een erkende bewonersvereniging (met ten minste vijftig leden) aan overlegorganen zoals de Bewonersraad kunnen deelnemen. Een bewoner kan dus niet individueel met de exploitant onderhandelen; invloed loopt via de vereniging en de raad.</p>
+  <div class="sources">
+    <strong>Bronnen</strong>
+    <span>Exploitatieovereenkomst, art. 4.2, 4.5 en 4.13.</span>
+  </div>
+
+  <h2>2. Adviesrecht en instemmingsrecht</h2>
+  <p>De bevoegdheden van de raad vallen in twee soorten. Bij <strong>adviesrecht</strong> mag de raad adviseren, maar kan de exploitant uiteindelijk zelf beslissen. Bij <strong>instemmingsrecht</strong> kan een besluit niet zonder de goedkeuring van de raad worden genomen. Het verschil is wezenlijk: het bepaalt of de bewoners kunnen meebeslissen of alleen meepraten.</p>
+
+  <div class="rights">
+    <h4>Onderwerpen die instemming vereisen <span class="art">art. 4.7</span></h4>
+    <ul>
+      <li>vaststelling of wijziging van de begroting van de exploitant;</li>
+      <li>vaststelling of wijziging van de exploitatieovereenkomst zelf;</li>
+      <li>vaststelling of wijziging van het Gebruiks- en Verblijfsreglement;</li>
+      <li>regels op het gebied van veiligheid, gezondheid of welzijn;</li>
+      <li>goedkeuring van de jaarrekening van de exploitant.</li>
+    </ul>
+    <h4>Onderwerpen waarover de raad adviesrecht heeft <span class="art">art. 4.9</span></h4>
+    <ul>
+      <li>het aangaan, verbreken of belangrijk wijzigen van een duurzame samenwerking;</li>
+      <li>wijziging van de organisatiestructuur;</li>
+      <li>beleid rond toelating van nieuwe bewoners;</li>
+      <li>beleid rond nieuwbouw, grote verbouwingen of uitbreiding;</li>
+      <li>beleid rond onderhoud en instandhouding;</li>
+      <li>aanstellen of ontslaan van de landgoedleiding.</li>
+    </ul>
+  </div>
+
+  <p>Dit onderscheid heeft de afgelopen jaren onder druk gestaan. In de notariële tekst van februari 2021 was, na aanpassing door de nieuwe eigenaar, het instemmingsrecht voor de onderwerpen van art. 4.7 feitelijk teruggebracht tot adviesrecht. De bewoners hebben dit aangevochten. In de Bewonersraadvergadering van 25 augustus 2023 is vastgelegd dat in art. 4.7 het woord "advies" weer wordt vervangen door "instemming" — de zware onderwerpen (begroting, het contract zelf, de reglementen, de jaarrekening) vallen daarmee opnieuw onder het instemmingsrecht.</p>
+  <div class="sources">
+    <strong>Bronnen</strong>
+    <span>Exploitatieovereenkomst, art. 4.7 en 4.9. · Nieuwsbrief VHSW april 2021 en nieuwsbrief maart 2022 (terugbrengen naar adviesrecht, betwisting). · Besluit Bewonersraad 25-8-2023 (herstel instemming in art. 4.7).</span>
+  </div>
+
+  <h2>3. Vastgelegd naast de praktijk</h2>
+  <p>Op vier punten valt op dat de praktijk afwijkt van wat is vastgelegd. Hieronder staat per punt de norm naast wat de stukken over de uitvoering melden.</p>
+
+  <div class="np">
+    <div class="np-head"><h3>Wie zit aan de overlegtafel?</h3></div>
+    <div class="np-cols">
+      <div class="np-col vastgelegd">
+        <div class="lbl">Vastgelegd</div>
+        <p>De exploitatieovereenkomst regelt overleg tussen de <strong>exploitant</strong> en de Bewonersraad. <span class="art">art. 4.5</span></p>
+        <p>De grondeigenaar heeft in dit overleg geen contractuele rol of zetel.</p>
+      </div>
+      <div class="np-col praktijk">
+        <div class="lbl">Praktijk</div>
+        <p>In recente verslagen nemen structureel twee vertegenwoordigers van de grondeigenaar deel aan de Bewonersraad, naast de exploitant en drie bewonersvertegenwoordigers en een beheerder.</p>
+        <p>De overeenkomst voorziet niet in die deelname.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="np">
+    <div class="np-head"><h3>Wordt instemming gevraagd waar dat moet?</h3></div>
+    <div class="np-cols">
+      <div class="np-col vastgelegd">
+        <div class="lbl">Vastgelegd</div>
+        <p>Wijziging van de exploitatieovereenkomst en van de reglementen vereist instemming van de raad. <span class="art">art. 4.7</span></p>
+      </div>
+      <div class="np-col praktijk">
+        <div class="lbl">Praktijk</div>
+        <p>Volgens een analyse-stuk is de exploitatieovereenkomst gewijzigd zonder goedkeuring van de raad, terwijl instemming een contractueel vereiste is.</p>
+        <p>Ook bij het Gebruiks- en Verblijfsreglement zijn aanpassingen in de raad doorgevoerd (zoals een gedoogconstructie voor campers), terwijl die volgens bewoners aan alle bewoners hadden moeten worden voorgelegd.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="np">
+    <div class="np-head"><h3>Worden besluiten aan de ledenvergadering voorgelegd?</h3></div>
+    <div class="np-cols">
+      <div class="np-col vastgelegd">
+        <div class="lbl">Vastgelegd</div>
+        <p>Goedkeuring van de exploitatiebegroting vindt plaats na voorlegging aan alle bewoners in de vereniging.</p>
+        <p>Beslissingen met financiële impact dienen op de eerstvolgende ledenvergadering van SWW te worden voorgelegd.</p>
+      </div>
+      <div class="np-col praktijk">
+        <div class="lbl">Praktijk</div>
+        <p>Een conceptbegroting is in de raad al van een positief advies voorzien voordat de ledenvergadering erover kon oordelen, zodat uitvoering vast kon beginnen.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="np">
+    <div class="np-head"><h3>Wordt er teruggekoppeld naar de bewoners?</h3></div>
+    <div class="np-cols">
+      <div class="np-col vastgelegd">
+        <div class="lbl">Vastgelegd</div>
+        <p>De Bewonersraad rapporteert aan de achterban. Voor verslagen geldt een vaste procedure: binnen enkele dagen na de vergadering controleren en publiceren.</p>
+      </div>
+      <div class="np-col praktijk">
+        <div class="lbl">Praktijk</div>
+        <p>Verslagen bleven herhaaldelijk te lang liggen of werden niet gepubliceerd. Een bestuurder erkende dat de communicatie naar bewoners niet altijd goed verliep en dat besturen zich vooral op elkaar en op de raad richtten in plaats van op terugkoppeling.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <strong>Bronnen bij sectie 3</strong>
+    <span>Wie aan tafel: exploitatieovereenkomst art. 4.5; Bewonersraadverslag 22-9-2025 en document "voorstel toekomst landgoed" (deelnemers). · Instemming: notitie Exploitatieovereenkomst en Mandaat 20-7-2025; bewonersraadpleging 2023 (reglement/camper). · ALV-voorlegging: document "voorstel toekomst landgoed"; notulen Bewonersraad 14-2-2023. · Terugkoppeling: exploitatieovereenkomst (rapportageplicht); notulen oktober 2023 en ALV 28-1-2023.</span>
+  </div>
+
+  <h2>4. De grens van 5% aan de servicekosten</h2>
+  <p>De servicekosten — samen het jaarbudget van de exploitant — mogen volgens de overeenkomst van jaar tot jaar niet onbeperkt stijgen. Art. 5.3 legt vast dat de begroting niet meer dan 5% mag afwijken van die van het lopende jaar. Maar dat is geen hard maximum: de bepaling kent drie uitzonderingen. Een hogere stijging mag bij (1) grote investeringen en bijzondere omstandigheden, mits in overleg met de Bewonersraad als nodig en nuttig beoordeeld; (2) verhogingen van overheidsheffingen; en (3) verhogingen van de gas- of waterprijzen.</p>
+  <p>De 5% is dus een drempel, geen plafond: erboven is overeenstemming met de raad over nut en noodzaak vereist. In de praktijk lagen de voorgestelde verhogingen wisselend rond of boven die drempel — 7% (later teruggebracht naar 6,2%) voor 2022, 5,2% voor 2024, en een voorstel richting 20% voor 2026. De kernvraag bij elke stijging boven 5% is niet of zij verboden is, maar of het in de overeenkomst vereiste overleg over nut en noodzaak met de raad daadwerkelijk heeft plaatsgevonden.</p>
+  <div class="sources">
+    <strong>Bronnen</strong>
+    <span>Exploitatieovereenkomst, art. 5.3 (5%-drempel en de drie uitzonderingen). · Nieuwsbrief ALV november 2023 ("maximaal 5%, tenzij partijen een hoger bedrag overeenkomen"). · Notulen Bestwil 5-2-2022 (7% / 6,2%), nieuwsbrief november 2023 (5,2%), notulen Bewonersraad 6-1-2026 (~20%).</span>
+  </div>
 
   <nav class="pager" data-sw-pager></nav>
 </main>
