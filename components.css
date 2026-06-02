@@ -676,40 +676,18 @@
   .sw-tile-grid { grid-template-columns: 1fr; }
   .sw-tile { border-right: none; }
   .sw-tile:nth-child(even) { border-right: none; }
-
-  /* Nav groups flatten on mobile: panel always visible, inline */
-  .sw-nav .sw-nav-grp-trigger { display: none; }
-  .sw-nav .sw-nav-grp-panel {
-    position: static;
-    display: block;
-    background: transparent;
-    padding: 0;
-    box-shadow: none;
-    min-width: 0;
-    margin: 0;
-  }
-  .sw-nav .sw-nav-grp-panel::before { display: none; }
-  .sw-nav .sw-nav-grp-panel a { padding: 6px 2px; }
-  .sw-nav .sw-nav-doorsneden {
-    border-left: none;
-    padding-left: 0;
-    margin-left: 0;
-    width: 100%;
-    flex-wrap: wrap;
-    padding-top: 8px;
-    margin-top: 4px;
-    border-top: 1px solid rgba(255,255,255,0.18);
-  }
 }
 
 
-/* ─── 11. Mobile hamburger nav (≤768px) ─────────────────
-   Below 768px: hamburger toggle, drawer-style menu. Respects the
-   two-tier structure: categorie als kop, sub-dossiers ingesprongen
-   eronder. Losse kerndossiers en doorsneden als directe links;
-   doorsneden visueel gescheiden door een bovengrens.
+/* ─── 11. Mobile hamburger nav (≤960px) ─────────────────
+   Bij 960px en smaller: hamburger toggle, drawer-style menu. Eén
+   consistente, vindbare drawer over het hele smalle bereik (telefoon
+   én tablet), gelijk aan waar de rest van de site naar één kolom klapt.
+   Respecteert de tweelaags-structuur: categorie als kop, sub-dossiers
+   ingesprongen eronder. Losse kerndossiers en doorsneden als directe
+   links; doorsneden visueel gescheiden door een bovengrens.
    ──────────────────────────────────────────────────────── */
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .sw-nav {
     position: sticky; top: 0; z-index: 10;
     display: flex; align-items: center; justify-content: space-between;
