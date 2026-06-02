@@ -258,7 +258,7 @@ window.SW_DOSSIERS = [
     titel: "Tijdlijn",
     categorie: null,
     accent: "yellow",
-    status: "in-uitvoering",
+    status: "voltooid",
     omschrijving: "De geverifieerde gebeurtenissen rond het landgoed in chronologische volgorde — de feitelijke ruggengraat onder de dossiers.",
     secties: []
   },
