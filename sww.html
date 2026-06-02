@@ -12,47 +12,25 @@
 <link rel="stylesheet" href="/tokens.css">
 <link rel="stylesheet" href="/components.css">
 <style>
-  details.sw-acc {
-    border-top: 1px solid var(--green-15);
-    padding: 0;
-  }
-  details.sw-acc:last-of-type { border-bottom: 1px solid var(--green-15); }
-  details.sw-acc summary {
-    list-style: none;
-    cursor: pointer;
-    padding: 22px 28px;
-    display: grid;
-    grid-template-columns: 48px 1fr 24px;
-    gap: 20px;
-    align-items: center;
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--grey-dark);
-  }
-  details.sw-acc summary::-webkit-details-marker { display: none; }
-  details.sw-acc summary::after {
-    content: '+';
-    font-family: var(--font-mono);
-    color: var(--green);
-    font-size: 18px;
-  }
-  details.sw-acc[open] summary::after { content: '–'; }
-  details.sw-acc summary:hover { background: var(--cream); }
-  details.sw-acc .sw-acc-n {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    color: var(--green);
-    font-weight: 700;
-  }
-  details.sw-acc .sw-acc-body {
-    padding: 4px 28px 24px 96px;
-    color: var(--grey-mid);
-    font-size: 15px;
-    line-height: 1.65;
-  }
-  details.sw-acc .sw-acc-body p { margin: 0; max-width: 70ch; }
+  /* Compacte verenigings-tijdlijn (drie ankerpunten) */
+  .vt { list-style: none; margin: 8px 0 36px; padding: 0 0 0 34px; position: relative; max-width: 760px; }
+  .vt::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: var(--green-15); }
+  .vt-item { position: relative; margin: 0 0 22px; }
+  .vt-item:last-child { margin-bottom: 0; }
+  .vt-dot { position: absolute; left: -34px; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--green); border: 3px solid var(--white); box-shadow: 0 0 0 1px var(--green-15); }
+  .vt-when { font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: var(--green); margin-bottom: 3px; }
+  .vt-what { font-family: var(--font-display); font-weight: 600; font-size: 17px; color: var(--grey-dark); margin: 0 0 5px; }
+  .vt-body { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--grey-mid); margin: 0; max-width: 70ch; }
+
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 18px 0 8px; }
+  .compare .col { background: var(--white); border: 1px solid var(--green-15); border-radius: 6px; padding: 18px 20px; }
+  .compare .col h4 { font-family: var(--font-display); font-size: 16px; color: var(--grey-dark); margin: 0 0 8px; }
+  .compare .col p { font-size: 14px; line-height: 1.6; color: var(--grey-mid); margin: 0; }
+  @media (max-width: 600px) { .compare { grid-template-columns: 1fr; } }
+
+  .sources { margin-top: 10px; font-family: var(--font-mono); font-size: 11px; line-height: 1.5; color: var(--grey-soft); }
+  .sources strong { color: var(--grey-mid); display: block; margin-bottom: 3px; }
+  .sources span { display: block; }
 </style>
 </head>
 <body data-slug="sww">
@@ -63,7 +41,7 @@
   <div class="page-header-inner">
     <div class="page-kicker"><span class="square"></span></div>
     <h1 class="page-title">SWW (bewonersvereniging)</h1>
-    <p class="page-lede">De bewonersvereniging: historie, herstructurering en bestuur.</p>
+    <p class="page-lede">Wie vertegenwoordigt de bewoners? De weg van twee verenigingen naar één: Stille Wille Wonen.</p>
   </div>
 </header>
 
@@ -71,21 +49,62 @@
 
   <div data-sw-status></div>
 
-  <h2>Secties</h2>
-  <p>Onderstaande indeling is voorlopig; per sectie wordt de inhoud opgebouwd op basis van geverifieerde brondocumenten.</p>
+  <p>Op het landgoed bestond jarenlang meer dan één bewonersvereniging. Sinds 2023 is er nog één: Stille Wille Wonen (SWW). Deze pagina beschrijft hoe die situatie is ontstaan en welke rol elke vereniging had. De bevoegdheden van de Bewonersraad — advies- en instemmingsrecht, en de vraag hoe de praktijk zich verhoudt tot de exploitatieovereenkomst — staan op de pagina <a href="/br.html">BR (bewonersraad)</a>.</p>
 
-  <details class="sw-acc">
-    <summary><span class="sw-acc-n">01</span><span>De fusiehistorie</span></summary>
-    <div class="sw-acc-body"><p>Achtergrond van het samengaan van de voorgaande verenigingen.</p></div>
-  </details>
-  <details class="sw-acc">
-    <summary><span class="sw-acc-n">02</span><span>Herstructurering</span></summary>
-    <div class="sw-acc-body"><p>Het plan om de exploitatievorm te wijzigen en de analyses daarop.</p></div>
-  </details>
-  <details class="sw-acc">
-    <summary><span class="sw-acc-n">03</span><span>Bestuur & commissies</span></summary>
-    <div class="sw-acc-body"><p>Overzicht van werkgroepen, taken en vacatures.</p></div>
-  </details>
+  <h2>De weg naar één vereniging</h2>
+  <ol class="vt">
+    <li class="vt-item">
+      <span class="vt-dot" aria-hidden="true"></span>
+      <div class="vt-when">11 mei 1989</div>
+      <h3 class="vt-what">Vereniging Bestwil opgericht</h3>
+      <p class="vt-body">Bestwil is een ledenvereniging van erfpachters. Zij zet zich volgens haar statuten in voor haar léden — niet voor alle bewoners — en richt zich mede op de onderlinge band op het landgoed. De statuten zijn op 4 oktober 2005 gewijzigd.</p>
+    </li>
+    <li class="vt-item">
+      <span class="vt-dot" aria-hidden="true"></span>
+      <div class="vt-when">4 november 2015</div>
+      <h3 class="vt-what">VHSW opgericht</h3>
+      <p class="vt-body">De Vereniging van Huiseigenaren en huurders Stille Wille (VHSW) ontstaat uit Bestwil, opgericht door bewoners die vonden dat Bestwil de belangen na het faillissement van de vorige exploitant onvoldoende behartigde. De VHSW richt zich op betaalbare voorzieningen en op de verantwoordelijkheid van de eigenaar voor de infrastructuur.</p>
+    </li>
+    <li class="vt-item">
+      <span class="vt-dot" aria-hidden="true"></span>
+      <div class="vt-when">26 mei 2023</div>
+      <h3 class="vt-what">Stille Wille Wonen opgericht — Bestwil en VHSW opgeheven</h3>
+      <p class="vt-body">Na zeven jaar met twee verenigingen naast elkaar wordt besloten niet te fuseren — juridisch een complex traject — maar een nieuwe vereniging op te richten en de twee bestaande op te heffen. De algemene ledenvergaderingen van beide verenigingen stemmen unaniem in. Bestwil wordt opgeheven (besluit 12 mei 2023, uitgeschreven uit het handelsregister); het batig saldo gaat naar de nieuwe vereniging. Sindsdien is er één bewonersvereniging: Stille Wille Wonen.</p>
+    </li>
+  </ol>
+  <div class="sources">
+    <strong>Bronnen</strong>
+    <span>Nieuwsbrief Bestwil 21-4-2021 (oprichting 1989, statutenwijziging 2005). · Nieuwsbrief VHSW feb/apr 2021 (oprichting VHSW 4-11-2015).</span>
+    <span>Notulen ALV Bestwil 12-5-2023 (opheffing, batig saldo). · Nieuwsbrief november 2023 (uitschrijving KvK). · Nieuwsbrief juni 2023 (oprichting SWW 26-5-2023).</span>
+  </div>
+
+  <h2>Twee verenigingen, twee koersen</h2>
+  <p>De twee verenigingen verschilden in aanpak richting de eigenaar en de exploitant. Dat verschil is feitelijk en verklaart waarom zij jarenlang naast elkaar bestonden.</p>
+  <div class="compare">
+    <div class="col">
+      <h4>Bestwil</h4>
+      <p>Koos voor een overleggerichte aanpak: belangenbehartiging voor de eigen leden, via de bestaande overlegstructuur met de exploitant.</p>
+    </div>
+    <div class="col">
+      <h4>VHSW</h4>
+      <p>Koos voor een strijdbaarder, activistischer koers: sterker gericht op de verantwoordelijkheid van de eigenaar voor de infrastructuur en op de betaalbaarheid daarvan.</p>
+    </div>
+  </div>
+  <div class="sources">
+    <strong>Bronnen</strong>
+    <span>Nieuwsbrieven Bestwil en VHSW 2021–2023. De onderlinge verhouding kende wrijving; deze pagina beschrijft het koersverschil, niet de wederzijdse standpunten over personen.</span>
+  </div>
+
+  <h2>Ledental en vertegenwoordiging</h2>
+  <p>Bestwil was de grotere van de twee. In 2021 had Bestwil ongeveer 214 leden en de VHSW ongeveer 182 tot 195 (de tellingen van beide verenigingen verschilden licht). De Bewonersraad werd naar rato van het ledental samengesteld — als richtlijn één zetel per vijftig leden, met in totaal vijf of zeven zetels. Door dat verschil in ledental leverde Bestwil de meerderheid; in juni 2022 was de verhouding vier zetels Bestwil tegenover drie VHSW. In een vergadering in 2022 is vastgelegd dat een voorstel werd afgewezen in de Bewonersraad waarin Bestwil de meerderheid van stemmen had.</p>
+  <p>Niet alle 324 huishoudens op het landgoed waren lid van een vereniging; deelname aan de Bewonersraad liep uitsluitend via een erkende vereniging. Hoe die toegangsregel en de bevoegdheden precies zijn vastgelegd, staat op de pagina <a href="/br.html">BR (bewonersraad)</a>.</p>
+  <div class="sources">
+    <strong>Bronnen</strong>
+    <span>Verslag Bestwil 28-5-2021 en Nieuwsbrief VHSW april 2021 (ledentallen). · Nieuwsbrief VHSW april 2021 en nieuwsbrief oktober 2023 (zetelsleutel). · Verslag Bewonersraad 18-6-2022 (verhouding 4–3). · Notulen Bewonersraad 7-9-2022 (meerderheid).</span>
+  </div>
+
+  <h2>De situatie nu</h2>
+  <p>Sinds 2023 is Stille Wille Wonen de enige bewonersvereniging op het landgoed. Zij vaardigt de bewonersleden af naar de Bewonersraad. Het samengaan veranderde de samenstelling van die raad; de bevoegdheden, de zetelverdeling sinds 2023 en de verhouding tot de exploitatieovereenkomst worden behandeld op de pagina <a href="/br.html">BR (bewonersraad)</a>.</p>
 
   <nav class="pager" data-sw-pager></nav>
 </main>
