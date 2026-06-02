@@ -192,7 +192,7 @@ window.SW_DOSSIERS = [
     titel: "SWW (bewonersvereniging)",
     categorie: "Organisatie & beheer",
     accent: "orange",
-    status: "in-uitvoering",
+    status: "voltooid",
     omschrijving: "De bewonersvereniging: historie, herstructurering en bestuur.",
     secties: [
       { titel: "De fusiehistorie", omschrijving: "Achtergrond van het samengaan van de voorgaande verenigingen." },
@@ -206,7 +206,7 @@ window.SW_DOSSIERS = [
     titel: "BR (bewonersraad)",
     categorie: "Organisatie & beheer",
     accent: "green",
-    status: "gepland",
+    status: "in-uitvoering",
     omschrijving: "De bewonersraad: bevoegdheden en vertegenwoordiging.",
     secties: [
       { titel: "Positie & mandaat", omschrijving: "De vraag of de raad adviesrecht of instemmingsrecht heeft." },
