@@ -11,26 +11,180 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/tokens.css">
 <link rel="stylesheet" href="/components.css">
+<style>
+  .sh-intro { background: var(--cream); border: 1px solid var(--green-15); border-left: 3px solid var(--green); border-radius: 6px; padding: 20px 24px; margin: 8px 0 32px; }
+  .sh-intro p { margin: 0 0 10px; font-size: 15px; line-height: 1.7; color: var(--grey-mid); max-width: 74ch; }
+  .sh-intro p:last-child { margin-bottom: 0; }
+
+  .sh-map { margin: 8px 0 36px; }
+  .sh-layer { margin-bottom: 14px; }
+  .sh-layer-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 8px; }
+  .sh-blocks { display: flex; flex-wrap: wrap; gap: 12px; }
+  .sh-block { flex: 1 1 240px; background: var(--white); border: 1px solid var(--green-15); border-radius: 6px; padding: 16px 18px; }
+  .sh-block.owner { border-left: 3px solid var(--green); }
+  .sh-block.operator { border-left: 3px solid var(--grey-mid); }
+  .sh-block.residents { border-left: 3px solid var(--green-25); background: var(--cream); }
+  .sh-block h4 { font-family: var(--font-display); font-size: 16px; color: var(--grey-dark); margin: 0 0 6px; }
+  .sh-block p { font-size: 13.5px; line-height: 1.55; color: var(--grey-mid); margin: 0; }
+  .sh-rel { font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--grey-mid); margin: 14px 0 0; padding: 14px 18px; background: rgba(31,127,78,0.03); border: 1px dashed var(--green-15); border-radius: 6px; }
+  .sh-rel strong { color: var(--grey-dark); }
+
+  .sh-table-wrap { overflow-x: auto; margin: 14px 0 8px; }
+  table.sh { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 560px; }
+  table.sh th { text-align: left; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--grey-dark); border-bottom: 2px solid var(--green-25); padding: 9px 12px; vertical-align: bottom; }
+  table.sh td { border-bottom: 1px solid var(--green-15); padding: 11px 12px; line-height: 1.55; color: var(--grey-mid); vertical-align: top; }
+  table.sh td.g { font-family: var(--font-display); font-weight: 600; color: var(--grey-dark); }
+  table.sh .src { font-family: var(--font-mono); font-size: 11px; color: var(--grey-soft); }
+  .sh-note { font-size: 13px; line-height: 1.6; color: var(--grey-mid); background: var(--cream); border: 1px solid var(--green-15); border-radius: 6px; padding: 12px 16px; margin: 10px 0 28px; }
+</style>
 </head>
 <body data-slug="stakeholders">
+
 <nav class="sw-nav"><div class="sw-nav-inner"></div></nav>
+
 <header class="page-header">
   <div class="page-header-inner">
-    <div class="page-kicker">
-      <span class="square"></span></div>
+    <div class="page-kicker"><span class="square"></span></div>
     <h1 class="page-title">Stakeholders</h1>
-    <p class="page-lede">Wie is wie op het landgoed: de verhoudingen tussen grondeigenaar, exploitant, bewoners en vertegenwoordiging.</p>
+    <p class="page-lede">Wie is wie op het landgoed — en waar lopen belangen samen of uiteen? Een feitelijke kaart, geen mening.</p>
   </div>
 </header>
+
 <main class="page-main">
+
   <div data-sw-status></div>
-  <h2>Opzet</h2>
-  <p>Deze pagina brengt in beeld wie welke rol heeft en wie met wie een overeenkomst heeft: grondeigenaar, exploitant, bewoners en hun vertegenwoordiging. Het is een structuur- en relatiekaart, geen belangenanalyse — er worden geen motieven toegeschreven en geen namen van bewoners of raadsleden genoemd. Elke node en elke relatie krijgt een bronverwijzing en een verificatie-status, gelijk aan het <a href="/bronnen.html">bronnenregister</a>.</p>
+
+  <div class="sh-intro">
+    <p>Deze pagina brengt de partijen en bewonersgroepen op het landgoed in beeld, en laat zien waar hun posities samenvallen en waar ze uiteenlopen. De uitgangspunten: een positie wordt alleen benoemd waar een document of contract die vastlegt, er worden geen motieven of bedoelingen toegeschreven, en er worden geen namen van personen genoemd.</p>
+    <p>Een "spanning" betekent hier niet dat partijen ruzie hebben, maar dat contracten of regelingen hun lasten of rollen tegengesteld verdelen. Die spanning blijkt uit de stukken, niet uit een oordeel.</p>
+  </div>
+
+  <h2>1. De structuur — wie is wie</h2>
+  <div class="sh-map">
+    <div class="sh-layer">
+      <div class="sh-layer-label">Eigendom &amp; exploitatie</div>
+      <div class="sh-blocks">
+        <div class="sh-block owner">
+          <h4>Grondeigenaar — LSW</h4>
+          <p>Landgoed De Stille Wille B.V. (KvK 18008351), eigenaar van de grond en de niet-verkochte percelen. Bestuurd door Oostervelden Projecten B.V. sinds 16 november 2020. LSW is partij bij de erfpachtovereenkomsten en ontvangt de erfpachtgelden; bij verkoop van een perceel ontvangt LSW de verkoopopbrengst. De exploitant (SWB) staat hierbuiten.</p>
+        </div>
+        <div class="sh-block operator">
+          <h4>Exploitant — SWB</h4>
+          <p>Stille Wille Brabant B.V. (KvK 08098311), belast met beheer en exploitatie van het landgoed. Historisch een zustervennootschap van de grond-bv; sinds 2020 eveneens bestuurd door Oostervelden Projecten B.V.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sh-layer">
+      <div class="sh-layer-label">Bewoners &amp; vertegenwoordiging</div>
+      <div class="sh-blocks">
+        <div class="sh-block residents">
+          <h4>Bewoners</h4>
+          <p>De circa 324 huishoudens: erfpachters (tijdelijk of eeuwigdurend) en perceeleigenaren. Niet iedereen is lid van de vereniging.</p>
+        </div>
+        <div class="sh-block residents">
+          <h4>Vereniging — SWW</h4>
+          <p>Stille Wille Wonen, sinds 2023 de enige bewonersvereniging (zie <a href="/sww.html">SWW</a>). Ontstaan uit de voorlopers Bestwil en VHSW.</p>
+        </div>
+        <div class="sh-block residents">
+          <h4>Bewonersraad</h4>
+          <p>Overlegorgaan tussen exploitant en bewoners, gekozen via de vereniging. Geen rechtspersoon. Gemandateerd door de leden van de bewonersvereniging oefent de raad, conform de exploitatieovereenkomst, drie rechten uit in het overleg met de exploitant (SWB):</p>
+          <ul style="margin:8px 0 0;padding-left:20px;font-size:13.5px;line-height:1.55;color:var(--grey-mid);">
+            <li>overlegrecht</li>
+            <li>adviesrecht</li>
+            <li>instemmingsrecht</li>
+          </ul>
+          <p style="margin-top:8px;">Welke onderwerpen onder welk recht vallen — en hoe dat onderscheid onder druk stond — staat op de pagina <a href="/br.html">BR</a>.</p>
+        </div>
+      </div>
+    </div>
+    <p class="sh-rel">
+      <strong>De contractuele lijnen.</strong> De grondeigenaar (LSW) en de exploitant (SWB) zijn verbonden via de Beheersovereenkomst (loopt tot in beginsel 2028). De exploitant (SWB) en de bewoners zijn verbonden via de individuele exploitatieovereenkomst, die ook de Bewonersraad regelt. De grondeigenaar (LSW) en de erfpachters zijn verbonden via de erfpacht- en opstalrechten. Sinds 2020 worden zowel LSW als SWB bestuurd door dezelfde vennootschap; de directeur van SWB is daarmee feitelijk verbonden aan een onderneming die eigendom is van de grondeigenaar.
+    </p>
+    <p class="sh-rel" style="background:var(--cream);border-style:solid;">
+      <strong>Een terugkerend principe.</strong> Wat in de exploitatiebegroting valt, wordt via de servicekosten door de bewoners gedragen. De exploitant (SWB) int en beheert die kosten, maar draagt ze niet zelf. Verschillende spanningen hieronder draaien om de vraag wélke kosten in die begroting terechtkomen.
+    </p>
+  </div>
+
+  <h2>2. Bewonersgroepen</h2>
+  <p>De bewoners vormen geen blok. Zij verschillen in hun rechtspositie, en die verschillen bepalen welk belang zij bij welk onderwerp hebben.</p>
+  <div class="sh-table-wrap">
+    <table class="sh">
+      <thead><tr><th>Groep</th><th>Onderscheidend kenmerk</th><th>Indicatie aantal</th><th class="src">Bron</th></tr></thead>
+      <tbody>
+        <tr><td class="g">Eeuwigdurende erfpacht</td><td>Doorlopend erfpachtrecht</td><td>~45%, dalend</td><td class="src">enquête / Bestwil 2023</td></tr>
+        <tr><td class="g">Perceel gekocht</td><td>Eigenaar van de grond; buiten de erfpacht- en 2028-kwesties</td><td>~31% (2022) → ~38% (2025), groeiend</td><td class="src">nieuwsbrief 2022 / opgave 2025</td></tr>
+        <tr><td class="g">Tijdelijke erfpacht ("groep 2028")</td><td>Erfpacht loopt af in 2028</td><td>~10–20%</td><td class="src">enquête 2023 / opgave LSW</td></tr>
+        <tr><td class="g">Minder draagkrachtige "groep 2028"</td><td>Tijdelijke erfpacht én onvoldoende middelen om te kopen</td><td>—</td><td class="src">sociaal-plan-stukken</td></tr>
+        <tr><td class="g">Gasverbruikers</td><td>Aangesloten op het propaannet</td><td>~100 + ~50</td><td class="src">notulen BR 27-10-2025</td></tr>
+        <tr><td class="g">Warmtepomp / van het gas af</td><td>Niet meer op het net</td><td>—</td><td class="src">idem (afgeleid)</td></tr>
+        <tr><td class="g">Procesgroep huur opstallen</td><td>Korting o.g.v. het arrest van 2013</td><td>44</td><td class="src">arrest 2013 + nieuwsbrief VHSW</td></tr>
+        <tr><td class="g">Overige bewoners huur opstallen</td><td>Betalen de bijdrage wél</td><td>overig</td><td class="src">nieuwsbrief VHSW</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sh-note">De aantallen vormen een momentopname en lopen uiteen tussen bronnen. Een bewonersenquête uit 2023 telde circa 46% eeuwigdurende erfpacht, 38% gekochte percelen en 14% tijdelijke erfpacht. De grondverkoop loopt door: in maart 2022 was circa 31% van de gronden verkocht, in mei 2025 circa 124 van de 324 percelen (~38%). Meerdere bronnen, waaronder de grondeigenaar zelf, bevestigen dat het aandeel kopers toeneemt en dat van de erfpachters afneemt. Een primaire, actuele telling (notarieel of Kadaster) ontbreekt in de beschikbare stukken; de bandbreedtes zijn indicatief.</div>
+
+  <h2>3. Waar belangen samenvallen</h2>
+  <div class="sh-table-wrap">
+    <table class="sh">
+      <thead><tr><th>Gedeelde positie</th><th>Wie deelt die</th><th class="src">Bron</th></tr></thead>
+      <tbody>
+        <tr><td class="g">Een werkend gasnet</td><td>Gasverbruikers én exploitant hebben er belang bij dat het net functioneert; de kosten lopen via de servicekosten en worden door de bewoners gedragen</td><td class="src">verdeelsleutel + arrest 2013</td></tr>
+        <tr><td class="g">De gerealiseerde dubbelbestemming</td><td>Alle bewoners en beide oud-verenigingen — permanent wonen werd mogelijk</td><td class="src">RvS 2019</td></tr>
+        <tr><td class="g">Een solvabele exploitant</td><td>Alle bewoners — bij wegvallen van de exploitant wordt de exploitatieovereenkomst onuitvoerbaar</td><td class="src">precedent SWM 2003 (arrest r.o. 5.6.10)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>4. Waar belangen uiteenlopen</h2>
+  <p>Op de volgende punten verdelen contracten of regelingen de lasten of rollen tegengesteld. Dit zijn structurele spanningen — zichtbaar in de stukken, geen verwijt aan een partij.</p>
+  <div class="sh-table-wrap">
+    <table class="sh">
+      <thead><tr><th>Spanning</th><th>Tussen welke posities</th><th>Wat de stukken zeggen</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="g">Lekverlies boven 5%</td>
+          <td>Gasverbruikers ↔ overige bewoners</td>
+          <td>Volgens de toelichting van 13 mei 2026 zal lekverlies boven de 5%-norm voortaan ten laste van de exploitatie worden gebracht en "door iedereen gedragen" worden. Daarmee verschuift dit deel van de gaskosten van de gasverbruikers naar de algemene exploitatiebegroting. <span class="src">toelichting SWB 13-5-2026</span></td>
+        </tr>
+        <tr>
+          <td class="g">Vervanging gasnet vs. exploitatielasten</td>
+          <td>Bewoners ↔ grondeigenaar</td>
+          <td>Het arrest van 2013 legt vervanging van het gasnet bij de eigenaar; regulier onderhoud loopt via de exploitatie en wordt daarmee via de servicekosten door de bewoners gedragen. Waar regulier onderhoud overgaat in vervanging of investering in een nieuwe voorziening, is in de praktijk onduidelijk. <span class="src">arrest 2013 + verdeelsleutel</span></td>
+        </tr>
+        <tr>
+          <td class="g">Servicekosten: 5%-drempel vs. herstel exploitant</td>
+          <td>Bewonersbelang lage lasten ↔ bewonersbelang gezonde exploitant</td>
+          <td>De overeenkomst kent een drempel van 5% met overleg daarboven (art. 5.3). Tegelijk boekte de exploitant over 2024 een verlies van € 47.849 en over 2025 een nulresultaat; een te lage begroting raakt de houdbaarheid van de exploitatie. <span class="src">art. 5.3 + concept-jaarrekeningen 2024/2025</span></td>
+        </tr>
+        <tr>
+          <td class="g">Erfpacht-einde 2028</td>
+          <td>"Groep 2028" ↔ eeuwigdurend ↔ gekocht</td>
+          <td>Aflopende, doorlopende en beëindigde erfpacht geven verschillende posities. Een rechterlijk vonnis verplicht LSW tot een omzettingsaanbod tot 31 december 2028; het hof behandelde de waardevergoeding bij einde erfpacht (art. 5:99 BW). <span class="src">vonnis (dossier, niet openbaar verifieerbaar) + arrest GHSHE:2023:733</span></td>
+        </tr>
+        <tr>
+          <td class="g">Huur opstallen — wel of geen bijdrage</td>
+          <td>Procesgroep (korting) ↔ overige bewoners</td>
+          <td>Het arrest van 2013 leidde tot een korting voor de 44 erfpachters die procedeerden; voor de overige bewoners is dezelfde korting niet toegepast. <span class="src">arrest 2013 + nieuwsbrief VHSW</span></td>
+        </tr>
+        <tr>
+          <td class="g">Het sociaal plan voor "groep 2028"</td>
+          <td>Deze groep ↔ het collectief van alle bewoners</td>
+          <td>LSW noemt een sociaal plan met maatwerk (lening, tijdelijk contract, verhuur, of aankoop van de opstal). Wie de kosten van dat plan draagt — de eigenaar, de betreffende bewoners, of het collectief via de exploitatiebegroting — is in de stukken niet uitgewerkt. <span class="src">notulen BR 29-10-2022 + nieuwsbrief aug-2023; financiering: geen bron</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sh-note">Niet elke bewoner is bij deze spanningen betrokken. Een groeiende groep heeft opstal én perceel gekocht en staat daarmee buiten de erfpacht-, omzettings- en 2028-vraagstukken.</div>
+
   <nav class="pager" data-sw-pager></nav>
 </main>
+
 <footer class="sw-footer">
   <strong>Kerndossiers Landgoed De Stille Wille</strong> — dit is een groeiend dossier. Meer onderwerpen volgen.
 </footer>
+
 <script src="/dossiers.js"></script>
 <script src="/chrome.js"></script>
 </body>
