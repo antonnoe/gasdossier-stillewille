@@ -393,6 +393,16 @@
 }
 .sw-nav .sw-nav-grp:hover .sw-nav-grp-panel,
 .sw-nav .sw-nav-grp:focus-within .sw-nav-grp-panel { display: block; }
+/* Onzichtbare hover-brug over het 6px-gat tussen knop en paneel, zodat de
+   muis van de categorie naar de items kan zonder dat het paneel wegschiet. */
+.sw-nav .sw-nav-grp-panel::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+}
 .sw-nav .sw-nav-grp-panel a {
   display: block;
   padding: 8px 18px;
@@ -678,6 +688,7 @@
     min-width: 0;
     margin: 0;
   }
+  .sw-nav .sw-nav-grp-panel::before { display: none; }
   .sw-nav .sw-nav-grp-panel a { padding: 6px 2px; }
   .sw-nav .sw-nav-doorsneden {
     border-left: none;
