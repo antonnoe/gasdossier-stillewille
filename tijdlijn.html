@@ -12,9 +12,6 @@
 <link rel="stylesheet" href="/tokens.css">
 <link rel="stylesheet" href="/components.css">
 <style>
-  /* ── Verificatie-badge — identiek aan het bronnenregister, zodat tijdlijn
-     en register één visuele taal spreken. Dit is de VERIFICATIE-as
-     (groen/geel/oranje), niet de readiness-as. ── */
   .verif-badge {
     display: inline-flex;
     align-items: center;
@@ -43,25 +40,40 @@
   .verif-badge--geel::before   { background: var(--yellow); }
   .verif-badge--oranje::before { background: var(--orange); }
 
-  .verif-legend {
-    list-style: none;
+  .tl-legend {
     margin: 16px 0 36px;
-    padding: 16px 20px;
-    max-width: 820px;
+    padding: 18px 22px;
+    max-width: 860px;
     background: var(--cream);
     border: 1px solid var(--green-15);
     border-radius: 8px;
   }
-  .verif-legend li { margin: 0 0 8px; font-size: 14px; line-height: 1.6; }
-  .verif-legend li:last-child { margin-bottom: 0; }
+  .tl-legend h3 {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey-dark);
+    margin: 0 0 10px;
+  }
+  .tl-legend h3:not(:first-child) { margin-top: 18px; }
+  .tl-legend ul { list-style: none; margin: 0; padding: 0; }
+  .tl-legend li { font-size: 14px; line-height: 1.6; margin-bottom: 6px; display: flex; align-items: baseline; gap: 9px; }
+  .tl-legend li:last-child { margin-bottom: 0; }
+  .lg-dot { width: 11px; height: 11px; border-radius: 50%; flex: none; position: relative; top: 1px; }
+  .lg-dot--groen  { background: var(--green); }
+  .lg-dot--geel   { background: var(--yellow); }
+  .lg-dot--oranje { background: var(--orange); }
+  .lg-swatch { width: 22px; height: 14px; border-radius: 3px; flex: none; position: relative; top: 1px; }
+  .lg-swatch--jur { background: var(--white); border: 1px solid var(--green-25); border-left: 3px solid var(--green-25); }
+  .lg-swatch--bew { background: var(--cream); border: 1px dashed var(--grey-soft); border-left: 3px solid var(--grey-mid); }
 
-  /* ── Verticale tijdlijn ── */
   .tl {
     list-style: none;
     margin: 0;
     padding: 0 0 0 40px;
     position: relative;
-    max-width: 860px;
+    max-width: 880px;
   }
   .tl::before {
     content: "";
@@ -72,7 +84,7 @@
     width: 2px;
     background: var(--green-15);
   }
-  .tl-node { position: relative; margin: 0 0 28px; }
+  .tl-node { position: relative; margin: 0 0 26px; }
   .tl-node:last-child { margin-bottom: 0; }
   .tl-dot {
     position: absolute;
@@ -93,14 +105,12 @@
     background: var(--white);
     border: 1px solid var(--green-15);
     border-left: 3px solid var(--green-25);
-    padding: 16px 20px;
+    padding: 15px 20px;
     border-radius: 4px;
   }
-  .tl-node--vooruitblik .tl-card {
-    background: var(--cream);
-    border-style: dashed;
-    border-left-color: var(--orange);
-  }
+  .tl-node--bewoners .tl-card { background: var(--cream); border-left-color: var(--grey-mid); }
+  .tl-node--vooruitblik .tl-card { border-style: dashed; }
+
   .tl-when {
     font-family: var(--font-mono);
     font-size: 11px;
@@ -110,10 +120,23 @@
     color: var(--green);
     margin-bottom: 6px;
   }
+  .tl-node--bewoners .tl-when { color: var(--grey-mid); }
+  .tl-tag {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--grey-soft);
+    border: 1px solid var(--green-15);
+    border-radius: 3px;
+    padding: 1px 6px;
+    margin-left: 8px;
+    white-space: nowrap;
+  }
   .tl-title {
     font-family: var(--font-display);
     font-weight: 600;
-    font-size: 18px;
+    font-size: 17px;
     line-height: 1.25;
     color: var(--grey-dark);
     margin: 0 0 8px;
@@ -121,17 +144,11 @@
   .tl-body {
     font-family: var(--font-body);
     font-size: 15px;
-    line-height: 1.65;
+    line-height: 1.62;
     color: var(--grey-mid);
     margin: 0 0 12px;
-    max-width: none;
   }
-  .tl-foot {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px 14px;
-  }
+  .tl-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
   .tl-src {
     font-family: var(--font-mono);
     font-size: 11px;
@@ -150,214 +167,236 @@
 <nav class="sw-nav"><div class="sw-nav-inner"></div></nav>
 <header class="page-header">
   <div class="page-header-inner">
-    <div class="page-kicker">
-      <span class="square"></span></div>
+    <div class="page-kicker"><span class="square"></span></div>
     <h1 class="page-title">Tijdlijn</h1>
     <p class="page-lede">De gebeurtenissen rond het landgoed in chronologische volgorde — de feitelijke ruggengraat onder de dossiers.</p>
   </div>
 </header>
 <main class="page-main">
   <div data-sw-status></div>
-  <p>Onderstaande tijdlijn loopt van de oprichting in 1978 tot de vooruitblik op 2028. Elke gebeurtenis draagt een verificatie-status, gelijk aan het <a href="/bronnen.html">bronnenregister</a>. Een verband tussen twee gebeurtenissen wordt alleen gelegd waar een bron dat steunt.</p>
-  <ul class="verif-legend">
-    <li>🟢 <strong>Groen — dubbel geverifieerd:</strong> bevestigd tegen de primaire bron én een onafhankelijke tweede bron (zoals openbare rechtspraak of het handelsregister).</li>
-    <li>🟡 <strong>Geel — bronbevestigd:</strong> terug te vinden in één brondocument; berust op één bron.</li>
-    <li>🟠 <strong>Oranje — bevestigd met kanttekening:</strong> het feit klopt, maar er is een toelichting die de lezer moet kennen.</li>
-  </ul>
+  <p>Deze tijdlijn loopt van de oprichting in 1978 tot de vooruitblik op 2028. Elke gebeurtenis draagt twee kenmerken: een <strong>verificatie-status</strong> (hoe zeker is het, gelijk aan het <a href="/bronnen.html">bronnenregister</a>) en een <strong>soort</strong> (juridisch-feitelijk, of bewoners &amp; beheer). Een verband tussen twee gebeurtenissen wordt alleen gelegd waar een bron dat steunt.</p>
+  <div class="tl-legend">
+    <h3>Verificatie — hoe zeker (kleur van de stip)</h3>
+    <ul>
+      <li><span class="lg-dot lg-dot--groen"></span><span><strong>Groen:</strong> dubbel geverifieerd — primaire bron én een onafhankelijke tweede bron (rechtspraak, handelsregister).</span></li>
+      <li><span class="lg-dot lg-dot--geel"></span><span><strong>Geel:</strong> bevestigd in één brondocument.</span></li>
+      <li><span class="lg-dot lg-dot--oranje"></span><span><strong>Oranje:</strong> bevestigd, met een kanttekening die de lezer moet kennen.</span></li>
+    </ul>
+    <h3>Soort gebeurtenis — achtergrond van de kaart</h3>
+    <ul>
+      <li><span class="lg-swatch lg-swatch--jur"></span><span><strong>Juridisch-feitelijk:</strong> oprichting, contracten, eigendom, rechterlijke uitspraken.</span></li>
+      <li><span class="lg-swatch lg-swatch--bew"></span><span><strong>Bewoners &amp; beheer:</strong> bewonersvertegenwoordiging, onderzoek, exploitatie en kosten.</span></li>
+    </ul>
+  </div>
   <ol class="tl">
 
     <li class="tl-node tl-node--groen">
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
-        <div class="tl-when">1978</div>
+        <div class="tl-when">1978 <span class="tl-tag">juridisch-feitelijk</span></div>
         <h3 class="tl-title">Oprichting SWM en start van de erfpacht-uitgifte</h3>
         <p class="tl-body">De holding richt Bungalowpark De Stille Wille B.V. (SWM) op; SWM en de grond-vennootschap (DJB) zijn zustervennootschappen onder dezelfde holding. Vanaf 1978 worden percelen bij het aflopen van de huurcontracten geleidelijk in erfpacht uitgegeven.</p>
-        <div class="tl-foot">
-          <span class="tl-src">Bron: arrest ECLI:NL:GHSHE:2013:3708, r.o. 5.2.3</span>
-          <span class="verif-badge verif-badge--groen">Groen</span>
-        </div>
+        <div class="tl-foot"><span class="tl-src">Bron: arrest ECLI:NL:GHSHE:2013:3708, r.o. 5.2.3</span><span class="verif-badge verif-badge--groen">Groen</span></div>
+      </div>
+    </li>
+
+    <li class="tl-node tl-node--groen tl-node--bewoners">
+      <span class="tl-dot" aria-hidden="true"></span>
+      <div class="tl-card">
+        <div class="tl-when">11 mei 1989 <span class="tl-tag">bewoners &amp; beheer</span></div>
+        <h3 class="tl-title">Vereniging Bestwil opgericht</h3>
+        <p class="tl-body">De bewonersvereniging Bestwil wordt opgericht: een ledenvereniging van erfpachters. Zie verder de pagina <a href="/sww.html">SWW</a>.</p>
+        <div class="tl-foot"><span class="tl-src">Bron: Nieuwsbrief Bestwil 21-4-2021</span><span class="verif-badge verif-badge--groen">Groen</span></div>
       </div>
     </li>
 
     <li class="tl-node tl-node--groen">
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
-        <div class="tl-when">31 december 1997</div>
+        <div class="tl-when">31 december 1997 <span class="tl-tag">juridisch-feitelijk</span></div>
         <h3 class="tl-title">Laatste percelen in erfpacht uitgegeven</h3>
         <p class="tl-body">De laatste percelen gaan op 31 december 1997 in erfpacht; daarmee eindigt de oude constructie waarbij SWM de grond huurde en onderverhuurde.</p>
-        <div class="tl-foot">
-          <span class="tl-src">Bron: arrest ECLI:NL:GHSHE:2013:3708, r.o. 5.2.3</span>
-          <span class="verif-badge verif-badge--groen">Groen</span>
-        </div>
+        <div class="tl-foot"><span class="tl-src">Bron: arrest ECLI:NL:GHSHE:2013:3708, r.o. 5.2.3</span><span class="verif-badge verif-badge--groen">Groen</span></div>
       </div>
     </li>
 
     <li class="tl-node tl-node--groen">
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
-        <div class="tl-when">13 mei 2003</div>
+        <div class="tl-when">13 mei 2003 <span class="tl-tag">juridisch-feitelijk</span></div>
         <h3 class="tl-title">Faillissement exploitant SWM</h3>
         <p class="tl-body">Exploitant SWM wordt failliet verklaard. Over de oorzaak van het faillissement verschillen partijen van mening.</p>
-        <div class="tl-foot">
-          <span class="tl-src">Bron: arrest ECLI:NL:GHSHE:2013:3708, r.o. 5.2.8</span>
-          <span class="verif-badge verif-badge--groen">Groen</span>
-        </div>
+        <div class="tl-foot"><span class="tl-src">Bron: arrest ECLI:NL:GHSHE:2013:3708, r.o. 5.2.8</span><span class="verif-badge verif-badge--groen">Groen</span></div>
       </div>
     </li>
 
     <li class="tl-node tl-node--groen">
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
-        <div class="tl-when">Eind juni 2003</div>
+        <div class="tl-when">Eind juni 2003 <span class="tl-tag">juridisch-feitelijk</span></div>
         <h3 class="tl-title">SWB neemt de exploitatie over</h3>
         <p class="tl-body">De holding brengt Stille Wille Brabant B.V. (SWB) in als nieuwe exploitant; de aandelen blijven bij dezelfde holding. Vanaf 30 juni 2003 betaalt de meerderheid van de bewoners servicekosten aan SWB. (SWB bestond als vennootschap al sinds 11 mei 2001 en is in 2003 als exploitant geactiveerd via een statutenwijziging op 12 juni 2003.)</p>
-        <div class="tl-foot">
-          <span class="tl-src">Bron: arrest ECLI:NL:GHSHE:2013:3708, r.o. 5.2.9 · KvK-uittreksel 08098311</span>
-          <span class="verif-badge verif-badge--groen">Groen</span>
-        </div>
+        <div class="tl-foot"><span class="tl-src">Bron: arrest ECLI:NL:GHSHE:2013:3708, r.o. 5.2.9 · KvK-uittreksel 08098311</span><span class="verif-badge verif-badge--groen">Groen</span></div>
       </div>
     </li>
 
     <li class="tl-node tl-node--groen">
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
-        <div class="tl-when">Oktober 2003</div>
+        <div class="tl-when">Oktober 2003 <span class="tl-tag">juridisch-feitelijk</span></div>
         <h3 class="tl-title">Concept-exploitatieovereenkomst en de huur van € 60.000</h3>
         <p class="tl-body">Overleg tussen de grondeigenaar, SWB en bewonersvereniging Bestwil leidt tot een concept-exploitatieovereenkomst, te sluiten met SWB; circa 290 bewoners tekenen. SWB gaat de exploitatiezaken — wegen, leidingwerken, lantaarnpalen, hekwerken, kantoor, beheerderswoning — van de grondeigenaar huren; taxateurs stellen die huur vast op € 60.000 per jaar, die als exploitatiekosten aan de bewoners wordt doorbelast.</p>
-        <div class="tl-foot">
-          <span class="tl-src">Bron: arrest ECLI:NL:GHSHE:2013:3708, r.o. 5.2.10 en 5.2.12</span>
-          <span class="verif-badge verif-badge--groen">Groen</span>
-        </div>
+        <div class="tl-foot"><span class="tl-src">Bron: arrest ECLI:NL:GHSHE:2013:3708, r.o. 5.2.10 en 5.2.12</span><span class="verif-badge verif-badge--groen">Groen</span></div>
       </div>
     </li>
 
     <li class="tl-node tl-node--groen">
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
-        <div class="tl-when">Mei 2010</div>
+        <div class="tl-when">Mei 2010 <span class="tl-tag">juridisch-feitelijk</span></div>
         <h3 class="tl-title">Nieuwe conceptakte na een eerder arrest</h3>
         <p class="tl-body">Naar aanleiding van een arrest uit 2010 sturen de grondeigenaar en SWB een nieuwe conceptakte aan de erfpachters, gelijkluidend aan die van oktober 2003 op één artikel na.</p>
-        <div class="tl-foot">
-          <span class="tl-src">Bron: arrest ECLI:NL:GHSHE:2013:3708 (feitenrelaas)</span>
-          <span class="verif-badge verif-badge--groen">Groen</span>
-        </div>
+        <div class="tl-foot"><span class="tl-src">Bron: arrest ECLI:NL:GHSHE:2013:3708 (feitenrelaas)</span><span class="verif-badge verif-badge--groen">Groen</span></div>
       </div>
     </li>
 
     <li class="tl-node tl-node--groen">
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
-        <div class="tl-when">13 augustus 2013</div>
+        <div class="tl-when">13 augustus 2013 <span class="tl-tag">juridisch-feitelijk</span></div>
         <h3 class="tl-title">Arrest Gerechtshof 's-Hertogenbosch</h3>
         <p class="tl-body">Het hof oordeelt dat de vervanging van het gasnetwerk voor rekening van de grondeigenaar komt (r.o. 5.13.9 en 5.13.10).</p>
-        <div class="tl-foot">
-          <span class="tl-src">Bron: ECLI:NL:GHSHE:2013:3708</span>
-          <span class="verif-badge verif-badge--groen">Groen</span>
-        </div>
+        <div class="tl-foot"><span class="tl-src">Bron: ECLI:NL:GHSHE:2013:3708</span><span class="verif-badge verif-badge--groen">Groen</span></div>
       </div>
     </li>
 
     <li class="tl-node tl-node--groen">
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
-        <div class="tl-when">16 september 2014</div>
+        <div class="tl-when">16 september 2014 <span class="tl-tag">juridisch-feitelijk</span></div>
         <h3 class="tl-title">Eindarrest in dezelfde zaak</h3>
-        <p class="tl-body">Het eindarrest bevestigt het uitgangspunt dat de vervangingskosten van het distributienet bij de grondeigenaar liggen.</p>
-        <div class="tl-foot">
-          <span class="tl-src">Bron: ECLI:NL:GHSHE:2014:3639</span>
-          <span class="verif-badge verif-badge--groen">Groen</span>
-        </div>
+        <p class="tl-body">Het eindarrest bevestigt het uitgangspunt dat de vervangingskosten van het distributienet bij de grondeigenaar liggen, en gebiedt de erfpachters binnen veertien dagen de exploitatieovereenkomst met SWB te tekenen.</p>
+        <div class="tl-foot"><span class="tl-src">Bron: ECLI:NL:GHSHE:2014:3639</span><span class="verif-badge verif-badge--groen">Groen</span></div>
+      </div>
+    </li>
+
+    <li class="tl-node tl-node--groen tl-node--bewoners">
+      <span class="tl-dot" aria-hidden="true"></span>
+      <div class="tl-card">
+        <div class="tl-when">4 november 2015 <span class="tl-tag">bewoners &amp; beheer</span></div>
+        <h3 class="tl-title">VHSW opgericht</h3>
+        <p class="tl-body">Een tweede bewonersvereniging, de VHSW, ontstaat uit Bestwil — opgericht door bewoners die de belangenbehartiging onvoldoende vonden. Vanaf nu bestaan twee verenigingen naast elkaar. Zie de pagina <a href="/sww.html">SWW</a>.</p>
+        <div class="tl-foot"><span class="tl-src">Bron: Nieuwsbrief VHSW februari/april 2021</span><span class="verif-badge verif-badge--groen">Groen</span></div>
       </div>
     </li>
 
     <li class="tl-node tl-node--groen">
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
-        <div class="tl-when">4 februari 2020</div>
+        <div class="tl-when">29 mei 2019 <span class="tl-tag">juridisch-feitelijk</span></div>
+        <h3 class="tl-title">Raad van State — dubbelbestemming definitief</h3>
+        <p class="tl-body">Na een traject dat begon met een verzoek van eigenaar en bewoners aan de gemeente (2010), gemeentelijke medewerking (2011), aanpassing van de provinciale Verordening ruimte (2014) en vaststelling van het bestemmingsplan "De Stille Wille" (2017), maakt de Raad van State op 29 mei 2019 permanente bewoning naast recreatie definitief. De gemeente verbond dit aan een harde voorwaarde: herstel en ecologische ontwikkeling van het landgoed, vastgelegd in een Landschapskwaliteitsplan met inspanningsverplichting en geoormerkte middelen. Sindsdien is het een woonlandgoed, niet langer enkel een recreatiepark. Zie het dossier <a href="/ecologie.html">Ecologie</a>.</p>
+        <div class="tl-foot"><span class="tl-src">Bron: Raad van State, ECLI:NL:RVS:2019:1762 (29-5-2019). Aanloop-data (2010–2017): gemeente/LSW, afgeleid.</span><span class="verif-badge verif-badge--groen">Groen</span></div>
+      </div>
+    </li>
+
+    <li class="tl-node tl-node--groen">
+      <span class="tl-dot" aria-hidden="true"></span>
+      <div class="tl-card">
+        <div class="tl-when">4 februari 2020 <span class="tl-tag">juridisch-feitelijk</span></div>
         <h3 class="tl-title">Bevestiging van de gevestigde lijn</h3>
         <p class="tl-body">Een latere uitspraak van het hof bevestigt de verdeling van vervangings- en onderhoudskosten.</p>
-        <div class="tl-foot">
-          <span class="tl-src">Bron: ECLI:NL:GHSHE:2020:332</span>
-          <span class="verif-badge verif-badge--groen">Groen</span>
-        </div>
+        <div class="tl-foot"><span class="tl-src">Bron: ECLI:NL:GHSHE:2020:332</span><span class="verif-badge verif-badge--groen">Groen</span></div>
+      </div>
+    </li>
+
+    <li class="tl-node tl-node--geel tl-node--bewoners">
+      <span class="tl-dot" aria-hidden="true"></span>
+      <div class="tl-card">
+        <div class="tl-when">Maart – juni 2020 <span class="tl-tag">bewoners &amp; beheer</span></div>
+        <h3 class="tl-title">Onafhankelijk gasonderzoek naar het netwerkverlies</h3>
+        <p class="tl-body">Twee bewoners onderzoeken in opdracht van de verenigingen de gasprijsontwikkeling en het verlies op het net. Het rapport berekent het verlies in stappen: circa 35% bruto (kalenderjaar 2019), 20,4% na correctie voor verdamperverbruik, en ongeveer 15% bovenmatig verlies boven de als normaal beschouwde 5%. Zie het <a href="/gas-historie.html">gasdossier</a>.</p>
+        <div class="tl-foot"><span class="tl-src">Bron: rapport Breedveld/Schoenmaker, 31 maart 2020</span><span class="verif-badge verif-badge--geel">Geel</span></div>
       </div>
     </li>
 
     <li class="tl-node tl-node--groen">
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
-        <div class="tl-when">16 november 2020</div>
+        <div class="tl-when">16 november 2020 <span class="tl-tag">juridisch-feitelijk</span></div>
         <h3 class="tl-title">Overname van het landgoed</h3>
         <p class="tl-body">De familie de Jong neemt na ruim vijftig jaar afscheid. Oostervelden Projecten B.V. wordt eigenaar en bestuurder van de grond-vennootschap en tevens bestuurder van SWB.</p>
-        <div class="tl-foot">
-          <span class="tl-src">Bron: gemeente Oirschot · KvK-uittreksel 08098311</span>
-          <span class="verif-badge verif-badge--groen">Groen</span>
-        </div>
+        <div class="tl-foot"><span class="tl-src">Bron: gemeente Oirschot · KvK-uittreksel 08098311</span><span class="verif-badge verif-badge--groen">Groen</span></div>
       </div>
     </li>
 
     <li class="tl-node tl-node--groen">
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
-        <div class="tl-when">29 maart 2021</div>
+        <div class="tl-when">29 maart 2021 <span class="tl-tag">juridisch-feitelijk</span></div>
         <h3 class="tl-title">Naamswijziging naar Landgoed De Stille Wille B.V.</h3>
         <p class="tl-body">De grond-vennootschap "De Jong Beleggingen B.V." wordt hernoemd tot "Landgoed De Stille Wille B.V." (LSW). De rechtspersoon zelf blijft dezelfde.</p>
-        <div class="tl-foot">
-          <span class="tl-src">Bron: gemeente Oirschot · KvK-uittreksel 18008351</span>
-          <span class="verif-badge verif-badge--groen">Groen</span>
-        </div>
+        <div class="tl-foot"><span class="tl-src">Bron: gemeente Oirschot · KvK-uittreksel 18008351</span><span class="verif-badge verif-badge--groen">Groen</span></div>
       </div>
     </li>
 
     <li class="tl-node tl-node--groen">
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
-        <div class="tl-when">7 maart 2023</div>
+        <div class="tl-when">7 maart 2023 <span class="tl-tag">juridisch-feitelijk</span></div>
         <h3 class="tl-title">Opnieuw bevestiging van de gevestigde lijn</h3>
         <p class="tl-body">In een latere procedure bevestigt het hof opnieuw de lijn over de verdeling van kosten.</p>
-        <div class="tl-foot">
-          <span class="tl-src">Bron: ECLI:NL:GHSHE:2023:733</span>
-          <span class="verif-badge verif-badge--groen">Groen</span>
-        </div>
+        <div class="tl-foot"><span class="tl-src">Bron: ECLI:NL:GHSHE:2023:733</span><span class="verif-badge verif-badge--groen">Groen</span></div>
       </div>
     </li>
 
-    <li class="tl-node tl-node--oranje">
+    <li class="tl-node tl-node--groen tl-node--bewoners">
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
-        <div class="tl-when">2024 – 2025</div>
-        <h3 class="tl-title">Naheffing gas</h3>
-        <p class="tl-body">SWB stuurt een naheffing gas over 2024–2025 van € 36.797,48 over 22.784 m³. De afrekening vermeldt niet of dit bedrag in- of exclusief btw is; rekenkundig sluit het aan op € 1,95/m³ wanneer 21% btw wordt toegepast.</p>
-        <div class="tl-foot">
-          <span class="tl-src">Bron: toelichting eindafrekening gas 2024–2025</span>
-          <span class="verif-badge verif-badge--oranje">Oranje</span>
-        </div>
+        <div class="tl-when">26 mei 2023 <span class="tl-tag">bewoners &amp; beheer</span></div>
+        <h3 class="tl-title">Eén bewonersvereniging: Stille Wille Wonen</h3>
+        <p class="tl-body">De twee verenigingen worden opgeheven en een nieuwe vereniging, Stille Wille Wonen (SWW), wordt opgericht. Sindsdien is er één bewonersvereniging. Zie de pagina <a href="/sww.html">SWW</a>.</p>
+        <div class="tl-foot"><span class="tl-src">Bron: nieuwsbrief juni 2023 · ALV-besluit 12-5-2023</span><span class="verif-badge verif-badge--groen">Groen</span></div>
       </div>
     </li>
 
-    <li class="tl-node tl-node--geel">
+    <li class="tl-node tl-node--oranje tl-node--bewoners">
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
-        <div class="tl-when">2026</div>
+        <div class="tl-when">2024 – 2025 <span class="tl-tag">bewoners &amp; beheer</span></div>
+        <h3 class="tl-title">Naheffing gas — verstuurd en ingetrokken</h3>
+        <p class="tl-body">SWB stuurt een naheffing gas over 2024–2025 van € 36.797,48 over 22.784 m³ (€ 1,95 per m³ bovenop de basisprijs van € 5,55). De factuur is op 13 mei 2026 ingetrokken; een nieuwe eindafrekening volgt. Zie het <a href="/gas-kosten.html">gasdossier</a>.</p>
+        <div class="tl-foot"><span class="tl-src">Bron: afrekening/begeleidend schrijven SWB 7 mei 2026 · intrekking 13 mei 2026</span><span class="verif-badge verif-badge--oranje">Oranje</span></div>
+      </div>
+    </li>
+
+    <li class="tl-node tl-node--geel tl-node--bewoners">
+      <span class="tl-dot" aria-hidden="true"></span>
+      <div class="tl-card">
+        <div class="tl-when">Vanaf 27 oktober 2025 <span class="tl-tag">bewoners &amp; beheer</span></div>
+        <h3 class="tl-title">Ondergrondse gaslekken en het vervolgtraject</h3>
+        <p class="tl-body">Volgens de Bewonersraad-notulen van 27 oktober 2025 worden tien ondergrondse lekken in kaart gebracht, waarvan er twee direct zijn hersteld; voor de rest wordt externe gecertificeerde expertise ingeschakeld. Er wordt een meetplan afgesproken: lekken dichten, drukverschillen en gasstanden meten en na twee maanden opnieuw vergelijken. Verdergaande opties — versneld van het gas af, of losse propaantanks bij woningen — worden als "te prematuur" omschreven; een besluit over vervanging of uitfasering is er niet. In mei 2026 meldt de exploitant dat er op dat moment geen lekkages bekend zijn, maar dat dit niet betekent dat het net lekvrij is. De zaak is dan nog niet afgerond; een onderliggend meetrapport ontbreekt in het dossier. Zie het <a href="/gas-kosten.html">gasdossier</a>.</p>
+        <div class="tl-foot"><span class="tl-src">Bron: notulen Bewonersraad 27-10-2025 · toelichting SWB 13-5-2026 (afgeleide vermeldingen)</span><span class="verif-badge verif-badge--geel">Geel</span></div>
+      </div>
+    </li>
+
+    <li class="tl-node tl-node--geel tl-node--bewoners">
+      <span class="tl-dot" aria-hidden="true"></span>
+      <div class="tl-card">
+        <div class="tl-when">2026 <span class="tl-tag">bewoners &amp; beheer</span></div>
         <h3 class="tl-title">Begrotingsvoorstel en huur opstallen</h3>
-        <p class="tl-body">Een begrotingsvoorstel voor 2026 gaat richting 20% stijging, tegenover de contractuele 5%-norm. De post huur opstallen staat voor 2026 op € 97.850.</p>
-        <div class="tl-foot">
-          <span class="tl-src">Bron: notulen Bewonersraad 6-1-2026</span>
-          <span class="verif-badge verif-badge--geel">Geel</span>
-        </div>
+        <p class="tl-body">Een begrotingsvoorstel voor 2026 gaat richting 20%. De overeenkomst kent een drempel van 5% met uitzonderingen (zie <a href="/br.html">BR</a>); bij een hogere stijging is overleg met de Bewonersraad over nut en noodzaak vereist. De post huur opstallen staat voor 2026 op € 97.850.</p>
+        <div class="tl-foot"><span class="tl-src">Bron: notulen Bewonersraad 6-1-2026</span><span class="verif-badge verif-badge--geel">Geel</span></div>
       </div>
     </li>
 
-    <li class="tl-node tl-node--oranje tl-node--vooruitblik">
+    <li class="tl-node tl-node--groen tl-node--vooruitblik">
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
-        <div class="tl-when">2028 · vooruitblik</div>
-        <h3 class="tl-title">Aflooppunt beheerovereenkomst — nog onbevestigd</h3>
-        <p class="tl-body">Volgens één gespreksverslag loopt de Beheerovereenkomst tussen LSW en SWB af in 2028. Een vaste looptijd van 25 jaar of een ingangsjaar 2003 staat niet onafhankelijk vast: het arrest van 2013 noemt 2028 noch een looptijd. Voor een erfpacht-einddatum in 2028 is geen bron gevonden. Dit punt is daarom een vooruitblik, geen vastgesteld feit.</p>
-        <div class="tl-foot">
-          <span class="tl-src">Bron: standpunten gesprek LSW 25-8-2025 · erfpacht-einddatum: geen bron gevonden</span>
-          <span class="verif-badge verif-badge--oranje">Oranje</span>
-        </div>
+        <div class="tl-when">2028 · vooruitblik <span class="tl-tag">juridisch-feitelijk</span></div>
+        <h3 class="tl-title">Aflooppunt van de Beheersovereenkomst</h3>
+        <p class="tl-body">De Beheersovereenkomst tussen de grondeigenaar en SWB is "aangegaan voor de duur van het recht van erfpacht, dat in beginsel eindigt in 2028", met een opzegtermijn van zes maanden voor de grondeigenaar (art. 2.1). De beheerduur is daarmee contractueel gekoppeld aan de erfpacht. De woorden "in beginsel" en de opzegmogelijkheid maken het een voorwaardelijk eindpunt. De einddatum van de erfpacht zélf is niet via een notariële akte in het dossier vastgelegd; daarvoor geldt nog geen primaire bron.</p>
+        <div class="tl-foot"><span class="tl-src">Bron: Beheersovereenkomst, art. 2.1</span><span class="verif-badge verif-badge--groen">Groen</span></div>
       </div>
     </li>
 
