@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Financieel overzicht · Kerndossiers Landgoed De Stille Wille</title>
-<meta name="description" content="Wat de jaarrekeningen van Stille Wille Brabant B.V. laten zien: waar gaat het servicekostengeld naartoe, wat is de huurconstructie, en hoe raken de gaskosten daaraan verweven?">
+<meta name="description" content="Wat de jaarrekeningen van Stille Wille Brabant B.V. laten zien: waar gaat het servicekostengeld naartoe, en welke open vragen roepen de huur opstallen, de gaskosten en de onderhoudsvoorziening op?">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,40 +16,6 @@
   html { scroll-behavior: smooth; }
   .page-main td.neg { color: var(--orange-deep); }
   .page-main .row-total td { font-weight: 700; background: var(--green-tint); }
-  .flow {
-    display: flex; flex-direction: column; gap: 4px;
-    margin: 28px 0;
-    max-width: 720px;
-  }
-  .flow-step {
-    display: flex; gap: 0;
-    background: var(--cream);
-    border-left: 3px solid var(--green);
-  }
-  .flow-label {
-    flex: 0 0 140px;
-    background: var(--green);
-    color: #fff;
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 13px;
-    padding: 14px 18px;
-    display: flex; align-items: center;
-    letter-spacing: 0.04em;
-  }
-  .flow-desc {
-    flex: 1;
-    padding: 14px 18px;
-    font-family: var(--font-body);
-    font-size: 15px;
-    line-height: 1.55;
-  }
-  .flow-arrow {
-    text-align: center;
-    font-family: var(--font-mono);
-    color: var(--green);
-    font-size: 16px;
-  }
   .page-main .sources {
     margin-top: 12px;
     padding-top: 10px;
@@ -61,10 +27,43 @@
   }
   .page-main .sources strong { color: var(--green); font-weight: 600; }
   .page-main .sources span { display: block; margin-top: 4px; }
-  @media (max-width: 520px) {
-    .flow-step { flex-direction: column; }
-    .flow-label { flex: none; }
+  .src { font-family: var(--font-mono); font-size: 11px; color: var(--grey-soft); }
+
+  /* Accordeon — dezelfde techniek als elders op de site (details.sw-acc) */
+  details.sw-acc { border-top: 1px solid var(--green-15); padding: 0; }
+  details.sw-acc:last-of-type { border-bottom: 1px solid var(--green-15); }
+  details.sw-acc { border: 1px solid var(--green-15); border-radius: 6px; margin: 16px 0; }
+  details.sw-acc summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 18px 22px;
+    display: grid;
+    grid-template-columns: 52px 1fr 24px;
+    gap: 16px;
+    align-items: center;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--grey-dark);
   }
+  details.sw-acc summary::-webkit-details-marker { display: none; }
+  details.sw-acc summary::after { content: '+'; font-family: var(--font-mono); color: var(--green); font-size: 18px; }
+  details.sw-acc[open] summary::after { content: '–'; }
+  details.sw-acc summary:hover { background: var(--cream); }
+  details.sw-acc .sw-acc-n {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em;
+    color: var(--green); font-weight: 700; text-align: center;
+    border: 1px solid var(--green-25); border-radius: 999px; padding: 3px 0;
+  }
+  details.sw-acc .sw-acc-body { padding: 4px 22px 22px; color: var(--grey-mid); font-size: 15px; line-height: 1.65; }
+  .sw-acc-body h4 { font-family: var(--font-display); font-size: 15px; color: var(--grey-dark); margin: 16px 0 6px; }
+  .sw-acc-body h4:first-child { margin-top: 0; }
+  .sw-acc-body p { margin: 0 0 10px; max-width: 74ch; }
+  .acc-branch { border-left: 3px solid var(--green-25); background: rgba(31,127,78,0.03); padding: 10px 14px; margin: 8px 0; font-size: 14.5px; line-height: 1.6; }
+  .acc-branch.b { border-left-color: var(--grey-mid); }
+  .acc-bewijs { background: var(--green-tint); border-radius: 6px; padding: 10px 14px; margin: 10px 0 4px; font-size: 14px; line-height: 1.6; }
+  .acc-status { background: var(--cream); border: 1px solid var(--green-15); border-radius: 6px; padding: 10px 14px; margin: 12px 0; font-size: 13px; line-height: 1.6; color: var(--grey-mid); }
+  .acc-inschatting { border-left: 3px solid var(--yellow); background: var(--yellow-tint); padding: 10px 14px; margin: 12px 0; font-size: 13.5px; line-height: 1.6; color: var(--grey-dark); }
 </style>
 </head>
 <body data-slug="financieel-overzicht">
@@ -81,7 +80,6 @@
 
 <main class="page-main">
 
-
   <div class="sw-dossier-filter">
     <label for="sw-dossier-select">Kies kerndossier:</label>
     <select id="sw-dossier-select" data-sw-dossier-select></select>
@@ -89,40 +87,55 @@
 
   <aside class="callout callout-green">
     <div class="callout-label">Leeswijzer</div>
-    <p>Als bewoner betaalt u elk kwartaal servicekosten aan Stille Wille Brabant B.V. (SWB). SWB is de exploitatiemaatschappij die het park beheert. SWB maakt elk jaar een jaarrekening — een financieel verslag dat laat zien hoeveel geld er is binnengekomen, waar het aan is uitgegeven, en wat er over is. Op deze pagina leggen we uit wat er in die jaarrekeningen staat, in gewone taal. We baseren ons uitsluitend op de officiële stukken: de (concept-)jaarrekeningen 2021 tot en met 2025, de begrotingsoverzichten, en de toelichting van de accountant.</p>
+    <p>Als bewoner betaalt u elk kwartaal servicekosten aan Stille Wille Brabant B.V. (SWB), de exploitatiemaatschappij die het park beheert. SWB maakt elk jaar een jaarrekening: een financieel verslag van wat er binnenkwam, waar het aan is uitgegeven en wat er overbleef. Op deze pagina leggen we uit wat er in die jaarrekeningen staat, in gewone taal. We baseren ons op de (concept-)jaarrekeningen 2022 t/m 2025, de begrotingsoverzichten, de toelichting van de accountant, de exploitatieovereenkomst, en gepubliceerde arresten van het Gerechtshof 's-Hertogenbosch. Feiten worden met bron vermeld; waar iets een inschatting is, staat dat er uitdrukkelijk bij.</p>
   </aside>
 
-  <p>De jaarrekeningen van SWB over 2021–2025 laten een aantal ontwikkelingen zien die direct raken aan wat u als bewoner betaalt voor gas, onderhoud en servicekosten. Hieronder de belangrijkste bevindingen.</p>
+  <p>De jaarrekeningen van SWB over 2022–2025 laten een aantal ontwikkelingen zien die direct raken aan wat u als bewoner betaalt voor gas, onderhoud en servicekosten. Hieronder de belangrijkste bevindingen. Vier terugkerende vragen zijn als uitklapbaar blok opgenomen: daarin staan twee mogelijke lezingen (A en B) naast elkaar, met de vraag wie wat moet aantonen.</p>
 
-  <h2>1. De financiële positie van SWB in zes cijfers</h2>
-  <p>Eerst het grote plaatje. Hieronder de belangrijkste cijfers uit de jaarrekeningen over vijf jaar.</p>
-  <p><strong>Eigen vermogen</strong> is wat een bedrijf bezit minus wat het schuldig is. Als dit negatief is, heeft het bedrijf meer schulden dan bezittingen. <strong>Liquide middelen</strong> is het geld op de bankrekening. <strong>Vorderingen</strong> zijn bedragen die SWB nog tegoed heeft van bewoners.</p>
+  <h2>1. De financiële positie van SWB in cijfers</h2>
+  <p>Eerst het grote plaatje, met de belangrijkste cijfers uit de jaarrekeningen. Voor 2020 en 2021 is geen bronstuk beschikbaar; die jaren zijn daarom weggelaten en de reeksen starten bij 2022.</p>
+  <p><strong>Eigen vermogen</strong> is wat een bedrijf bezit minus wat het schuldig is; is dit negatief, dan zijn er meer schulden dan bezittingen. <strong>Geld op de bank</strong> is het liquide saldo. <strong>Vorderingen</strong> zijn bedragen die SWB nog tegoed heeft van bewoners.</p>
 
   <div class="sw-table-wrap"><table>
-    <thead><tr><th>Post</th><th class="num">2021</th><th class="num">2022</th><th class="num">2023</th><th class="num">2024</th><th class="num">2025</th></tr></thead>
+    <thead><tr><th>Post</th><th class="num">2022</th><th class="num">2023</th><th class="num">2024</th><th class="num">2025</th></tr></thead>
     <tbody>
-      <tr><td>Eigen vermogen</td><td class="num">€ 17.384</td><td class="num">€ 17.384</td><td class="num">€ 17.384</td><td class="num neg">-€ 30.465</td><td class="num neg">-€ 30.465</td></tr>
-      <tr><td>Geld op de bank</td><td class="num">€ 95.869</td><td class="num">€ 123.343</td><td class="num">€ 294.677</td><td class="num">€ 204.618</td><td class="num">€ 84.820</td></tr>
-      <tr><td>Vorderingen op bewoners</td><td class="num">€ 133.055</td><td class="num">€ 310.600</td><td class="num">€ 122.383</td><td class="num">€ 100.737</td><td class="num">€ 247.105</td></tr>
-      <tr><td>Resultaat na belasting</td><td class="num">€ 0</td><td class="num">€ 0</td><td class="num">€ 0</td><td class="num neg">-€ 47.849</td><td class="num">€ 0</td></tr>
+      <tr><td>Eigen vermogen</td><td class="num">€ 17.384</td><td class="num">€ 17.384</td><td class="num neg">-€ 30.465</td><td class="num neg">-€ 30.465</td></tr>
+      <tr><td>Geld op de bank</td><td class="num">€ 123.343</td><td class="num">€ 294.677</td><td class="num">€ 204.618</td><td class="num">€ 84.820</td></tr>
+      <tr><td>Vorderingen op bewoners</td><td class="num">€ 310.600</td><td class="num">€ 122.383</td><td class="num">€ 100.737</td><td class="num">€ 247.105</td></tr>
+      <tr><td>Resultaat na belasting</td><td class="num">€ 0</td><td class="num">€ 0</td><td class="num neg">-€ 47.849</td><td class="num">€ 0</td></tr>
     </tbody>
   </table></div>
 
   <aside class="callout callout-green">
     <div class="callout-label">Wat valt op?</div>
-    <p>Sinds 2024 is het eigen vermogen negatief: SWB heeft meer schulden dan bezittingen. Het geld op de bank daalt snel: van bijna € 295.000 in 2023 naar € 85.000 in 2025. Tegelijkertijd stijgen de bedragen die SWB nog tegoed zegt te hebben van bewoners naar € 247.000. Die bedragen staan op papier, maar of ze daadwerkelijk geïnd worden, is onzeker — de jaarrekening zelf meldt dat "een aantal eigenaren structureel niet of niet geheel betaalt."</p>
+    <p>Het eigen vermogen is sinds eind 2024 negatief: meer schulden dan bezittingen. Het banksaldo daalt van € 294.677 (2023) naar € 84.820 (2025). De vorderingen op bewoners lopen in 2025 weer op naar € 247.105. De jaarrekening 2025 vermeldt dat "een aantal eigenaren waarbij een dispuut loopt over de verschuldigde bijdrage … structureel niet of niet geheel" betaalt.</p>
   </aside>
 
-  <div class="sources"><strong>Bronnen</strong><span>Jaarrekeningen SWB 2021 t/m 2025, balanstoelichtingen.</span></div>
+  <div class="sources"><strong>Bronnen</strong><span>Jaarrekeningen SWB 2022 t/m 2025, balansen en balanstoelichtingen.</span></div>
+
+  <details class="sw-acc">
+    <summary><span class="sw-acc-n">A/B</span><span>Is de verhoging van de exploitatiebijdrage met 15% toegestaan?</span></summary>
+    <div class="sw-acc-body">
+      <h4>Feitelijke basis</h4>
+      <p>Het Q1-2026-overzicht toont een gerealiseerd kwartaaltekort van € 7.622 en een correctie "Verhoging tarief Q1 (+15%)" van € 22.640, waarmee het resultaat op +€ 15.017 uitkomt. Die € 22.640 is rekenkundig 15% van de gerealiseerde netto-omzet over het kwartaal (€ 150.930), niet 15% van uitsluitend de exploitatiebijdrage. De verhoging staat in het overzicht als losse correctie ná het begrote resultaat; de begrotingskolommen zelf zijn leeg.</p>
+      <p>Artikel 5.3 van de Exploitatieovereenkomst 2025: "In beginsel zal de begroting voor het volgende jaar niet meer dan 5% afwijken van de begroting van het lopende jaar, uitgezonderd grote investeringen en bijzondere omstandigheden die in overleg met de Bewonersraad als nodig en nuttig gezien worden, én uitdrukkelijk uitgezonderd aanpassingen als gevolg van verhogingen van overheidsheffingen en/of verhogingen van de gas- en/of waterprijzen."</p>
+      <div class="acc-branch"><strong>Tak A —</strong> De 15% valt onder de uitzondering "bijzondere omstandigheden in overleg met de Bewonersraad" → dan is overschrijding van de 5%-norm toegestaan, mits het overleg en de instemming aantoonbaar zijn vastgelegd.</div>
+      <div class="acc-branch b"><strong>Tak B —</strong> Het betreft een reguliere verhoging → dan geldt de 5%-grens en behoeft een verhoging tot 15% onderbouwing.</div>
+      <div class="acc-bewijs"><strong>Bewijslast:</strong> wie stelt dat de verhoging is toegestaan, toont het besluit van de Bewonersraad waarin de bijzondere omstandigheid en de instemming zijn vastgelegd.</div>
+      <div class="acc-inschatting"><strong>Inschatting (geen oordeel over toelaatbaarheid):</strong> de verhoging dekt meer dan het lopende kwartaaltekort; de opbrengst (€ 22.640) is circa driemaal het tekort (€ 7.622). Dit is een waarneming uit de cijfers.</div>
+      <p style="margin-top:12px;">Zie ook het <a href="/exploitatieovereenkomst.html#begroting-2026">Exploitatiedossier</a> over de begroting 2026 en de 5%-norm.</p>
+      <div class="sources"><strong>Bronnen</strong><span>Q1-2026-overzicht SWB; Exploitatieovereenkomst 2025, art. 5.3.</span></div>
+    </div>
+  </details>
 
   <h2>2. Waar gaat uw servicekostengeld naartoe?</h2>
-  <p>In 2025 ontving SWB in totaal € 684.352 aan inkomsten. Het grootste deel daarvan — € 509.438 — komt uit de servicekosten die u als bewoner betaalt. Maar niet al dat geld gaat naar het onderhoud van het park. Een deel vloeit naar de landgoedeigenaar (LSW). Hieronder de geldstromen.</p>
+  <p>In 2025 ontving SWB het grootste deel van zijn inkomsten uit de servicekosten die u als bewoner betaalt. Niet al dat geld gaat naar het onderhoud van het park; een deel vloeit naar de landgoedeigenaar (LSW). Hieronder de geldstromen.</p>
 
   <h3>Wat naar het park gaat</h3>
   <div class="sw-table-wrap"><table>
     <thead><tr><th>Kostenpost</th><th class="num">2024</th><th class="num">2025</th></tr></thead>
     <tbody>
-      <tr><td>Personeelskosten (2 medewerkers)</td><td class="num">€ 171.396</td><td class="num">€ 165.906</td></tr>
+      <tr><td>Personeelskosten</td><td class="num">€ 171.396</td><td class="num">€ 165.906</td></tr>
       <tr><td>Onderhoud en parkkosten</td><td class="num">€ 204.081</td><td class="num">€ 192.732</td></tr>
       <tr><td>Containerkosten (in bovenstaande)</td><td class="num">€ 65.303</td><td class="num">€ 43.559</td></tr>
       <tr><td>Administratie en beheer</td><td class="num">€ 34.371</td><td class="num">€ 35.550</td></tr>
@@ -143,227 +156,161 @@
 
   <aside class="callout callout-green">
     <div class="callout-label">In gewone taal</div>
-    <p>Van elke € 100 die u aan servicekosten betaalt, gaat in 2025 ongeveer € 18 naar de landgoedeigenaar: € 14 als huur, en € 4 als rente en aflossing op een lening. De rest gaat naar personeel, onderhoud, afval en administratie.</p>
+    <p>Van elke € 100 die u aan servicekosten betaalt, gaat in 2025 ongeveer € 18 naar de landgoedeigenaar: € 14 als huur, en € 4 als rente en aflossing op een lening. De rest gaat naar personeel, onderhoud, afval en administratie. Wat de post "huur opstallen" precies inhoudt, staat in het <a href="/exploitatieovereenkomst.html#huur-opstallen">Exploitatiedossier</a>.</p>
   </aside>
 
   <div class="sources"><strong>Bronnen</strong><span>Concept-jaarrekeningen SWB 2024 en 2025, winst-en-verliesrekeningen en toelichtingen.</span></div>
 
-  <h2>3. De post "Huur opstallen" — wat is het en waar gaat het heen?</h2>
-  <p>Elk jaar staat er in de boeken van SWB een post "Huur" van bijna € 100.000. Dit is de vergoeding die SWB betaalt aan LSW voor het gebruik van de grond, wegen, leidingen, werkplaats en andere gemeenschappelijke voorzieningen die niet in erfpacht zijn uitgegeven.</p>
-  <p>Maar de jaarrekening zelf zegt hierover iets opmerkelijks. Op pagina 18 van de jaarrekening 2025 staat letterlijk:</p>
+  <h2>3. De post "Huur opstallen"</h2>
+  <p><strong>Wat de post inhoudt.</strong> "De huur betreft de huur van de opstallen, zwembad, tennisbaan, loods/werkplaats, de wegen, leidingswerken, infrastructuur" (concept-jaarrekening 2024, toelichting exploitatiekosten). Het is de vergoeding voor het gebruik van de niet in erfpacht uitgegeven gronden, onroerende zaken en overige voorzieningen.</p>
+  <p><strong>Hoogte en grondslag.</strong> De huur is bij aanvang in 2003 door taxateurs vastgesteld op € 60.000 per jaar en wordt sindsdien jaarlijks geïndexeerd. Het bedrag is in 2025 opgelopen tot € 95.295. De gebruikte index-clausule zelf staat niet in de beschikbare stukken; de post wordt hier daarom uitsluitend als "jaarlijks geïndexeerd" vermeld.</p>
+  <p><strong>De boekhoudkundige constructie.</strong> De jaarrekening 2025 vermeldt: "Feitelijk hoeft de huur niet voldaan te worden en is dit ook weer als opbrengst verwerkt." Het bedrag wordt zowel als kosten als als opbrengst geboekt; het netto-effect op het resultaat is nul, maar zowel de totale omzet als de totale kosten worden erdoor verhoogd.</p>
+
+  <details class="sw-acc">
+    <summary><span class="sw-acc-n">A/B</span><span>Mogen erfpachters worden verplicht aan de huur opstallen bij te dragen?</span></summary>
+    <div class="sw-acc-body">
+      <h4>Feitelijke basis</h4>
+      <p>Het Gerechtshof 's-Hertogenbosch oordeelde (arrest 12 januari 2010, bevestigd in ECLI:NL:GHSHE:2013:3708, r.o. 5.20.1) dat het gebruiksrecht van de niet in erfpacht uitgegeven delen reeds geacht wordt te zijn begrepen in de erfpachtcanon, en dat de erfpachters daarom niet behoefden bij te dragen in de huur die de eigenaar aan de exploitant in rekening bracht. R.o. 5.20.1, letterlijk: "… waarbij werd geoordeeld dat de erfpachters niet behoefden bij te dragen in de huur welke DJB aan SWB in rekening bracht voor het verbruik van de niet verpachte, aan DJB verblijvende perceelsgedeelten."</p>
+      <p>De Exploitatieovereenkomst 2025, artikel 5.9, bepaalt daarentegen dat de vergoeding voor "(delen van) de niet in Eigendom overgedragen respectievelijk Erfpacht uitgegeven gronden, onroerende zaken en overige voorzieningen … deel uit[maakt] van de Exploitatiekosten."</p>
+      <div class="acc-branch"><strong>Tak A —</strong> Artikel 5.9 (2025) is een geldige, nieuw overeengekomen bepaling die de huur als exploitatiekosten doorbelast → dan moet worden onderbouwd hoe deze doorbelasting zich verhoudt tot het rechterlijke oordeel dat het gebruiksrecht al in de canon is begrepen.</div>
+      <div class="acc-branch b"><strong>Tak B —</strong> Artikel 5.9 herintroduceert een doorbelasting die de rechter voor erfpachters had uitgesloten → dan betalen erfpachters via de exploitatiekosten een vergoeding waarvan de rechter oordeelde dat zij die al via de canon voldoen (dubbeltelling).</div>
+      <div class="acc-bewijs"><strong>Bewijslast:</strong> wie de huur via de exploitatiekosten int, onderbouwt waarom artikel 5.9 (2025) het oordeel uit 2010/2013 mag passeren.</div>
+      <div class="acc-status"><strong>Status:</strong> de kernoverweging is geverifieerd uit r.o. 5.20.1; de volledige tekst van het eindarrest in deze procedurelijn (GHSHE:2020:332) is niet ingezien. De juridische lijn rust op de arresten van 2013 en 2014.</div>
+      <div class="sources"><strong>Bronnen</strong><span>Gerechtshof 's-Hertogenbosch, arrest 12-1-2010, bevestigd in ECLI:NL:GHSHE:2013:3708 (r.o. 5.20.1); Exploitatieovereenkomst 2025 (art. 5.9); jaarrekeningen SWB 2022–2025.</span></div>
+    </div>
+  </details>
 
   <aside class="callout callout-green">
-    <div class="callout-label">Citaat uit de jaarrekening</div>
-    <p>"Feitelijk hoeft de huur niet voldaan te worden en is dit ook weer als opbrengst verwerkt."</p>
+    <div class="callout-label">Zie ook — Exploitatiedossier</div>
+    <p>De contractuele en bestuurlijke achtergrond staat, om dubbeling te voorkomen, in het exploitatiedossier:
+      <a href="/exploitatieovereenkomst.html#huur-opstallen">huur opstallen</a> ·
+      <a href="/exploitatieovereenkomst.html#investeringsfonds">investeringsfonds</a> ·
+      <a href="/exploitatieovereenkomst.html#begroting-2026">begroting 2026 / 5%-norm</a>.</p>
   </aside>
 
-  <p>Dat betekent: het bedrag wordt als kosten geboekt, maar hetzelfde bedrag komt ook weer als opbrengst terug. Het netto-effect op de boeken is nul. Maar het bedrag wordt wél meegenomen in de totale omzet en de totale kosten. Daardoor lijken beide hoger dan ze in werkelijkheid zijn.</p>
-
-  <h3>Hoe het bedrag door de boeken beweegt</h3>
-  <div class="flow">
-    <div class="flow-step"><div class="flow-label">Stap 1</div><div class="flow-desc">SWB boekt € 95.295 als <strong>huurkosten</strong> (onder "exploitatiekosten")</div></div>
-    <div class="flow-arrow">↓</div>
-    <div class="flow-step"><div class="flow-label">Stap 2</div><div class="flow-desc">Hetzelfde bedrag verschijnt als <strong>opbrengst</strong> ("ontvangen bijdragen groot onderhoud": € 159.277 in 2025)</div></div>
-    <div class="flow-arrow">↓</div>
-    <div class="flow-step"><div class="flow-label">Stap 3</div><div class="flow-desc">Een vergelijkbaar bedrag wordt nóg een keer als kosten geboekt ("bijdrage reservefonds LSW": € 95.000)</div></div>
-    <div class="flow-arrow">↓</div>
-    <div class="flow-step"><div class="flow-label">Resultaat</div><div class="flow-desc">Het geld gaat op papier rond. De voorziening groot onderhoud groeit, maar het geld zit niet op een aparte bankrekening.</div></div>
-<h3>Het bedrag door de jaren</h3>
-  <div class="sw-table-wrap"><table>
-    <thead><tr><th>Jaar</th><th class="num">Huur (kosten)</th><th class="num">Ontv. bijdragen (omzet)</th><th class="num">Bijdrage reservefonds LSW</th></tr></thead>
-    <tbody>
-      <tr><td>2021</td><td class="num">€ 77.291</td><td class="num">€ 0</td><td class="num">€ 0</td></tr>
-      <tr><td>2022</td><td class="num">€ 75.439</td><td class="num">€ 153.439</td><td class="num">€ 132.491</td></tr>
-      <tr><td>2023</td><td class="num">€ 83.389</td><td class="num">€ 83.389</td><td class="num">€ 67.549</td></tr>
-      <tr><td>2024</td><td class="num">€ 91.630</td><td class="num">€ 91.630</td><td class="num">€ 91.630</td></tr>
-      <tr><td>2025</td><td class="num">€ 95.295</td><td class="num">€ 159.277</td><td class="num">€ 95.000</td></tr>
-    </tbody>
-  </table></div>
-
-  <aside class="callout callout-green">
-    <div class="callout-label">Waarom is dit relevant voor u?</div>
-    <p>Het Gerechtshof 's-Hertogenbosch heeft in 2013 vastgesteld dat erfpachters niet verplicht zijn om bij te dragen aan deze huur (ECLI:NL:GHSHE:2013:3708, rechtsoverweging 5.4.1). Desondanks wordt het bedrag nog steeds via uw servicekosten geïnd. De juridische onderbouwing staat op de pagina <a href="/gas-juridisch.html">Juridische basis</a>.</p>
-  </aside>
-
-  <h3>Achtergrond: hoe de huurpost een ruilmiddel werd</h3>
-  <aside class="callout callout-green">
-    <div class="callout-label">De uitruil met de 2de canon (2022–2023)</div>
-    <p>Bewoners betaalden jaarlijks € 153 per huishouden als bijdrage voor de aanleg van de riolering. Om fiscale redenen werd dit aangeduid als een "aanvullende canon" (de zogenaamde 2de canon). In 2022 weigerde een groeiende groep bewoners deze bijdrage nog langer te betalen en kondigde een juridische procedure aan.</p>
-    <p>Tijdens de vergadering van de Bewonersraad op 29 oktober 2022 reageerde LSW met een voorstel: de rioleringsbijdrage (in totaal circa € 30.000 per jaar) zou geheel komen te vervallen. Maar daar stond een voorwaarde tegenover: LSW zou datzelfde bedrag in mindering brengen op de investeringen in het landgoed — met andere woorden, het geld uit de "huur opstallen" zou dan voor een groot deel niet meer naar het investeringsfonds gaan.</p>
-    <p>Om te voorkomen dat het landgoed dit investeringsgeld zou mislopen, kregen twee bestuursleden van de Bewonersraad de opdracht om de procederende bewoners persoonlijk te benaderen en hen te bewegen hun juridische actie te staken. Uit de notulen van de Bewonersraad van februari 2023 blijkt dat zij deze opdracht hebben uitgevoerd.</p>
-    <p>De toezegging van LSW om de huurpenningen in een investeringsfonds te storten was dus geen vrijblijvende goede wil, maar onderdeel van een afspraak waarbij de Bewonersraad actief werd ingezet om claims van bewoners over de 2de canon te laten intrekken. Het is hetzelfde mechanisme dat in 2025 opnieuw werd toegepast: toen de BALV in juni 2025 kritiek uitte op het bestuur, besloot LSW de fondsen uit de huur opstallen "voorlopig niet meer aan het landgoed ten goede te laten komen."</p>
-  </aside>
-
-  <div class="sources"><strong>Bronnen</strong><span>Jaarrekeningen SWB 2021–2025, posten "Huur" en "Ontvangen bijdragen groot onderhoud" in W&V en toelichtingen exploitatiekosten.</span><span>Gerechtshof 's-Hertogenbosch, ECLI:NL:GHSHE:2013:3708, r.o. 5.4.1 en 5.20.1.</span><span>Notulen Bewonersraad 29 oktober 2022 en februari 2023 (agendapunt "Status inning Rioolrecht").</span><span>Concept-notulen ALV 12 juni 2025, p.3 ("Commissie Toekomst Landgoed").</span><span>Tekstanalyse LSW-brief met annotaties (LSW_brief_met_reacties_annotated).</span></div>
-
-  <aside class="callout callout-green">
-    <div class="callout-label">Zie ook — het Exploitatiedossier</div>
-    <p>De contractuele en bestuurlijke achtergrond van deze posten staat, om dubbeling te voorkomen, uitsluitend in het exploitatiedossier:</p>
-    <ul>
-      <li>Huur opstallen — € 97.850 (begroting 2026). Wat deze post inhoudt → <a href="/exploitatieovereenkomst.html#huur-opstallen">Exploitatiedossier</a></li>
-      <li>Investeringsfonds uit de huur opstallen → <a href="/exploitatieovereenkomst.html#investeringsfonds">Exploitatiedossier</a></li>
-      <li>Begroting 2026 en de 5%-norm → <a href="/exploitatieovereenkomst.html#begroting-2026">Exploitatiedossier</a></li>
-    </ul>
-  </aside>
+  <div class="sources"><strong>Bronnen</strong><span>Gerechtshof 's-Hertogenbosch, arrest 12-1-2010, bevestigd in ECLI:NL:GHSHE:2013:3708 (r.o. 5.20.1); Exploitatieovereenkomst 2025 (art. 5.9); jaarrekeningen SWB 2022–2025.</span></div>
 
   <h2>4. Gaskosten in de jaarrekeningen</h2>
-  <p>In het gasdossier gaat het over wat u betaalt voor gas. De jaarrekeningen laten zien hoe de gaskosten zich ontwikkelen. Hieronder de posten die direct met gas te maken hebben.</p>
+  <p>De jaarrekeningen laten zien hoe de gaskosten zich ontwikkelen. De post onderhoud water- en gasleiding stijgt van € 9.782 (2022) naar € 22.167 (2025); ten opzichte van het lage jaar 2023 (€ 1.439) is dat meer dan vertienvoudigd.</p>
 
   <div class="sw-table-wrap"><table>
-    <thead><tr><th>Post</th><th class="num">2021</th><th class="num">2022</th><th class="num">2023</th><th class="num">2024</th><th class="num">2025</th></tr></thead>
+    <thead><tr><th>Post</th><th class="num">2022</th><th class="num">2023</th><th class="num">2024</th><th class="num">2025</th></tr></thead>
     <tbody>
-      <tr><td>Gasvoorraad (op de balans)</td><td class="num">€ 10.541</td><td class="num">€ 19.647</td><td class="num">€ 23.599</td><td class="num">€ 14.989</td><td class="num">€ 15.219</td></tr>
-      <tr><td>Onderhoud water- en gasleiding</td><td class="num">€ 2.425</td><td class="num">€ 9.782</td><td class="num">€ 1.439</td><td class="num">€ 12.990</td><td class="num">€ 22.167</td></tr>
-      <tr><td>Kosten van gas (exploitatie)</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">€ 2.223</td><td class="num">€ 9.956</td></tr>
-      <tr><td>Voorschotten gas min betaald</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">€ 33.987</td><td class="num">€ 56.540</td></tr>
-      <tr><td>Nog af te rekenen gas</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">€ 44.421</td></tr>
-      <tr class="row-total"><td>Totaal gasvorderingen op bewoners</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">€ 33.987</td><td class="num">€ 100.961</td></tr>
+      <tr><td>Gasvoorraad (op de balans)</td><td class="num">€ 19.647</td><td class="num">€ 23.599</td><td class="num">€ 14.989</td><td class="num">€ 15.219</td></tr>
+      <tr><td>Onderhoud water- en gasleiding</td><td class="num">€ 9.782</td><td class="num">€ 1.439</td><td class="num">€ 12.990</td><td class="num">€ 22.167</td></tr>
+      <tr><td>Kosten van gas (exploitatie)</td><td class="num">—</td><td class="num">—</td><td class="num">€ 2.223</td><td class="num">€ 9.956</td></tr>
+      <tr><td>Voorschotten gas min betaald</td><td class="num">—</td><td class="num">—</td><td class="num">€ 33.987</td><td class="num">€ 56.540</td></tr>
+      <tr><td>Nog af te rekenen gas</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">€ 44.421</td></tr>
     </tbody>
   </table></div>
 
-  <aside class="callout callout-green">
-    <div class="callout-label">Wat valt op?</div>
-    <p>De onderhoudskosten voor het gas- en waternetwerk zijn in drie jaar tijd verzesvoudigd: van € 1.439 in 2023 naar € 22.167 in 2025. Dat past bij een verouderend netwerk waar steeds vaker reparaties nodig zijn. Tegelijk staan er eind 2025 voor ruim € 100.000 aan gasvorderingen op bewoners — dat is 41% van alle openstaande vorderingen van SWB.</p>
-  </aside>
+  <p>Eind 2025 staan er voor ruim € 100.000 aan gas-gerelateerde vorderingen op bewoners.</p>
 
-  <aside class="callout callout-green">
-    <div class="callout-label">De kernvraag voor gasverbruikers</div>
-    <p>Het leidingnet is eigendom van de landgoedeigenaar (LSW). Het Hof heeft in 2014 vastgesteld dat de kosten van vervanging van het gasnet voor rekening van de grondeigenaar komen (ECLI:NL:GHSHE:2014:3639). Toch worden de stijgende onderhouds- en reparatiekosten van het verouderde net via de exploitatie — en uiteindelijk via uw servicekosten en gasrekening — bij de bewoners in rekening gebracht.</p>
-  </aside>
+  <details class="sw-acc">
+    <summary><span class="sw-acc-n">A/B</span><span>Wie draagt de kosten van het gasverlies en het verouderde gasnet?</span></summary>
+    <div class="sw-acc-body">
+      <h4>Feitelijke basis</h4>
+      <p>Het gasnet is omstreeks 1975 aangelegd (GHSHE:2013:3708, r.o. 5.13.2). Een onafhankelijk gasonderzoek (intern rapport) constateert dat een substantieel deel van de meters 20 jaar of ouder is, dat 113 meters "dringend aan vervanging toe" zijn, en dat de stalen standpijpen corrosie- en lekgevoelig zijn. Het onderzoek stelt dat kritisch beoordeeld moet worden of het middenleidingnet "in zijn huidige vorm is te handhaven", dan wel of het geheel moet worden vervangen of dat geheel van het gas af moet worden gegaan. Hetzelfde onderzoek concludeert dat het verlies een algemene kostenpost behoort te zijn en niet moet worden omgeslagen op basis van afgenomen volume.</p>
+      <p>Het Gerechtshof 's-Hertogenbosch heeft het onderscheid tussen onderhoud en vervanging expliciet gemaakt: instandhouding/onderhoud komt voor rekening van de exploitant (en daarmee de bewoners), maar de kosten van vervanging van het gasnet en het waterleidingnet komen voor rekening van de eigenaar (GHSHE:2013:3708, r.o. 5.13.8, 5.13.9/5.13.10 en 5.22.4). Dit is vertaald in de door het hof gedicteerde contracttekst (eindarrest GHSHE:2014:3639, r.o. 8.10, artikel 4.9), waarin bij gas en water bewust "instandhouding en onderhoud" staat en het woord "vervanging" ontbreekt.</p>
+      <div class="acc-branch"><strong>Tak A —</strong> De stijgende kosten betreffen regulier onderhoud van het net → dan komen zij voor rekening van de exploitant/bewoners.</div>
+      <div class="acc-branch b"><strong>Tak B —</strong> De kosten betreffen feitelijk uitgestelde vervanging van een net dat technisch einde-leven is → dan komen zij voor rekening van de eigenaar (LSW), conform de rechterlijke lijn.</div>
+      <div class="acc-bewijs"><strong>Bewijslast:</strong> wie de kosten via de exploitatie bij de bewoners legt, onderbouwt dat het om onderhoud gaat en niet om (uitgestelde) vervanging van een net dat volgens het eigen onderzoek niet meer te handhaven is.</div>
+      <div class="acc-status"><strong>Status:</strong> het in de jaarrekening 2023/2024 verwerkte gastekort van € 80.874 (onderdeel van het totaal van € 66.809 na aftrek van € 14.065 water) is in zijn exacte samenstelling niet reconstrueerbaar uit de beschikbare stukken; de onderliggende subadministratie ontbreekt. Het deel dat eventueel navorderbaar zou zijn bij individuele gasverbruikers is daardoor onbepaald, en het onafhankelijke onderzoek kon de oorzaken (onderregistratie door oude meters, verdamper, lekkage) niet uitsplitsen. Per-bewoner-meterdata over de betreffende jaren is onvolledig en deels verloren. De vervanging van het distributienet en de standpijpen is in 2020–2024 grotendeels achterwege gebleven; een definitief besluit met einddatum over de toekomst van de gasvoorziening ("van het gas af") is op het moment van de geraadpleegde notulen nog niet vastgelegd. De volledige tekst van het eindarrest GHSHE:2020:332 is niet ingezien.</div>
+      <div class="acc-inschatting"><strong>Inschatting:</strong> de oorzaak van het gasverlies wijst, op basis van het onafhankelijke onderzoek, overwegend richting de toestand van net en meters (infrastructuur), niet richting aanwijsbaar te weinig betaald verbruik per bewoner. Dit is een professionele inschatting op basis van de beschikbare rapportages, geen vaststaand oordeel.</div>
+      <div class="sources"><strong>Bronnen</strong><span>Jaarrekeningen SWB 2022–2025; intern gasonderzoek; Gerechtshof 's-Hertogenbosch ECLI:NL:GHSHE:2013:3708 en ECLI:NL:GHSHE:2014:3639.</span></div>
+    </div>
+  </details>
 
-  <div class="sources"><strong>Bronnen</strong><span>Jaarrekeningen SWB 2021–2025, balansposten "Voorraad gas" en "Overige vorderingen", plus W&V-posten "Onderhoud water- en gasleiding" en "Kosten van gas".</span><span>Gerechtshof 's-Hertogenbosch, ECLI:NL:GHSHE:2014:3639.</span></div>
+  <div class="sources"><strong>Bronnen</strong><span>Jaarrekeningen SWB 2022–2025, balansposten "Voorraad gas" en "Overige vorderingen", plus W&V-posten "Onderhoud water- en gasleiding" en "Kosten van gas".</span></div>
 
-  <h2>5. De spaarpot voor groot onderhoud — en waar die voor wordt gebruikt</h2>
-  <p>SWB houdt een "voorziening groot onderhoud" aan. Dat is een spaarpot op papier, bedoeld voor grote klussen: het zwembad, de tennisbanen, wegen, leidingen. In 2024 is deze spaarpot gesplitst in twee delen: één voor SWB en één voor LSW.</p>
+  <h2>5. De voorziening groot onderhoud</h2>
+  <p>SWB houdt een "voorziening groot onderhoud" aan: een reservering voor grote klussen zoals zwembad, tennisbanen, wegen en leidingen. In 2024 is deze voorziening gesplitst in een SWB-deel en een LSW-deel.</p>
 
   <div class="sw-table-wrap"><table>
     <thead><tr><th>Voorziening</th><th class="num">2022</th><th class="num">2023</th><th class="num">2024</th><th class="num">2025</th></tr></thead>
     <tbody>
-      <tr><td>Spaarpot SWB</td><td class="num" colspan="2" style="text-align:center">niet gesplitst</td><td class="num">€ 154.349</td><td class="num">€ 151.678</td></tr>
-      <tr><td>Spaarpot LSW</td><td class="num" colspan="2" style="text-align:center">—</td><td class="num">€ 173.197</td><td class="num">€ 227.112</td></tr>
+      <tr><td>SWB-deel</td><td class="num" colspan="2" style="text-align:center">niet gesplitst</td><td class="num">€ 154.349</td><td class="num">€ 151.678</td></tr>
+      <tr><td>LSW-deel</td><td class="num" colspan="2" style="text-align:center">—</td><td class="num">€ 173.197</td><td class="num">€ 227.112</td></tr>
       <tr class="row-total"><td>Totaal</td><td class="num">€ 326.375</td><td class="num">€ 413.924</td><td class="num">€ 327.546</td><td class="num">€ 378.790</td></tr>
     </tbody>
   </table></div>
 
-  <p>De spaarpot groeit, maar er is iets bijzonders gebeurd. In 2024 is er € 72.042 afgeboekt van de LSW-spaarpot. De jaarrekening schrijft daarover:</p>
+  <p>De jaarrekening 2024 vermeldt: "Vooruitlopend op het besluit van de ledenvergadering is het tekort van 2023, zijnde een bedrag van € 66.811, alsmede de tekorten van voorgaande jaren tesamen € 5.231, afgeboekt van de voorziening LSW."</p>
+  <p><strong>Bestemming van de voorziening</strong> (art. 5.13 Exploitatieovereenkomst 2025): "Het in de Exploitatiekosten begrepen aandeel ten behoeve van reserveringen zal uitsluitend dienen ter bestrijding van de navolgende kosten: – onderhoud, herstel, vervanging en/of vernieuwing van de aan de Eigenaren respectievelijk Erfpachters ter beschikking staande algemene voorzieningen; – onvoorziene of incidentele uitgaven voor algemeen belang; en/of – eventuele vereffeningen."</p>
 
-  <aside class="callout callout-green">
-    <div class="callout-label">Citaat uit de jaarrekening 2024, p.16</div>
-    <p>"Vooruitlopend op het besluit van de ledenvergadering is het tekort van 2023, zijnde een bedrag van € 66.811, alsmede de tekorten van voorgaande jaren tesamen € 5.231, afgeboekt van de voorziening LSW."</p>
-  </aside>
+  <details class="sw-acc">
+    <summary><span class="sw-acc-n">A/B</span><span>Mocht een opgelopen exploitatietekort uit de voorziening groot onderhoud worden afgeboekt?</span></summary>
+    <div class="sw-acc-body">
+      <div class="acc-branch"><strong>Tak A —</strong> Een opgelopen gastekort uit voorgaande jaren valt onder een van de in artikel 5.13 limitatief opgesomde bestemmingen (onderhoud/herstel/vervanging/vernieuwing, onvoorziene/incidentele uitgaven, of "eventuele vereffeningen") → dan moet worden onderbouwd onder welke van die posten het tekort valt; het contract definieert een algemeen exploitatietekort niet als zodanig.</div>
+      <div class="acc-branch b"><strong>Tak B —</strong> Het tekort valt onder geen van die bestemmingen → dan is de afboeking niet in overeenstemming met de bestemming van de voorziening.</div>
+      <div class="acc-bewijs"><strong>Bewijslast:</strong> wie de afboeking verdedigt, wijst de bestemming uit artikel 5.13 aan waaronder het tekort valt.</div>
+      <p style="margin-top:12px;"><strong>Aanvullend feit (geen duiding):</strong> de afboeking is volgens de jaarrekening verricht "vooruitlopend op het besluit van de ledenvergadering" — dus voordat het daartoe bevoegde gremium had besloten.</p>
+      <div class="acc-inschatting"><strong>Verslaggevingskundige toelichting (inschatting):</strong> een opgelopen verlies uit het verleden is naar zijn aard geen toekomstige verplichting of onderhoudslast; bedrijfseconomisch hoort het via het resultaat te lopen en niet uit een onderhoudsvoorziening te worden gedekt. Omdat SWB de jaarrekening op fiscale grondslag opstelt (Titel 9 Boek 2 BW met uitzondering van afdeling 6), is de specifieke verslaggevingsrichtlijn RJ 252 niet dwingend; de systematiek (verlies ≠ voorziening) geldt echter ook fiscaal en bedrijfseconomisch.</div>
+      <div class="acc-status"><strong>Status:</strong> de beschikbare Exploitatieovereenkomst 2025 kent geen bepaling die instemming van de grondeigenaar (LSW) vereist vóór onttrekking aan de voorziening; de zeggenschap over de reserveringsrekening ligt blijkens de toelichting bij een afgevaardigde van de Bewonersraad samen met de exploitant. De notulen van februari 2026 spreken niettemin van akkoord "onder protest" van LSW met verwijzing naar een toestemmingsafspraak. Beide gegevens worden hier feitelijk vermeld; of er een aanvullende afspraak buiten de exploitatieovereenkomst bestaat die LSW zeggenschap geeft, is uit de beschikbare stukken niet vast te stellen.</div>
+      <div class="sources"><strong>Bronnen</strong><span>Jaarrekeningen SWB 2022–2025 (mutaties voorzieningen); Exploitatieovereenkomst 2025 (art. 5.13); MJOP-inspectieverslag 2022; notulen Bewonersraad februari 2026.</span></div>
+    </div>
+  </details>
 
-  <p>In gewone taal: geld dat was gespaard voor groot onderhoud (nieuwe tennisbanen, leidingen, zwembad) is gebruikt om gaten in de exploitatie te dichten. Bovendien is dit gedaan vóórdat de ledenvergadering daarover heeft besloten.</p>
+  <p><strong>Context.</strong> In 2022 werd de onderhoudsbehoefte voor de jaren erna geschat op € 535.000 (MJOP-inspectieverslag 2022). De voorziening staat eind 2025 op € 378.790.</p>
 
-  <aside class="callout callout-green">
-    <div class="callout-label">Waarom is dit relevant?</div>
-    <p>In 2022 werd de totale onderhoudsbehoefte voor de jaren erna geschat op € 535.000 (bron: MJOP). De spaarpot staat nu op € 378.790. Het verschil — bijna € 160.000 — moet óf door hogere bijdragen worden aangevuld, óf het onderhoud wordt niet uitgevoerd. Tegelijkertijd wordt er geld uit de spaarpot gehaald voor iets anders dan onderhoud.</p>
-  </aside>
+  <div class="sources"><strong>Bronnen</strong><span>Jaarrekeningen SWB 2022–2025, post "Voorzieningen groot onderhoud" en mutatie-overzichten; Exploitatieovereenkomst 2025 (art. 5.13); MJOP-inspectieverslag 2022.</span></div>
 
-  <div class="sources"><strong>Bronnen</strong><span>Jaarrekeningen SWB 2022–2025, post "Voorzieningen groot onderhoud" en mutatie-overzichten.</span><span>MJOP Inspectieverslag 2022 (Facility²).</span></div>
-
-  <h2>6. De financiering van het glasvezelnet — de kasstroom onder druk</h2>
-  <p>SWB heeft een lening lopen bij LSW van oorspronkelijk € 315.000. Het is een 20-jarige lening met 240 maandtermijnen. Eind 2025 zijn er 112 termijnen afgelost; er staat dan nog ruim € 205.000 open. In de jaarrekeningen wordt nergens in één zin uitgelegd waarvoor deze lening is aangegaan. Maar de balans geeft het antwoord.</p>
-
-  <h3>De twee bedragen die bij elkaar horen</h3>
-  <div class="sw-table-wrap"><table>
-    <thead><tr><th>Post op de balans</th><th class="num">Bedrag</th><th>Waar staat dit?</th></tr></thead>
-    <tbody>
-      <tr><td>Lening van LSW — oorspronkelijke hoofdsom</td><td class="num">€ 315.000</td><td>Balanstoelichting, alle jaarrekeningen</td></tr>
-      <tr><td>Glasvezel — oorspronkelijke aanschafwaarde</td><td class="num">€ 324.862</td><td>Materiële vaste activa, alle jaarrekeningen</td></tr>
-    </tbody>
-  </table></div>
-
-  <p>Het verschil is € 9.862 — vermoedelijk een eigen inleg of opstartkosten. LSW heeft de aanleg van het glasvezelnetwerk voorgefinancierd via een lening aan SWB. SWB lost die lening in 20 jaar af aan LSW, inclusief rente. Het geld om dat te betalen komt uit uw servicekosten.</p>
-
-  <p>In een nieuwsbrief met toelichting op de begroting wordt dit bevestigd: "Als we alle kosten n.a.v. dit glasvezelnet zouden doorbelasten, komt dit neer op een bedrag van € 18,30 per aansluiting per maand. Dit bedrag komt uit de exploitatie en betaalt u via de servicekosten."</p>
-
-  <h3>Wat u jaarlijks betaalt voor het glasvezelnet (2025)</h3>
-  <p>Het glasvezelnet brengt vier kostenposten met zich mee. De eerste drie staan in de winst-en-verliesrekening (de exploitatie). De vierde — de aflossing — is een balansmutatie: geen "kosten" op papier, maar wél kasgeld dat SWB aan LSW betaalt.</p>
-
-  <div class="sw-table-wrap"><table>
-    <thead><tr><th>Wat u betaalt</th><th class="num">Per jaar (2025)</th><th>Type</th></tr></thead>
-    <tbody>
-      <tr><td>Afschrijving glasvezel</td><td class="num">€ 5.617</td><td>Exploitatiekosten (W&V)</td></tr>
-      <tr><td>Onderhoud glasvezel</td><td class="num">€ 35.216</td><td>Exploitatiekosten (W&V)</td></tr>
-      <tr><td>Rente op de lening aan LSW</td><td class="num">€ 10.685</td><td>Financiële lasten (W&V)</td></tr>
-      <tr><td>Aflossing lening aan LSW</td><td class="num">€ 14.261</td><td>Balansmutatie (kasgeld naar LSW)</td></tr>
-      <tr class="row-total"><td>Totale kasstroom glasvezel</td><td class="num">€ 65.779</td><td></td></tr>
-    </tbody>
-  </table></div>
-
-  <h3>Waar zit het probleem? De weeffout in de financiering</h3>
-
-  <p>Dat een netwerk slijt en dus afgeschreven wordt, is boekhoudkundig volkomen logisch. Via uw servicekosten betaalt u netjes die afschrijving, het onderhoud en de rente. Daar is niets mis mee.</p>
-
-  <p>Maar er zit een weeffout in de financieringsconstructie die een zware wissel trekt op de kas van SWB — en daarmee op uw portemonnee:</p>
-
-  <div class="sw-table-wrap"><table>
-    <thead><tr><th></th><th>Termijn</th><th class="num">Per jaar</th></tr></thead>
-    <tbody>
-      <tr><td>De afschrijving loopt over:</td><td>bijna 58 jaar</td><td class="num">€ 5.617</td></tr>
-      <tr><td>De lening moet worden afgelost in:</td><td>20 jaar</td><td class="num">€ 14.261 (2025)</td></tr>
-      <tr class="row-total"><td>Jaarlijks kastekort op dit project</td><td></td><td class="num">€ 8.644</td></tr>
-    </tbody>
-  </table></div>
-
-  <aside class="callout callout-orange">
-    <div class="callout-label">In gewone taal</div>
-    <p>Via de afschrijving in uw servicekosten komt jaarlijks € 5.617 "vrij" voor de terugbetaling van het glasvezelnet. Maar SWB moet in datzelfde jaar € 14.261 aan aflossing overmaken naar LSW. Dat is bijna € 9.000 méér dan er via de afschrijving binnenkomt. Waar haalt SWB dat ontbrekende geld vandaan? Uit de algemene kas — gevuld met uw servicekosten. Hierdoor bloedt SWB elk jaar kasgeld om de landgoedeigenaar versneld af te betalen. Dat geld is dan niet meer beschikbaar voor de opbouw van onderhoudsreserves, het gasnetwerk of andere investeringen in het park. Dit verklaart mede waarom de kas van SWB daalt (van € 295.000 in 2023 naar € 85.000 in 2025) terwijl het resultaat op papier steeds op nul uitkomt.</p>
-  </aside>
+  <h2>6. De financiering van het glasvezelnet</h2>
+  <p>SWB heeft een lening lopen bij LSW van oorspronkelijk € 315.000: een 20-jarige lening met 240 maandtermijnen. Eind 2025 zijn 112 termijnen afgelost; het resterende saldo is ± € 205.000 (€ 190.918 langlopend + € 14.991 kortlopend deel). De aanleg van het glasvezelnetwerk is hiermee voorgefinancierd: de aanschafwaarde van het glasvezel bedraagt € 324.862 (afschrijving kabels 0%, kasten 10%; afschrijving glasvezel 2025 € 5.617; onderhoud glasvezel 2025 € 35.216).</p>
 
   <h3>Aflossing en rente door de jaren</h3>
   <div class="sw-table-wrap"><table>
-    <thead><tr><th>Jaar</th><th class="num">Totale schuld eind jaar *</th><th class="num">Aflossing</th><th class="num">Rente</th><th class="num">Totaal naar LSW</th></tr></thead>
+    <thead><tr><th>Jaar</th><th class="num">Aflossing</th><th class="num">Rente</th></tr></thead>
     <tbody>
-      <tr><td>2021</td><td class="num">€ 258.328</td><td class="num">€ 11.683</td><td class="num">€ 13.265</td><td class="num">€ 24.948</td></tr>
-      <tr><td>2022</td><td class="num">€ 246.056</td><td class="num">€ 12.272</td><td class="num">€ 12.675</td><td class="num">€ 24.947</td></tr>
-      <tr><td>2023</td><td class="num">€ 233.149</td><td class="num">€ 12.907</td><td class="num">€ 12.040</td><td class="num">€ 24.947</td></tr>
-      <tr><td>2024</td><td class="num">€ 219.581</td><td class="num">€ 13.568</td><td class="num">€ 11.378</td><td class="num">€ 24.946</td></tr>
-      <tr><td>2025</td><td class="num">€ 205.320</td><td class="num">€ 14.261</td><td class="num">€ 10.685</td><td class="num">€ 24.946</td></tr>
+      <tr><td>2022</td><td class="num">€ 12.272</td><td class="num">€ 12.675</td></tr>
+      <tr><td>2023</td><td class="num">€ 12.907</td><td class="num">€ 12.040</td></tr>
+      <tr><td>2024</td><td class="num">€ 13.568</td><td class="num">€ 11.378</td></tr>
+      <tr><td>2025</td><td class="num">€ 14.261</td><td class="num">€ 10.685</td></tr>
     </tbody>
   </table></div>
-  <p><small>* In de jaarrekeningen wordt de totale schuld gesplitst in een "langlopend deel" en een "kortlopend deel" (de aflossing die het jaar erop betaald moet worden). De bedragen in deze kolom zijn de optelsom van beide.</small></p>
 
-  <p>Over de hele looptijd van de lening (20 jaar) betalen de bewoners via de servicekosten naar schatting ruim € 125.000 aan rente bovenop de hoofdsom van € 315.000. Het rentepercentage is rekenkundig circa 4,5% tot 5% — in geen van de jaarrekeningen wordt de rentevoet vermeld.</p>
+  <aside class="callout callout-green">
+    <div class="callout-label">Kasstroom-timing, geen constructiefout</div>
+    <p>De lening aan LSW wordt in 20 jaar afgelost, terwijl het glasvezelnet over een veel langere periode wordt afgeschreven (kabels 0%, kasten 10%). Hierdoor is de jaarlijkse aflossing hoger dan het bedrag dat via de afschrijving in de exploitatie vrijkomt. Dit legt gedurende de looptijd van de lening kasdruk op SWB: er gaat meer geld naar aflossing dan er via afschrijving "terugkomt". Na afloop van de lening vervalt deze last. Dit is een kwestie van kasstroom-timing, niet van een onjuiste constructie.</p>
+  </aside>
 
-  <div class="sources"><strong>Bronnen</strong><span>Jaarrekeningen SWB 2021–2025: balanstoelichting "Lening Landgoed Stille Wille B.V." en materiële vaste activa "Glasvezel" (aanschafwaarde € 324.862, afschrijving kabels 0%, afschrijving kasten 10%).</span><span>Jaarrekening SWB 2025: afschrijving glasvezel € 5.617, onderhoud glasvezel € 35.216 (W&V).</span><span>Nieuwsbrief ALV met begrotingstoelichting (€ 18,30 per aansluiting per maand).</span></div>
+  <p>In een nieuwsbrief met toelichting op de begroting staat hierover: "Als we alle kosten n.a.v. dit glasvezelnet zouden doorbelasten, komt dit neer op een bedrag van € 18,30 per aansluiting per maand." De rentevoet wordt in geen enkele jaarrekening vermeld; rekenkundig komt deze op circa 4,5–5%.</p>
 
-  <h2>7. Het resultaat: vijf van zes jaar precies nul</h2>
-  <p>Het resultaat van SWB — de winst of het verlies na belastingen — is opmerkelijk stabiel:</p>
+  <div class="sources"><strong>Bronnen</strong><span>Jaarrekeningen SWB 2022–2025, balanstoelichting "Lening Landgoed Stille Wille B.V." en materiële vaste activa "Glasvezel"; nieuwsbrief met begrotingstoelichting.</span></div>
+
+  <h2>7. Het resultaat: vrijwel elk jaar nul</h2>
+  <p>Het resultaat van SWB — de winst of het verlies na belastingen — is opmerkelijk stabiel.</p>
 
   <div class="sw-table-wrap"><table>
-    <thead><tr><th>Jaar</th><th class="num">2020</th><th class="num">2021</th><th class="num">2022</th><th class="num">2023</th><th class="num">2024</th><th class="num">2025</th></tr></thead>
+    <thead><tr><th>Jaar</th><th class="num">2022</th><th class="num">2023</th><th class="num">2024</th><th class="num">2025</th></tr></thead>
     <tbody>
-      <tr><td>Resultaat na belasting</td><td class="num">€ 0</td><td class="num">€ 0</td><td class="num">€ 0</td><td class="num">€ 0</td><td class="num neg">-€ 47.849</td><td class="num">€ 0</td></tr>
+      <tr><td>Resultaat na belasting</td><td class="num">€ 0</td><td class="num">€ 0</td><td class="num neg">-€ 47.849</td><td class="num">€ 0</td></tr>
     </tbody>
   </table></div>
 
-  <p>In vijf van de zes jaren komt het resultaat precies uit op nul. In 2022 en 2023 wordt dat bereikt doordat de vennootschapsbelasting het positieve resultaat precies absorbeert. In 2020 en 2021 compenseren de financiële lasten het bedrijfsresultaat exact. In 2025 is het bedrijfsresultaat € 16.085 positief, en de financiële lasten zijn precies € 16.085 negatief.</p>
+  <p>In 2022 en 2023 komt het resultaat op nul doordat de vennootschapsbelasting het positieve resultaat absorbeert. In 2025 is het bedrijfsresultaat € 16.085 positief en zijn de financiële lasten precies € 16.085 negatief, zodat het resultaat opnieuw nul is. Alleen 2024 toont een verlies (-€ 47.849); dat is het eerste jaar dat door een nieuw administratiekantoor is opgesteld, dat in de jaarrekening vermeldt dat "geen volledige controle op de facturen is uit kunnen voeren" en dat de jaarrekening "is opgesteld met een aantal aannames".</p>
 
-  <p>Alleen in 2024 ontstaat een verlies — het eerste jaar waarin de boekhouding door een nieuwe accountant (AD-Vi) wordt opgesteld. Die accountant schrijft in de jaarrekening dat er "geen volledige controle op de facturen is uit kunnen voeren" en dat de jaarrekening "is opgesteld met een aantal aannames."</p>
+  <div class="sources"><strong>Bronnen</strong><span>Jaarrekeningen SWB 2022–2025, winst-en-verliesrekeningen; concept-jaarrekening 2024 (opmerking administratiekantoor).</span></div>
 
-  <div class="sources"><strong>Bronnen</strong><span>Jaarrekeningen SWB 2020–2025, winst-en-verliesrekeningen.</span><span>Concept-jaarrekening 2024, p.3 (opmerking AD-Vi).</span></div>
-
-  <h2>8. Wat de accountant zelf zegt over de cijfers</h2>
-  <p>De concept-jaarrekeningen 2024 en 2025 zijn opgesteld door accountantskantoor AD-Vi. Beiden dragen de vermelding "concept" en zijn nog niet voorzien van een definitieve samenstellingsverklaring. De accountant maakt in de stukken de volgende kanttekeningen:</p>
-
+  <h2>8. Wat de accountant zelf zegt</h2>
+  <p>De concept-jaarrekeningen 2024 en 2025 bevatten de volgende kanttekeningen:</p>
   <ul>
-    <li>"Er is geen volledige controle op de facturen uit kunnen voeren." (jaarrekening 2024, p.3)</li>
-    <li>"De jaarrekening 2024 is opgesteld met een aantal aannames en zijn een aantal aansluitingen gemaakt." (jaarrekening 2024, p.3)</li>
-    <li>"De vergelijkende cijfers kunnen enigszins afwijken in verband met een andere presentatie / rubricering." (jaarrekening 2024, p.3 en 2025, p.3)</li>
-    <li>"Ten tijde van het samenstellen van de jaarrekening 2025 was de jaarrekening 2024 nog niet definitief vastgesteld." (jaarrekening 2025, p.3)</li>
+    <li>"Er is geen volledige controle op de facturen uit kunnen voeren." (jaarrekening 2024)</li>
+    <li>"De jaarrekening 2024 is opgesteld met een aantal aannames en zijn een aantal aansluitingen gemaakt." (jaarrekening 2024)</li>
+    <li>"De vergelijkende cijfers kunnen enigszins afwijken in verband met een andere presentatie / rubricering." (jaarrekeningen 2024 en 2025)</li>
+    <li>"Ten tijde van het samenstellen van de jaarrekening 2025 was de jaarrekening 2024 nog niet definitief vastgesteld." (jaarrekening 2025)</li>
   </ul>
 
   <aside class="callout callout-green">
     <div class="callout-label">Wat betekent dit?</div>
-    <p>De cijfers die u als bewoner voorgelegd krijgt, zijn nog niet definitief vastgesteld, niet volledig gecontroleerd, en bevatten aannames. Bewoner Ger Dragstra (huisnummer 239) heeft in zijn notitie van mei 2026 gevraagd om een onafhankelijke registeraccountant de jaarrekeningen 2023, 2024 en 2025 te laten controleren. Dit is ook mogelijk op grond van artikel 5.5 van de Exploitatieovereenkomst.</p>
+    <p>De cijfers die u als bewoner voorgelegd krijgt, zijn nog niet definitief vastgesteld, niet volledig gecontroleerd en bevatten aannames. Beide concept-jaarrekeningen dragen de vermelding "concept" en zijn nog niet voorzien van een definitieve samenstellingsverklaring. Een bewoner heeft in mei 2026 verzocht om een onafhankelijke registeraccountant de jaarrekeningen 2023, 2024 en 2025 te laten controleren. Dit is mogelijk op grond van artikel 5.5 van de Exploitatieovereenkomst.</p>
   </aside>
 
-  <div class="sources"><strong>Bronnen</strong><span>Concept-jaarrekeningen SWB 2024 (d.d. 29-12-2025) en 2025 (d.d. 10-03-2026), samenstellingsverklaringen en paragraaf "Algemeen".</span><span>Notitie Ger Dragstra, mei 2026, "Naar aanleiding van de agenda ALV juni 2026".</span></div>
+  <div class="sources"><strong>Bronnen</strong><span>Concept-jaarrekeningen SWB 2024 (d.d. 29-12-2025) en 2025 (d.d. 10-03-2026), samenstellingsverklaringen en paragraaf "Algemeen".</span></div>
 
   <aside class="callout callout-green">
     <div class="callout-label">Samenvattend</div>
-    <p>Als bewoner van De Stille Wille betaalt u jaarlijks servicekosten waarvan een substantieel deel — ruim € 120.000 per jaar — naar de landgoedeigenaar (LSW) vloeit in de vorm van huur en leningaflossing. De huur is een post waarvan de rechter in 2013 heeft geoordeeld dat erfpachters er niet aan hoeven mee te betalen. Het geld dat gespaard wordt voor groot onderhoud, is deels gebruikt om exploitatietekorten uit het verleden op te vangen. En de gaskosten stijgen snel, terwijl de vervanging van het verouderde gasnet — door de rechter aangewezen als verantwoordelijkheid van de eigenaar — uitblijft. De jaarrekeningen zijn opgesteld met aannames, nog niet definitief vastgesteld, en niet door een onafhankelijke accountant gecontroleerd.</p>
+    <p>Een substantieel deel van de servicekosten vloeit naar de landgoedeigenaar (LSW) als huur opstallen en leningaflossing (in 2025 ± € 120.000). Over de huur opstallen oordeelde het Gerechtshof (2010, bevestigd 2013) dat erfpachters daaraan niet hoeven bij te dragen omdat het gebruiksrecht in de canon is begrepen; de Exploitatieovereenkomst 2025 voert de post niettemin als exploitatiekosten op (zie de uitklapbare knoop in sectie 3). Uit de onderhoudsvoorziening is een opgelopen tekort afgeboekt; of dat binnen de toegestane bestemmingen valt, is een open vraag (zie sectie 5). De gaskosten stijgen, terwijl vervanging van het verouderde gasnet — door de rechter aangewezen als verantwoordelijkheid van de eigenaar — is uitgebleven (zie sectie 4). De jaarrekeningen zijn opgesteld met aannames, nog niet definitief vastgesteld, en niet door een onafhankelijke accountant gecontroleerd.</p>
   </aside>
 
   <p>Voor de juridische onderbouwing: zie <a href="/gas-juridisch.html">Juridische basis</a>. Voor de gasrekening zelf: zie <a href="/gas-kosten.html">Gasrekening</a>. Voor alle brondocumenten: zie <a href="/bronnen.html">Bronnen</a>.</p>
