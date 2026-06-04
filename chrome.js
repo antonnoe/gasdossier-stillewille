@@ -440,6 +440,15 @@
   function renderIntroModal() {
     if (document.querySelector('.sw-modal-overlay')) return;
 
+    // Eénmaal per sessie tonen (de site bestaat uit losse HTML-pagina's,
+    // dus boot() draait bij elke navigatie). try/catch: als de browser
+    // opslag blokkeert, verschijnt de modal gewoon — liever een keer te
+    // veel dan een gebroken pagina.
+    try {
+      if (sessionStorage.getItem('sw-intro-seen')) return;
+      sessionStorage.setItem('sw-intro-seen', '1');
+    } catch (e) { /* opslag geblokkeerd: modal toch tonen */ }
+
     var overlay = el('div', {
       class: 'sw-modal-overlay',
       role: 'dialog',
