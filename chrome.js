@@ -433,6 +433,57 @@
     nodes.forEach(function (n) { n.textContent = META.bijgewerkt; });
   }
 
+  // --- Render: openings-modal (site-breed, geen opslag) -------------------
+  // Eén bron voor alle pagina's: chrome.js wordt overal ingeladen. Geen
+  // localStorage/sessionStorage (werkt niet in deze omgeving), dus de modal
+  // verschijnt elke sessie — daarom rustig vormgegeven en snel weg te klikken.
+  function renderIntroModal() {
+    if (document.querySelector('.sw-modal-overlay')) return;
+
+    var overlay = el('div', {
+      class: 'sw-modal-overlay',
+      role: 'dialog',
+      'aria-modal': 'true',
+      'aria-labelledby': 'sw-modal-title'
+    });
+    var modal = el('div', { class: 'sw-modal' });
+
+    var close = el('button', { type: 'button', class: 'sw-modal-close', 'aria-label': 'Sluiten' });
+    close.innerHTML = '&times;';
+    modal.appendChild(close);
+
+    modal.appendChild(el('h2', { id: 'sw-modal-title', text: 'Over deze website' }));
+
+    var blocks = [
+      ['Wat dit is', 'Een feitelijke werkverzameling van dossiers over Landgoed De Stille Wille — gas, financiën en beheer — bedoeld voor de 324 huishoudens.'],
+      ['Het doel', 'Niet stelling nemen of een partij aanklagen, maar de feiten en de onderliggende stukken navolgbaar bij elkaar brengen, zodat iedereen zich een eigen oordeel kan vormen.'],
+      ['De principes', 'Alles wordt getoetst aan primaire bronnen — vonnissen, contracten, jaarrekeningen. Verschillen van inzicht worden zichtbaar gemaakt als open vragen, niet als conclusies. Er worden geen persoonsnamen genoemd. De inhoud is geen juridisch advies.'],
+      ['Een levend dossier', 'Deze site is een levend, digitaal organisme dat voortdurend zal meebewegen en een inhoudelijke en interactieve dynamiek zal krijgen die in alle dossiers zichtbaar wordt. Het streven is dat een aanpassing in één categorie ook de gerelateerde categorieën laat meebewegen. De site groeit: dossiers worden toegevoegd en aangescherpt, en feedback is welkom.']
+    ];
+    blocks.forEach(function (b) {
+      modal.appendChild(el('h3', { text: b[0] }));
+      modal.appendChild(el('p', { text: b[1] }));
+    });
+
+    var cta = el('button', { type: 'button', class: 'sw-modal-cta', text: 'Aan de slag' });
+    modal.appendChild(cta);
+
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    function dismiss() {
+      if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      document.removeEventListener('keydown', onKey);
+    }
+    function onKey(e) { if (e.key === 'Escape') dismiss(); }
+
+    close.addEventListener('click', dismiss);
+    cta.addEventListener('click', dismiss);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) dismiss(); });
+    document.addEventListener('keydown', onKey);
+    close.focus();
+  }
+
   // --- Boot ----------------------------------------------------------------
 
   function boot() {
@@ -446,6 +497,7 @@
     renderBijgewerkt();
     renderStatusFilter();
     wrapTables();
+    renderIntroModal();
   }
 
   if (document.readyState === 'loading') {
