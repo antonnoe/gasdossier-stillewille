@@ -253,6 +253,16 @@ window.SW_DOSSIERS = [
     secties: []
   },
   {
+    slug: "enquete-2023",
+    type: "doorsnede",
+    titel: "Bewonersraadpleging 2023",
+    categorie: null,
+    accent: "yellow",
+    status: "voltooid",
+    omschrijving: "De bewonersraadpleging 2023 per thema gewogen: 218 formulieren over wonen, beheer, veiligheid en informatie.",
+    secties: []
+  },
+  {
     slug: "tijdlijn",
     type: "doorsnede",
     titel: "Tijdlijn",
