@@ -433,10 +433,11 @@
     nodes.forEach(function (n) { n.textContent = META.bijgewerkt; });
   }
 
-  // --- Render: openings-modal (site-breed, geen opslag) -------------------
-  // Eén bron voor alle pagina's: chrome.js wordt overal ingeladen. Geen
-  // localStorage/sessionStorage (werkt niet in deze omgeving), dus de modal
-  // verschijnt elke sessie — daarom rustig vormgegeven en snel weg te klikken.
+  // --- Render: openings-modal (site-breed) --------------------------------
+  // Eén bron voor alle pagina's: chrome.js wordt overal ingeladen. De modal
+  // verschijnt éénmaal per sessie (zie sessionStorage hieronder); bij een
+  // nieuw bezoek (nieuwe tab/sessie) weer. Rustig vormgegeven en snel weg
+  // te klikken.
   function renderIntroModal() {
     if (document.querySelector('.sw-modal-overlay')) return;
 
