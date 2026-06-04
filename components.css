@@ -892,3 +892,101 @@
 @media (prefers-reduced-motion: reduce) {
   .sw-modal-overlay { animation: none; }
 }
+
+
+/* ─── 13. Reactieblok (visual prototype, via chrome.js) ─────
+   Onderaan elke .page-main. Rustige groene huisstijl; verstuurt nog niets.
+   ──────────────────────────────────────────────────────── */
+.sw-react {
+  max-width: 720px;
+  margin: 56px 0 8px;
+  padding: 28px 30px;
+  background: var(--cream);
+  border: 1px solid var(--green-15);
+  border-left: 3px solid var(--green);
+  border-radius: 8px;
+}
+.sw-react-proto {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--grey-soft);
+  margin: 0 0 12px;
+}
+.sw-react h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--green-deep);
+  margin: 0 0 8px;
+}
+.sw-react-intro {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--grey-mid);
+  margin: 0 0 18px;
+  max-width: 64ch;
+}
+.sw-react-field { margin-bottom: 14px; }
+.sw-react-field label {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--grey-dark);
+  margin-bottom: 5px;
+}
+.sw-react-field textarea,
+.sw-react-field input {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--grey-dark);
+  background: var(--white);
+  border: 1px solid var(--green-25);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.sw-react-field textarea { resize: vertical; min-height: 96px; line-height: 1.5; }
+.sw-react-field textarea:focus,
+.sw-react-field input:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px var(--green-08);
+}
+.sw-react-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.sw-react-avg {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--grey-soft);
+  margin: 4px 0 18px;
+}
+.sw-react-btn {
+  border: 0;
+  border-radius: 6px;
+  background: var(--green);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 11px 26px;
+  cursor: pointer;
+}
+.sw-react-btn:hover,
+.sw-react-btn:focus-visible { background: var(--green-deep); }
+.sw-react-melding {
+  margin: 14px 0 0;
+  padding: 10px 14px;
+  background: var(--green-tint);
+  border: 1px solid var(--green-25);
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--green-deep);
+}
+@media (max-width: 600px) {
+  .sw-react-row { grid-template-columns: 1fr; }
+}

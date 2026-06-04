@@ -484,6 +484,50 @@
     close.focus();
   }
 
+  // --- Render: reactieblok (visual prototype, nog niet actief) ------------
+  // Site-breed via chrome.js, onderaan elke .page-main (de homepage heeft
+  // geen .page-main en wordt dus overgeslagen). Verstuurt NIETS: de klik
+  // wordt in JS afgevangen en toont een inline-melding.
+  function renderReactieBlok() {
+    var main = document.querySelector('.page-main');
+    if (!main || main.querySelector('.sw-react')) return;
+
+    var sec = el('section', { class: 'sw-react', 'aria-labelledby': 'sw-react-kop' });
+
+    sec.appendChild(el('p', { class: 'sw-react-proto', text: 'Voorbeeld / prototype — dit reactieformulier is nog niet actief.' }));
+    sec.appendChild(el('h2', { id: 'sw-react-kop', text: 'Reageren op dit dossier' }));
+    sec.appendChild(el('p', { class: 'sw-react-intro', text: 'Klopt er iets niet, of mist er informatie? Laat het weten. Uw reactie gaat naar het bestuur van Stille Wille Wonen en de websitebeheerder.' }));
+
+    function field(labelText, control, id) {
+      var wrap = el('div', { class: 'sw-react-field' });
+      var lab = el('label', { 'for': id, text: labelText });
+      control.setAttribute('id', id);
+      wrap.appendChild(lab);
+      wrap.appendChild(control);
+      return wrap;
+    }
+
+    sec.appendChild(field('Uw bericht', el('textarea', { rows: '5', placeholder: 'Uw reactie…' }), 'sw-react-msg-in'));
+
+    var row = el('div', { class: 'sw-react-row' });
+    row.appendChild(field('Naam (optioneel)', el('input', { type: 'text', autocomplete: 'name' }), 'sw-react-naam'));
+    row.appendChild(field('E-mail (optioneel)', el('input', { type: 'email', autocomplete: 'email' }), 'sw-react-email'));
+    sec.appendChild(row);
+
+    sec.appendChild(el('p', { class: 'sw-react-avg', text: 'Uw gegevens worden uitsluitend gebruikt om op uw reactie te reageren en niet voor andere doeleinden.' }));
+
+    var btn = el('button', { type: 'button', class: 'sw-react-btn', text: 'Versturen' });
+    sec.appendChild(btn);
+
+    var melding = el('p', { class: 'sw-react-melding', role: 'status', text: 'Dit formulier is nog in ontwikkeling — versturen is nog niet actief.' });
+    melding.hidden = true;
+    sec.appendChild(melding);
+
+    btn.addEventListener('click', function () { melding.hidden = false; });
+
+    main.appendChild(sec);
+  }
+
   // --- Boot ----------------------------------------------------------------
 
   function boot() {
@@ -497,6 +541,7 @@
     renderBijgewerkt();
     renderStatusFilter();
     wrapTables();
+    renderReactieBlok();
     renderIntroModal();
   }
 
