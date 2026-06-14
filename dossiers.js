@@ -31,17 +31,19 @@
  * ── TWEE ASSEN, NIET VERWARREN ──────────────────────────────────────────
  *   1. READINESS (dit `status`-veld): voltooid / in-uitvoering / gepland.
  *      Zegt hoe ver een PAGINA af is. Wordt VORM-gecodeerd getoond
- *      (vol/half/open stip) in een neutrale kleur.
+ *      (vol/half/open stip) in een neutrale kleur. De interne sleutels blijven
+ *      voltooid/in-uitvoering/gepland; de UI-labels luiden respectievelijk
+ *      "Bijgewerkt" / "In bewerking" / "Later".
  *   2. VERIFICATIE (het stoplicht in bronnen.html / tijdlijn / stakeholders):
  *      groen / geel / oranje. Zegt hoe hard een CLAIM is. Wordt KLEUR-gecodeerd
  *      getoond.
- * Deze assen mogen elkaar visueel niet overlappen: "Voltooid" betekent NIET
+ * Deze assen mogen elkaar visueel niet overlappen: "Bijgewerkt" betekent NIET
  * "groen geverifieerd". Houd het groen/geel/oranje-palet daarom weg bij de
  * readiness-stip en -badge.
  *
- * "Voltooid" is altijd een MOMENTOPNAME: opgebouwd en tot de peildatum
- * (SW_META.bijgewerkt) geverifieerd. De situatie op het landgoed verandert;
- * ook een voltooid dossier wordt bijgewerkt zodra er nieuwe feiten zijn.
+ * "Bijgewerkt" is altijd een MOMENTOPNAME: geen enkel dossier is af. Het label
+ * betekent dat de informatie actueel is tot de peildatum (SW_META.bijgewerkt);
+ * nieuwe ontwikkelingen worden toegevoegd zodra ze bekend en geverifieerd zijn.
  *
  * BELANGRIJK: omschrijvingen zijn neutraal en topical gehouden. Specifieke
  * cijfers, datums, bedragen en arrest-verwijzingen worden PER DOSSIER tegen

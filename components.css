@@ -515,14 +515,21 @@
 .sw-tile-yellow { --sw-tile-accent: var(--yellow); }
 .sw-tile-orange { --sw-tile-accent: var(--orange); }
 
-.sw-tile-meta {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+/* Titel bovenaan met volgnummer; status staat eronder (.sw-tile-meta). */
+.sw-tile-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
   margin-bottom: 10px;
-  min-height: 18px;
-  color: var(--sw-tile-accent);
+}
+.sw-tile-n {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  color: var(--sw-tile-accent); /* DECORATIEF tegel-accent, geen status */
+  flex: none;
 }
 .sw-tile-title {
   font-family: var(--font-display);
@@ -530,8 +537,12 @@
   font-size: 22px;
   line-height: 1.2;
   letter-spacing: -0.015em;
-  margin: 0 0 8px;
+  margin: 0;
   color: var(--grey-dark);
+}
+.sw-tile-meta {
+  margin: 0 0 12px;
+  min-height: 18px;
 }
 .sw-tile-desc {
   font-family: var(--font-body);

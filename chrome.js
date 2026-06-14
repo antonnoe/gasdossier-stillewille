@@ -68,9 +68,9 @@
   // (vol/half/open) in neutrale kleur via currentColor — nooit het
   // stoplicht-palet, om verwarring te voorkomen.
   var STATUS_LABEL = {
-    'voltooid': 'Voltooid',
-    'in-uitvoering': 'Werk in uitvoering',
-    'gepland': 'Later in 2026 gepland'
+    'voltooid': 'Bijgewerkt',
+    'in-uitvoering': 'In bewerking',
+    'gepland': 'Later'
   };
   var STATUS_DOT = {
     'voltooid': 'sw-dot--vol',
@@ -271,16 +271,23 @@
     var a = el('a', { class: 'sw-tile sw-tile-' + d.accent, href: href(d) });
     a.setAttribute('data-status', d.status);
 
-    var meta = el('div', { class: 'sw-tile-meta' });
-    var titleEl = el('h3', { class: 'sw-tile-title', text: d.titel });
-    var desc = el('p', { class: 'sw-tile-desc', text: d.omschrijving });
+    // Titel bovenaan, met volgnummer uit de registry (R = SW_DOSSIERS).
+    // Het nummer kleurt mee met het DECORATIEVE tegel-accent, niet met status.
+    var n = R.indexOf(d) + 1;
+    var head = el('div', { class: 'sw-tile-head' });
+    head.appendChild(el('span', { class: 'sw-tile-n', 'aria-hidden': 'true', text: (n < 10 ? '0' + n : String(n)) }));
+    head.appendChild(el('h3', { class: 'sw-tile-title', text: d.titel }));
+    a.appendChild(head);
 
+    // Status komt ONDER de titel — vorm-gecodeerde stip + herbenoemd label.
     var tb = statusBadge(d);
-    if (tb) meta.appendChild(tb);
+    if (tb) {
+      var meta = el('div', { class: 'sw-tile-meta' });
+      meta.appendChild(tb);
+      a.appendChild(meta);
+    }
 
-    a.appendChild(meta);
-    a.appendChild(titleEl);
-    a.appendChild(desc);
+    a.appendChild(el('p', { class: 'sw-tile-desc', text: d.omschrijving }));
     return a;
   }
 
@@ -351,9 +358,9 @@
     if (!host) return;
 
     var cfg = d.status === 'in-uitvoering'
-      ? { cls: 'callout-yellow', label: 'Werk in uitvoering',
+      ? { cls: 'callout-yellow', label: 'In bewerking',
           txt: 'Dit dossier is in bewerking. Onderdelen kunnen nog onvolledig zijn; specifieke cijfers, datums en bronverwijzingen worden pas opgenomen na verificatie tegen de primaire bron.' }
-      : { cls: 'callout-orange', label: 'Later in 2026 gepland',
+      : { cls: 'callout-orange', label: 'Later',
           txt: 'Dit dossier is gepland voor later in 2026. De indeling hieronder is voorlopig; er is nog geen geverifieerde inhoud opgenomen.' };
 
     var box = el('aside', { class: 'callout ' + cfg.cls + ' sw-voorbereiding' });
