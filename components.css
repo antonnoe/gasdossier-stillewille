@@ -541,65 +541,6 @@
   margin: 0;
 }
 
-/* Status-filter (Hoofdpagina) */
-.sw-status-filter {
-  display: flex;
-  gap: 0;
-  margin: 0 0 32px;
-  border-bottom: 1px solid var(--green-15);
-}
-.sw-filter-btn {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 14px;
-  padding: 12px 18px;
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid transparent;
-  color: var(--grey-mid);
-  cursor: pointer;
-  margin-bottom: -1px;
-  transition: color .15s, border-color .15s;
-}
-.sw-filter-btn:hover { color: var(--grey-dark); }
-.sw-filter-btn.is-active {
-  color: var(--green-deep);
-  border-bottom-color: var(--green);
-}
-
-/* Hero variant: bordered pill-buttons grouped as a segmented control.
-   Active = bestaande primaire groene accent; inactief = neutraal omlijnd.
-   Geen geel/oranje — die kleuren zijn voor dossier-accenten. */
-.sw-status-filter--hero {
-  display: inline-flex;
-  gap: 0;
-  margin: 0;
-  padding: 0;
-  border: 1px solid var(--green-25);
-  background: var(--white);
-}
-.sw-status-filter--hero .sw-filter-btn {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 14px;
-  padding: 12px 18px;
-  background: transparent;
-  border: 0;
-  border-right: 1px solid var(--green-15);
-  border-bottom: 0;
-  color: var(--grey-mid);
-  cursor: pointer;
-  margin: 0;
-  transition: background .15s, color .15s;
-}
-.sw-status-filter--hero .sw-filter-btn:last-child { border-right: 0; }
-.sw-status-filter--hero .sw-filter-btn:hover { color: var(--green-deep); background: var(--green-tint); }
-.sw-status-filter--hero .sw-filter-btn.is-active {
-  background: var(--green);
-  color: #fff;
-  border-bottom: 0;
-}
-
 /* Dossier-filter dropdown (doorsneden) */
 .sw-dossier-filter {
   display: flex;

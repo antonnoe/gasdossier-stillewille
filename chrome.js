@@ -7,7 +7,6 @@
  *   - tile grid      (fills [data-sw-tile-grid] on the home page)
  *   - pager          (fills [data-sw-pager])
  *   - status badge   ([data-sw-status]) — banner for in-uitvoering / gepland
- *   - status filter  ([data-sw-status-filter]) — readiness-toggle
  *   - dropdown       ([data-sw-dossier-select]) — overzicht-pagina's
  *
  * Current page is identified via <body data-slug="...">. Slug "home" = landing.
@@ -285,54 +284,6 @@
     return a;
   }
 
-  // --- Render: status-filter (Hoofdpagina) ---------------------------------
-
-  function renderStatusFilter() {
-    var host = document.querySelector('[data-sw-status-filter]');
-    if (!host) return;
-
-    var btns = [
-      { value: 'voltooid',      label: 'Voltooid' },
-      { value: 'in-uitvoering', label: 'Werk in uitvoering' },
-      { value: 'gepland',       label: 'Later in 2026 gepland' },
-      { value: 'alles',         label: 'Alles' }
-    ];
-    var DEFAULT = 'voltooid';
-
-    host.innerHTML = '';
-    btns.forEach(function (b) {
-      var btn = el('button', { type: 'button', class: 'sw-filter-btn', 'data-filter': b.value });
-      btn.textContent = b.label;
-      if (b.value === DEFAULT) btn.className += ' is-active';
-      host.appendChild(btn);
-    });
-
-    function applyFilter(v) {
-      document.querySelectorAll('.sw-tile[data-status]').forEach(function (tile) {
-        var match = v === 'alles' || tile.getAttribute('data-status') === v;
-        tile.style.display = match ? '' : 'none';
-      });
-      document.querySelectorAll('.sw-group').forEach(function (g) {
-        var anyVisible = Array.from(g.querySelectorAll('.sw-tile')).some(function (t) {
-          return t.style.display !== 'none';
-        });
-        g.style.display = anyVisible ? '' : 'none';
-      });
-    }
-
-    host.addEventListener('click', function (ev) {
-      var t = ev.target;
-      if (!t.matches('.sw-filter-btn')) return;
-      var v = t.getAttribute('data-filter');
-      host.querySelectorAll('.sw-filter-btn').forEach(function (n) {
-        n.classList.toggle('is-active', n === t);
-      });
-      applyFilter(v);
-    });
-
-    applyFilter(DEFAULT); // hoofdpagina opent met "Voltooid"
-  }
-
   // --- Render: pager -------------------------------------------------------
 
   function renderPager() {
@@ -549,7 +500,6 @@
     renderDossierSelect();
     renderStatusBanner();
     renderBijgewerkt();
-    renderStatusFilter();
     wrapTables();
     renderReactieBlok();
     renderIntroModal();
