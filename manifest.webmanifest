@@ -1,0 +1,16 @@
+{
+  "name": "SW-Bieb",
+  "short_name": "SW-Bieb",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "lang": "nl-NL",
+  "background_color": "#FBF7F2",
+  "theme_color": "#1F7F4E",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
