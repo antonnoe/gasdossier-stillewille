@@ -49,6 +49,36 @@
   height: 2px; background: var(--yellow);
 }
 
+/* PWA install-knop in de nav (rechts uitgelijnd, huisstijl-groen). */
+.pwa-install-wrap {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.pwa-install-btn {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  background: #1F7F4E;
+  color: #FBF7F2;
+  border: 0;
+  padding: .55em 1em;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.pwa-install-btn:hover { background: #19663E; }
+.pwa-ios-help {
+  font-family: "Mulish", sans-serif;
+  font-size: .9rem;
+  line-height: 1.8em;
+  background: rgba(31, 127, 78, .08);
+  color: #1F2937;
+  padding: .6em .8em;
+  border-radius: 8px;
+  margin-top: .4em;
+  max-width: 22em;
+}
+
 
 /* ─── 2. Page header (for sub-pages) ────────────────────
    On the landing page (index.html) we use the colorful hero with

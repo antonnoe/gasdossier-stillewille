@@ -199,6 +199,18 @@
       dgrp.appendChild(dPanel);
       inner.appendChild(dgrp);
     }
+
+    // PWA install-knop (rechts in de nav). Verborgen tot de browser meldt dat
+    // installeren kan (Android) of tot we iOS herkennen; aangestuurd door de
+    // install-IIFE onderaan dit bestand.
+    var pwaWrap = el('div', { class: 'pwa-install-wrap' });
+    var pwaBtn = el('button', { type: 'button', id: 'pwa-install', class: 'pwa-install-btn', hidden: '' });
+    pwaBtn.textContent = 'Op je telefoon zetten';
+    var pwaHelp = el('div', { id: 'pwa-ios-help', class: 'pwa-ios-help', hidden: '' });
+    pwaHelp.innerHTML = 'Tik op de <strong>Deel</strong>-knop en kies <strong>&ldquo;Zet op beginscherm&rdquo;</strong>.';
+    pwaWrap.appendChild(pwaBtn);
+    pwaWrap.appendChild(pwaHelp);
+    inner.appendChild(pwaWrap);
   }
 
   function linkNav(h, label, isActive) {
@@ -517,4 +529,27 @@
   } else {
     boot();
   }
+})();
+
+// --- PWA: service worker + install-knop ------------------------------------
+(function () {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+  }
+  const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  const isiOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+  const btn = document.getElementById('pwa-install');
+  const help = document.getElementById('pwa-ios-help');
+  if (!btn) return;
+  if (standalone) { btn.hidden = true; return; }
+
+  let deferred = null;
+  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferred = e; btn.hidden = false; });
+  window.addEventListener('appinstalled', () => { btn.hidden = true; deferred = null; });
+  if (isiOS) btn.hidden = false;
+
+  btn.addEventListener('click', async () => {
+    if (deferred) { deferred.prompt(); await deferred.userChoice; deferred = null; btn.hidden = true; }
+    else if (isiOS && help) { help.hidden = !help.hidden; }
+  });
 })();
