@@ -20,6 +20,18 @@
   var body = document.body;
   var slug = body.getAttribute('data-slug') || '';
 
+  // --- PWA: service worker + install-prompt --------------------------------
+  // Module-niveau, zodat de openings-modal (renderIntroModal) bij swDeferred
+  // kan. De service worker blijft network-first geregistreerd; de echte
+  // install-prompt (Android/Chrome) wordt opgevangen en bewaard tot de
+  // bewoner in de modal op "Op je telefoon zetten" klikt.
+  var swDeferred = null;
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); swDeferred = e; });
+  window.addEventListener('appinstalled', function () { swDeferred = null; });
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+
   // --- Lookups -------------------------------------------------------------
 
   var kerndossiers = R.filter(function (d) { return d.type === 'kerndossier'; });
@@ -199,18 +211,6 @@
       dgrp.appendChild(dPanel);
       inner.appendChild(dgrp);
     }
-
-    // PWA install-knop (rechts in de nav). Verborgen tot de browser meldt dat
-    // installeren kan (Android) of tot we iOS herkennen; aangestuurd door de
-    // install-IIFE onderaan dit bestand.
-    var pwaWrap = el('div', { class: 'pwa-install-wrap' });
-    var pwaBtn = el('button', { type: 'button', id: 'pwa-install', class: 'pwa-install-btn', hidden: '' });
-    pwaBtn.textContent = 'Op je telefoon zetten';
-    var pwaHelp = el('div', { id: 'pwa-ios-help', class: 'pwa-ios-help', hidden: '' });
-    pwaHelp.innerHTML = 'Tik op de <strong>Deel</strong>-knop en kies <strong>&ldquo;Zet op beginscherm&rdquo;</strong>.';
-    pwaWrap.appendChild(pwaBtn);
-    pwaWrap.appendChild(pwaHelp);
-    inner.appendChild(pwaWrap);
   }
 
   function linkNav(h, label, isActive) {
@@ -445,6 +445,31 @@
       modal.appendChild(el('p', { text: b[1] }));
     });
 
+    // PWA install-blok — vlak vóór de CTA, maar alleen als de site nog niet
+    // als app draait. "Aan de slag" blijft de opvallende primaire knop; de
+    // install-knop is secundair gestyled. De knop is nooit dood: lukt de
+    // echte prompt niet (iOS, of nog geen beforeinstallprompt), dan tonen we
+    // een korte instructie-regel.
+    var swStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if (!swStandalone) {
+      var pwaBtn = el('button', { type: 'button', class: 'pwa-install-btn', text: 'Op je telefoon zetten' });
+      var pwaHelp = el('div', { class: 'pwa-ios-help', hidden: '' });
+      modal.appendChild(pwaBtn);
+      modal.appendChild(pwaHelp);
+      pwaBtn.addEventListener('click', function () {
+        if (swDeferred) {
+          swDeferred.prompt();
+          swDeferred = null;
+        } else {
+          var isiOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+          pwaHelp.innerHTML = isiOS
+            ? 'Tik op de <strong>Deel</strong>-knop en kies <strong>&ldquo;Zet op beginscherm&rdquo;</strong>.'
+            : 'Open het menu van je browser (&#x22EE; of &#x2261;) en kies <strong>&ldquo;Toevoegen aan startscherm&rdquo;</strong>.';
+          pwaHelp.hidden = false;
+        }
+      });
+    }
+
     var cta = el('button', { type: 'button', class: 'sw-modal-cta', text: 'Aan de slag' });
     modal.appendChild(cta);
 
@@ -529,27 +554,4 @@
   } else {
     boot();
   }
-})();
-
-// --- PWA: service worker + install-knop ------------------------------------
-(function () {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
-  }
-  const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-  const isiOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
-  const btn = document.getElementById('pwa-install');
-  const help = document.getElementById('pwa-ios-help');
-  if (!btn) return;
-  if (standalone) { btn.hidden = true; return; }
-
-  let deferred = null;
-  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferred = e; btn.hidden = false; });
-  window.addEventListener('appinstalled', () => { btn.hidden = true; deferred = null; });
-  if (isiOS) btn.hidden = false;
-
-  btn.addEventListener('click', async () => {
-    if (deferred) { deferred.prompt(); await deferred.userChoice; deferred = null; btn.hidden = true; }
-    else if (isiOS && help) { help.hidden = !help.hidden; }
-  });
 })();

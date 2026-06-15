@@ -49,34 +49,36 @@
   height: 2px; background: var(--yellow);
 }
 
-/* PWA install-knop in de nav (rechts uitgelijnd, huisstijl-groen). */
-.pwa-install-wrap {
-  margin-left: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
+/* PWA install-knop in de openings-modal. Secundair gestyled (outline-groen),
+   zodat "Aan de slag" de opvallende primaire knop blijft. */
 .pwa-install-btn {
-  font-family: "Poppins", sans-serif;
+  display: inline-block;
+  margin-top: 18px;
+  margin-right: 10px;
+  padding: 9px 18px;
+  border: 1px solid var(--green);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--green-deep);
+  font-family: var(--font-display);
   font-weight: 600;
-  background: #1F7F4E;
-  color: #FBF7F2;
-  border: 0;
-  padding: .55em 1em;
-  border-radius: 8px;
+  font-size: 14px;
   cursor: pointer;
 }
-.pwa-install-btn:hover { background: #19663E; }
+.pwa-install-btn:hover,
+.pwa-install-btn:focus-visible {
+  background: var(--green-tint);
+}
 .pwa-ios-help {
-  font-family: "Mulish", sans-serif;
-  font-size: .9rem;
-  line-height: 1.8em;
-  background: rgba(31, 127, 78, .08);
-  color: #1F2937;
-  padding: .6em .8em;
-  border-radius: 8px;
-  margin-top: .4em;
-  max-width: 22em;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  background: var(--green-08);
+  color: var(--grey-dark);
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-top: 12px;
+  max-width: 34em;
 }
 
 
