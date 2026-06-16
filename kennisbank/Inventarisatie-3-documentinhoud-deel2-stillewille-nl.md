@@ -1,3 +1,32 @@
+---
+titel: "Documentinhoud deel 2 — Documenten op stillewille.nl"
+bron: "stillewille.nl"
+bron_url: "https://www.stillewille.nl/"
+bestandsnaam: ""
+auteur: ""
+datum: "2025/2026"
+brontype: "webpagina"
+partij:
+  - "LSW"
+  - "SWB"
+rubriek_primair: "Governance & besluitvorming"
+rubriek_secundair:
+  - "Communicatie & nieuwsbrieven"
+  - "Stakeholders & organisatie"
+status: "definitief"
+betrouwbaarheid: "GEEL"
+tags:
+  - "stillewille.nl"
+  - "bestuurscrisis-2025"
+  - "continuiteit"
+  - "pdfplumber"
+kernonderwerpen:
+  - "Nieuwere stukken (eind 2025 – maart 2026) die niet in het SWW-archief staan"
+  - "Dossiercontinuïteit ná de bestuurscrisis van juni 2025"
+  - "PDF-tekst via curl + pdfplumber; metadata ter controle van datums"
+verificatiepunten:
+  - "Twee beeld-scans zonder tekstlaag doorgeschoven naar deel 2b (Beheersovereenkomst + BR-verslag jan '26)"
+---
 # Inventarisatie 3 — Documentinhoud (PDF's), per onderwerp
 
 ## Deel 2 — Documenten op stillewille.nl (eigenaar/exploitant)

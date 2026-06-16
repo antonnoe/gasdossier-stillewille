@@ -1,3 +1,31 @@
+---
+titel: "Site-inventarisatie — stillewillewonen.nl (SWW)"
+bron: "stillewillewonen.nl"
+bron_url: "https://stillewillewonen.nl/"
+bestandsnaam: ""
+auteur: ""
+datum: "2026-06-16"
+brontype: "webpagina"
+partij:
+  - "SWW"
+rubriek_primair: "Stakeholders & organisatie"
+rubriek_secundair:
+  - "Communicatie & nieuwsbrieven"
+  - "Governance & besluitvorming"
+status: "definitief"
+betrouwbaarheid: "GEEL"
+tags:
+  - "site-inventarisatie"
+  - "WordPress"
+  - "bbPress"
+  - "sitemap"
+  - "SWW"
+kernonderwerpen:
+  - "Sitemap + pagina-overzicht van de bewonersverenigingssite"
+  - "Platform WordPress (forum bbPress; agenda Google Calendar-embed)"
+  - "Website openbaar; Forum en Facebook-groep besloten"
+verificatiepunten: []
+---
 # Inventarisatie — stillewillewonen.nl
 
 **Site:** Stille Wille Wonen (SWW) — bewonersvereniging Landgoed Stille Wille

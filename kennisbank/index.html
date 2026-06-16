@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Kennisbank · Kerndossiers Landgoed De Stille Wille</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#1F7F4E">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="SW-Bieb">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/components.css">
+<link rel="stylesheet" href="/kennisbank/kennisbank.css">
+</head>
+<body data-slug="kennisbank">
+
+<!-- Zelfstandige nav (kennisbank hangt bewust niet aan chrome.js/dossiers.js,
+     zodat de bestaande registry ongemoeid blijft). -->
+<nav class="sw-nav">
+  <div class="sw-nav-inner">
+    <a class="kb-brand" href="/">Kerndossiers Stille Wille</a>
+    <a href="/">Hoofdpagina</a>
+    <a href="/bronnen.html">Bronnen</a>
+    <a href="/kennisbank/" class="active">Kennisbank</a>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-kicker"><span class="square"></span>Corpus · geborgde documenten</div>
+    <h1 class="page-title">Kennisbank</h1>
+    <p class="page-lede">
+      De volledige geborgde corpus over Landgoed De Stille Wille — beide
+      bewoners-/landgoedsites, governance-documenten en de complete
+      nieuwsbrievenserie. Elk document is getagd volgens een vast
+      rubriceringsschema. Filter op rubriek, partij en betrouwbaarheid.
+    </p>
+  </div>
+</header>
+
+<main class="page-main">
+
+  <!-- ── Toolbar / filters ─────────────────────────────────── -->
+  <section class="kb-toolbar" aria-label="Filters">
+    <div class="kb-search">
+      <input type="search" id="kb-q" placeholder="Filter op trefwoord, titel of onderwerp…"
+             autocomplete="off" aria-label="Filter op trefwoord">
+    </div>
+
+    <div class="kb-filter-row">
+      <div class="kb-filter-group">
+        <label class="kb-filter-label" for="kb-rubriek">Rubriek</label>
+        <select class="kb-select" id="kb-rubriek"><option value="">Alle rubrieken</option></select>
+      </div>
+      <div class="kb-filter-group">
+        <label class="kb-filter-label" for="kb-partij">Partij</label>
+        <select class="kb-select" id="kb-partij"><option value="">Alle partijen</option></select>
+      </div>
+      <div class="kb-filter-group">
+        <span class="kb-filter-label">Betrouwbaarheid</span>
+        <div class="kb-chips" id="kb-betrouwbaarheid" role="group" aria-label="Betrouwbaarheid"></div>
+      </div>
+    </div>
+
+    <div class="kb-toolbar-foot">
+      <span class="kb-count" id="kb-count" aria-live="polite"></span>
+      <button type="button" class="kb-reset" id="kb-reset">Filters wissen</button>
+    </div>
+  </section>
+
+  <!-- ── Resultaten ────────────────────────────────────────── -->
+  <section class="kb-grid" id="kb-grid" aria-live="polite">
+    <div class="kb-empty kb-loading">Corpus laden…</div>
+  </section>
+
+  <aside class="leeswijzer" style="margin-top:56px;">
+    <div class="leeswijzer-label">Leeswijzer</div>
+    <p>
+      De <strong>betrouwbaarheid</strong> volgt het verkeerslicht uit het
+      bronnenregister: <em>groen</em> = primaire/officiële bron, <em>geel</em> =
+      afgeleid/toelichtend of standpunt, <em>oranje</em> = onbevestigd of ruis
+      (bijv. matige OCR). Deze documenten zijn gestructureerde inventarisaties
+      van de onderliggende bronnen; per document staan de openstaande
+      verificatiepunten vermeld. De corpus is zo opgezet dat er later een
+      zoeklaag en een vraag-antwoord-agent op kan worden aangesloten.
+    </p>
+  </aside>
+
+</main>
+
+<footer class="sw-footer">
+  <strong>Kerndossiers Landgoed De Stille Wille</strong> — kennisbank: een groeiende, getagde corpus. Bron-van-waarheid is de geborgde markdown.
+</footer>
+
+<script src="/kennisbank/kennisbank.js"></script>
+</body>
+</html>

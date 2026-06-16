@@ -1,3 +1,35 @@
+---
+titel: "SWW-nieuwsbrieven 2024 H2 (tranche 2b)"
+bron: "stillewillewonen.nl"
+bron_url: "https://stillewillewonen.nl/archief/nieuwsbrieven/"
+bestandsnaam: ""
+auteur: "Redactie Peter Aerts (solo, t/m eind 2024)"
+datum: "2024-06/2024-12"
+brontype: "nieuwsbrief"
+partij:
+  - "SWW"
+  - "SWB"
+rubriek_primair: "Communicatie & nieuwsbrieven"
+rubriek_secundair:
+  - "Stakeholders & organisatie"
+  - "Gas & energie"
+  - "Financiën & fondsen"
+status: "definitief"
+betrouwbaarheid: "GEEL"
+tags:
+  - "nieuwsbrief"
+  - "Rianne-special"
+  - "erfpacht-1997"
+  - "straatverlichting"
+  - "zonneparken"
+  - "LSW-32k"
+  - "SWB-40k"
+kernonderwerpen:
+  - "De 9 edities van 2024 H2, incl. de Special Rianne IJpelaar (directie LSW/SWB)"
+  - "Erfpacht 1997; LSW €32k + SWB €40k; straatverlichting-renovatie; zonneparken"
+  - "Provenance: afscheid Peter Aerts eind 2024"
+verificatiepunten: []
+---
 # Inventarisatie 8 — SWW-nieuwsbrieven, tranche 2b: 2024 (H2, juni–dec)
 
 **Bron:** stillewillewonen.nl, `/archief/nieuwsbrieven/` (PDF's, via web_fetch).

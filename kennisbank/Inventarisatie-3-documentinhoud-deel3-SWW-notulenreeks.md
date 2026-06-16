@@ -1,3 +1,33 @@
+---
+titel: "Documentinhoud deel 3 — SWW-notulenreeks 2023 → 2025"
+bron: "stillewillewonen.nl"
+bron_url: "https://stillewillewonen.nl/"
+bestandsnaam: ""
+auteur: ""
+datum: "2023/2025"
+brontype: "notulen"
+partij:
+  - "SWW"
+  - "Bewonersraad"
+  - "SWB"
+  - "LSW"
+rubriek_primair: "Governance & besluitvorming"
+rubriek_secundair:
+  - "Stakeholders & organisatie"
+  - "Financiën & fondsen"
+status: "definitief"
+betrouwbaarheid: "GEEL"
+tags:
+  - "notulen"
+  - "ALV"
+  - "bewonersraad"
+  - "bestuurscrisis-2025"
+  - "governance-tijdlijn"
+kernonderwerpen:
+  - "Bestuurlijke continuïteit van oprichting (2023) → BR-/ALV-jaar 2024 → bestuurscrisis (2025)"
+  - "Sluit aan op deel 1 (ALV 12-06-2025, Toekomst-stukken) en deel 2/2b (okt 2025 – maart 2026)"
+verificatiepunten: []
+---
 # Inventarisatie 3 — Documentinhoud (PDF's), per onderwerp
 
 ## Deel 3 — De SWW-notulenreeks: governance-tijdlijn 2023 → 2025

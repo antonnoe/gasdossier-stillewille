@@ -1,3 +1,35 @@
+---
+titel: "Volledige inhoud per onderwerp — beide sites"
+bron: "stillewillewonen.nl + stillewille.nl"
+bron_url: ""
+bestandsnaam: ""
+auteur: ""
+datum: "2026-06-16"
+brontype: "webpagina"
+partij:
+  - "SWW"
+  - "SWB"
+  - "LSW"
+rubriek_primair: "Governance & besluitvorming"
+rubriek_secundair:
+  - "Financiën & fondsen"
+  - "Communicatie & nieuwsbrieven"
+  - "Stakeholders & organisatie"
+  - "Gas & energie"
+status: "definitief"
+betrouwbaarheid: "GEEL"
+tags:
+  - "site-inventarisatie"
+  - "borging"
+  - "integratie-2026"
+  - "cross-onderwerp"
+kernonderwerpen:
+  - "Inhoudelijke borging van beide sites vóór de aangekondigde integratie (begin 2026)"
+  - "On-site tekst geordend op onderwerp i.p.v. menustructuur"
+  - "Bronnotatie per feit (SWW: / SW: + pad); ontbrekende gegevens expliciet benoemd"
+verificatiepunten:
+  - "Fase 1 (on-site tekst) — ~90 PDF's SWW-archief en losse stillewille.nl-documenten nog niet verwerkt (zie §17)"
+---
 # Inventarisatie 2 — Volledige inhoud per onderwerp
 
 **Sites:** stillewillewonen.nl (bewonersvereniging SWW) + stillewille.nl (eigenaar LSW / exploitant SWB)

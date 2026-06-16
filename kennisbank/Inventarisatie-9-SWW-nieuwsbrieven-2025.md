@@ -1,3 +1,34 @@
+---
+titel: "SWW-nieuwsbrieven 2025 (tranche 3, slot)"
+bron: "stillewillewonen.nl"
+bron_url: "https://stillewillewonen.nl/archief/nieuwsbrieven/"
+bestandsnaam: ""
+auteur: ""
+datum: "2025-02/2025-04"
+brontype: "nieuwsbrief"
+partij:
+  - "SWW"
+  - "SWB"
+rubriek_primair: "Communicatie & nieuwsbrieven"
+rubriek_secundair:
+  - "Gas & energie"
+  - "Financiën & fondsen"
+  - "Wonen & bestemmingsplan"
+status: "definitief"
+betrouwbaarheid: "GEEL"
+tags:
+  - "nieuwsbrief"
+  - "EV-plan"
+  - "Ad-Vi"
+  - "grondprijs"
+  - "paasnieuwsbrief"
+  - "overlap-editie"
+kernonderwerpen:
+  - "De twee laatste SWW-redactie-edities (februari + april 2025)"
+  - "April (Paasnieuwsbrief) is de overlap-editie die ook in deel 6 zit"
+  - "Hiermee is de volledige SWW-nieuwsbrievenserie (mei 2023 – apr 2025) geborgd"
+verificatiepunten: []
+---
 # Inventarisatie 9 — SWW-nieuwsbrieven, tranche 3 (slot): 2025
 
 **Bron:** stillewillewonen.nl, `/archief/nieuwsbrieven/` (PDF's, via web_fetch).

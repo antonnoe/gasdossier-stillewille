@@ -1,3 +1,30 @@
+---
+titel: "Documentinhoud deel 6 — Nieuwsbrieven en \"Tussendoortjes\" (stillewille.nl)"
+bron: "stillewille.nl"
+bron_url: "https://www.stillewille.nl/"
+bestandsnaam: ""
+auteur: "Wil van Loon (SWB, vanaf aug 2025)"
+datum: "2025-01/2026-05"
+brontype: "nieuwsbrief"
+partij:
+  - "SWB"
+  - "SWW"
+rubriek_primair: "Communicatie & nieuwsbrieven"
+rubriek_secundair:
+  - "Governance & besluitvorming"
+status: "definitief"
+betrouwbaarheid: "GEEL"
+tags:
+  - "nieuwsbrief"
+  - "tussendoortjes"
+  - "communicatie-omslag"
+  - "ontdubbeling"
+kernonderwerpen:
+  - "Twaalf uitgaven (jan 2025 – mei 2026), overwegend operationeel/aankondigend"
+  - "Communicatie-omslag: SWW-redactie t/m apr 2025 → Wil van Loon (SWB) vanaf aug 2025"
+  - "Bestandsnamen vastgelegd voor ontdubbeling t.o.v. stillewillewonen.nl"
+verificatiepunten: []
+---
 # Inventarisatie 3 — Documentinhoud (PDF's), per onderwerp
 
 ## Deel 6 — Nieuwsbrieven en "Tussendoortjes" (stillewille.nl), jan 2025 – mei 2026

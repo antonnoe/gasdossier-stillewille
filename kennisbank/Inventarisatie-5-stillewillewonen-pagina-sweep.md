@@ -1,3 +1,32 @@
+---
+titel: "stillewillewonen.nl — pagina-sweep + nieuwsbrief-ontdubbeling"
+bron: "stillewillewonen.nl"
+bron_url: "https://stillewillewonen.nl/"
+bestandsnaam: ""
+auteur: ""
+datum: "2026-06-16"
+brontype: "webpagina"
+partij:
+  - "SWW"
+rubriek_primair: "Stakeholders & organisatie"
+rubriek_secundair:
+  - "Communicatie & nieuwsbrieven"
+  - "Natuur, bomen & groen"
+  - "Recreatie & voorzieningen"
+status: "definitief"
+betrouwbaarheid: "GEEL"
+tags:
+  - "pagina-sweep"
+  - "commissies"
+  - "werkgroepen"
+  - "klankbordgroep"
+  - "ontdubbeling"
+kernonderwerpen:
+  - "Fase B: resterende statische pagina's (Vereniging, commissies, admin)"
+  - "Fase C: de Actueel-nieuwsstroom"
+  - "Fase D: ontdubbeling van de nieuwsbrieven t.o.v. stillewille.nl (deel 6)"
+verificatiepunten: []
+---
 # Inventarisatie 5 — stillewillewonen.nl: pagina-sweep + nieuwsbrief-ontdubbeling
 
 **Bron:** stillewillewonen.nl (live opgehaald via web_fetch, juni 2026).

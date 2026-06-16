@@ -1,0 +1,348 @@
+/* ─────────────────────────────────────────────────────────────
+   Kennisbank — component-CSS bovenop tokens.css + components.css.
+   Sluit aan op de bestaande huisstijl: groen als structuur, geel/
+   oranje als accent, cream als zachte ondergrond, mono voor meta.
+   Het betrouwbaarheids-stoplicht hergebruikt het .verif-badge-idioom
+   uit bronnen.html (donkere pil + gekleurde stip).
+   ───────────────────────────────────────────────────────────── */
+
+/* ── Zelfstandige nav-link "terug" (kennisbank hangt niet aan chrome.js) ── */
+.sw-nav .kb-brand {
+  margin-right: auto;
+  opacity: 1;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* ── Toolbar / filters ─────────────────────────────────────── */
+.kb-toolbar {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  background: var(--cream);
+  border: 1px solid var(--green-15);
+  border-radius: 10px;
+}
+.kb-search {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.kb-search input[type="search"] {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  padding: 12px 16px;
+  border: 1px solid var(--green-25);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--grey-dark);
+}
+.kb-search input[type="search"]:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 1px;
+}
+.kb-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+}
+.kb-filter-group { min-width: 220px; }
+.kb-filter-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--green);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.kb-select {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 15px;
+  padding: 10px 12px;
+  border: 1px solid var(--green-25);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--grey-dark);
+}
+
+/* Stoplicht-chips als toggles (betrouwbaarheid) */
+.kb-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.kb-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--grey-mid);
+  background: var(--white);
+  border: 1px solid var(--green-25);
+  padding: 7px 13px 7px 11px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.kb-chip::before {
+  content: "";
+  width: 9px; height: 9px; border-radius: 50%;
+  flex: none; background: var(--grey-soft);
+}
+.kb-chip[data-on="true"] { color: var(--white); background: var(--grey-dark); border-color: var(--grey-dark); }
+.kb-chip--groen::before  { background: var(--green); }
+.kb-chip--geel::before   { background: var(--yellow); }
+.kb-chip--oranje::before { background: var(--orange); }
+
+.kb-toolbar-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.kb-count { font-family: var(--font-body); font-size: 15px; color: var(--grey-mid); }
+.kb-count strong { color: var(--grey-dark); font-weight: 700; }
+.kb-reset {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--green);
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--green-25);
+  padding: 2px 0;
+  cursor: pointer;
+}
+.kb-reset:hover { border-bottom-color: var(--green); }
+
+/* ── Verkeerslicht-badge (gedeeld met detailpagina) ─────────── */
+.kb-verif-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--grey-dark);
+  padding: 4px 11px 4px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.kb-verif-badge::before {
+  content: "";
+  width: 9px; height: 9px; border-radius: 50%;
+  flex: none; background: var(--grey-soft);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.18);
+}
+.kb-verif-badge--groen::before  { background: var(--green); }
+.kb-verif-badge--geel::before   { background: var(--yellow); }
+.kb-verif-badge--oranje::before { background: var(--orange); }
+
+/* ── Resultatenraster (kaarten) ────────────────────────────── */
+.kb-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--green-15);
+  border: 1px solid var(--green-15);
+}
+.kb-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--white);
+  padding: 28px 28px 24px;
+  text-decoration: none;
+  color: var(--grey-dark);
+  transition: background .2s ease;
+}
+.kb-card:hover { background: var(--cream); }
+.kb-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.kb-card-rubriek {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green);
+  font-weight: 600;
+}
+.kb-card h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 21px;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  margin: 0;
+  color: var(--grey-dark);
+}
+.kb-card-excerpt {
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--grey-mid);
+  margin: 0;
+}
+.kb-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-top: auto;
+  padding-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--grey-soft);
+}
+.kb-card-meta .dot { color: var(--green-25); }
+.kb-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.kb-tag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--green-deep);
+  background: var(--green-tint);
+  padding: 3px 9px;
+  border-radius: 4px;
+}
+.kb-partij {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--grey-mid);
+  background: var(--white);
+  border: 1px solid var(--green-15);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.kb-empty {
+  grid-column: 1 / -1;
+  background: var(--white);
+  padding: 56px 28px;
+  text-align: center;
+  color: var(--grey-mid);
+  font-size: 16px;
+}
+
+/* ── Detailpagina ───────────────────────────────────────────── */
+.kb-doc-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: var(--space-6);
+  align-items: start;
+}
+.kb-doc-aside { position: sticky; top: 88px; }
+.kb-meta-panel {
+  border: 1px solid var(--green-15);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.kb-meta-panel h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px !important;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--green-deep);
+  margin: 0 !important;
+  padding: 14px 18px;
+}
+.kb-meta-panel h2::before { display: none !important; }
+.kb-meta-list { padding: 6px 18px 14px; }
+.kb-meta-item { padding: 12px 0; border-bottom: 1px solid var(--green-15); }
+.kb-meta-item:last-child { border-bottom: none; }
+.kb-meta-key {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.kb-meta-val {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--grey-dark);
+  word-break: break-word;
+}
+.kb-meta-val a { color: var(--green); }
+
+.kb-verif-block {
+  background: var(--cream);
+  border-left: 3px solid var(--yellow);
+  padding: 20px 24px;
+  margin: 0 0 32px;
+  border-radius: 0 8px 8px 0;
+}
+.kb-verif-block .callout-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--yellow-deep);
+  margin-bottom: 10px;
+}
+.kb-verif-block ul { margin: 0; padding-left: 1.2em; max-width: none; }
+.kb-verif-block li { font-size: 14.5px; line-height: 1.6; color: var(--grey-dark); margin-bottom: 8px; }
+.kb-verif-block li:last-child { margin-bottom: 0; }
+
+.kb-kern { margin: 0 0 32px; }
+.kb-kern .callout-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 10px;
+}
+
+.kb-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--green);
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+.kb-back:hover { color: var(--green-deep); }
+
+/* Het gerenderde markdown-lichaam erft de .page-main-prozastijlen.
+   Hier alleen een lichte bovenmarge-correctie voor het eerste kopje. */
+.kb-doc-body > :first-child { margin-top: 0; }
+.kb-doc-body { overflow-wrap: anywhere; }
+.kb-doc-body .sw-table-wrap { overflow-x: auto; }
+
+.kb-loading { color: var(--grey-soft); font-style: italic; padding: 40px 0; }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .kb-grid { grid-template-columns: 1fr; }
+  .kb-doc-layout { grid-template-columns: 1fr; }
+  .kb-doc-aside { position: static; }
+  .kb-toolbar { padding: var(--space-3); }
+}

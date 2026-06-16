@@ -1,3 +1,39 @@
+---
+titel: "Documentinhoud deel 1 — Governance, Toekomst (EV), Financiën & Regels"
+bron: "stillewillewonen.nl"
+bron_url: "https://stillewillewonen.nl/"
+bestandsnaam: ""
+auteur: ""
+datum: "2025"
+brontype: "overeenkomst"
+partij:
+  - "SWW"
+  - "SWB"
+  - "LSW"
+  - "Bewonersraad"
+rubriek_primair: "Governance & besluitvorming"
+rubriek_secundair:
+  - "Financiën & fondsen"
+  - "Wonen & bestemmingsplan"
+  - "Regels & handhaving"
+status: "definitief"
+betrouwbaarheid: "GEEL"
+tags:
+  - "exploitatievereniging"
+  - "EV"
+  - "statuten"
+  - "huishoudelijk-reglement"
+  - "exploitatieovereenkomst"
+  - "fondsen"
+  - "bestuursconflict"
+kernonderwerpen:
+  - "Juridische basis + verenigingsstructuur (statuten, HR v1.0)"
+  - "Toekomstvoorstel: omzetting BV SWB → Exploitatievereniging"
+  - "Besluitvormingsproces met het bestuursconflict (2025)"
+  - "Financiële structuur: exploitatie + fondsen"
+verificatiepunten:
+  - "Grote scans bewust uitgesteld (zie §9 deel-2-lijst): Statuten, Verblijfs- en Gebruiksreglement, Beeldkwaliteitsplan, Groenplan, enquête"
+---
 # Inventarisatie 3 — Documentinhoud (PDF's), per onderwerp
 
 ## Deel 1 — Governance, Toekomst (EV), Financiën & Regels

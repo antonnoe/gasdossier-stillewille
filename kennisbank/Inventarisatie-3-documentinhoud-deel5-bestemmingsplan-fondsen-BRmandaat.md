@@ -1,3 +1,34 @@
+---
+titel: "Documentinhoud deel 5 — Bestemmingsplan, fondsen en het Bewonersraad-mandaat"
+bron: "stillewille.nl"
+bron_url: "https://www.stillewille.nl/"
+bestandsnaam: ""
+auteur: ""
+datum: "2023"
+brontype: "bestemmingsplan"
+partij:
+  - "LSW"
+  - "SWB"
+  - "Bewonersraad"
+  - "gemeente"
+rubriek_primair: "Wonen & bestemmingsplan"
+rubriek_secundair:
+  - "Financiën & fondsen"
+  - "Governance & besluitvorming"
+status: "definitief"
+betrouwbaarheid: "GEEL"
+tags:
+  - "bestemmingsplan"
+  - "planregels"
+  - "fondsen"
+  - "bewonersraad-mandaat"
+  - "5%-regel"
+kernonderwerpen:
+  - "Financieel fondsenartikel (okt 2023)"
+  - "Juridische planregels van het bestemmingsplan"
+  - "Taken/bevoegdheden van de Bewonersraad incl. de 5%-regel"
+verificatiepunten: []
+---
 # Inventarisatie 3 — Documentinhoud (PDF's), per onderwerp
 
 ## Deel 5 — Bestemmingsplan, fondsenstructuur en het Bewonersraad-mandaat (afronding stillewille.nl)

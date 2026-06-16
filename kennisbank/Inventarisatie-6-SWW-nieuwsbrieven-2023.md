@@ -1,3 +1,35 @@
+---
+titel: "SWW-nieuwsbrieven 2023 (tranche 1)"
+bron: "stillewillewonen.nl"
+bron_url: "https://stillewillewonen.nl/archief/nieuwsbrieven/"
+bestandsnaam: ""
+auteur: "Redactie Peter Aerts + Anton Noë"
+datum: "2023"
+brontype: "nieuwsbrief"
+partij:
+  - "SWW"
+  - "SWB"
+rubriek_primair: "Communicatie & nieuwsbrieven"
+rubriek_secundair:
+  - "Financiën & fondsen"
+  - "Governance & besluitvorming"
+  - "Natuur, bomen & groen"
+status: "definitief"
+betrouwbaarheid: "GEEL"
+tags:
+  - "nieuwsbrief"
+  - "5,2%"
+  - "parkonderhoud"
+  - "MJOP-2022"
+  - "oprichting-SWW"
+  - "erfpacht-2028"
+kernonderwerpen:
+  - "Vroegste documentatie van het financiële/onderhoudsconflict (okt–nov 2023)"
+  - "Exploitatieverhoging 2024: +5,2% aangenomen (ALV 17-11-2023; 53–1–0)"
+  - "MJOP 2022 nog niet bruikbaar; oprichting SWW 27-06-2023"
+verificatiepunten:
+  - "+5,2% stemuitslag 53–1–0 — kruislings te bevestigen tegen begroting SWB 2024 (deel 3b)"
+---
 # Inventarisatie 6 — SWW-nieuwsbrieven, tranche 1: 2023
 
 **Bron:** stillewillewonen.nl, `/archief/nieuwsbrieven/` (PDF's, via web_fetch).

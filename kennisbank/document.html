@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Document · Kennisbank · Kerndossiers Landgoed De Stille Wille</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#1F7F4E">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="SW-Bieb">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/components.css">
+<link rel="stylesheet" href="/kennisbank/kennisbank.css">
+</head>
+<body data-slug="kennisbank">
+
+<nav class="sw-nav">
+  <div class="sw-nav-inner">
+    <a class="kb-brand" href="/">Kerndossiers Stille Wille</a>
+    <a href="/">Hoofdpagina</a>
+    <a href="/bronnen.html">Bronnen</a>
+    <a href="/kennisbank/" class="active">Kennisbank</a>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <a class="kb-back" href="/kennisbank/">← Terug naar de kennisbank</a>
+    <div class="page-kicker"><span class="square"></span><span id="kb-kicker">Document</span></div>
+    <h1 class="page-title" id="kb-title">Document laden…</h1>
+    <p class="page-lede" id="kb-lede"></p>
+  </div>
+</header>
+
+<main class="page-main">
+  <div class="kb-doc-layout">
+
+    <!-- Inhoud -->
+    <article>
+      <div class="kb-kern" id="kb-kern" hidden>
+        <aside class="callout callout-green">
+          <div class="callout-label">Kernonderwerpen</div>
+          <ul id="kb-kern-list"></ul>
+        </aside>
+      </div>
+
+      <div class="kb-verif-block" id="kb-verif" hidden>
+        <div class="callout-label">Openstaande verificatiepunten</div>
+        <ul id="kb-verif-list"></ul>
+      </div>
+
+      <div class="page-main kb-doc-body" id="kb-body" style="padding:0;max-width:none;">
+        <p class="kb-loading">Inhoud laden…</p>
+      </div>
+    </article>
+
+    <!-- Metadata -->
+    <aside class="kb-doc-aside">
+      <div class="kb-meta-panel">
+        <h2>Metadata</h2>
+        <div class="kb-meta-list" id="kb-meta"></div>
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="sw-footer">
+  <strong>Kerndossiers Landgoed De Stille Wille</strong> — kennisbank: een groeiende, getagde corpus. Bron-van-waarheid is de geborgde markdown.
+</footer>
+
+<script src="/kennisbank/vendor/marked.min.js"></script>
+<script src="/kennisbank/document.js"></script>
+</body>
+</html>

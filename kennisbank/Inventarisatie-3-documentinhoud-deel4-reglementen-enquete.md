@@ -1,3 +1,35 @@
+---
+titel: "Documentinhoud deel 4 — Reglementen, plannen en de Bewonersenquête"
+bron: "stillewille.nl + stillewillewonen.nl"
+bron_url: ""
+bestandsnaam: ""
+auteur: ""
+datum: "2023"
+brontype: "reglement"
+partij:
+  - "SWB"
+  - "LSW"
+  - "SWW"
+rubriek_primair: "Regels & handhaving"
+rubriek_secundair:
+  - "Natuur, bomen & groen"
+  - "Wonen & bestemmingsplan"
+  - "Stakeholders & organisatie"
+status: "definitief"
+betrouwbaarheid: "GEEL"
+tags:
+  - "verblijfsreglement"
+  - "gebruiksreglement"
+  - "bewonersenquete"
+  - "groenvisie"
+  - "bestemmingsplan"
+  - "calamiteitenkaart"
+kernonderwerpen:
+  - "Bindende parkregels (Verblijf- en Gebruiksreglement)"
+  - "Bewonersenquête 2023 (sentiment-fundament)"
+  - "Groenvisie (bomen-/natuurfundament); bestemmingsplan + dubbelbestemmingsbrief; calamiteitenkaart"
+verificatiepunten: []
+---
 # Inventarisatie 3 — Documentinhoud (PDF's), per onderwerp
 
 ## Deel 4 — Reglementen, plannen en de Bewonersenquête (de fundamentstukken)

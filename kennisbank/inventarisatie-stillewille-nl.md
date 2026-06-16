@@ -1,3 +1,33 @@
+---
+titel: "Site-inventarisatie — www.stillewille.nl (LSW/SWB)"
+bron: "stillewille.nl"
+bron_url: "https://www.stillewille.nl/"
+bestandsnaam: ""
+auteur: ""
+datum: "2026-06-16"
+brontype: "webpagina"
+partij:
+  - "LSW"
+  - "SWB"
+rubriek_primair: "Stakeholders & organisatie"
+rubriek_secundair:
+  - "Communicatie & nieuwsbrieven"
+  - "Governance & besluitvorming"
+status: "definitief"
+betrouwbaarheid: "GEEL"
+tags:
+  - "site-inventarisatie"
+  - "Joomla"
+  - "YOOtheme"
+  - "structuur"
+  - "documenten"
+kernonderwerpen:
+  - "Structuur + documenten/verslagen/nieuwsbrieven-lijsten van de officiële landgoedsite"
+  - "Technisch profiel: Joomla + YOOtheme Pro; generator-meta geobfusceerd"
+  - "Niet gedekt: alles achter de login (incl. aangekondigde \"Mijn SW\"-omgeving)"
+verificatiepunten:
+  - "Mogelijke toegankelijke directory-index op /images/bestanden/documenten/ — te verifiëren"
+---
 # Inventarisatie — www.stillewille.nl
 
 **Datum inventarisatie:** 16 juni 2026

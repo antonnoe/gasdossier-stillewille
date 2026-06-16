@@ -1,3 +1,34 @@
+---
+titel: "SWW-nieuwsbrieven 2024 H1 (tranche 2a)"
+bron: "stillewillewonen.nl"
+bron_url: "https://stillewillewonen.nl/archief/nieuwsbrieven/"
+bestandsnaam: ""
+auteur: "Correspondenten Koos van Kampen (SWW) + Peter Aerts (SWB)"
+datum: "2024-02/2024-06"
+brontype: "nieuwsbrief"
+partij:
+  - "SWW"
+  - "SWB"
+rubriek_primair: "Communicatie & nieuwsbrieven"
+rubriek_secundair:
+  - "Gas & energie"
+  - "Water & riolering"
+  - "Financiën & fondsen"
+status: "definitief"
+betrouwbaarheid: "GEEL"
+tags:
+  - "nieuwsbrief"
+  - "Enexis"
+  - "gas-privaat"
+  - "wateroverlast"
+  - "jaarrekeningen"
+  - "redactiewissel"
+kernonderwerpen:
+  - "De 8 edities van 2024 H1 (feb, maart, extra 2.1–2.4, mei, extra 3.1)"
+  - "Enexis; gas privaat bevestigd; wateroverlastcrisis jaarwisseling 2023/24"
+  - "Vanaf 2024 tweemaandelijks; geen hard-copy meer bij de receptie"
+verificatiepunten: []
+---
 # Inventarisatie 7 — SWW-nieuwsbrieven, tranche 2a: 2024 (H1, feb–juni)
 
 **Bron:** stillewillewonen.nl, `/archief/nieuwsbrieven/` (PDF's, via web_fetch).

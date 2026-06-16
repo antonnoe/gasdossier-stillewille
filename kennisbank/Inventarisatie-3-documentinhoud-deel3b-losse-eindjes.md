@@ -1,3 +1,31 @@
+---
+titel: "Documentinhoud deel 3b — Financiële stukken + Bewonersraad-jaar 2024"
+bron: "stillewillewonen.nl"
+bron_url: "https://stillewillewonen.nl/"
+bestandsnaam: ""
+auteur: ""
+datum: "2024"
+brontype: "begroting"
+partij:
+  - "SWW"
+  - "SWB"
+rubriek_primair: "Financiën & fondsen"
+rubriek_secundair:
+  - "Governance & besluitvorming"
+status: "definitief"
+betrouwbaarheid: "GEEL"
+tags:
+  - "exploitatiebegroting"
+  - "jaarrekening"
+  - "bewonersraad-2024"
+  - "kostenstructuur"
+kernonderwerpen:
+  - "Exploitatiebegroting SWB 2024 met volledige kostenstructuur"
+  - "Eigen financiën vereniging SWW (2023/2024)"
+  - "Nieuwe inhoud uit BR-verslagen 9 april, 16 juli en 30 september 2024"
+verificatiepunten:
+  - "Twee stukken bleken technisch niet uitleesbaar (notitie in dit deel)"
+---
 # Inventarisatie 3 — Documentinhoud (PDF's), per onderwerp
 
 ## Deel 3b — Losse eindjes: financiële stukken + Bewonersraad-jaar 2024 (aanvulling)

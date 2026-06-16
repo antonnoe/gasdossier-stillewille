@@ -1,3 +1,35 @@
+---
+titel: "Rubriceringsschema + eerste getagde entry (\"Risico's nieuwe vereniging\")"
+bron: "stillewillewonen.nl"
+bron_url: "https://stillewillewonen.nl/"
+bestandsnaam: ""
+auteur: ""
+datum: "2025"
+brontype: "standpunt/opinie"
+partij:
+  - "SWW"
+  - "bewonersgroep"
+rubriek_primair: "Governance & besluitvorming"
+rubriek_secundair:
+  - "Financiën & fondsen"
+  - "Wonen & bestemmingsplan"
+status: "definitief"
+betrouwbaarheid: "GEEL"
+tags:
+  - "schema"
+  - "rubricering"
+  - "front-matter"
+  - "tagging"
+  - "EV"
+  - "risicos-vereniging"
+kernonderwerpen:
+  - "Definieert het rubricering-/tagschema (hoofdrubrieken, facetten, YAML-front-matter)"
+  - "Voedt de doorzoekbare omgeving en de latere agent"
+  - "Eerste getagde entry als werkend voorbeeld: \"Risico's nieuwe vereniging van perceeleigenaren\""
+verificatiepunten:
+  - "Erfpachtinkomsten LSW \"~€900.000/jaar\" — bewering, primair te verifiëren"
+  - "Rechtbank-/gerechtshofuitspraken 2013/2014 — opzoeken op rechtspraak.nl"
+---
 # Inventarisatie 4 — stillewillewonen.nl (start) + rubriceringsschema
 
 **Bron:** stillewillewonen.nl (live opgehaald via web_fetch, juni 2026).

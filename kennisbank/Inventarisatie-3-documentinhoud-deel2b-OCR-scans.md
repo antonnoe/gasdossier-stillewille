@@ -1,3 +1,33 @@
+---
+titel: "Documentinhoud deel 2b — OCR van twee beeld-scans (Beheersovereenkomst + BR jan '26)"
+bron: "stillewille.nl"
+bron_url: "https://www.stillewille.nl/"
+bestandsnaam: "20260316_Bewonersraad_26_jan_26.pdf"
+auteur: ""
+datum: "2024/2026"
+brontype: "overeenkomst"
+partij:
+  - "LSW"
+  - "SWB"
+rubriek_primair: "Governance & besluitvorming"
+rubriek_secundair:
+  - "Stakeholders & organisatie"
+  - "Financiën & fondsen"
+status: "scan"
+betrouwbaarheid: "ORANJE"
+tags:
+  - "OCR"
+  - "beheersovereenkomst"
+  - "bewonersraad"
+  - "tesseract"
+  - "beeld-scan"
+kernonderwerpen:
+  - "OCR (tesseract 5.3.4, NL, 300 DPI) van twee documenten die alleen als beeld-scan bestonden"
+  - "Beheersovereenkomst (LSW-zijde ↔ SWB), PDF aangemaakt 05-10-2017"
+  - "Bewonersraadverslag januari 2026"
+verificatiepunten:
+  - "OCR-voorbehoud: matige scan; eigennamen, KvK-nummers en bedragen tegen het origineel controleren bij publicatiewaardig gebruik"
+---
 # Inventarisatie 3 — Documentinhoud (PDF's), per onderwerp
 
 ## Deel 2b — OCR van de twee beeld-scans op stillewille.nl
