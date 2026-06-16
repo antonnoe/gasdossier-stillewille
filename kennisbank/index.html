@@ -22,8 +22,6 @@
 </head>
 <body data-slug="kennisbank">
 
-<!-- Zelfstandige nav (kennisbank hangt bewust niet aan chrome.js/dossiers.js,
-     zodat de bestaande registry ongemoeid blijft). -->
 <nav class="sw-nav">
   <div class="sw-nav-inner">
     <a class="kb-brand" href="/">Kerndossiers Stille Wille</a>
@@ -35,71 +33,66 @@
 
 <header class="page-header">
   <div class="page-header-inner">
-    <div class="page-kicker"><span class="square"></span>Corpus · geborgde documenten</div>
+    <div class="page-kicker"><span class="square"></span>Landgoed De Stille Wille</div>
     <h1 class="page-title">Kennisbank</h1>
     <p class="page-lede">
-      De volledige geborgde corpus over Landgoed De Stille Wille — beide
-      bewoners-/landgoedsites, governance-documenten en de complete
-      nieuwsbrievenserie. Elk document is getagd volgens een vast
-      rubriceringsschema. Filter op rubriek, partij en betrouwbaarheid.
+      Alles over het landgoed, op één plek en op onderwerp geordend. Kies
+      hieronder een onderwerp, of zoek op een woord of vraag.
     </p>
   </div>
 </header>
 
 <main class="page-main">
 
-  <!-- ── Toolbar / filters ─────────────────────────────────── -->
-  <section class="kb-toolbar" aria-label="Filters">
-    <div class="kb-search">
-      <input type="search" id="kb-q" placeholder="Filter op trefwoord, titel of onderwerp…"
-             autocomplete="off" aria-label="Filter op trefwoord">
-    </div>
+  <!-- ── Zoeken (secundaire ingang) ─────────────────────────── -->
+  <div class="kb-searchbar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path>
+    </svg>
+    <input type="search" id="kb-q" autocomplete="off"
+           aria-label="Zoek in de kennisbank"
+           placeholder="Zoek op een woord of vraag, bijv. erfpacht, servicekosten, gas…">
+  </div>
 
-    <div class="kb-filter-row">
-      <div class="kb-filter-group">
-        <label class="kb-filter-label" for="kb-rubriek">Rubriek</label>
-        <select class="kb-select" id="kb-rubriek"><option value="">Alle rubrieken</option></select>
-      </div>
-      <div class="kb-filter-group">
-        <label class="kb-filter-label" for="kb-partij">Partij</label>
-        <select class="kb-select" id="kb-partij"><option value="">Alle partijen</option></select>
-      </div>
-      <div class="kb-filter-group">
-        <span class="kb-filter-label">Betrouwbaarheid</span>
-        <div class="kb-chips" id="kb-betrouwbaarheid" role="group" aria-label="Betrouwbaarheid"></div>
-      </div>
-    </div>
-
-    <div class="kb-toolbar-foot">
-      <span class="kb-count" id="kb-count" aria-live="polite"></span>
-      <button type="button" class="kb-reset" id="kb-reset">Filters wissen</button>
+  <!-- ── Onderwerpen (hoofdingang) ──────────────────────────── -->
+  <section id="kb-onderwerpen-sectie">
+    <div class="kb-section-kicker">Kies een onderwerp</div>
+    <h2 class="kb-section-title">Waar gaat het over?</h2>
+    <div class="kb-topics" id="kb-topics">
+      <div class="kb-empty kb-loading" style="grid-column:1/-1;">Onderwerpen laden…</div>
     </div>
   </section>
 
-  <!-- ── Resultaten ────────────────────────────────────────── -->
-  <section class="kb-grid" id="kb-grid" aria-live="polite">
-    <div class="kb-empty kb-loading">Corpus laden…</div>
+  <!-- ── Zoekresultaten (verschijnt bij zoeken) ─────────────── -->
+  <section id="kb-zoek-sectie" hidden>
+    <div class="kb-section-kicker">Zoekresultaten</div>
+    <h2 class="kb-section-title" id="kb-zoek-titel">Resultaten</h2>
+    <p class="kb-resultcount" id="kb-resultcount" aria-live="polite"></p>
+    <div class="kb-doclist" id="kb-resultaten"></div>
   </section>
 
-  <aside class="leeswijzer" style="margin-top:56px;">
+  <!-- ── Leeswijzer (over het landgoed + hoe je dit gebruikt) ── -->
+  <aside class="leeswijzer" style="margin-top:64px;">
     <div class="leeswijzer-label">Leeswijzer</div>
     <p>
-      De <strong>betrouwbaarheid</strong> volgt het verkeerslicht uit het
-      bronnenregister: <em>groen</em> = primaire/officiële bron, <em>geel</em> =
-      afgeleid/toelichtend of standpunt, <em>oranje</em> = onbevestigd of ruis
-      (bijv. matige OCR). Deze documenten zijn gestructureerde inventarisaties
-      van de onderliggende bronnen; per document staan de openstaande
-      verificatiepunten vermeld. De corpus is zo opgezet dat er later een
-      zoeklaag en een vraag-antwoord-agent op kan worden aangesloten.
+      Landgoed De Stille Wille is een woon- en recreatiepark met honderden
+      huishoudens. Rond het beheer, de kosten en de toekomst van het park spelen
+      veel onderwerpen tegelijk. Deze kennisbank brengt de openbare stukken van
+      het landgoed en de bewonersvereniging samen en ordent ze per onderwerp.
+      <br><br>
+      <strong>Hoe gebruikt u deze pagina?</strong> Kies een onderwerp om te zien
+      welke stukken erover gaan, of typ een zoekterm. Elk stuk opent in gewone
+      taal, met een korte toelichting en de oorspronkelijke bron erbij, zodat u
+      alles zelf kunt nalezen.
     </p>
   </aside>
 
 </main>
 
 <footer class="sw-footer">
-  <strong>Kerndossiers Landgoed De Stille Wille</strong> — kennisbank: een groeiende, getagde corpus. Bron-van-waarheid is de geborgde markdown.
+  <strong>Kerndossiers Landgoed De Stille Wille</strong> — kennisbank: de openbare stukken over het landgoed, op onderwerp geordend.
 </footer>
 
-<script src="/kennisbank/kennisbank.js"></script>
+<script src="/kennisbank/home.js"></script>
 </body>
 </html>

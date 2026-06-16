@@ -1,53 +1,55 @@
 # Kennisbank — route `/kennisbank`
 
-Een zelfstandige, statische contentlaag die de geborgde corpus over Landgoed
-De Stille Wille ontsluit. Sluit aan op de bestaande huisstijl (`/tokens.css` +
-`/components.css`) en hangt **bewust niet** aan `dossiers.js`/`chrome.js`, zodat
-de bestaande site ongemoeid blijft.
+Een zelfstandige, statische **bewoners-voorkant** op de geborgde corpus over
+Landgoed De Stille Wille. Onderwerp-gedreven en jargonvrij: een bewoner zonder
+voorkennis vindt zijn weg via herkenbare onderwerpen of een zoekveld. Sluit aan
+op de bestaande huisstijl (`/tokens.css` + `/components.css`) en hangt **bewust
+niet** aan `dossiers.js`/`chrome.js`, zodat de bestaande site ongemoeid blijft.
 
-## Wat hier staat
+## Pagina's
+
+| Route | Rol |
+|---|---|
+| `index.html` + `home.js` | **Landing**: "Kies een onderwerp" — de 11 rubrieken als tegels in gewone taal + een zoekveld |
+| `onderwerp.html` + `onderwerp.js` | **Onderwerp**: neutrale beschrijving + de onderliggende stukken met begrijpelijke titels. Voor "Wie is wie" ook een partijen-glossarium |
+| `document.html` + `document.js` | **Stuk**: gerenderde markdown in gewone taal; herkomst (stoplicht, tags, verificatiepunten) staat subtiel ingeklapt onder "Over deze bron" |
+
+## Data & build
 
 | Bestand | Rol |
 |---|---|
-| `INDEX.md` | Master-index over de corpus (toegangspunt, mens + agent) |
-| `Inventarisatie-*.md`, `inventarisatie-*.md` | De getagde corpusbestanden — elk met **YAML front-matter** volgens het schema in `Inventarisatie-4-...` §A.3 |
-| `corpus.json` | Gegenereerde manifest (door `build.mjs`) — de overzichtspagina leest deze in |
-| `index.html` + `kennisbank.js` | Overzichtspagina: filterbaar op rubriek, partij en betrouwbaarheid |
-| `document.html` + `document.js` | Detailpagina per document: gerenderde markdown + metadata, kernonderwerpen en verificatiepunten |
-| `kennisbank.css` | Component-CSS bovenop de design-tokens |
-| `vendor/marked.min.js` | Lokaal gevendorde markdown-renderer (geen CDN-afhankelijkheid) |
-| `build.mjs` | Manifestgenerator: leest de front-matter → `corpus.json` |
-| `_seed-frontmatter.mjs` | Eenmalige seeding van de front-matter (provenance/documentatie) |
+| `Inventarisatie-*.md`, `inventarisatie-*.md` | De corpusbestanden — **bron-van-waarheid, niet gewijzigd**. Dragen YAML front-matter (schema `Inventarisatie-4` §A.3) |
+| `display.mjs` | De **weergavelaag**: bewonerslabels per onderwerp, begrijpelijke titel + neutrale duiding per stuk, partijen-glossarium en de onderwerp-mapping (gegrond in INDEX.md §3). Wijzigt de corpus niet |
+| `build.mjs` | Voegt front-matter + `display.mjs` samen tot `corpus.json` |
+| `corpus.json` | Gegenereerde manifest die de pagina's inlezen |
+| `vendor/marked.min.js` | Lokaal gevendorde markdown-renderer (geen CDN) |
+| `_seed-frontmatter.mjs` | Eenmalige seeding van de front-matter (provenance) |
 
-## Werkwijze bij een wijziging
+### Werkwijze bij een wijziging
 
-1. Pas een corpusbestand aan (of voeg er één toe **met** front-matter volgens
-   het schema).
-2. Draai `node build.mjs` in deze map → `corpus.json` wordt herschreven.
-3. Commit zowel het `.md`-bestand als `corpus.json`.
+1. Inhoud bijwerken? Pas het `.md`-bestand aan (bron-van-waarheid).
+2. Weergave bijwerken (bewonerslabel, begrijpelijke titel, duiding, onderwerp-
+   koppeling)? Pas `display.mjs` aan — **de corpusbestanden blijven ongemoeid**.
+3. Draai `node build.mjs` → `corpus.json` wordt herschreven. Commit het mee.
 
 Geen build-stap in Vercel nodig: `corpus.json` is een gecommit artefact en de
 pagina's zijn plat statisch.
 
-## Het schema (kort)
+## Twee lagen, bewust gescheiden
 
-Front-matter per document (zie `Inventarisatie-4-...` §A.3 voor het volledige
-sjabloon en de waardenlijsten):
+- **Bewoners-voorkant** (zichtbaar): onderwerpen, begrijpelijke titels, neutrale
+  duiding. Geen redactioneel stoplicht of productie-tags in het eerste beeld.
+- **Redactie-/agentlaag** (in de data): het betrouwbaarheids-stoplicht
+  (GROEN/GEEL/ORANJE), `tags`, `kernonderwerpen` en `verificatiepunten` blijven
+  volledig in `corpus.json`. Op de detailpagina staat het stoplicht hooguit
+  subtiel onder "Over deze bron".
 
-- `rubriek_primair` / `rubriek_secundair` — uit de 11 hoofdrubrieken (§A.1)
-- `partij` — LSW · SWB · SWW · Bewonersraad · Klankbordgroep · gemeente · bewonersgroep · derde
-- `betrouwbaarheid` — **GROEN** (primair/officieel) · **GEEL** (afgeleid/standpunt) · **ORANJE** (onbevestigd/ruis)
-- `brontype`, `status`, `datum`, `bron`, `bron_url`, `tags`, `kernonderwerpen`, `verificatiepunten`
+## Aansluiting voor de latere vraag-antwoord-agent (nog niet gebouwd)
 
-## Aansluiting voor een latere zoeklaag + AI-agent
-
-De laag is hier al op voorbereid; de zoek-/agentlaag zelf is **nog niet** gebouwd:
-
-- **`corpus.json`** is een platte, machineleesbare index (metadata + excerpt per
-  document) — direct bruikbaar als retrieval-bron of om in een index te laden.
-- De **filterstaat staat in de URL** (`?rubriek=…&partij=…&betrouwbaarheid=…&q=…`),
-  dus een agent kan een gefilterde view samenstellen en delen.
-- `kennisbank.js` scheidt de **filterlaag** (`applyFilters()`) van de renderlaag,
-  en exposeert `window.SW_KENNISBANK` (manifest + actieve staat + resultaten).
-  De detailpagina exposeert `window.SW_KENNISBANK_DOC`. Dit zijn de hooks waarop
-  een zoek-/agentlaag kan worden aangesloten zonder de UI te herschrijven.
+- `corpus.json` is een platte, machineleesbare index (incl. weergavelaag én de
+  redactionele weegvelden) — direct bruikbaar als retrieval-bron.
+- De zoeklaag is losgekoppeld van de weergave: `window.SW_KENNISBANK.zoek(term)`
+  op de landing kan worden vervangen door een semantische zoek-/agentlaag.
+- Hooks: `window.SW_KENNISBANK` (landing), `window.SW_KENNISBANK_ONDERWERP`
+  (onderwerp), `window.SW_KENNISBANK_DOC` (stuk). Diep-links via `?q=` en
+  `?onderwerp=`.

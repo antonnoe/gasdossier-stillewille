@@ -32,11 +32,319 @@
       "ORANJE"
     ]
   },
+  "onderwerpen": [
+    {
+      "key": "Governance & besluitvorming",
+      "label": "Bestuur & besluiten",
+      "beschrijving": "Hoe het landgoed wordt bestuurd en hoe besluiten tot stand komen: de vereniging, de bewonersraad, de vergaderingen en de plannen voor de toekomst van het landgoed.",
+      "accent": "green",
+      "icon": "<path d=\"M3 21h18M4 10l8-6 8 6M6 10v8M10 10v8M14 10v8M18 10v8M4 21v-3h16v3\"/>",
+      "aantal": 12
+    },
+    {
+      "key": "Financiën & fondsen",
+      "label": "Geld & servicekosten",
+      "beschrijving": "De begroting, de servicekosten, de fondsen en de jaarcijfers — waar het geld vandaan komt en waaraan het wordt besteed.",
+      "accent": "yellow",
+      "icon": "<rect x=\"2\" y=\"6\" width=\"20\" height=\"12\" rx=\"2\"/><circle cx=\"12\" cy=\"12\" r=\"2.6\"/><path d=\"M6 9v6M18 9v6\"/>",
+      "aantal": 11
+    },
+    {
+      "key": "Gas & energie",
+      "label": "Gas & energie",
+      "beschrijving": "Het gasnet, de energievoorziening en de projecten rond duurzame energie op het landgoed.",
+      "accent": "orange",
+      "icon": "<path d=\"M12 2s5 4 5 9a5 5 0 0 1-10 0c0-2 1.4-3.6 2.5-4.8C9.6 7.7 11 9 11 9s-1-3.8 1-7z\"/>",
+      "aantal": 4
+    },
+    {
+      "key": "Natuur, bomen & groen",
+      "label": "Natuur & groen",
+      "beschrijving": "Het groenbeheer: bomen, natuur, het groenplan en de werkgroepen die zich hiermee bezighouden.",
+      "accent": "green",
+      "icon": "<path d=\"M11 20A7 7 0 0 1 4 13C4 8 8 4 20 4c0 8-4 12-9 12z\"/><path d=\"M5 19c4-5 8-7 12-8\"/>",
+      "aantal": 6
+    },
+    {
+      "key": "Water & riolering",
+      "label": "Water & riolering",
+      "beschrijving": "De waterhuishouding op het landgoed: riolering, sloten en duikers, en wateroverlast.",
+      "accent": "yellow",
+      "icon": "<path d=\"M12 3s6 6 6 10a6 6 0 0 1-12 0c0-4 6-10 6-10z\"/>",
+      "aantal": 2
+    },
+    {
+      "key": "Wegen & infrastructuur",
+      "label": "Wegen & infrastructuur",
+      "beschrijving": "De wegen, de straatverlichting en de ondergrondse infrastructuur, zoals kabels en leidingen.",
+      "accent": "orange",
+      "icon": "<path d=\"M6 21 9 3M18 21 15 3M12 5v3M12 11v3M12 17v2\"/>",
+      "aantal": 4
+    },
+    {
+      "key": "Regels & handhaving",
+      "label": "Regels & handhaving",
+      "beschrijving": "De parkregels — het verblijfs- en gebruiksreglement — en hoe daarop wordt toegezien.",
+      "accent": "green",
+      "icon": "<path d=\"M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z\"/><path d=\"M14 3v6h6\"/><path d=\"m9 14 2 2 4-4\"/>",
+      "aantal": 2
+    },
+    {
+      "key": "Recreatie & voorzieningen",
+      "label": "Recreatie & voorzieningen",
+      "beschrijving": "De gezamenlijke voorzieningen, zoals het recreatiegebied, de tennisbanen, het zwembad en de Boskiosk.",
+      "accent": "yellow",
+      "icon": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M3 12h18M12 3a15 15 0 0 0 0 18M12 3a15 15 0 0 1 0 18\"/>",
+      "aantal": 4
+    },
+    {
+      "key": "Wonen & bestemmingsplan",
+      "label": "Wonen & erfpacht",
+      "beschrijving": "Wonen op het landgoed: het bestemmingsplan, de erfpacht en de plannen rond het eigendom van de grond.",
+      "accent": "orange",
+      "icon": "<path d=\"M3 11 12 4l9 7M5 10v10h14V10M9 20v-6h6v6\"/>",
+      "aantal": 5
+    },
+    {
+      "key": "Communicatie & nieuwsbrieven",
+      "label": "Nieuwsbrieven & mededelingen",
+      "beschrijving": "De nieuwsbrieven en mededelingen waarmee bewoners op de hoogte worden gehouden.",
+      "accent": "green",
+      "icon": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"m3 7 9 6 9-6\"/>",
+      "aantal": 10
+    },
+    {
+      "key": "Stakeholders & organisatie",
+      "label": "Wie is wie (partijen)",
+      "beschrijving": "Welke partijen en organisaties een rol spelen op het landgoed, en wat die rol is.",
+      "accent": "yellow",
+      "icon": "<circle cx=\"9\" cy=\"8\" r=\"3\"/><path d=\"M3 20a6 6 0 0 1 12 0\"/><circle cx=\"17\" cy=\"9\" r=\"2.4\"/><path d=\"M15.5 20a5 5 0 0 1 5.5-4.4\"/>",
+      "aantal": 9
+    }
+  ],
+  "partijen_info": {
+    "LSW": {
+      "naam": "LSW — Landgoed Stille Wille B.V.",
+      "rol": "Eigenaar van de grond en verpachter."
+    },
+    "SWB": {
+      "naam": "SWB — Stille Wille Brabant B.V.",
+      "rol": "De maatschappij die het park exploiteert en beheert."
+    },
+    "SWW": {
+      "naam": "SWW — Stille Wille Wonen",
+      "rol": "De bewonersvereniging, opgericht in 2023."
+    },
+    "Bewonersraad": {
+      "naam": "Bewonersraad",
+      "rol": "Overlegorgaan tussen de bewoners en de exploitant/eigenaar."
+    },
+    "Klankbordgroep": {
+      "naam": "Klankbordgroep",
+      "rol": "Onafhankelijke bewonersgroep die meedenkt over de toekomst van het landgoed."
+    },
+    "gemeente": {
+      "naam": "Gemeente Oirschot",
+      "rol": "Betrokken bij onder meer het bestemmingsplan en de leefbaarheid."
+    },
+    "bewonersgroep": {
+      "naam": "Bewonersgroep",
+      "rol": "Groepen bewoners die zich rond een bepaald onderwerp organiseren."
+    },
+    "derde": {
+      "naam": "Overige partijen",
+      "rol": "Externe betrokkenen, zoals notaris, adviseurs of leveranciers."
+    }
+  },
   "documenten": [
+    {
+      "slug": "inventarisatie-6-sww-nieuwsbrieven-2023",
+      "bestand": "Inventarisatie-6-SWW-nieuwsbrieven-2023.md",
+      "titel": "SWW-nieuwsbrieven 2023 (tranche 1)",
+      "weergavetitel": "Bewonersnieuwsbrieven 2023",
+      "duiding": "De nieuwsbrieven van de bewonersvereniging uit 2023.",
+      "bron": "stillewillewonen.nl",
+      "bron_url": "https://stillewillewonen.nl/archief/nieuwsbrieven/",
+      "bestandsnaam": "",
+      "auteur": "Redactie Peter Aerts + Anton Noë",
+      "datum": "2023",
+      "brontype": "nieuwsbrief",
+      "partij": [
+        "SWW",
+        "SWB"
+      ],
+      "rubriek_primair": "Communicatie & nieuwsbrieven",
+      "rubriek_secundair": [
+        "Financiën & fondsen",
+        "Governance & besluitvorming",
+        "Natuur, bomen & groen",
+        "Wegen & infrastructuur"
+      ],
+      "status": "definitief",
+      "betrouwbaarheid": "GEEL",
+      "tags": [
+        "nieuwsbrief",
+        "5,2%",
+        "parkonderhoud",
+        "MJOP-2022",
+        "oprichting-SWW",
+        "erfpacht-2028"
+      ],
+      "kernonderwerpen": [
+        "Vroegste documentatie van het financiële/onderhoudsconflict (okt–nov 2023)",
+        "Exploitatieverhoging 2024: +5,2% aangenomen (ALV 17-11-2023; 53–1–0)",
+        "MJOP 2022 nog niet bruikbaar; oprichting SWW 27-06-2023"
+      ],
+      "verificatiepunten": [
+        "+5,2% stemuitslag 53–1–0 — kruislings te bevestigen tegen begroting SWB 2024 (deel 3b)"
+      ],
+      "excerpt": "Bron: stillewillewonen.nl, /archief/nieuwsbrieven/ (PDF's, via web_fetch).",
+      "woorden": 1021,
+      "secties": 4
+    },
+    {
+      "slug": "inventarisatie-7-sww-nieuwsbrieven-2024-h1",
+      "bestand": "Inventarisatie-7-SWW-nieuwsbrieven-2024-H1.md",
+      "titel": "SWW-nieuwsbrieven 2024 H1 (tranche 2a)",
+      "weergavetitel": "Bewonersnieuwsbrieven 2024 — eerste helft",
+      "duiding": "De nieuwsbrieven van de bewonersvereniging uit de eerste helft van 2024.",
+      "bron": "stillewillewonen.nl",
+      "bron_url": "https://stillewillewonen.nl/archief/nieuwsbrieven/",
+      "bestandsnaam": "",
+      "auteur": "Correspondenten Koos van Kampen (SWW) + Peter Aerts (SWB)",
+      "datum": "2024-02/2024-06",
+      "brontype": "nieuwsbrief",
+      "partij": [
+        "SWW",
+        "SWB"
+      ],
+      "rubriek_primair": "Communicatie & nieuwsbrieven",
+      "rubriek_secundair": [
+        "Gas & energie",
+        "Water & riolering",
+        "Financiën & fondsen",
+        "Natuur, bomen & groen",
+        "Wegen & infrastructuur",
+        "Recreatie & voorzieningen"
+      ],
+      "status": "definitief",
+      "betrouwbaarheid": "GEEL",
+      "tags": [
+        "nieuwsbrief",
+        "Enexis",
+        "gas-privaat",
+        "wateroverlast",
+        "jaarrekeningen",
+        "redactiewissel"
+      ],
+      "kernonderwerpen": [
+        "De 8 edities van 2024 H1 (feb, maart, extra 2.1–2.4, mei, extra 3.1)",
+        "Enexis; gas privaat bevestigd; wateroverlastcrisis jaarwisseling 2023/24",
+        "Vanaf 2024 tweemaandelijks; geen hard-copy meer bij de receptie"
+      ],
+      "verificatiepunten": [],
+      "excerpt": "Bron: stillewillewonen.nl, /archief/nieuwsbrieven/ (PDF's, via web_fetch).",
+      "woorden": 907,
+      "secties": 4
+    },
+    {
+      "slug": "inventarisatie-8-sww-nieuwsbrieven-2024-h2",
+      "bestand": "Inventarisatie-8-SWW-nieuwsbrieven-2024-H2.md",
+      "titel": "SWW-nieuwsbrieven 2024 H2 (tranche 2b)",
+      "weergavetitel": "Bewonersnieuwsbrieven 2024 — tweede helft",
+      "duiding": "De nieuwsbrieven van de bewonersvereniging uit de tweede helft van 2024, met onder meer een special over de directie.",
+      "bron": "stillewillewonen.nl",
+      "bron_url": "https://stillewillewonen.nl/archief/nieuwsbrieven/",
+      "bestandsnaam": "",
+      "auteur": "Redactie Peter Aerts (solo, t/m eind 2024)",
+      "datum": "2024-06/2024-12",
+      "brontype": "nieuwsbrief",
+      "partij": [
+        "SWW",
+        "SWB"
+      ],
+      "rubriek_primair": "Communicatie & nieuwsbrieven",
+      "rubriek_secundair": [
+        "Stakeholders & organisatie",
+        "Gas & energie",
+        "Financiën & fondsen",
+        "Natuur, bomen & groen",
+        "Water & riolering",
+        "Wegen & infrastructuur",
+        "Recreatie & voorzieningen"
+      ],
+      "status": "definitief",
+      "betrouwbaarheid": "GEEL",
+      "tags": [
+        "nieuwsbrief",
+        "Rianne-special",
+        "erfpacht-1997",
+        "straatverlichting",
+        "zonneparken",
+        "LSW-32k",
+        "SWB-40k"
+      ],
+      "kernonderwerpen": [
+        "De 9 edities van 2024 H2, incl. de Special Rianne IJpelaar (directie LSW/SWB)",
+        "Erfpacht 1997; LSW €32k + SWB €40k; straatverlichting-renovatie; zonneparken",
+        "Provenance: afscheid Peter Aerts eind 2024"
+      ],
+      "verificatiepunten": [],
+      "excerpt": "Bron: stillewillewonen.nl, /archief/nieuwsbrieven/ (PDF's, via web_fetch).",
+      "woorden": 990,
+      "secties": 4
+    },
+    {
+      "slug": "inventarisatie-9-sww-nieuwsbrieven-2025",
+      "bestand": "Inventarisatie-9-SWW-nieuwsbrieven-2025.md",
+      "titel": "SWW-nieuwsbrieven 2025 (tranche 3, slot)",
+      "weergavetitel": "Bewonersnieuwsbrieven 2025",
+      "duiding": "De laatste nieuwsbrieven van de bewonersredactie, uit begin 2025.",
+      "bron": "stillewillewonen.nl",
+      "bron_url": "https://stillewillewonen.nl/archief/nieuwsbrieven/",
+      "bestandsnaam": "",
+      "auteur": "",
+      "datum": "2025-02/2025-04",
+      "brontype": "nieuwsbrief",
+      "partij": [
+        "SWW",
+        "SWB"
+      ],
+      "rubriek_primair": "Communicatie & nieuwsbrieven",
+      "rubriek_secundair": [
+        "Gas & energie",
+        "Financiën & fondsen",
+        "Wonen & bestemmingsplan",
+        "Natuur, bomen & groen",
+        "Wegen & infrastructuur",
+        "Recreatie & voorzieningen"
+      ],
+      "status": "definitief",
+      "betrouwbaarheid": "GEEL",
+      "tags": [
+        "nieuwsbrief",
+        "EV-plan",
+        "Ad-Vi",
+        "grondprijs",
+        "paasnieuwsbrief",
+        "overlap-editie"
+      ],
+      "kernonderwerpen": [
+        "De twee laatste SWW-redactie-edities (februari + april 2025)",
+        "April (Paasnieuwsbrief) is de overlap-editie die ook in deel 6 zit",
+        "Hiermee is de volledige SWW-nieuwsbrievenserie (mei 2023 – apr 2025) geborgd"
+      ],
+      "verificatiepunten": [],
+      "excerpt": "Bron: stillewillewonen.nl, /archief/nieuwsbrieven/ (PDF's, via web_fetch).",
+      "woorden": 831,
+      "secties": 4
+    },
     {
       "slug": "inventarisatie-3-documentinhoud-deel6-nieuwsbrieven",
       "bestand": "Inventarisatie-3-documentinhoud-deel6-nieuwsbrieven.md",
       "titel": "Documentinhoud deel 6 — Nieuwsbrieven en \"Tussendoortjes\" (stillewille.nl)",
+      "weergavetitel": "Nieuwsbrieven van het landgoed (2025–2026)",
+      "duiding": "De nieuwsbrieven en korte mededelingen die op stillewille.nl verschenen.",
       "bron": "stillewille.nl",
       "bron_url": "https://www.stillewille.nl/",
       "bestandsnaam": "",
@@ -70,172 +378,11 @@
       "secties": 6
     },
     {
-      "slug": "inventarisatie-6-sww-nieuwsbrieven-2023",
-      "bestand": "Inventarisatie-6-SWW-nieuwsbrieven-2023.md",
-      "titel": "SWW-nieuwsbrieven 2023 (tranche 1)",
-      "bron": "stillewillewonen.nl",
-      "bron_url": "https://stillewillewonen.nl/archief/nieuwsbrieven/",
-      "bestandsnaam": "",
-      "auteur": "Redactie Peter Aerts + Anton Noë",
-      "datum": "2023",
-      "brontype": "nieuwsbrief",
-      "partij": [
-        "SWW",
-        "SWB"
-      ],
-      "rubriek_primair": "Communicatie & nieuwsbrieven",
-      "rubriek_secundair": [
-        "Financiën & fondsen",
-        "Governance & besluitvorming",
-        "Natuur, bomen & groen"
-      ],
-      "status": "definitief",
-      "betrouwbaarheid": "GEEL",
-      "tags": [
-        "nieuwsbrief",
-        "5,2%",
-        "parkonderhoud",
-        "MJOP-2022",
-        "oprichting-SWW",
-        "erfpacht-2028"
-      ],
-      "kernonderwerpen": [
-        "Vroegste documentatie van het financiële/onderhoudsconflict (okt–nov 2023)",
-        "Exploitatieverhoging 2024: +5,2% aangenomen (ALV 17-11-2023; 53–1–0)",
-        "MJOP 2022 nog niet bruikbaar; oprichting SWW 27-06-2023"
-      ],
-      "verificatiepunten": [
-        "+5,2% stemuitslag 53–1–0 — kruislings te bevestigen tegen begroting SWB 2024 (deel 3b)"
-      ],
-      "excerpt": "Bron: stillewillewonen.nl, /archief/nieuwsbrieven/ (PDF's, via web_fetch).",
-      "woorden": 1021,
-      "secties": 4
-    },
-    {
-      "slug": "inventarisatie-7-sww-nieuwsbrieven-2024-h1",
-      "bestand": "Inventarisatie-7-SWW-nieuwsbrieven-2024-H1.md",
-      "titel": "SWW-nieuwsbrieven 2024 H1 (tranche 2a)",
-      "bron": "stillewillewonen.nl",
-      "bron_url": "https://stillewillewonen.nl/archief/nieuwsbrieven/",
-      "bestandsnaam": "",
-      "auteur": "Correspondenten Koos van Kampen (SWW) + Peter Aerts (SWB)",
-      "datum": "2024-02/2024-06",
-      "brontype": "nieuwsbrief",
-      "partij": [
-        "SWW",
-        "SWB"
-      ],
-      "rubriek_primair": "Communicatie & nieuwsbrieven",
-      "rubriek_secundair": [
-        "Gas & energie",
-        "Water & riolering",
-        "Financiën & fondsen"
-      ],
-      "status": "definitief",
-      "betrouwbaarheid": "GEEL",
-      "tags": [
-        "nieuwsbrief",
-        "Enexis",
-        "gas-privaat",
-        "wateroverlast",
-        "jaarrekeningen",
-        "redactiewissel"
-      ],
-      "kernonderwerpen": [
-        "De 8 edities van 2024 H1 (feb, maart, extra 2.1–2.4, mei, extra 3.1)",
-        "Enexis; gas privaat bevestigd; wateroverlastcrisis jaarwisseling 2023/24",
-        "Vanaf 2024 tweemaandelijks; geen hard-copy meer bij de receptie"
-      ],
-      "verificatiepunten": [],
-      "excerpt": "Bron: stillewillewonen.nl, /archief/nieuwsbrieven/ (PDF's, via web_fetch).",
-      "woorden": 907,
-      "secties": 4
-    },
-    {
-      "slug": "inventarisatie-8-sww-nieuwsbrieven-2024-h2",
-      "bestand": "Inventarisatie-8-SWW-nieuwsbrieven-2024-H2.md",
-      "titel": "SWW-nieuwsbrieven 2024 H2 (tranche 2b)",
-      "bron": "stillewillewonen.nl",
-      "bron_url": "https://stillewillewonen.nl/archief/nieuwsbrieven/",
-      "bestandsnaam": "",
-      "auteur": "Redactie Peter Aerts (solo, t/m eind 2024)",
-      "datum": "2024-06/2024-12",
-      "brontype": "nieuwsbrief",
-      "partij": [
-        "SWW",
-        "SWB"
-      ],
-      "rubriek_primair": "Communicatie & nieuwsbrieven",
-      "rubriek_secundair": [
-        "Stakeholders & organisatie",
-        "Gas & energie",
-        "Financiën & fondsen"
-      ],
-      "status": "definitief",
-      "betrouwbaarheid": "GEEL",
-      "tags": [
-        "nieuwsbrief",
-        "Rianne-special",
-        "erfpacht-1997",
-        "straatverlichting",
-        "zonneparken",
-        "LSW-32k",
-        "SWB-40k"
-      ],
-      "kernonderwerpen": [
-        "De 9 edities van 2024 H2, incl. de Special Rianne IJpelaar (directie LSW/SWB)",
-        "Erfpacht 1997; LSW €32k + SWB €40k; straatverlichting-renovatie; zonneparken",
-        "Provenance: afscheid Peter Aerts eind 2024"
-      ],
-      "verificatiepunten": [],
-      "excerpt": "Bron: stillewillewonen.nl, /archief/nieuwsbrieven/ (PDF's, via web_fetch).",
-      "woorden": 990,
-      "secties": 4
-    },
-    {
-      "slug": "inventarisatie-9-sww-nieuwsbrieven-2025",
-      "bestand": "Inventarisatie-9-SWW-nieuwsbrieven-2025.md",
-      "titel": "SWW-nieuwsbrieven 2025 (tranche 3, slot)",
-      "bron": "stillewillewonen.nl",
-      "bron_url": "https://stillewillewonen.nl/archief/nieuwsbrieven/",
-      "bestandsnaam": "",
-      "auteur": "",
-      "datum": "2025-02/2025-04",
-      "brontype": "nieuwsbrief",
-      "partij": [
-        "SWW",
-        "SWB"
-      ],
-      "rubriek_primair": "Communicatie & nieuwsbrieven",
-      "rubriek_secundair": [
-        "Gas & energie",
-        "Financiën & fondsen",
-        "Wonen & bestemmingsplan"
-      ],
-      "status": "definitief",
-      "betrouwbaarheid": "GEEL",
-      "tags": [
-        "nieuwsbrief",
-        "EV-plan",
-        "Ad-Vi",
-        "grondprijs",
-        "paasnieuwsbrief",
-        "overlap-editie"
-      ],
-      "kernonderwerpen": [
-        "De twee laatste SWW-redactie-edities (februari + april 2025)",
-        "April (Paasnieuwsbrief) is de overlap-editie die ook in deel 6 zit",
-        "Hiermee is de volledige SWW-nieuwsbrievenserie (mei 2023 – apr 2025) geborgd"
-      ],
-      "verificatiepunten": [],
-      "excerpt": "Bron: stillewillewonen.nl, /archief/nieuwsbrieven/ (PDF's, via web_fetch).",
-      "woorden": 831,
-      "secties": 4
-    },
-    {
       "slug": "inventarisatie-3-documentinhoud-deel3b-losse-eindjes",
       "bestand": "Inventarisatie-3-documentinhoud-deel3b-losse-eindjes.md",
       "titel": "Documentinhoud deel 3b — Financiële stukken + Bewonersraad-jaar 2024",
+      "weergavetitel": "Begroting en jaarcijfers (2023–2024)",
+      "duiding": "De exploitatiebegroting, de eigen cijfers van de vereniging en enkele aanvullende bewonersraadverslagen.",
       "bron": "stillewillewonen.nl",
       "bron_url": "https://stillewillewonen.nl/",
       "bestandsnaam": "",
@@ -271,9 +418,97 @@
       "secties": 12
     },
     {
+      "slug": "inventarisatie-2-volledige-inhoud-per-onderwerp",
+      "bestand": "Inventarisatie-2-volledige-inhoud-per-onderwerp.md",
+      "titel": "Volledige inhoud per onderwerp — beide sites",
+      "weergavetitel": "Alle onderwerpen van beide websites, gebundeld",
+      "duiding": "Een brede bundeling van de inhoud van beide Stille Wille-websites, geordend op onderwerp.",
+      "bron": "stillewillewonen.nl + stillewille.nl",
+      "bron_url": "",
+      "bestandsnaam": "",
+      "auteur": "",
+      "datum": "2026-06-16",
+      "brontype": "webpagina",
+      "partij": [
+        "SWW",
+        "SWB",
+        "LSW"
+      ],
+      "rubriek_primair": "Governance & besluitvorming",
+      "rubriek_secundair": [
+        "Financiën & fondsen",
+        "Communicatie & nieuwsbrieven",
+        "Stakeholders & organisatie",
+        "Gas & energie"
+      ],
+      "status": "definitief",
+      "betrouwbaarheid": "GEEL",
+      "tags": [
+        "site-inventarisatie",
+        "borging",
+        "integratie-2026",
+        "cross-onderwerp"
+      ],
+      "kernonderwerpen": [
+        "Inhoudelijke borging van beide sites vóór de aangekondigde integratie (begin 2026)",
+        "On-site tekst geordend op onderwerp i.p.v. menustructuur",
+        "Bronnotatie per feit (SWW: / SW: + pad); ontbrekende gegevens expliciet benoemd"
+      ],
+      "verificatiepunten": [
+        "Fase 1 (on-site tekst) — ~90 PDF's SWW-archief en losse stillewille.nl-documenten nog niet verwerkt (zie §17)"
+      ],
+      "excerpt": "Sites: stillewillewonen.nl (bewonersvereniging SWW) + stillewille.nl (eigenaar LSW / exploitant SWB)",
+      "woorden": 4066,
+      "secties": 26
+    },
+    {
+      "slug": "inventarisatie-3-documentinhoud-deel2b-ocr-scans",
+      "bestand": "Inventarisatie-3-documentinhoud-deel2b-OCR-scans.md",
+      "titel": "Documentinhoud deel 2b — OCR van twee beeld-scans (Beheersovereenkomst + BR jan '26)",
+      "weergavetitel": "Beheersovereenkomst en bewonersraadverslag (gescande stukken)",
+      "duiding": "Twee documenten die alleen als scan bestonden en met tekstherkenning leesbaar zijn gemaakt.",
+      "bron": "stillewille.nl",
+      "bron_url": "https://www.stillewille.nl/",
+      "bestandsnaam": "20260316_Bewonersraad_26_jan_26.pdf",
+      "auteur": "",
+      "datum": "2024/2026",
+      "brontype": "overeenkomst",
+      "partij": [
+        "LSW",
+        "SWB"
+      ],
+      "rubriek_primair": "Governance & besluitvorming",
+      "rubriek_secundair": [
+        "Stakeholders & organisatie",
+        "Financiën & fondsen"
+      ],
+      "status": "scan",
+      "betrouwbaarheid": "ORANJE",
+      "tags": [
+        "OCR",
+        "beheersovereenkomst",
+        "bewonersraad",
+        "tesseract",
+        "beeld-scan"
+      ],
+      "kernonderwerpen": [
+        "OCR (tesseract 5.3.4, NL, 300 DPI) van twee documenten die alleen als beeld-scan bestonden",
+        "Beheersovereenkomst (LSW-zijde ↔ SWB), PDF aangemaakt 05-10-2017",
+        "Bewonersraadverslag januari 2026"
+      ],
+      "verificatiepunten": [
+        "OCR-voorbehoud: matige scan; eigennamen, KvK-nummers en bedragen tegen het origineel controleren bij publicatiewaardig gebruik"
+      ],
+      "excerpt": "Bron: stillewille.nl, map /images/bestanden/.... Dit zijn de twee documenten uit deel 2 die alleen als beeld-scan bestonden en die nu via OCR (tesseract 5.3.4, Nederlands taalpakket, 300 DPI) leesbaar zijn gemaakt.",
+      "woorden": 1587,
+      "secties": 6
+    },
+    {
       "slug": "inventarisatie-3-documentinhoud-deel1-governance-financien",
       "bestand": "Inventarisatie-3-documentinhoud-deel1-governance-financien.md",
       "titel": "Documentinhoud deel 1 — Governance, Toekomst (EV), Financiën & Regels",
+      "weergavetitel": "Bestuur, toekomstplannen en geldzaken",
+      "duiding": "De juridische basis van de vereniging, het voorstel om de exploitatie-BV om te zetten naar een vereniging, en de financiële structuur.",
       "bron": "stillewillewonen.nl",
       "bron_url": "https://stillewillewonen.nl/",
       "bestandsnaam": "",
@@ -320,6 +555,8 @@
       "slug": "inventarisatie-3-documentinhoud-deel2-stillewille-nl",
       "bestand": "Inventarisatie-3-documentinhoud-deel2-stillewille-nl.md",
       "titel": "Documentinhoud deel 2 — Documenten op stillewille.nl",
+      "weergavetitel": "Recente stukken op de officiële landgoedsite (2025–2026)",
+      "duiding": "Nieuwere documenten die op stillewille.nl zijn gepubliceerd, vooral over de periode na de zomer van 2025.",
       "bron": "stillewille.nl",
       "bron_url": "https://www.stillewille.nl/",
       "bestandsnaam": "",
@@ -356,88 +593,11 @@
       "secties": 16
     },
     {
-      "slug": "inventarisatie-3-documentinhoud-deel2b-ocr-scans",
-      "bestand": "Inventarisatie-3-documentinhoud-deel2b-OCR-scans.md",
-      "titel": "Documentinhoud deel 2b — OCR van twee beeld-scans (Beheersovereenkomst + BR jan '26)",
-      "bron": "stillewille.nl",
-      "bron_url": "https://www.stillewille.nl/",
-      "bestandsnaam": "20260316_Bewonersraad_26_jan_26.pdf",
-      "auteur": "",
-      "datum": "2024/2026",
-      "brontype": "overeenkomst",
-      "partij": [
-        "LSW",
-        "SWB"
-      ],
-      "rubriek_primair": "Governance & besluitvorming",
-      "rubriek_secundair": [
-        "Stakeholders & organisatie",
-        "Financiën & fondsen"
-      ],
-      "status": "scan",
-      "betrouwbaarheid": "ORANJE",
-      "tags": [
-        "OCR",
-        "beheersovereenkomst",
-        "bewonersraad",
-        "tesseract",
-        "beeld-scan"
-      ],
-      "kernonderwerpen": [
-        "OCR (tesseract 5.3.4, NL, 300 DPI) van twee documenten die alleen als beeld-scan bestonden",
-        "Beheersovereenkomst (LSW-zijde ↔ SWB), PDF aangemaakt 05-10-2017",
-        "Bewonersraadverslag januari 2026"
-      ],
-      "verificatiepunten": [
-        "OCR-voorbehoud: matige scan; eigennamen, KvK-nummers en bedragen tegen het origineel controleren bij publicatiewaardig gebruik"
-      ],
-      "excerpt": "Bron: stillewille.nl, map /images/bestanden/.... Dit zijn de twee documenten uit deel 2 die alleen als beeld-scan bestonden en die nu via OCR (tesseract 5.3.4, Nederlands taalpakket, 300 DPI) leesbaar zijn gemaakt.",
-      "woorden": 1587,
-      "secties": 6
-    },
-    {
-      "slug": "inventarisatie-3-documentinhoud-deel3-sww-notulenreeks",
-      "bestand": "Inventarisatie-3-documentinhoud-deel3-SWW-notulenreeks.md",
-      "titel": "Documentinhoud deel 3 — SWW-notulenreeks 2023 → 2025",
-      "bron": "stillewillewonen.nl",
-      "bron_url": "https://stillewillewonen.nl/",
-      "bestandsnaam": "",
-      "auteur": "",
-      "datum": "2023/2025",
-      "brontype": "notulen",
-      "partij": [
-        "SWW",
-        "Bewonersraad",
-        "SWB",
-        "LSW"
-      ],
-      "rubriek_primair": "Governance & besluitvorming",
-      "rubriek_secundair": [
-        "Stakeholders & organisatie",
-        "Financiën & fondsen"
-      ],
-      "status": "definitief",
-      "betrouwbaarheid": "GEEL",
-      "tags": [
-        "notulen",
-        "ALV",
-        "bewonersraad",
-        "bestuurscrisis-2025",
-        "governance-tijdlijn"
-      ],
-      "kernonderwerpen": [
-        "Bestuurlijke continuïteit van oprichting (2023) → BR-/ALV-jaar 2024 → bestuurscrisis (2025)",
-        "Sluit aan op deel 1 (ALV 12-06-2025, Toekomst-stukken) en deel 2/2b (okt 2025 – maart 2026)"
-      ],
-      "verificatiepunten": [],
-      "excerpt": "Bronnen: overwegend stillewillewonen.nl (SWW-archief, opgehaald via web_fetch omdat die host scripted toegang blokkeert); één Bewonersraad-verslag (22-08-2024) staat ook op stillewille.nl en is via curl opgehaald.",
-      "woorden": 2223,
-      "secties": 10
-    },
-    {
       "slug": "inventarisatie-4-stillewillewonen-start-en-rubriceringsschema",
       "bestand": "Inventarisatie-4-stillewillewonen-start-en-rubriceringsschema.md",
       "titel": "Rubriceringsschema + eerste getagde entry (\"Risico's nieuwe vereniging\")",
+      "weergavetitel": "Standpunt: risico's van een nieuwe vereniging van perceeleigenaren",
+      "duiding": "Een kritisch standpunt van een bewonersgroep over de toekomstplannen. Dit stuk legt daarnaast vast hoe deze kennisbank is ingedeeld.",
       "bron": "stillewillewonen.nl",
       "bron_url": "https://stillewillewonen.nl/",
       "bestandsnaam": "",
@@ -477,51 +637,52 @@
       "secties": 9
     },
     {
-      "slug": "inventarisatie-2-volledige-inhoud-per-onderwerp",
-      "bestand": "Inventarisatie-2-volledige-inhoud-per-onderwerp.md",
-      "titel": "Volledige inhoud per onderwerp — beide sites",
-      "bron": "stillewillewonen.nl + stillewille.nl",
-      "bron_url": "",
+      "slug": "inventarisatie-3-documentinhoud-deel3-sww-notulenreeks",
+      "bestand": "Inventarisatie-3-documentinhoud-deel3-SWW-notulenreeks.md",
+      "titel": "Documentinhoud deel 3 — SWW-notulenreeks 2023 → 2025",
+      "weergavetitel": "Verslagen van bewonersraad en ledenvergaderingen (2023–2025)",
+      "duiding": "De reeks vergaderverslagen die de gang van zaken binnen het bestuur door de jaren heen volgt.",
+      "bron": "stillewillewonen.nl",
+      "bron_url": "https://stillewillewonen.nl/",
       "bestandsnaam": "",
       "auteur": "",
-      "datum": "2026-06-16",
-      "brontype": "webpagina",
+      "datum": "2023/2025",
+      "brontype": "notulen",
       "partij": [
         "SWW",
+        "Bewonersraad",
         "SWB",
         "LSW"
       ],
       "rubriek_primair": "Governance & besluitvorming",
       "rubriek_secundair": [
-        "Financiën & fondsen",
-        "Communicatie & nieuwsbrieven",
         "Stakeholders & organisatie",
-        "Gas & energie"
+        "Financiën & fondsen"
       ],
       "status": "definitief",
       "betrouwbaarheid": "GEEL",
       "tags": [
-        "site-inventarisatie",
-        "borging",
-        "integratie-2026",
-        "cross-onderwerp"
+        "notulen",
+        "ALV",
+        "bewonersraad",
+        "bestuurscrisis-2025",
+        "governance-tijdlijn"
       ],
       "kernonderwerpen": [
-        "Inhoudelijke borging van beide sites vóór de aangekondigde integratie (begin 2026)",
-        "On-site tekst geordend op onderwerp i.p.v. menustructuur",
-        "Bronnotatie per feit (SWW: / SW: + pad); ontbrekende gegevens expliciet benoemd"
+        "Bestuurlijke continuïteit van oprichting (2023) → BR-/ALV-jaar 2024 → bestuurscrisis (2025)",
+        "Sluit aan op deel 1 (ALV 12-06-2025, Toekomst-stukken) en deel 2/2b (okt 2025 – maart 2026)"
       ],
-      "verificatiepunten": [
-        "Fase 1 (on-site tekst) — ~90 PDF's SWW-archief en losse stillewille.nl-documenten nog niet verwerkt (zie §17)"
-      ],
-      "excerpt": "Sites: stillewillewonen.nl (bewonersvereniging SWW) + stillewille.nl (eigenaar LSW / exploitant SWB)",
-      "woorden": 4066,
-      "secties": 26
+      "verificatiepunten": [],
+      "excerpt": "Bronnen: overwegend stillewillewonen.nl (SWW-archief, opgehaald via web_fetch omdat die host scripted toegang blokkeert); één Bewonersraad-verslag (22-08-2024) staat ook op stillewille.nl en is via curl opgehaald.",
+      "woorden": 2223,
+      "secties": 10
     },
     {
       "slug": "inventarisatie-3-documentinhoud-deel4-reglementen-enquete",
       "bestand": "Inventarisatie-3-documentinhoud-deel4-reglementen-enquete.md",
       "titel": "Documentinhoud deel 4 — Reglementen, plannen en de Bewonersenquête",
+      "weergavetitel": "Parkregels, groenplan en de bewonersenquête",
+      "duiding": "De bindende parkregels, het natuur-/groenplan, het bestemmingsplan en de uitkomsten van de bewonersenquête.",
       "bron": "stillewille.nl + stillewillewonen.nl",
       "bron_url": "",
       "bestandsnaam": "",
@@ -560,9 +721,51 @@
       "secties": 12
     },
     {
+      "slug": "inventarisatie-5-stillewillewonen-pagina-sweep",
+      "bestand": "Inventarisatie-5-stillewillewonen-pagina-sweep.md",
+      "titel": "stillewillewonen.nl — pagina-sweep + nieuwsbrief-ontdubbeling",
+      "weergavetitel": "Commissies, werkgroepen en pagina's van de bewonerssite",
+      "duiding": "Een overzicht van de commissies en werkgroepen en van de overige pagina’s op de bewonerssite.",
+      "bron": "stillewillewonen.nl",
+      "bron_url": "https://stillewillewonen.nl/",
+      "bestandsnaam": "",
+      "auteur": "",
+      "datum": "2026-06-16",
+      "brontype": "webpagina",
+      "partij": [
+        "SWW"
+      ],
+      "rubriek_primair": "Stakeholders & organisatie",
+      "rubriek_secundair": [
+        "Communicatie & nieuwsbrieven",
+        "Natuur, bomen & groen",
+        "Recreatie & voorzieningen"
+      ],
+      "status": "definitief",
+      "betrouwbaarheid": "GEEL",
+      "tags": [
+        "pagina-sweep",
+        "commissies",
+        "werkgroepen",
+        "klankbordgroep",
+        "ontdubbeling"
+      ],
+      "kernonderwerpen": [
+        "Fase B: resterende statische pagina's (Vereniging, commissies, admin)",
+        "Fase C: de Actueel-nieuwsstroom",
+        "Fase D: ontdubbeling van de nieuwsbrieven t.o.v. stillewille.nl (deel 6)"
+      ],
+      "verificatiepunten": [],
+      "excerpt": "Bron: stillewillewonen.nl (live opgehaald via web_fetch, juni 2026).",
+      "woorden": 1475,
+      "secties": 9
+    },
+    {
       "slug": "inventarisatie-stillewillewonen.nl",
       "bestand": "Inventarisatie-stillewillewonen.nl.md",
       "titel": "Site-inventarisatie — stillewillewonen.nl (SWW)",
+      "weergavetitel": "Overzicht van de bewonerssite (stillewillewonen.nl)",
+      "duiding": "Wat er op de site van de bewonersvereniging staat: de opzet en een overzicht van de pagina’s.",
       "bron": "stillewillewonen.nl",
       "bron_url": "https://stillewillewonen.nl/",
       "bestandsnaam": "",
@@ -600,6 +803,8 @@
       "slug": "inventarisatie-stillewille-nl",
       "bestand": "inventarisatie-stillewille-nl.md",
       "titel": "Site-inventarisatie — www.stillewille.nl (LSW/SWB)",
+      "weergavetitel": "Overzicht van de officiële landgoedsite (stillewille.nl)",
+      "duiding": "Wat er op de officiële site van eigenaar en exploitant staat: structuur, documenten en nieuws.",
       "bron": "stillewille.nl",
       "bron_url": "https://www.stillewille.nl/",
       "bestandsnaam": "",
@@ -637,47 +842,11 @@
       "secties": 22
     },
     {
-      "slug": "inventarisatie-5-stillewillewonen-pagina-sweep",
-      "bestand": "Inventarisatie-5-stillewillewonen-pagina-sweep.md",
-      "titel": "stillewillewonen.nl — pagina-sweep + nieuwsbrief-ontdubbeling",
-      "bron": "stillewillewonen.nl",
-      "bron_url": "https://stillewillewonen.nl/",
-      "bestandsnaam": "",
-      "auteur": "",
-      "datum": "2026-06-16",
-      "brontype": "webpagina",
-      "partij": [
-        "SWW"
-      ],
-      "rubriek_primair": "Stakeholders & organisatie",
-      "rubriek_secundair": [
-        "Communicatie & nieuwsbrieven",
-        "Natuur, bomen & groen",
-        "Recreatie & voorzieningen"
-      ],
-      "status": "definitief",
-      "betrouwbaarheid": "GEEL",
-      "tags": [
-        "pagina-sweep",
-        "commissies",
-        "werkgroepen",
-        "klankbordgroep",
-        "ontdubbeling"
-      ],
-      "kernonderwerpen": [
-        "Fase B: resterende statische pagina's (Vereniging, commissies, admin)",
-        "Fase C: de Actueel-nieuwsstroom",
-        "Fase D: ontdubbeling van de nieuwsbrieven t.o.v. stillewille.nl (deel 6)"
-      ],
-      "verificatiepunten": [],
-      "excerpt": "Bron: stillewillewonen.nl (live opgehaald via web_fetch, juni 2026).",
-      "woorden": 1475,
-      "secties": 9
-    },
-    {
       "slug": "inventarisatie-3-documentinhoud-deel5-bestemmingsplan-fondsen-brmandaat",
       "bestand": "Inventarisatie-3-documentinhoud-deel5-bestemmingsplan-fondsen-BRmandaat.md",
       "titel": "Documentinhoud deel 5 — Bestemmingsplan, fondsen en het Bewonersraad-mandaat",
+      "weergavetitel": "Bestemmingsplan, fondsen en de rol van de bewonersraad",
+      "duiding": "De planregels van het bestemmingsplan, de opzet van de fondsen en de taken en bevoegdheden van de bewonersraad.",
       "bron": "stillewille.nl",
       "bron_url": "https://www.stillewille.nl/",
       "bestandsnaam": "",

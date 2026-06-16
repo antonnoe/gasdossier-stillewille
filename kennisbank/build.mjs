@@ -17,6 +17,7 @@
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { ONDERWERPEN, ICONEN, WEERGAVE, EXTRA_RUBRIEKEN, PARTIJEN_INFO } from './display.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 
@@ -87,8 +88,9 @@ function excerptFrom(body) {
 }
 
 function build() {
+const SKIP = new Set(['INDEX.MD', 'README.MD']);
 const files = readdirSync(HERE)
-  .filter((f) => /\.md$/i.test(f) && f.toUpperCase() !== 'INDEX.MD');
+  .filter((f) => /\.md$/i.test(f) && !SKIP.has(f.toUpperCase()));
 
 const docs = [];
 for (const file of files) {
@@ -101,10 +103,22 @@ for (const file of files) {
   // headingtelling als grove maat voor leeslengte
   const headings = (body.match(/^#{1,6}\s/gm) || []).length;
   const words = body.split(/\s+/).filter(Boolean).length;
+  const slug = toSlug(file);
+
+  // Bewoners-weergavelaag: begrijpelijke titel + neutrale duiding.
+  const disp = WEERGAVE[slug] || {};
+  // Onderwerp-koppeling = front-matter-secundair + aanvullende mapping (INDEX §3).
+  const secundair = (data.rubriek_secundair || []).slice();
+  (EXTRA_RUBRIEKEN[slug] || []).forEach((r) => {
+    if (secundair.indexOf(r) === -1 && r !== data.rubriek_primair) secundair.push(r);
+  });
+
   docs.push({
-    slug: toSlug(file),
+    slug: slug,
     bestand: file,
-    titel: data.titel || file,
+    titel: data.titel || file,                 // redactietitel (intern/zoeken)
+    weergavetitel: disp.titel || data.titel || file,
+    duiding: disp.duiding || '',
     bron: data.bron || '',
     bron_url: data.bron_url || '',
     bestandsnaam: data.bestandsnaam || '',
@@ -113,7 +127,7 @@ for (const file of files) {
     brontype: data.brontype || '',
     partij: data.partij || [],
     rubriek_primair: data.rubriek_primair || '',
-    rubriek_secundair: data.rubriek_secundair || [],
+    rubriek_secundair: secundair,
     status: data.status || '',
     betrouwbaarheid: (data.betrouwbaarheid || '').toUpperCase(),
     tags: data.tags || [],
@@ -125,10 +139,15 @@ for (const file of files) {
   });
 }
 
-// Sorteer op hoofdrubriek, dan titel — stabiel en voorspelbaar.
+// Sorteer op hoofdrubriek, dan weergavetitel — stabiel en voorspelbaar.
 docs.sort((a, b) =>
   a.rubriek_primair.localeCompare(b.rubriek_primair, 'nl') ||
-  a.titel.localeCompare(b.titel, 'nl'));
+  a.weergavetitel.localeCompare(b.weergavetitel, 'nl'));
+
+// Hoort een document bij een onderwerp? (primair of — incl. mapping — secundair)
+function inOnderwerp(d, key) {
+  return d.rubriek_primair === key || (d.rubriek_secundair || []).indexOf(key) !== -1;
+}
 
 // Vaste rubriek- en facetvolgorde uit het schema (§A.1 / §A.2).
 const RUBRIEKEN = [
@@ -147,16 +166,30 @@ const RUBRIEKEN = [
 const PARTIJEN = ['LSW', 'SWB', 'SWW', 'Bewonersraad', 'Klankbordgroep', 'gemeente', 'bewonersgroep', 'derde'];
 const BETROUWBAARHEID = ['GROEN', 'GEEL', 'ORANJE'];
 
+// Onderwerpen (bewoners-ingangen) met telling + icoon, in schema-volgorde.
+const onderwerpen = ONDERWERPEN.map((o) => ({
+  key: o.key,
+  label: o.label,
+  beschrijving: o.beschrijving,
+  accent: o.accent,
+  icon: ICONEN[o.icon] || '',
+  aantal: docs.filter((d) => inOnderwerp(d, o.key)).length,
+}));
+
 const manifest = {
   gegenereerd: new Date().toISOString().slice(0, 10),
   schema: 'Inventarisatie-4 §A.3',
   telling: docs.length,
   facetten: { rubrieken: RUBRIEKEN, partijen: PARTIJEN, betrouwbaarheid: BETROUWBAARHEID },
+  onderwerpen: onderwerpen,
+  partijen_info: PARTIJEN_INFO,
   documenten: docs,
 };
 
 writeFileSync(join(HERE, 'corpus.json'), JSON.stringify(manifest, null, 2) + '\n', 'utf8');
-console.log(`corpus.json geschreven — ${docs.length} documenten.`);
+const leeg = onderwerpen.filter((o) => o.aantal === 0).map((o) => o.label);
+console.log(`corpus.json geschreven — ${docs.length} documenten, ${onderwerpen.length} onderwerpen.`);
+if (leeg.length) console.log('  Let op — onderwerpen zonder stukken:', leeg.join(', '));
 }
 
 // Alleen genereren bij directe uitvoering (`node build.mjs`); bij import

@@ -1,18 +1,23 @@
 /**
- * document.js — detailpagina van één corpusdocument
+ * document.js — detailpagina van één stuk (bewoners-weergave)
  *
- * Haalt de metadata uit /kennisbank/corpus.json (op slug ?id=...) en het
- * rauwe markdown-bestand op, strip de YAML front-matter en de eerste H1
- * (titel staat al in de page-header), en rendert de body met marked binnen
- * de bestaande .page-main-prozastijl. Metadata, kernonderwerpen en
- * verificatiepunten worden apart en zichtbaar getoond.
+ * Toont het stuk in gewone taal: begrijpelijke titel (weergavetitel),
+ * onderwerp-label, korte duiding, een "In dit stuk"-lijstje en de
+ * gerenderde markdown. De redactionele informatie — het betrouwbaarheids-
+ * stoplicht, de productie-tags en de verificatiepunten — staat subtiel,
+ * ingeklapt onder "Over deze bron". De data blijft volledig beschikbaar
+ * (window.SW_KENNISBANK_DOC) voor de latere agent.
  */
 (function () {
   'use strict';
 
   var MANIFEST_URL = '/kennisbank/corpus.json';
   var STOPLICHT = { GROEN: 'groen', GEEL: 'geel', ORANJE: 'oranje' };
-  var STOPLICHT_LABEL = { GROEN: 'Groen — primaire/officiële bron', GEEL: 'Geel — afgeleid/toelichtend of standpunt', ORANJE: 'Oranje — onbevestigd/ruis' };
+  var STOPLICHT_TEKST = {
+    GROEN: 'Primaire/officiële bron',
+    GEEL: 'Afgeleid, toelichtend of een standpunt',
+    ORANJE: 'Onbevestigd of ruis (bijv. een matige scan)'
+  };
 
   function $(id) { return document.getElementById(id); }
   function el(tag, attrs, kids) {
@@ -26,27 +31,22 @@
     if (kids) kids.forEach(function (c) { if (c) n.appendChild(c); });
     return n;
   }
+  function getParam(name) { return new URLSearchParams(location.search).get(name) || ''; }
 
-  function getParam(name) {
-    return new URLSearchParams(location.search).get(name) || '';
-  }
+  var LABEL = {};
+  function labelFor(key) { return LABEL[key] || key; }
 
   function stripFrontMatter(raw) {
     var m = raw.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/);
     return m ? raw.slice(m[0].length) : raw;
   }
-
-  // verwijder de eerste H1 (dubbel met de page-title)
-  function stripLeadingH1(md) {
-    return md.replace(/^\s*#\s+.*(\r?\n)+/, '');
-  }
+  function stripLeadingH1(md) { return md.replace(/^\s*#\s+.*(\r?\n)+/, ''); }
 
   function fail(msg) {
     $('kb-title').textContent = 'Niet gevonden';
     $('kb-lede').textContent = msg;
     $('kb-body').innerHTML = '';
-    var back = el('a', { class: 'kb-back', href: '/kennisbank/', text: '← Terug naar de kennisbank' });
-    $('kb-body').appendChild(back);
+    $('kb-body').appendChild(el('a', { class: 'kb-back', href: '/kennisbank/', text: '← Terug naar de kennisbank' }));
   }
 
   function metaItem(key, valNode) {
@@ -59,51 +59,78 @@
     ]);
   }
 
-  function chipRow(items, cls) {
-    if (!items || !items.length) return null;
-    var wrap = el('div', { class: 'kb-tags' });
-    items.forEach(function (t) { wrap.appendChild(el('span', { class: cls, text: t })); });
+  // Onderwerp-labels als links naar de onderwerp-pagina's.
+  function onderwerpLinks(d) {
+    var keys = [];
+    if (d.rubriek_primair) keys.push(d.rubriek_primair);
+    (d.rubriek_secundair || []).forEach(function (r) { if (keys.indexOf(r) === -1) keys.push(r); });
+    if (!keys.length) return null;
+    var wrap = el('div', { class: 'kb-onderwerp-links' });
+    keys.forEach(function (key) {
+      wrap.appendChild(el('a', {
+        class: 'kb-onderwerp-link',
+        href: '/kennisbank/onderwerp.html?onderwerp=' + encodeURIComponent(key),
+        text: labelFor(key)
+      }));
+    });
     return wrap;
   }
 
+  // Bovenste, bewoners-vriendelijke info naast het stuk.
   function renderMeta(d) {
     var box = $('kb-meta');
+    box.innerHTML = '';
+    box.appendChild(metaItem('Onderwerp', onderwerpLinks(d)));
+    box.appendChild(metaItem('Periode', d.datum || null));
+    box.appendChild(metaItem('Afkomstig van', d.bron || null));
+    if (d.bron_url) {
+      box.appendChild(metaItem('Originele bron',
+        el('a', { href: d.bron_url, target: '_blank', rel: 'noopener', text: 'Bekijk op de bronwebsite ↗' })));
+    }
+    if (d.auteur) box.appendChild(metaItem('Auteur', d.auteur));
+  }
+
+  // Subtiele "Over deze bron": stoplicht, herkomst-tags, verificatiepunten.
+  function renderHerkomst(d) {
+    var box = $('kb-herkomst-body');
     box.innerHTML = '';
 
     if (d.betrouwbaarheid) {
       var cls = STOPLICHT[d.betrouwbaarheid] || 'geel';
-      box.appendChild(metaItem('Betrouwbaarheid',
-        el('span', { class: 'kb-verif-badge kb-verif-badge--' + cls,
-          text: STOPLICHT_LABEL[d.betrouwbaarheid] || d.betrouwbaarheid })));
+      box.appendChild(el('div', { class: 'kb-meta-item' }, [
+        el('span', { class: 'kb-meta-key', text: 'Aard van de bron' }),
+        el('span', { class: 'kb-verif-badge kb-verif-badge--' + cls, text: STOPLICHT_TEKST[d.betrouwbaarheid] || d.betrouwbaarheid })
+      ]));
     }
-    box.appendChild(metaItem('Rubriek', d.rubriek_primair || null));
-    if (d.rubriek_secundair && d.rubriek_secundair.length)
-      box.appendChild(metaItem('Ook in', d.rubriek_secundair.join(' · ')));
-    box.appendChild(metaItem('Partij', chipRow(d.partij, 'kb-partij')));
-    box.appendChild(metaItem('Brontype', d.brontype || null));
-    box.appendChild(metaItem('Datum / periode', d.datum || null));
-    box.appendChild(metaItem('Status', d.status || null));
-    box.appendChild(metaItem('Bron', d.bron || null));
-    if (d.bron_url) {
-      box.appendChild(metaItem('Bron-URL',
-        el('a', { href: d.bron_url, target: '_blank', rel: 'noopener', text: d.bron_url })));
+    if (d.brontype) box.appendChild(metaItem('Soort document', d.brontype));
+    if (d.status) box.appendChild(metaItem('Status', d.status));
+    if (d.bestandsnaam) box.appendChild(metaItem('Oorspronkelijk bestand', d.bestandsnaam));
+
+    if (d.verificatiepunten && d.verificatiepunten.length) {
+      var ul = el('ul', { style: 'margin:6px 0 0;padding-left:1.1em;' });
+      d.verificatiepunten.forEach(function (v) {
+        ul.appendChild(el('li', { class: 'kb-herkomst-note', style: 'margin-bottom:6px;', text: v }));
+      });
+      box.appendChild(el('div', { class: 'kb-meta-item' }, [
+        el('span', { class: 'kb-meta-key', text: 'Nog te controleren' }), ul
+      ]));
     }
-    if (d.bestandsnaam) box.appendChild(metaItem('Bestandsnaam', d.bestandsnaam));
-    if (d.auteur) box.appendChild(metaItem('Auteur', d.auteur));
-    box.appendChild(metaItem('Trefwoorden', chipRow(d.tags, 'kb-tag')));
-    box.appendChild(metaItem('Bronbestand', d.bestand || null));
+    if (d.tags && d.tags.length) {
+      var tags = el('div', { class: 'kb-tags', style: 'margin-top:4px;' });
+      d.tags.forEach(function (t) { tags.appendChild(el('span', { class: 'kb-tag', text: t })); });
+      box.appendChild(el('div', { class: 'kb-meta-item' }, [
+        el('span', { class: 'kb-meta-key', text: 'Trefwoorden' }), tags
+      ]));
+    }
+    box.appendChild(el('p', { class: 'kb-herkomst-note',
+      text: 'Dit is een gestructureerde samenvatting/inventarisatie. Raadpleeg voor het volledige beeld de originele bron hierboven.' }));
   }
 
-  function renderSidecontent(d) {
+  function renderKern(d) {
     if (d.kernonderwerpen && d.kernonderwerpen.length) {
       var kl = $('kb-kern-list');
       d.kernonderwerpen.forEach(function (k) { kl.appendChild(el('li', { text: k })); });
       $('kb-kern').hidden = false;
-    }
-    if (d.verificatiepunten && d.verificatiepunten.length) {
-      var vl = $('kb-verif-list');
-      d.verificatiepunten.forEach(function (v) { vl.appendChild(el('li', { text: v })); });
-      $('kb-verif').hidden = false;
     }
   }
 
@@ -113,14 +140,12 @@
       if (marked.setOptions) marked.setOptions({ gfm: true, breaks: false });
       var html = marked.parse ? marked.parse(body) : marked(body);
       $('kb-body').innerHTML = html;
-      // tabellen scrollbaar maken op smal scherm
       $('kb-body').querySelectorAll('table').forEach(function (t) {
         if (t.parentElement && t.parentElement.classList.contains('sw-table-wrap')) return;
         var wrap = el('div', { class: 'sw-table-wrap' });
         t.parentNode.insertBefore(wrap, t);
         wrap.appendChild(t);
       });
-      // externe links veilig openen
       $('kb-body').querySelectorAll('a[href^="http"]').forEach(function (a) {
         a.target = '_blank'; a.rel = 'noopener';
       });
@@ -130,28 +155,31 @@
   }
 
   var slug = getParam('id');
-  if (!slug) { fail('Geen document opgegeven.'); return; }
+  if (!slug) { fail('Geen stuk opgegeven.'); return; }
 
   fetch(MANIFEST_URL, { cache: 'no-cache' })
     .then(function (r) { if (!r.ok) throw new Error('manifest ' + r.status); return r.json(); })
     .then(function (manifest) {
+      (manifest.onderwerpen || []).forEach(function (o) { LABEL[o.key] = o.label; });
       var docs = manifest.documenten || [];
       var d = docs.filter(function (x) { return x.slug === slug; })[0];
-      if (!d) { fail('Dit document staat niet in de corpus.'); return; }
+      if (!d) { fail('Dit stuk staat niet in de kennisbank.'); return; }
 
       window.SW_KENNISBANK_DOC = d; // hook voor latere agentlaag
 
-      document.title = d.titel + ' · Kennisbank · Kerndossiers Landgoed De Stille Wille';
-      $('kb-kicker').textContent = d.rubriek_primair || 'Document';
-      $('kb-title').textContent = d.titel;
-      $('kb-lede').textContent = d.excerpt || '';
+      var titel = d.weergavetitel || d.titel;
+      document.title = titel + ' · Kennisbank · Kerndossiers Landgoed De Stille Wille';
+      $('kb-kicker').textContent = labelFor(d.rubriek_primair) || 'Stuk';
+      $('kb-title').textContent = titel;
+      $('kb-lede').textContent = d.duiding || '';
 
       renderMeta(d);
-      renderSidecontent(d);
+      renderHerkomst(d);
+      renderKern(d);
 
       return fetch('/kennisbank/' + encodeURIComponent(d.bestand), { cache: 'no-cache' })
         .then(function (r) { if (!r.ok) throw new Error('document ' + r.status); return r.text(); })
         .then(renderBody);
     })
-    .catch(function (err) { fail('Kon het document niet laden (' + err.message + ').'); });
+    .catch(function (err) { fail('Kon het stuk niet laden (' + err.message + ').'); });
 })();

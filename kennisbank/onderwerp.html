@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Document · Kennisbank · Kerndossiers Landgoed De Stille Wille</title>
+<title>Onderwerp · Kennisbank · Kerndossiers Landgoed De Stille Wille</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="theme-color" content="#1F7F4E">
@@ -33,52 +33,32 @@
 
 <header class="page-header">
   <div class="page-header-inner">
-    <a class="kb-back" href="/kennisbank/">← Terug naar de kennisbank</a>
-    <div class="page-kicker"><span class="square"></span><span id="kb-kicker">Document</span></div>
-    <h1 class="page-title" id="kb-title">Document laden…</h1>
-    <p class="page-lede" id="kb-lede"></p>
+    <a class="kb-back" href="/kennisbank/">← Alle onderwerpen</a>
+    <div class="page-kicker"><span class="square"></span>Onderwerp</div>
+    <h1 class="page-title" id="kb-onderwerp-titel">Onderwerp laden…</h1>
+    <p class="page-lede" id="kb-onderwerp-lede"></p>
   </div>
 </header>
 
 <main class="page-main">
-  <div class="kb-doc-layout">
 
-    <!-- Inhoud -->
-    <article>
-      <div class="kb-kern" id="kb-kern" hidden>
-        <aside class="callout callout-green">
-          <div class="callout-label">In dit stuk</div>
-          <ul id="kb-kern-list"></ul>
-        </aside>
-      </div>
+  <!-- "Wie is wie": partijen-glossarium (alleen voor dat onderwerp) -->
+  <section id="kb-partijen-sectie" hidden>
+    <div class="kb-partijen" id="kb-partijen"></div>
+  </section>
 
-      <div class="page-main kb-doc-body" id="kb-body" style="padding:0;max-width:none;">
-        <p class="kb-loading">Inhoud laden…</p>
-      </div>
-    </article>
+  <section>
+    <div class="kb-section-kicker" id="kb-stukken-kicker">Stukken over dit onderwerp</div>
+    <p class="kb-resultcount" id="kb-onderwerp-count" aria-live="polite"></p>
+    <div class="kb-doclist" id="kb-onderwerp-docs"></div>
+  </section>
 
-    <!-- Korte info naast het stuk -->
-    <aside class="kb-doc-aside">
-      <div class="kb-meta-panel">
-        <h2>Over dit stuk</h2>
-        <div class="kb-meta-list" id="kb-meta"></div>
-      </div>
-
-      <!-- Subtiele herkomst-/transparantie-informatie -->
-      <details class="kb-herkomst" id="kb-herkomst">
-        <summary>Over deze bron</summary>
-        <div class="kb-herkomst-body" id="kb-herkomst-body"></div>
-      </details>
-    </aside>
-
-  </div>
 </main>
 
 <footer class="sw-footer">
   <strong>Kerndossiers Landgoed De Stille Wille</strong> — kennisbank: de openbare stukken over het landgoed, op onderwerp geordend.
 </footer>
 
-<script src="/kennisbank/vendor/marked.min.js"></script>
-<script src="/kennisbank/document.js"></script>
+<script src="/kennisbank/onderwerp.js"></script>
 </body>
 </html>

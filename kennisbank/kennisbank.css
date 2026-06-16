@@ -339,10 +339,245 @@
 
 .kb-loading { color: var(--grey-soft); font-style: italic; padding: 40px 0; }
 
+/* ═══════════════════════════════════════════════════════════════
+   BEWONERS-VOORKANT — onderwerp-gedreven
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Zoekveld (secundaire ingang) ───────────────────────────── */
+.kb-searchbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 var(--space-6);
+  padding: 6px 6px 6px 18px;
+  background: var(--white);
+  border: 1px solid var(--green-25);
+  border-radius: 999px;
+  max-width: 640px;
+}
+.kb-searchbar svg { width: 20px; height: 20px; color: var(--green); flex: none; }
+.kb-searchbar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--grey-dark);
+  padding: 10px 0;
+}
+.kb-searchbar input::placeholder { color: var(--grey-soft); }
+
+/* ── Sectiekop ──────────────────────────────────────────────── */
+.kb-section-kicker {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--green);
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+.kb-section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h2);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--grey-dark);
+  margin: 0 0 var(--space-5);
+}
+
+/* ── Onderwerp-tegels ───────────────────────────────────────── */
+.kb-topics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--green-15);
+  border-left: 1px solid var(--green-15);
+}
+.kb-topic {
+  --tile-accent: var(--green);
+  --tile-bg: var(--green-tint);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px 26px 24px;
+  text-decoration: none;
+  color: var(--grey-dark);
+  border-right: 1px solid var(--green-15);
+  border-bottom: 1px solid var(--green-15);
+  transition: background .2s ease;
+}
+.kb-topic.accent-green  { --tile-accent: var(--green);  --tile-bg: var(--green-tint); }
+.kb-topic.accent-yellow { --tile-accent: var(--yellow); --tile-bg: var(--yellow-tint); }
+.kb-topic.accent-orange { --tile-accent: var(--orange); --tile-bg: var(--orange-tint); }
+.kb-topic:hover { background: var(--cream); }
+.kb-topic:hover .kb-topic-icon { background: var(--tile-accent); color: #fff; }
+.kb-topic-icon {
+  width: 56px; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--tile-bg);
+  color: var(--tile-accent);
+  border-radius: 12px;
+  transition: background .25s ease, color .25s ease;
+}
+.kb-topic-icon svg { width: 30px; height: 30px; }
+.kb-topic-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--grey-dark);
+}
+.kb-topic-desc {
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--grey-mid);
+  margin: 0;
+}
+.kb-topic-count {
+  margin-top: auto;
+  padding-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--grey-soft);
+}
+
+/* ── Zoekresultaten / documentenlijst (gewone-taal-rijen) ───── */
+.kb-doclist { border-top: 1px solid var(--green-15); margin: 0; }
+.kb-doc-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 20px;
+  align-items: baseline;
+  padding: 22px 4px;
+  border-bottom: 1px solid var(--green-15);
+  text-decoration: none;
+  color: var(--grey-dark);
+  transition: background .15s ease;
+}
+.kb-doc-item:hover { background: var(--cream); }
+.kb-doc-item h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--grey-dark);
+}
+.kb-doc-item p {
+  grid-column: 1 / -1;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--grey-mid);
+  margin: 6px 0 0;
+  max-width: 75ch;
+}
+.kb-doc-onderwerp {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--green);
+  white-space: nowrap;
+}
+.kb-doc-meta {
+  grid-column: 1 / -1;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--grey-soft);
+  margin-top: 8px;
+}
+
+.kb-resultcount {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--grey-mid);
+  margin: 0 0 var(--space-3);
+}
+
+/* ── "Wie is wie" — partijen-glossarium ─────────────────────── */
+.kb-partijen { border-top: 1px solid var(--green-15); margin: 0 0 var(--space-6); }
+.kb-partij-item {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 12px 24px;
+  padding: 18px 4px;
+  border-bottom: 1px solid var(--green-15);
+}
+.kb-partij-naam {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--green-deep);
+}
+.kb-partij-rol {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--grey-dark);
+}
+
+/* ── Detailpagina: subtiele "Over deze bron" ────────────────── */
+.kb-herkomst {
+  margin-top: 16px;
+  padding: 16px 18px;
+  background: var(--cream);
+  border: 1px solid var(--green-15);
+  border-radius: 8px;
+}
+.kb-herkomst summary {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--grey-mid);
+  cursor: pointer;
+  list-style: none;
+}
+.kb-herkomst summary::-webkit-details-marker { display: none; }
+.kb-herkomst summary::before { content: "▸ "; color: var(--grey-soft); }
+.kb-herkomst[open] summary::before { content: "▾ "; }
+.kb-herkomst-body { padding-top: 12px; }
+.kb-herkomst .kb-meta-item { padding: 8px 0; }
+.kb-herkomst .kb-verif-badge { font-size: 10px; }
+.kb-herkomst-note {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--grey-soft);
+  margin: 4px 0 0;
+}
+
+/* onderwerp-links in de meta */
+.kb-onderwerp-links { display: flex; flex-wrap: wrap; gap: 6px; }
+.kb-onderwerp-link {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--green);
+  text-decoration: none;
+  border-bottom: 1px solid var(--green-25);
+}
+.kb-onderwerp-link:hover { border-bottom-color: var(--green); }
+
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 960px) {
   .kb-grid { grid-template-columns: 1fr; }
   .kb-doc-layout { grid-template-columns: 1fr; }
   .kb-doc-aside { position: static; }
   .kb-toolbar { padding: var(--space-3); }
+  .kb-topics { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .kb-topics { grid-template-columns: 1fr; }
+  .kb-partij-item { grid-template-columns: 1fr; gap: 4px; }
+  .kb-doc-item { grid-template-columns: 1fr; }
+  .kb-doc-onderwerp { order: -1; }
 }
