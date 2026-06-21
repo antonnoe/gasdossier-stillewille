@@ -203,3 +203,50 @@ $$;
 
 revoke all on function public.invite_gebruiker(text) from public;
 grant execute on function public.invite_gebruiker(text) to authenticated;
+
+
+-- =====================================================================
+--  Tabel: reacties
+--
+--  Reacties op de dossierpagina's. Geen moderatie — direct zichtbaar.
+--  De dossierpagina's zitten achter de login (Edge Middleware), dus alleen
+--  ingelogde (authenticated) gebruikers kunnen lezen en plaatsen.
+-- =====================================================================
+create table if not exists public.reacties (
+  id         uuid primary key default gen_random_uuid(),
+  naam       text,
+  email      text,
+  bericht    text not null,
+  pagina     text not null,
+  aangemaakt timestamptz not null default now()
+);
+
+alter table public.reacties enable row level security;
+
+grant select, insert on public.reacties to authenticated;
+grant delete           on public.reacties to authenticated;
+
+drop policy if exists "reacties_select_ingelogd" on public.reacties;
+drop policy if exists "reacties_insert_ingelogd" on public.reacties;
+drop policy if exists "reacties_delete_beheer"   on public.reacties;
+
+-- Lezen: alle ingelogde gebruikers.
+create policy "reacties_select_ingelogd"
+  on public.reacties
+  for select
+  to authenticated
+  using (true);
+
+-- Plaatsen: alle ingelogde gebruikers.
+create policy "reacties_insert_ingelogd"
+  on public.reacties
+  for insert
+  to authenticated
+  with check (true);
+
+-- Verwijderen: alleen beheerders/owners.
+create policy "reacties_delete_beheer"
+  on public.reacties
+  for delete
+  to authenticated
+  using (public.huidige_rol() in ('beheerder', 'owner'));

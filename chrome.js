@@ -489,19 +489,53 @@
     close.focus();
   }
 
-  // --- Render: reactieblok (visual prototype, nog niet actief) ------------
+  // --- Supabase loader (op aanvraag) ---------------------------------------
+  // De dossierpagina's laden Supabase niet standaard; voor het reactieblok
+  // laden we de CDN-bundel + supabase-config.js dynamisch in en hergebruiken
+  // we de gedeelde window.sb client.
+  function loadScript(src) {
+    return new Promise(function (resolve, reject) {
+      var found = document.querySelector('script[data-dyn="' + src + '"]');
+      if (found) {
+        if (found.getAttribute('data-loaded')) { resolve(); return; }
+        found.addEventListener('load', function () { resolve(); });
+        found.addEventListener('error', function () { reject(new Error(src)); });
+        return;
+      }
+      var s = document.createElement('script');
+      s.src = src;
+      s.async = false; // bewaar volgorde: CDN vóór config
+      s.setAttribute('data-dyn', src);
+      s.addEventListener('load', function () { s.setAttribute('data-loaded', '1'); resolve(); });
+      s.addEventListener('error', function () { reject(new Error(src)); });
+      document.head.appendChild(s);
+    });
+  }
+
+  var _sbReady = null;
+  function ensureSupabase() {
+    if (window.sb) return Promise.resolve(window.sb);
+    if (_sbReady) return _sbReady;
+    _sbReady = loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')
+      .then(function () { return loadScript('/supabase-config.js'); })
+      .then(function () { return window.sb; });
+    return _sbReady;
+  }
+
+  // --- Render: reactieblok (actief, via Supabase) --------------------------
   // Site-breed via chrome.js, onderaan elke .page-main (de homepage heeft
-  // geen .page-main en wordt dus overgeslagen). Verstuurt NIETS: de klik
-  // wordt in JS afgevangen en toont een inline-melding.
+  // geen .page-main en wordt dus overgeslagen). Reacties worden opgeslagen in
+  // de tabel "reacties" en zijn direct zichtbaar — geen moderatie.
   function renderReactieBlok() {
     var main = document.querySelector('.page-main');
     if (!main || main.querySelector('.sw-react')) return;
 
+    var pagina = location.pathname;
+
     var sec = el('section', { class: 'sw-react', 'aria-labelledby': 'sw-react-kop' });
 
-    sec.appendChild(el('p', { class: 'sw-react-proto', text: 'Voorbeeld / prototype — dit reactieformulier is nog niet actief.' }));
     sec.appendChild(el('h2', { id: 'sw-react-kop', text: 'Reageren op dit dossier' }));
-    sec.appendChild(el('p', { class: 'sw-react-intro', text: 'Klopt er iets niet, of mist er informatie? Laat het weten. Uw reactie gaat naar het bestuur van Stille Wille Wonen en de websitebeheerder.' }));
+    sec.appendChild(el('p', { class: 'sw-react-intro', text: 'Klopt er iets niet, of mist er informatie? Laat het weten. Uw reactie is direct zichtbaar onder dit dossier.' }));
 
     function field(labelText, control, id) {
       var wrap = el('div', { class: 'sw-react-field' });
@@ -512,11 +546,14 @@
       return wrap;
     }
 
-    sec.appendChild(field('Uw bericht', el('textarea', { rows: '5', placeholder: 'Uw reactie…' }), 'sw-react-msg-in'));
+    var msgInput = el('textarea', { rows: '5', placeholder: 'Uw reactie…' });
+    sec.appendChild(field('Uw bericht', msgInput, 'sw-react-msg-in'));
 
     var row = el('div', { class: 'sw-react-row' });
-    row.appendChild(field('Naam (optioneel)', el('input', { type: 'text', autocomplete: 'name' }), 'sw-react-naam'));
-    row.appendChild(field('E-mail (optioneel)', el('input', { type: 'email', autocomplete: 'email' }), 'sw-react-email'));
+    var naamInput = el('input', { type: 'text', autocomplete: 'name' });
+    var emailInput = el('input', { type: 'email', autocomplete: 'email' });
+    row.appendChild(field('Naam (optioneel)', naamInput, 'sw-react-naam'));
+    row.appendChild(field('E-mail (optioneel)', emailInput, 'sw-react-email'));
     sec.appendChild(row);
 
     sec.appendChild(el('p', { class: 'sw-react-avg', text: 'Uw gegevens worden uitsluitend gebruikt om op uw reactie te reageren en niet voor andere doeleinden.' }));
@@ -524,13 +561,84 @@
     var btn = el('button', { type: 'button', class: 'sw-react-btn', text: 'Versturen' });
     sec.appendChild(btn);
 
-    var melding = el('p', { class: 'sw-react-melding', role: 'status', text: 'Dit formulier is nog in ontwikkeling — versturen is nog niet actief.' });
+    var melding = el('p', { class: 'sw-react-melding', role: 'status' });
     melding.hidden = true;
     sec.appendChild(melding);
 
-    btn.addEventListener('click', function () { melding.hidden = false; });
+    var lijst = el('div', { class: 'sw-react-list' });
+    sec.appendChild(lijst);
 
     main.appendChild(sec);
+
+    function meld(text) { melding.textContent = text; melding.hidden = false; }
+
+    function fmtDatum(iso) {
+      try {
+        var d = new Date(iso);
+        return d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' }) +
+               ' om ' + d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+      } catch (e) { return ''; }
+    }
+
+    function renderItem(r) {
+      var item = el('div', { class: 'sw-react-item' });
+      var head = el('div', { class: 'sw-react-item-head' });
+      var naam = (r.naam && String(r.naam).trim()) ? String(r.naam).trim() : 'Anoniem';
+      head.appendChild(el('span', { class: 'sw-react-item-naam', text: naam }));
+      head.appendChild(el('span', { class: 'sw-react-item-datum', text: fmtDatum(r.aangemaakt) }));
+      item.appendChild(head);
+      item.appendChild(el('p', { class: 'sw-react-item-bericht', text: r.bericht }));
+      return item;
+    }
+
+    function laadReacties(sb) {
+      sb.from('reacties').select('id, naam, bericht, aangemaakt')
+        .eq('pagina', pagina)
+        .order('aangemaakt', { ascending: true })
+        .then(function (res) {
+          if (res.error) return;
+          var rows = res.data || [];
+          lijst.innerHTML = '';
+          if (rows.length) {
+            lijst.appendChild(el('h3', {
+              class: 'sw-react-list-kop',
+              text: rows.length === 1 ? '1 reactie' : rows.length + ' reacties'
+            }));
+          }
+          rows.forEach(function (r) { lijst.appendChild(renderItem(r)); });
+        });
+    }
+
+    ensureSupabase().then(function (sb) {
+      if (!sb) { meld('Reacties zijn momenteel niet beschikbaar.'); return; }
+      laadReacties(sb);
+
+      btn.addEventListener('click', function () {
+        var bericht = (msgInput.value || '').trim();
+        if (!bericht) { meld('Schrijf eerst een bericht.'); return; }
+
+        btn.disabled = true;
+        var label = btn.textContent;
+        btn.textContent = 'Versturen…';
+        melding.hidden = true;
+
+        sb.from('reacties').insert({
+          bericht: bericht,
+          naam: (naamInput.value || '').trim() || null,
+          email: (emailInput.value || '').trim() || null,
+          pagina: pagina
+        }).then(function (res) {
+          btn.disabled = false;
+          btn.textContent = label;
+          if (res.error) { meld('Versturen mislukt: ' + res.error.message); return; }
+          msgInput.value = '';
+          meld('Bedankt! Uw reactie is geplaatst.');
+          laadReacties(sb);
+        });
+      });
+    }).catch(function () {
+      meld('Reacties konden niet geladen worden.');
+    });
   }
 
   // --- Boot ----------------------------------------------------------------

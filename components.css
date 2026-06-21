@@ -1058,6 +1058,50 @@
   font-size: 14px;
   color: var(--green-deep);
 }
+
+/* Geplaatste reacties onder het formulier */
+.sw-react-list { margin-top: 26px; }
+.sw-react-list-kop {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--green-deep);
+  margin: 0 0 4px;
+  padding-top: 18px;
+  border-top: 1px solid var(--green-15);
+}
+.sw-react-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--green-15);
+}
+.sw-react-item-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 5px;
+}
+.sw-react-item-naam {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--grey-dark);
+}
+.sw-react-item-datum {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--grey-soft);
+  white-space: nowrap;
+}
+.sw-react-item-bericht {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--grey-dark);
+  white-space: pre-wrap;
+}
+
 @media (max-width: 600px) {
   .sw-react-row { grid-template-columns: 1fr; }
+  .sw-react-item-head { flex-direction: column; gap: 2px; }
 }

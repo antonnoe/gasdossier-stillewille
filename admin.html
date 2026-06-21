@@ -120,11 +120,22 @@
     <div id="gebruikers-err" class="err-line" hidden></div>
     <table class="admin-table" id="gebruikers-table">
       <thead>
-        <tr><th>E-mail</th><th>Naam</th><th>Rol</th></tr>
+        <tr><th>E-mail</th><th>Naam</th><th>Rol</th><th>Actie</th></tr>
       </thead>
       <tbody id="gebruikers-body"></tbody>
     </table>
     <div id="gebruikers-empty" class="empty" hidden>Nog geen gebruikers.</div>
+
+    <h2>Reacties</h2>
+    <p class="sub">Geplaatste reacties op de dossierpagina's.</p>
+    <div id="reacties-err" class="err-line" hidden></div>
+    <table class="admin-table" id="reacties-table">
+      <thead>
+        <tr><th>Datum</th><th>Naam</th><th>Pagina</th><th>Bericht</th><th>Actie</th></tr>
+      </thead>
+      <tbody id="reacties-body"></tbody>
+    </table>
+    <div id="reacties-empty" class="empty" hidden>Nog geen reacties.</div>
   </main>
 </div>
 
@@ -139,6 +150,9 @@
   var loadingEl = document.getElementById('loading');
   var deniedEl = document.getElementById('denied');
   var appEl = document.getElementById('app');
+
+  var currentEmail = null;   // e-mail van de ingelogde beheerder
+  var currentRol = null;     // rol van de ingelogde beheerder ('beheerder' | 'owner')
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -155,15 +169,18 @@
     if (!session) { window.location.replace('/login.html'); return; }
 
     var email = session.user.email;
+    currentEmail = email;
     document.getElementById('who-email').textContent = email;
 
     sb.from('gebruikers').select('rol').eq('email', email).maybeSingle()
       .then(function (r) {
         var rol = r.data && r.data.rol;
         if (r.error || !rol || ADMIN_ROLES.indexOf(rol) === -1) { showDenied(); return; }
+        currentRol = rol;
         showApp();
         loadAanvragen();
         loadGebruikers();
+        loadReacties();
       });
   });
 
@@ -286,17 +303,101 @@
         body.innerHTML = '';
         empty.hidden = rows.length > 0;
         rows.forEach(function (g) {
+          var rol = g.rol || 'gebruiker';
           var tr = document.createElement('tr');
+
+          var acties = '';
+          // "Maak beheerder": alleen zichtbaar voor owners, en niet voor wie al
+          // beheerder/owner is.
+          if (currentRol === 'owner' && rol === 'gebruiker') {
+            acties += '<button class="btn-sm btn-approve" data-act="promote">Maak beheerder</button>';
+          }
+          // "Verwijderen": voor beheerders/owners. Niet je eigen account, en
+          // owners kun je niet zomaar verwijderen.
+          if (g.email !== currentEmail && rol !== 'owner') {
+            acties += '<button class="btn-sm btn-reject" data-act="delete">Verwijderen</button>';
+          }
+          if (!acties) acties = '<span class="empty" style="padding:0;">—</span>';
+
           tr.innerHTML =
             '<td><span class="em">' + esc(g.email) + '</span></td>' +
             '<td>' + (g.naam ? esc(g.naam) : '<span class="empty" style="padding:0;">—</span>') + '</td>' +
-            '<td><span class="badge rol">' + esc(g.rol || 'gebruiker') + '</span></td>';
+            '<td><span class="badge rol">' + esc(rol) + '</span></td>' +
+            '<td><div class="row-actions">' + acties + '</div></td>';
+
+          tr.querySelectorAll('button[data-act]').forEach(function (btn) {
+            btn.addEventListener('click', function () { handleGebruiker(g, btn.getAttribute('data-act'), tr); });
+          });
           body.appendChild(tr);
         });
       });
   }
 
-  // 4. Uitloggen
+  function handleGebruiker(g, act, tr) {
+    var buttons = tr.querySelectorAll('button');
+    buttons.forEach(function (b) { b.disabled = true; });
+    function reEnable() { buttons.forEach(function (b) { b.disabled = false; }); }
+
+    if (act === 'promote') {
+      sb.from('gebruikers').update({ rol: 'beheerder' }).eq('email', g.email)
+        .then(function (r) {
+          if (r.error) { alert('Wijzigen mislukt: ' + r.error.message); reEnable(); return; }
+          loadGebruikers();
+        });
+      return;
+    }
+
+    if (act === 'delete') {
+      if (!confirm('Gebruiker "' + g.email + '" verwijderen? Dit kan niet ongedaan worden gemaakt.')) {
+        reEnable();
+        return;
+      }
+      sb.from('gebruikers').delete().eq('email', g.email)
+        .then(function (r) {
+          if (r.error) { alert('Verwijderen mislukt: ' + r.error.message); reEnable(); return; }
+          loadGebruikers();
+        });
+    }
+  }
+
+  // 4. Reacties
+  function loadReacties() {
+    var body = document.getElementById('reacties-body');
+    var empty = document.getElementById('reacties-empty');
+    var errEl = document.getElementById('reacties-err');
+    errEl.hidden = true;
+
+    sb.from('reacties').select('id, naam, bericht, pagina, aangemaakt').order('aangemaakt', { ascending: false })
+      .then(function (r) {
+        if (r.error) { errEl.textContent = 'Kon reacties niet laden: ' + r.error.message; errEl.hidden = false; return; }
+        var rows = r.data || [];
+        body.innerHTML = '';
+        empty.hidden = rows.length > 0;
+        rows.forEach(function (c) {
+          var tr = document.createElement('tr');
+          var datum = '';
+          try { datum = new Date(c.aangemaakt).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' }); } catch (e) {}
+          tr.innerHTML =
+            '<td><span class="em">' + esc(datum) + '</span></td>' +
+            '<td>' + (c.naam ? esc(c.naam) : '<span class="empty" style="padding:0;">Anoniem</span>') + '</td>' +
+            '<td><span class="em">' + esc(c.pagina) + '</span></td>' +
+            '<td>' + esc(c.bericht) + '</td>' +
+            '<td><div class="row-actions"><button class="btn-sm btn-reject" data-act="delete">Verwijderen</button></div></td>';
+          tr.querySelector('button[data-act]').addEventListener('click', function () {
+            var btn = tr.querySelector('button');
+            if (!confirm('Deze reactie verwijderen?')) return;
+            btn.disabled = true;
+            sb.from('reacties').delete().eq('id', c.id).then(function (res) {
+              if (res.error) { alert('Verwijderen mislukt: ' + res.error.message); btn.disabled = false; return; }
+              loadReacties();
+            });
+          });
+          body.appendChild(tr);
+        });
+      });
+  }
+
+  // 5. Uitloggen
   document.getElementById('logout').addEventListener('click', function (e) {
     e.preventDefault();
     sb.auth.signOut().then(function () {
