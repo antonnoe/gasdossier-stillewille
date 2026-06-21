@@ -21,7 +21,7 @@
 
   // ⚠️ VERVANG dit door de publieke anon key uit het Supabase-dashboard
   //    (Project Settings → API → Project API keys → anon / public).
-  window.SUPABASE_ANON_KEY = 'VERVANG_MET_PUBLIEKE_ANON_KEY';
+  window.SUPABASE_ANON_KEY = 'sb_publishable_NMp666YWWKcObtkPD4EvAQ_p3ChGeRk';
 
   var COOKIE_NAME = 'sb-access-token';
 
