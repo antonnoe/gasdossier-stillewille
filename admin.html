@@ -219,23 +219,56 @@
       return;
     }
 
-    // Goedkeuren → SECURITY DEFINER RPC-functie voegt de gebruiker toe
-    // (rol "gebruiker") en zet de aanvraag op "approved", buiten RLS om.
-    // De functie controleert zelf of de aanroeper beheerder/owner is.
-    sb.rpc('approve_aanvraag', {
-      p_email: aanvraag.email,
-      p_naam: aanvraag.naam
-    }).then(function (r) {
+    // Goedkeuren gebeurt in twee stappen:
+    //  1. RPC invite_gebruiker(p_email): SECURITY DEFINER functie die de
+    //     gebruiker toevoegt (rol "gebruiker") en de aanvraag op "approved"
+    //     zet. Controleert zelf of de aanroeper beheerder/owner is.
+    //  2. Edge Function invite-gebruiker: verstuurt met de service-role
+    //     sleutel een invite-mail via auth.admin.inviteUserByEmail().
+    function reEnable() { buttons.forEach(function (b) { b.disabled = false; }); }
+
+    sb.rpc('invite_gebruiker', { p_email: aanvraag.email }).then(function (r) {
       if (r.error) {
         alert('Goedkeuren mislukt: ' + (r.error.message || r.error));
-        buttons.forEach(function (b) { b.disabled = false; });
+        reEnable();
         return;
       }
-      loadAanvragen();
-      loadGebruikers();
+      // 2. Invite-mail versturen via de Edge Function.
+      sendInvite(aanvraag.email).then(function (res) {
+        if (!res.ok) {
+          // Gebruiker is wel goedgekeurd; alleen de mail faalde.
+          alert('Aanvraag goedgekeurd, maar de invite-mail kon niet verstuurd worden:\n' + res.message);
+        }
+        loadAanvragen();
+        loadGebruikers();
+      });
     }).catch(function (err) {
       alert('Goedkeuren mislukt: ' + (err && err.message ? err.message : err));
-      buttons.forEach(function (b) { b.disabled = false; });
+      reEnable();
+    });
+  }
+
+  // Roept de Edge Function "invite-gebruiker" aan (aparte fetch, want het
+  // versturen van de invite vereist de service-role sleutel server-side).
+  function sendInvite(email) {
+    return sb.auth.getSession().then(function (s) {
+      var token = s.data && s.data.session ? s.data.session.access_token : '';
+      return fetch(window.SUPABASE_URL + '/functions/v1/invite-gebruiker', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': window.SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({ email: email })
+      }).then(function (resp) {
+        if (resp.ok) return { ok: true };
+        return resp.json().catch(function () { return {}; }).then(function (j) {
+          return { ok: false, message: (j && j.error) ? j.error : ('HTTP ' + resp.status) };
+        });
+      }).catch(function (e) {
+        return { ok: false, message: e && e.message ? e.message : String(e) };
+      });
     });
   }
 

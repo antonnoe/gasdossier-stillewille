@@ -137,20 +137,26 @@ create policy "aanvragen_delete_beheer"
 
 
 -- =====================================================================
---  RPC: approve_aanvraag(p_email, p_naam)
+--  RPC: invite_gebruiker(p_email)
 --
 --  Keurt een toegangsaanvraag goed. Wordt vanuit admin.html aangeroepen
---  via supabase.rpc('approve_aanvraag', { p_email, p_naam }).
+--  via supabase.rpc('invite_gebruiker', { p_email }). De daadwerkelijke
+--  invite-mail wordt daarná verstuurd door de Edge Function
+--  "invite-gebruiker" (die de service-role sleutel nodig heeft).
 --
 --  SECURITY DEFINER: draait met de rechten van de eigenaar en omzeilt zo
 --  RLS om in "gebruikers" te schrijven en de aanvraag bij te werken.
 --  Daarom controleert de functie éérst zelf of de aanroeper beheerder of
 --  owner is — anders een fout.
+--
+--  De naam wordt uit de bijbehorende aanvraag gehaald, zodat de aanroeper
+--  alleen het e-mailadres hoeft mee te geven.
 -- =====================================================================
-create or replace function public.approve_aanvraag(
-  p_email text,
-  p_naam  text default null
-)
+
+-- Oude functie opruimen (vervangen door invite_gebruiker).
+drop function if exists public.approve_aanvraag(text, text);
+
+create or replace function public.invite_gebruiker(p_email text)
 returns jsonb
 language plpgsql
 security definer
@@ -158,7 +164,7 @@ set search_path = public
 as $$
 declare
   v_email text := lower(trim(p_email));
-  v_naam  text := nullif(trim(p_naam), '');
+  v_naam  text;
 begin
   -- Alleen beheerders/owners mogen goedkeuren.
   if public.huidige_rol() not in ('beheerder', 'owner') then
@@ -171,22 +177,29 @@ begin
       using errcode = '22023';  -- invalid_parameter_value
   end if;
 
+  -- Naam uit de meest recente aanvraag van dit e-mailadres halen.
+  select naam into v_naam
+  from public.aanvragen
+  where lower(email) = v_email
+  order by created_at desc
+  limit 1;
+
   -- Gebruiker toevoegen met rol "gebruiker". Bestaat de gebruiker al,
   -- dan alleen de naam aanvullen — een bestaande rol blijft ongemoeid.
   insert into public.gebruikers (email, naam, rol)
-  values (v_email, v_naam, 'gebruiker')
+  values (v_email, nullif(trim(v_naam), ''), 'gebruiker')
   on conflict (email) do update
     set naam = coalesce(excluded.naam, public.gebruikers.naam);
 
   -- Bijbehorende openstaande aanvraag op "approved" zetten.
   update public.aanvragen
     set status = 'approved'
-    where email = v_email
+    where lower(email) = v_email
       and status = 'pending';
 
   return jsonb_build_object('ok', true, 'email', v_email, 'rol', 'gebruiker');
 end;
 $$;
 
-revoke all on function public.approve_aanvraag(text, text) from public;
-grant execute on function public.approve_aanvraag(text, text) to authenticated;
+revoke all on function public.invite_gebruiker(text) from public;
+grant execute on function public.invite_gebruiker(text) to authenticated;
