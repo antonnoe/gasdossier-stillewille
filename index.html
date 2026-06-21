@@ -58,6 +58,32 @@
         .laatste-update { padding: 12px var(--page-pad-x-mobile); }
       }
 
+      /* "Laatste reacties van bewoners" — onderaan, via Supabase */
+      .laatste-reacties {
+        background: var(--green-tint);
+        border-top: 1px solid var(--green-15);
+        padding: 56px var(--page-pad-x);
+      }
+      .lr-inner { max-width: var(--content-max); margin: 0 auto; }
+      .lr-titel {
+        font-family: var(--font-display); font-weight: 700; font-size: 28px;
+        letter-spacing: -0.02em; color: var(--grey-dark); margin: 0 0 24px;
+      }
+      .lr-lijst { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+      .lr-item {
+        display: flex; flex-direction: column; gap: 8px;
+        background: var(--white); border: 1px solid var(--green-15);
+        border-radius: 10px; padding: 20px 22px;
+      }
+      .lr-naam { font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--green-deep); margin: 0; }
+      .lr-bericht { font-size: 14.5px; line-height: 1.6; color: var(--grey-dark); margin: 0; }
+      .lr-link { margin-top: auto; font-family: var(--font-display); font-weight: 600; font-size: 13px; color: var(--green); text-decoration: none; padding-top: 4px; }
+      .lr-link:hover { text-decoration: underline; }
+      @media (max-width: 800px) {
+        .laatste-reacties { padding: 44px var(--page-pad-x-mobile); }
+        .lr-lijst { grid-template-columns: 1fr; }
+      }
+
       .hero {
         display: grid;
         grid-template-columns: 1fr 480px;
@@ -378,6 +404,14 @@
       <div data-sw-tile-grid></div>
     </main>
 
+    <!-- ─── LAATSTE REACTIES (via Supabase, alleen zichtbaar als er reacties zijn) ─ -->
+    <section class="laatste-reacties" id="laatste-reacties" hidden>
+      <div class="lr-inner">
+        <h2 class="lr-titel">Laatste reacties van bewoners</h2>
+        <div class="lr-lijst" id="lr-lijst"></div>
+      </div>
+    </section>
+
     <!-- ─── FOOTER ──────────────────────────────────────── -->
     <footer class="sw-footer">
   <strong>Kerndossiers Landgoed De Stille Wille</strong> — dit is een groeiend dossier. Meer onderwerpen volgen.
@@ -385,5 +419,53 @@
 </footer>
     <script src="/dossiers.js"></script>
     <script src="/chrome.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/supabase-config.js"></script>
+    <script>
+    (function () {
+      'use strict';
+      if (!window.sb) return;
+
+      var sec = document.getElementById('laatste-reacties');
+      var lijst = document.getElementById('lr-lijst');
+
+      function escapeHtml(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+          return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+        });
+      }
+      function snippet(t) {
+        t = String(t || '').trim();
+        return t.length > 120 ? t.slice(0, 120).replace(/\s+\S*$/, '') + '…' : t;
+      }
+      // Pagina-pad → leesbaar label (uit het dossier-register, met fallback).
+      function paginaLabel(pad) {
+        var slug = String(pad || '').replace(/^\//, '').replace(/\.html$/, '');
+        var reg = window.SW_DOSSIERS || [];
+        for (var i = 0; i < reg.length; i++) if (reg[i].slug === slug) return reg[i].titel;
+        if (slug === '' || slug === 'index') return 'Hoofdpagina';
+        return slug.replace(/-/g, ' ');
+      }
+
+      window.sb.from('reacties')
+        .select('naam, bericht, pagina, aangemaakt')
+        .order('aangemaakt', { ascending: false })
+        .limit(3)
+        .then(function (r) {
+          if (r.error || !r.data || !r.data.length) return;
+          r.data.forEach(function (c) {
+            var naam = (c.naam && String(c.naam).trim()) ? String(c.naam).trim() : 'Anoniem';
+            var item = document.createElement('div');
+            item.className = 'lr-item';
+            item.innerHTML =
+              '<p class="lr-naam">' + escapeHtml(naam) + '</p>' +
+              '<p class="lr-bericht">' + escapeHtml(snippet(c.bericht)) + '</p>' +
+              '<a class="lr-link" href="' + escapeHtml(c.pagina) + '">' + escapeHtml(paginaLabel(c.pagina)) + ' →</a>';
+            lijst.appendChild(item);
+          });
+          sec.hidden = false;
+        });
+    })();
+    </script>
   </body>
 </html>

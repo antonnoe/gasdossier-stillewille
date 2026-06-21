@@ -397,6 +397,17 @@
 
   // --- Render: bijgewerkt-datum (any element with [data-sw-bijgewerkt]) ----
 
+  // Peildatum dynamisch: gebruik de werkelijke Last-Modified datum van de
+  // pagina (document.lastModified), geformatteerd als NL maand + jaar
+  // (bijv. "juni 2026"). Overschrijft de statische META.bijgewerkt zodat
+  // álle peildatum-plekken (deze datum + de tegel-statuslabels) meelopen.
+  function peildatumDynamisch() {
+    var d = new Date(document.lastModified);
+    if (isNaN(d.getTime()) || d.getFullYear() < 2001) return; // ongeldig → val terug op META
+    var s = d.toLocaleDateString('nl-NL', { month: 'long', year: 'numeric' });
+    if (s) META.bijgewerkt = s;
+  }
+
   function renderBijgewerkt() {
     var nodes = document.querySelectorAll('[data-sw-bijgewerkt]');
     if (!nodes.length || !META.bijgewerkt) return;
@@ -771,6 +782,7 @@
   // --- Boot ----------------------------------------------------------------
 
   function boot() {
+    peildatumDynamisch();
     ensureMobileToggle();
     renderNav();
     renderZoek();
