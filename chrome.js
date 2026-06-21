@@ -617,6 +617,14 @@
         var bericht = (msgInput.value || '').trim();
         if (!bericht) { meld('Schrijf eerst een bericht.'); return; }
 
+        var naam = (naamInput.value || '').trim();
+        // Geen naam ingevuld? Vriendelijk uitnodigen om naam + huisnummer te
+        // delen. Annuleren → terug naar het formulier; OK → anoniem plaatsen.
+        if (!naam) {
+          var anoniem = confirm('Uw reactie wordt anoniem geplaatst. Wij nodigen u uit uw naam en huisnummer te delen — dat maakt de discussie persoonlijker. Wilt u toch anoniem reageren?');
+          if (!anoniem) { naamInput.focus(); return; }
+        }
+
         btn.disabled = true;
         var label = btn.textContent;
         btn.textContent = 'Versturen…';
@@ -624,7 +632,7 @@
 
         sb.from('reacties').insert({
           bericht: bericht,
-          naam: (naamInput.value || '').trim() || null,
+          naam: naam || null,
           email: (emailInput.value || '').trim() || null,
           pagina: pagina
         }).then(function (res) {
