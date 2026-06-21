@@ -60,6 +60,49 @@
     line-height: 1.65;
   }
   details.sw-acc .sw-acc-body p { margin: 0; max-width: 70ch; }
+
+  /* Geneste sub-accordions (bijv. onder 03 Recreatieve voorzieningen) */
+  details.sw-acc .sw-acc-body--sub { padding-left: 28px; padding-right: 0; }
+  details.sw-acc .sw-acc-body--sub > p:first-child { margin-bottom: 8px; color: var(--grey-mid); }
+  details.sw-subacc { border-top: 1px solid var(--green-15); }
+  details.sw-subacc:first-of-type { border-top: none; }
+  details.sw-subacc summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 14px 0;
+    display: grid;
+    grid-template-columns: 56px 1fr 20px;
+    gap: 14px;
+    align-items: center;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 15.5px;
+    color: var(--grey-dark);
+  }
+  details.sw-subacc summary::-webkit-details-marker { display: none; }
+  details.sw-subacc summary::after {
+    content: '+';
+    font-family: var(--font-mono);
+    color: var(--green);
+    font-size: 16px;
+  }
+  details.sw-subacc[open] summary::after { content: '–'; }
+  details.sw-subacc summary:hover { color: var(--green-deep); }
+  details.sw-subacc .sw-subacc-n {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--green);
+    font-weight: 700;
+  }
+  details.sw-subacc .sw-subacc-body {
+    padding: 0 0 16px 70px;
+    color: var(--grey-mid);
+    font-size: 14.5px;
+    line-height: 1.65;
+  }
+  details.sw-subacc .sw-subacc-body p { margin: 0 0 0.8em; max-width: 70ch; }
+  details.sw-subacc .sw-subacc-body p:last-child { margin-bottom: 0; }
 </style>
 </head>
 <body data-slug="bovengronds">
@@ -91,7 +134,26 @@
   </details>
   <details class="sw-acc">
     <summary><span class="sw-acc-n">03</span><span>Recreatieve voorzieningen</span></summary>
-    <div class="sw-acc-body"><p>Zwembad, tennisbanen en de Boskiosk / het buurthuis.</p></div>
+    <div class="sw-acc-body sw-acc-body--sub">
+      <p>De centrale recreatievoorzieningen op het landgoed, per onderdeel uitgewerkt.</p>
+
+      <details class="sw-subacc">
+        <summary><span class="sw-subacc-n">03-a</span><span>Zwembad</span></summary>
+        <div class="sw-subacc-body"><p>Staat, gebruik en onderhoud van het zwembad. Inhoud volgt.</p></div>
+      </details>
+      <details class="sw-subacc">
+        <summary><span class="sw-subacc-n">03-b</span><span>Tennisbanen</span></summary>
+        <div class="sw-subacc-body"><p>Inhoud volgt.</p></div>
+      </details>
+      <details class="sw-subacc">
+        <summary><span class="sw-subacc-n">03-c</span><span>De Boskiosk / het buurthuis</span></summary>
+        <div class="sw-subacc-body"><p>De Boskiosk / het buurthuis als ontmoetingsplek. Inhoud volgt.</p></div>
+      </details>
+      <details class="sw-subacc">
+        <summary><span class="sw-subacc-n">03-d</span><span>Jeu-de-boulesbanen</span></summary>
+        <div class="sw-subacc-body"><p>De jeu-de-boulesbanen. Inhoud volgt.</p></div>
+      </details>
+    </div>
   </details>
   <details class="sw-acc">
     <summary><span class="sw-acc-n">04</span><span>Veiligheid & toegang</span></summary>

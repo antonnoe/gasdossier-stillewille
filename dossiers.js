@@ -132,7 +132,7 @@ window.SW_DOSSIERS = [
     secties: [
       { titel: "Wegen & paden", omschrijving: "Staat van de wegen en de afweging verharding versus boskarakter." },
       { titel: "Straatverlichting", omschrijving: "Veiligheid versus natuur en de moderniseringsplannen." },
-      { titel: "Recreatieve voorzieningen", omschrijving: "Zwembad, tennisbanen en de Boskiosk / het buurthuis." },
+      { titel: "Recreatieve voorzieningen", omschrijving: "Zwembad, tennisbanen, de Boskiosk / het buurthuis en de jeu-de-boulesbanen." },
       { titel: "Veiligheid & toegang", omschrijving: "Slagbomen, camera's, AED's en bereikbaarheid voor hulpdiensten." },
       { titel: "Afvalverwerking", omschrijving: "Containerkosten en de wens voor milieustraten of ondergrondse containers." }
     ]
