@@ -219,21 +219,20 @@
       return;
     }
 
-    // Goedkeuren → Edge Function voegt de gebruiker toe (rol "gebruiker")
-    // met de service-role sleutel (Admin API), buiten het bereik van de anon-client.
-    sb.functions.invoke('approve-aanvraag', {
-      body: { email: aanvraag.email, naam: aanvraag.naam }
+    // Goedkeuren → SECURITY DEFINER RPC-functie voegt de gebruiker toe
+    // (rol "gebruiker") en zet de aanvraag op "approved", buiten RLS om.
+    // De functie controleert zelf of de aanroeper beheerder/owner is.
+    sb.rpc('approve_aanvraag', {
+      p_email: aanvraag.email,
+      p_naam: aanvraag.naam
     }).then(function (r) {
       if (r.error) {
         alert('Goedkeuren mislukt: ' + (r.error.message || r.error));
         buttons.forEach(function (b) { b.disabled = false; });
         return;
       }
-      // Markeer de aanvraag als goedgekeurd en ververs beide lijsten.
-      sb.from('aanvragen').update({ status: 'approved' }).eq('id', aanvraag.id).then(function () {
-        loadAanvragen();
-        loadGebruikers();
-      });
+      loadAanvragen();
+      loadGebruikers();
     }).catch(function (err) {
       alert('Goedkeuren mislukt: ' + (err && err.message ? err.message : err));
       buttons.forEach(function (b) { b.disabled = false; });

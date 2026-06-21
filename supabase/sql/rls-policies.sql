@@ -134,3 +134,59 @@ create policy "aanvragen_delete_beheer"
   for delete
   to authenticated
   using (public.huidige_rol() in ('beheerder', 'owner'));
+
+
+-- =====================================================================
+--  RPC: approve_aanvraag(p_email, p_naam)
+--
+--  Keurt een toegangsaanvraag goed. Wordt vanuit admin.html aangeroepen
+--  via supabase.rpc('approve_aanvraag', { p_email, p_naam }).
+--
+--  SECURITY DEFINER: draait met de rechten van de eigenaar en omzeilt zo
+--  RLS om in "gebruikers" te schrijven en de aanvraag bij te werken.
+--  Daarom controleert de functie éérst zelf of de aanroeper beheerder of
+--  owner is — anders een fout.
+-- =====================================================================
+create or replace function public.approve_aanvraag(
+  p_email text,
+  p_naam  text default null
+)
+returns jsonb
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_email text := lower(trim(p_email));
+  v_naam  text := nullif(trim(p_naam), '');
+begin
+  -- Alleen beheerders/owners mogen goedkeuren.
+  if public.huidige_rol() not in ('beheerder', 'owner') then
+    raise exception 'Geen beheerdersrechten'
+      using errcode = '42501';  -- insufficient_privilege
+  end if;
+
+  if v_email is null or v_email = '' then
+    raise exception 'E-mailadres ontbreekt'
+      using errcode = '22023';  -- invalid_parameter_value
+  end if;
+
+  -- Gebruiker toevoegen met rol "gebruiker". Bestaat de gebruiker al,
+  -- dan alleen de naam aanvullen — een bestaande rol blijft ongemoeid.
+  insert into public.gebruikers (email, naam, rol)
+  values (v_email, v_naam, 'gebruiker')
+  on conflict (email) do update
+    set naam = coalesce(excluded.naam, public.gebruikers.naam);
+
+  -- Bijbehorende openstaande aanvraag op "approved" zetten.
+  update public.aanvragen
+    set status = 'approved'
+    where email = v_email
+      and status = 'pending';
+
+  return jsonb_build_object('ok', true, 'email', v_email, 'rol', 'gebruiker');
+end;
+$$;
+
+revoke all on function public.approve_aanvraag(text, text) from public;
+grant execute on function public.approve_aanvraag(text, text) to authenticated;
