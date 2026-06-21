@@ -177,6 +177,17 @@
       <tbody id="reacties-body"></tbody>
     </table>
     <div id="reacties-empty" class="empty" hidden>Nog geen reacties.</div>
+
+    <h2>Correctieverzoeken</h2>
+    <p class="sub">Ingediende correctieverzoeken van bezoekers.</p>
+    <div id="correctie-err" class="err-line" hidden></div>
+    <table class="admin-table" id="correctie-table">
+      <thead>
+        <tr><th>Datum</th><th>Dossier</th><th>Naam</th><th>Bericht</th><th>Actie</th></tr>
+      </thead>
+      <tbody id="correctie-body"></tbody>
+    </table>
+    <div id="correctie-empty" class="empty" hidden>Nog geen correctieverzoeken.</div>
   </main>
 </div>
 
@@ -223,6 +234,7 @@
         loadAanvragen();
         loadGebruikers();
         loadReacties();
+        loadCorrectie();
       });
   });
 
@@ -472,7 +484,44 @@
       });
   }
 
-  // 5. Uitloggen
+  // 5. Correctieverzoeken
+  function loadCorrectie() {
+    var body = document.getElementById('correctie-body');
+    var empty = document.getElementById('correctie-empty');
+    var errEl = document.getElementById('correctie-err');
+    errEl.hidden = true;
+
+    sb.from('correctieverzoeken').select('id, dossier, bericht, naam, aangemaakt').order('aangemaakt', { ascending: false })
+      .then(function (r) {
+        if (r.error) { errEl.textContent = 'Kon correctieverzoeken niet laden: ' + r.error.message; errEl.hidden = false; return; }
+        var rows = r.data || [];
+        body.innerHTML = '';
+        empty.hidden = rows.length > 0;
+        rows.forEach(function (c) {
+          var tr = document.createElement('tr');
+          var datum = '';
+          try { datum = new Date(c.aangemaakt).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' }); } catch (e) {}
+          tr.innerHTML =
+            '<td><span class="em">' + esc(datum) + '</span></td>' +
+            '<td>' + (c.dossier ? esc(c.dossier) : '<span class="empty" style="padding:0;">Algemeen</span>') + '</td>' +
+            '<td>' + (c.naam ? esc(c.naam) : '<span class="empty" style="padding:0;">Anoniem</span>') + '</td>' +
+            '<td>' + esc(c.bericht) + '</td>' +
+            '<td><div class="row-actions"><button class="btn-sm btn-reject" data-act="delete">Verwijderen</button></div></td>';
+          tr.querySelector('button[data-act]').addEventListener('click', function () {
+            var btn = tr.querySelector('button');
+            if (!confirm('Dit correctieverzoek verwijderen?')) return;
+            btn.disabled = true;
+            sb.from('correctieverzoeken').delete().eq('id', c.id).then(function (res) {
+              if (res.error) { alert('Verwijderen mislukt: ' + res.error.message); btn.disabled = false; return; }
+              loadCorrectie();
+            });
+          });
+          body.appendChild(tr);
+        });
+      });
+  }
+
+  // 6. Uitloggen
   document.getElementById('logout').addEventListener('click', function (e) {
     e.preventDefault();
     sb.auth.signOut().then(function () {
