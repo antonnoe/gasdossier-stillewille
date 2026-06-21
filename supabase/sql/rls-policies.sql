@@ -256,8 +256,9 @@ create policy "reacties_delete_beheer"
 --  Tabel: correctieverzoeken
 --
 --  Verzoeken van bezoekers om onjuiste informatie of ontbrekende bronnen
---  te corrigeren. Geen login vereist — indienen én lezen mag publiek
---  (anon), verwijderen alleen door beheerders/owners.
+--  te corrigeren. De hele site zit achter de login, dus indienen én lezen
+--  is voorbehouden aan ingelogde (authenticated) gebruikers; verwijderen
+--  alleen door beheerders/owners.
 -- =====================================================================
 create table if not exists public.correctieverzoeken (
   id         uuid primary key default gen_random_uuid(),
@@ -269,25 +270,31 @@ create table if not exists public.correctieverzoeken (
 
 alter table public.correctieverzoeken enable row level security;
 
-grant select, insert on public.correctieverzoeken to anon, authenticated;
+grant select, insert on public.correctieverzoeken to authenticated;
 grant delete           on public.correctieverzoeken to authenticated;
 
-drop policy if exists "correctie_select_publiek" on public.correctieverzoeken;
-drop policy if exists "correctie_insert_publiek" on public.correctieverzoeken;
-drop policy if exists "correctie_delete_beheer"  on public.correctieverzoeken;
+-- Eventuele eerder verleende anon-rechten intrekken (de tabel zit achter login).
+revoke select, insert on public.correctieverzoeken from anon;
 
--- Lezen: iedereen (ook niet-ingelogd).
-create policy "correctie_select_publiek"
+-- Oude (publieke) policies opruimen, plus de huidige namen.
+drop policy if exists "correctie_select_publiek"  on public.correctieverzoeken;
+drop policy if exists "correctie_insert_publiek"  on public.correctieverzoeken;
+drop policy if exists "correctie_select_ingelogd" on public.correctieverzoeken;
+drop policy if exists "correctie_insert_ingelogd" on public.correctieverzoeken;
+drop policy if exists "correctie_delete_beheer"   on public.correctieverzoeken;
+
+-- Lezen: alle ingelogde gebruikers.
+create policy "correctie_select_ingelogd"
   on public.correctieverzoeken
   for select
-  to anon, authenticated
+  to authenticated
   using (true);
 
--- Indienen: iedereen (ook niet-ingelogd).
-create policy "correctie_insert_publiek"
+-- Indienen: alle ingelogde gebruikers.
+create policy "correctie_insert_ingelogd"
   on public.correctieverzoeken
   for insert
-  to anon, authenticated
+  to authenticated
   with check (true);
 
 -- Verwijderen: alleen beheerders/owners.

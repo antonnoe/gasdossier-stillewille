@@ -152,6 +152,7 @@
     inner.innerHTML = '';
 
     inner.appendChild(linkNav('/', 'Hoofdpagina', slug === 'home'));
+    inner.appendChild(linkNav('/#correctie', 'Correctieverzoek indienen', false));
 
     var groups = groupKerndossiers();
     groups.forEach(function (g) {
