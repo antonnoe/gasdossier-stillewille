@@ -26,12 +26,15 @@
   var COOKIE_NAME = 'sb-access-token';
 
   // Spiegel het access-token naar een cookie zodat de Edge Middleware het ziet.
+  // De cookie krijgt bewust een langere levensduur dan het token zelf: zo blijft
+  // het (inmiddels verlopen) JWT leesbaar voor de middleware, die dan "verlopen"
+  // kan onderscheiden van "niet ingelogd" en naar ?reden=verlopen kan sturen.
+  var COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 dagen
   window.swSetAuthCookie = function (session) {
     if (session && session.access_token) {
-      var maxAge = session.expires_in || 3600;
       document.cookie =
         COOKIE_NAME + '=' + session.access_token +
-        '; Path=/; Max-Age=' + maxAge + '; SameSite=Lax; Secure';
+        '; Path=/; Max-Age=' + COOKIE_MAX_AGE + '; SameSite=Lax; Secure';
     } else {
       document.cookie =
         COOKIE_NAME + '=; Path=/; Max-Age=0; SameSite=Lax; Secure';

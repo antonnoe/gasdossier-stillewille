@@ -166,6 +166,12 @@
     msg.hidden = false;
   }
 
+  // Vriendelijke melding wanneer de gebruiker hierheen kwam door een
+  // verlopen sessie (?reden=verlopen, gezet door de Edge Middleware).
+  if (new URLSearchParams(location.search).get('reden') === 'verlopen') {
+    show('Uw sessie is verlopen. Vraag een nieuwe toegangslink aan.', 'err');
+  }
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var email = (emailInput.value || '').trim();

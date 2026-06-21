@@ -42,6 +42,38 @@
   }
 
   .admin-main { max-width: var(--content-max); margin: 0 auto; padding: 48px var(--page-pad-x) 80px; }
+
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+  .stat {
+    background: var(--cream);
+    border: 1px solid var(--green-15);
+    border-top: 3px solid var(--green);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+  .stat-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.1;
+    color: var(--green-deep);
+  }
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--grey-soft);
+    margin-top: 4px;
+  }
+  @media (max-width: 760px) {
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  }
   .admin-main h2 {
     font-family: var(--font-display); font-weight: 700; font-size: 30px;
     letter-spacing: -0.02em; color: var(--grey-dark); margin: 48px 0 6px;
@@ -81,6 +113,8 @@
   .btn-approve:hover:not(:disabled) { background: var(--green-deep); }
   .btn-reject { background: var(--white); color: var(--orange-deep); border: 1px solid var(--orange); }
   .btn-reject:hover:not(:disabled) { background: var(--orange-tint); }
+  .btn-plain { background: var(--white); color: var(--grey-mid); border: 1px solid var(--green-25); }
+  .btn-plain:hover:not(:disabled) { background: var(--cream); }
 
   .empty { color: var(--grey-soft); font-style: italic; padding: 16px 0; }
   .err-line { color: var(--orange-deep); font-size: 14px; margin: 8px 0; }
@@ -104,6 +138,13 @@
   </div>
 
   <main class="admin-main">
+    <div class="stats-bar" id="stats-bar">
+      <div class="stat"><div class="stat-num" id="stat-gebruikers">–</div><div class="stat-label">Gebruikers</div></div>
+      <div class="stat"><div class="stat-num" id="stat-aanvragen">–</div><div class="stat-label">Openstaande aanvragen</div></div>
+      <div class="stat"><div class="stat-num" id="stat-reacties">–</div><div class="stat-label">Reacties</div></div>
+      <div class="stat"><div class="stat-num" id="stat-laatste">–</div><div class="stat-label">Laatste aanmelding</div></div>
+    </div>
+
     <h2>Aanvragen</h2>
     <p class="sub">Openstaande en beoordeelde toegangsaanvragen.</p>
     <div id="aanvragen-err" class="err-line" hidden></div>
@@ -178,11 +219,35 @@
         if (r.error || !rol || ADMIN_ROLES.indexOf(rol) === -1) { showDenied(); return; }
         currentRol = rol;
         showApp();
+        loadStats();
         loadAanvragen();
         loadGebruikers();
         loadReacties();
       });
   });
+
+  // Statistiekenbalk — losse count-queries (head: true haalt geen rijen op).
+  function loadStats() {
+    function setNum(id, n) { document.getElementById(id).textContent = (n == null ? '–' : n); }
+
+    sb.from('gebruikers').select('*', { count: 'exact', head: true })
+      .then(function (r) { setNum('stat-gebruikers', r.error ? null : r.count); });
+
+    sb.from('aanvragen').select('*', { count: 'exact', head: true }).eq('status', 'pending')
+      .then(function (r) { setNum('stat-aanvragen', r.error ? null : r.count); });
+
+    sb.from('reacties').select('*', { count: 'exact', head: true })
+      .then(function (r) { setNum('stat-reacties', r.error ? null : r.count); });
+
+    sb.from('aanvragen').select('created_at').order('created_at', { ascending: false }).limit(1)
+      .then(function (r) {
+        var el = document.getElementById('stat-laatste');
+        if (r.error || !r.data || !r.data.length) { el.textContent = '–'; return; }
+        try {
+          el.textContent = new Date(r.data[0].created_at).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' });
+        } catch (e) { el.textContent = '–'; }
+      });
+  }
 
   // 2. Aanvragen
   function loadAanvragen() {
@@ -232,6 +297,7 @@
         .then(function (r) {
           if (r.error) { alert('Afwijzen mislukt: ' + r.error.message); buttons.forEach(function (b) { b.disabled = false; }); return; }
           loadAanvragen();
+          loadStats();
         });
       return;
     }
@@ -258,6 +324,7 @@
         }
         loadAanvragen();
         loadGebruikers();
+        loadStats();
       });
     }).catch(function (err) {
       alert('Goedkeuren mislukt: ' + (err && err.message ? err.message : err));
@@ -312,6 +379,10 @@
           if (currentRol === 'owner' && rol === 'gebruiker') {
             acties += '<button class="btn-sm btn-approve" data-act="promote">Maak beheerder</button>';
           }
+          // "Maak gebruiker": owners kunnen een beheerder terugzetten.
+          if (currentRol === 'owner' && rol === 'beheerder') {
+            acties += '<button class="btn-sm btn-plain" data-act="demote">Maak gebruiker</button>';
+          }
           // "Verwijderen": voor beheerders/owners. Niet je eigen account, en
           // owners kun je niet zomaar verwijderen.
           if (g.email !== currentEmail && rol !== 'owner') {
@@ -338,11 +409,13 @@
     buttons.forEach(function (b) { b.disabled = true; });
     function reEnable() { buttons.forEach(function (b) { b.disabled = false; }); }
 
-    if (act === 'promote') {
-      sb.from('gebruikers').update({ rol: 'beheerder' }).eq('email', g.email)
+    if (act === 'promote' || act === 'demote') {
+      var nieuweRol = (act === 'promote') ? 'beheerder' : 'gebruiker';
+      sb.from('gebruikers').update({ rol: nieuweRol }).eq('email', g.email)
         .then(function (r) {
           if (r.error) { alert('Wijzigen mislukt: ' + r.error.message); reEnable(); return; }
           loadGebruikers();
+          loadStats();
         });
       return;
     }
@@ -356,6 +429,7 @@
         .then(function (r) {
           if (r.error) { alert('Verwijderen mislukt: ' + r.error.message); reEnable(); return; }
           loadGebruikers();
+          loadStats();
         });
     }
   }
@@ -390,6 +464,7 @@
             sb.from('reacties').delete().eq('id', c.id).then(function (res) {
               if (res.error) { alert('Verwijderen mislukt: ' + res.error.message); btn.disabled = false; return; }
               loadReacties();
+              loadStats();
             });
           });
           body.appendChild(tr);

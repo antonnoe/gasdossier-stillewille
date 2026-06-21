@@ -730,11 +730,116 @@
     });
   }
 
+  // --- Zoeken op de huidige pagina -----------------------------------------
+  // Eenvoudige client-side zoekfunctie in de navigatie. Doorzoekt de tekst van
+  // de huidige pagina en markeert trefwoorden geel. Geen server nodig.
+  function zoekScope() {
+    return document.querySelector('.page-main') ||
+           document.querySelector('.landing-main') ||
+           document.querySelector('main') ||
+           document.body;
+  }
+
+  function wisMarkeringen(root) {
+    var marks = root.querySelectorAll('mark.sw-zoek-mark');
+    for (var i = 0; i < marks.length; i++) {
+      var m = marks[i];
+      var p = m.parentNode;
+      p.replaceChild(document.createTextNode(m.textContent), m);
+      p.normalize();
+    }
+  }
+
+  function escapeRegExp(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  function markeer(root, term) {
+    wisMarkeringen(root);
+    if (!term) return 0;
+
+    var rx = new RegExp(escapeRegExp(term), 'gi');
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (node) {
+        if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        var p = node.parentNode;
+        if (!p) return NodeFilter.FILTER_REJECT;
+        var tag = p.nodeName;
+        if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'MARK' || tag === 'TEXTAREA') return NodeFilter.FILTER_REJECT;
+        if (p.closest && p.closest('.sw-nav')) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+
+    var nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+
+    var count = 0;
+    nodes.forEach(function (node) {
+      var text = node.nodeValue;
+      rx.lastIndex = 0;
+      if (!rx.test(text)) return;
+      rx.lastIndex = 0;
+
+      var frag = document.createDocumentFragment();
+      var last = 0, m;
+      while ((m = rx.exec(text)) !== null) {
+        if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        frag.appendChild(el('mark', { class: 'sw-zoek-mark', text: m[0] }));
+        last = m.index + m[0].length;
+        count++;
+        if (m.index === rx.lastIndex) rx.lastIndex++;
+      }
+      if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+    return count;
+  }
+
+  function renderZoek() {
+    var inner = document.querySelector('.sw-nav .sw-nav-inner');
+    if (!inner || inner.querySelector('.sw-zoek')) return;
+
+    var form = el('form', { class: 'sw-zoek', role: 'search' });
+    var input = el('input', {
+      type: 'search', class: 'sw-zoek-input',
+      placeholder: 'Zoek op deze pagina…', 'aria-label': 'Zoek op deze pagina'
+    });
+    var btn = el('button', { type: 'submit', class: 'sw-zoek-btn', 'aria-label': 'Zoeken', text: '⌕' });
+    var teller = el('span', { class: 'sw-zoek-teller', 'aria-live': 'polite' });
+
+    form.appendChild(input);
+    form.appendChild(btn);
+    form.appendChild(teller);
+    inner.appendChild(form);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var term = (input.value || '').trim();
+      var root = zoekScope();
+      var n = markeer(root, term);
+
+      if (!term) { teller.textContent = ''; return; }
+      teller.textContent = n === 0 ? 'geen' : (n === 1 ? '1 resultaat' : n + ' resultaten');
+
+      var eerste = root.querySelector('mark.sw-zoek-mark');
+      if (eerste && eerste.scrollIntoView) eerste.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Sluit het mobiele menu zodat het resultaat zichtbaar is.
+      var nav = document.querySelector('.sw-nav');
+      if (nav) nav.classList.remove('is-open');
+    });
+
+    // Leegmaken wist de markeringen.
+    input.addEventListener('input', function () {
+      if (!(input.value || '').trim()) { markeer(zoekScope(), ''); teller.textContent = ''; }
+    });
+  }
+
   // --- Boot ----------------------------------------------------------------
 
   function boot() {
     ensureMobileToggle();
     renderNav();
+    renderZoek();
     renderKicker();
     renderTileGrid();
     renderPager();

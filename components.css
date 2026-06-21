@@ -379,6 +379,56 @@
    Styles for nav groups, tile grid, status badges, dossier-filter.
    ──────────────────────────────────────────────────────── */
 
+/* Nav: zoekformulier ---------------------------------------------------- */
+.sw-zoek {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+.sw-zoek-input {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  padding: 6px 10px;
+  width: 150px;
+  max-width: 40vw;
+}
+.sw-zoek-input::placeholder { color: rgba(255, 255, 255, 0.6); }
+.sw-zoek-input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.18);
+}
+.sw-zoek-btn {
+  border: 0;
+  background: var(--yellow);
+  color: var(--green-deep);
+  border-radius: 6px;
+  font-size: 16px;
+  line-height: 1;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.sw-zoek-btn:hover { background: var(--yellow-deep); color: #fff; }
+.sw-zoek-teller {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
+  white-space: nowrap;
+}
+
+/* Trefwoord-markering bij zoeken */
+mark.sw-zoek-mark {
+  background: #FFE680;
+  color: var(--grey-dark);
+  padding: 0 1px;
+  border-radius: 2px;
+}
+
 /* Nav: category dropdown group ------------------------------------------ */
 .sw-nav .sw-nav-grp {
   position: relative;

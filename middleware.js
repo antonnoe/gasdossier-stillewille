@@ -47,8 +47,12 @@ export default function middleware(request) {
     return next();
   }
 
-  // Geen (geldige) sessie → naar de loginpagina.
+  // Geen (geldige) sessie → naar de loginpagina. Bestaat er wél een token maar
+  // is het verlopen, geef dat mee zodat login.html een passende melding toont.
   const loginUrl = new URL('/login.html', request.url);
+  if (token) {
+    loginUrl.searchParams.set('reden', 'verlopen');
+  }
   return Response.redirect(loginUrl, 307);
 }
 
