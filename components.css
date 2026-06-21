@@ -379,49 +379,64 @@
    Styles for nav groups, tile grid, status badges, dossier-filter.
    ──────────────────────────────────────────────────────── */
 
-/* Nav: zoekformulier ---------------------------------------------------- */
+/* Zoekbalk: eigen strook onder de nav ----------------------------------- */
+.sw-zoekbalk {
+  background: var(--cream);
+  border-bottom: 1px solid var(--green-15);
+  padding: 14px var(--page-pad-x);
+}
 .sw-zoek {
+  max-width: 640px;
+  margin: 0 auto;
+}
+.sw-zoek-veld {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-left: auto;
+  gap: 8px;
 }
 .sw-zoek-input {
+  flex: 1 1 auto;
+  min-width: 220px;
   font-family: var(--font-body);
-  font-size: 13px;
-  color: var(--white);
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 6px;
-  padding: 6px 10px;
-  width: 150px;
-  max-width: 40vw;
+  font-size: 15px;
+  color: var(--grey-dark);
+  background: var(--white);
+  border: 1px solid var(--green-25);
+  border-radius: 8px;
+  padding: 11px 14px;
 }
-.sw-zoek-input::placeholder { color: rgba(255, 255, 255, 0.6); }
+.sw-zoek-input::placeholder { color: var(--grey-soft); }
 .sw-zoek-input:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.6);
-  background: rgba(255, 255, 255, 0.18);
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px var(--green-08);
 }
 .sw-zoek-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   border: 0;
-  background: var(--yellow);
-  color: var(--green-deep);
-  border-radius: 6px;
-  font-size: 16px;
-  line-height: 1;
-  padding: 6px 10px;
+  background: var(--green);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 8px;
+  padding: 0 20px;
   cursor: pointer;
 }
-.sw-zoek-btn:hover { background: var(--yellow-deep); color: #fff; }
-.sw-zoek-teller {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.75);
-  white-space: nowrap;
+.sw-zoek-btn:hover,
+.sw-zoek-btn:focus-visible { background: var(--green-deep); }
+.sw-zoek-hint {
+  margin: 8px 2px 0;
+  font-size: 12.5px;
+  color: var(--grey-soft);
+}
+@media (max-width: 700px) {
+  .sw-zoekbalk { padding: 12px var(--page-pad-x-mobile); }
+  .sw-zoek-input { min-width: 0; }
 }
 
-/* Trefwoord-markering bij zoeken */
+/* Trefwoord-markering (zoekresultaten) */
 mark.sw-zoek-mark {
   background: #FFE680;
   color: var(--grey-dark);

@@ -730,107 +730,41 @@
     });
   }
 
-  // --- Zoeken op de huidige pagina -----------------------------------------
-  // Eenvoudige client-side zoekfunctie in de navigatie. Doorzoekt de tekst van
-  // de huidige pagina en markeert trefwoorden geel. Geen server nodig.
-  function zoekScope() {
-    return document.querySelector('.page-main') ||
-           document.querySelector('.landing-main') ||
-           document.querySelector('main') ||
-           document.body;
-  }
-
-  function wisMarkeringen(root) {
-    var marks = root.querySelectorAll('mark.sw-zoek-mark');
-    for (var i = 0; i < marks.length; i++) {
-      var m = marks[i];
-      var p = m.parentNode;
-      p.replaceChild(document.createTextNode(m.textContent), m);
-      p.normalize();
-    }
-  }
-
-  function escapeRegExp(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
-
-  function markeer(root, term) {
-    wisMarkeringen(root);
-    if (!term) return 0;
-
-    var rx = new RegExp(escapeRegExp(term), 'gi');
-    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
-      acceptNode: function (node) {
-        if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-        var p = node.parentNode;
-        if (!p) return NodeFilter.FILTER_REJECT;
-        var tag = p.nodeName;
-        if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'MARK' || tag === 'TEXTAREA') return NodeFilter.FILTER_REJECT;
-        if (p.closest && p.closest('.sw-nav')) return NodeFilter.FILTER_REJECT;
-        return NodeFilter.FILTER_ACCEPT;
-      }
-    });
-
-    var nodes = [];
-    while (walker.nextNode()) nodes.push(walker.currentNode);
-
-    var count = 0;
-    nodes.forEach(function (node) {
-      var text = node.nodeValue;
-      rx.lastIndex = 0;
-      if (!rx.test(text)) return;
-      rx.lastIndex = 0;
-
-      var frag = document.createDocumentFragment();
-      var last = 0, m;
-      while ((m = rx.exec(text)) !== null) {
-        if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
-        frag.appendChild(el('mark', { class: 'sw-zoek-mark', text: m[0] }));
-        last = m.index + m[0].length;
-        count++;
-        if (m.index === rx.lastIndex) rx.lastIndex++;
-      }
-      if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
-      node.parentNode.replaceChild(frag, node);
-    });
-    return count;
-  }
-
+  // --- Zoeken: strook onder de nav -----------------------------------------
+  // Een prominente zoekbalk direct onder de navigatie. Submit navigeert naar
+  // /zoeken.html?q=… (native GET-form), waar de hele site doorzocht wordt.
   function renderZoek() {
-    var inner = document.querySelector('.sw-nav .sw-nav-inner');
-    if (!inner || inner.querySelector('.sw-zoek')) return;
+    var nav = document.querySelector('.sw-nav');
+    if (!nav || document.querySelector('.sw-zoekbalk')) return;
 
-    var form = el('form', { class: 'sw-zoek', role: 'search' });
+    var balk = el('div', { class: 'sw-zoekbalk' });
+
+    var form = el('form', { class: 'sw-zoek', role: 'search', action: '/zoeken.html', method: 'get' });
+
+    var veld = el('div', { class: 'sw-zoek-veld' });
     var input = el('input', {
-      type: 'search', class: 'sw-zoek-input',
-      placeholder: 'Zoek op deze pagina…', 'aria-label': 'Zoek op deze pagina'
+      type: 'search', name: 'q', class: 'sw-zoek-input',
+      placeholder: 'Zoek in dit dossier…', 'aria-label': 'Zoek in dit dossier',
+      autocomplete: 'off'
     });
-    var btn = el('button', { type: 'submit', class: 'sw-zoek-btn', 'aria-label': 'Zoeken', text: '⌕' });
-    var teller = el('span', { class: 'sw-zoek-teller', 'aria-live': 'polite' });
+    var btn = el('button', { type: 'submit', class: 'sw-zoek-btn' });
+    btn.innerHTML =
+      '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" ' +
+      'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
+    btn.appendChild(document.createTextNode('Zoeken'));
 
-    form.appendChild(input);
-    form.appendChild(btn);
-    form.appendChild(teller);
-    inner.appendChild(form);
+    veld.appendChild(input);
+    veld.appendChild(btn);
+    form.appendChild(veld);
+    form.appendChild(el('p', { class: 'sw-zoek-hint', text: 'Druk Enter of klik om te zoeken.' }));
 
+    balk.appendChild(form);
+    nav.parentNode.insertBefore(balk, nav.nextSibling);
+
+    // Lege zoekopdracht blokkeren; anders laat het native GET-form navigeren.
     form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var term = (input.value || '').trim();
-      var root = zoekScope();
-      var n = markeer(root, term);
-
-      if (!term) { teller.textContent = ''; return; }
-      teller.textContent = n === 0 ? 'geen' : (n === 1 ? '1 resultaat' : n + ' resultaten');
-
-      var eerste = root.querySelector('mark.sw-zoek-mark');
-      if (eerste && eerste.scrollIntoView) eerste.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-      // Sluit het mobiele menu zodat het resultaat zichtbaar is.
-      var nav = document.querySelector('.sw-nav');
-      if (nav) nav.classList.remove('is-open');
-    });
-
-    // Leegmaken wist de markeringen.
-    input.addEventListener('input', function () {
-      if (!(input.value || '').trim()) { markeer(zoekScope(), ''); teller.textContent = ''; }
+      if (!(input.value || '').trim()) { e.preventDefault(); input.focus(); }
     });
   }
 
