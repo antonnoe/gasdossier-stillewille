@@ -103,6 +103,55 @@
   }
   details.sw-subacc .sw-subacc-body p { margin: 0 0 0.8em; max-width: 70ch; }
   details.sw-subacc .sw-subacc-body p:last-child { margin-bottom: 0; }
+  details.sw-subacc .sw-subacc-body h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--green-deep);
+    margin: 18px 0 4px;
+  }
+
+  /* Bronnen-blok (huisstijl, gelijk aan de dossierpagina's) */
+  .page-main .sources {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid var(--green-15);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--grey-soft);
+    line-height: 1.6;
+    max-width: 70ch;
+  }
+  .page-main .sources strong { color: var(--green); font-weight: 600; }
+  .page-main .sources span { display: block; margin-top: 4px; }
+
+  /* Verificatie-stoplicht (badge) */
+  .verif-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: var(--grey-dark);
+    padding: 4px 11px 4px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .verif-badge::before {
+    content: "";
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    flex: none;
+    background: var(--grey-soft);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.18);
+  }
+  .verif-badge--groen::before  { background: var(--green); }
+  .verif-badge--geel::before   { background: var(--yellow); }
+  .verif-badge--oranje::before { background: var(--orange); }
 </style>
 </head>
 <body data-slug="bovengronds">
@@ -143,7 +192,36 @@
       </details>
       <details class="sw-subacc">
         <summary><span class="sw-subacc-n">03-b</span><span>Tennisbanen</span></summary>
-        <div class="sw-subacc-body"><p>Inhoud volgt.</p></div>
+        <div class="sw-subacc-body">
+          <p><span class="verif-badge verif-badge--geel">Geel</span></p>
+
+          <p>De tennisbanen dateren uit de jaren tachtig. Uit een getuigenis op de website van het landgoed blijkt dat de betonnen banen al in 1984 in gebruik waren — en al toen barsten vertoonden.</p>
+
+          <h4>Juridisch kader</h4>
+          <p>In 2014 oordeelde het Gerechtshof 's-Hertogenbosch (ECLI:NL:GHSHE:2014:3639) dat bewoners dienen bij te dragen aan regulier onderhoud, maar dat volledige vervanging of een renovatie die de facto op volledige vervanging neerkomt, niet zonder meer aan bewoners mag worden doorberekend.</p>
+
+          <h4>Staat van verval</h4>
+          <p>Uit het onderzoeksrapport SW-2030 (2020) bleek dat de banen onbruikbaar en gevaarlijk waren. In de bewonersenquête van 2023 beoordeelde meer dan de helft van de respondenten de tennisbanen als onvoldoende.</p>
+
+          <h4>Financiering: twee lezingen</h4>
+          <p>Een bewoner vermeldde in een open enquête-antwoord (2023) dat LSW via een online toelichting op het masterplan zou hebben toegezegd de vernieuwing volledig te betalen. Dit wordt gestaafd door een screenshot waarvan de herkomst niet zelfstandig verifieerbaar is. In de formele communicatie (nieuwsbrieven 2023–2024) staat een andere lezing: LSW gaf aan uitsluitend een gedeeltelijke bijdrage te willen leveren vanuit het Investeringsfonds — niet uit het reguliere onderhoudsbudget. Dit fonds wordt jaarlijks gevuld met de opbrengsten van de post &ldquo;huur opstallen&rdquo;.</p>
+
+          <h4>Realisatie 2024</h4>
+          <p>In april 2024 startte de uitvoering. Aannemer TennisTotaal transformeerde de twee betonnen banen in één kunstgras tennisbaan en één multiveld. Officiële opening: 25 mei 2024. Totale investering: € 102.835,— (geraamd in 2023: € 40.000–60.000). Bekostiging exact 50/50 onttrokken aan voorziening SWB en voorziening LSW (bron: concept jaarrekening SWB 2024).</p>
+
+          <h4>Beheer na opening</h4>
+          <p>In 2025 besprak de Bewonersraad de mogelijkheid van baanhuur. Besluit nog niet genomen. LSW draagt € 150,— bij als sponsor van het jaarlijkse tennistoernooi.</p>
+
+          <div class="sources"><strong>Bronnen</strong>
+            <span>Arrest Gerechtshof 's-Hertogenbosch 16-09-2014, ECLI:NL:GHSHE:2014:3639 — primair</span>
+            <span>Concept jaarrekening SWB 2024, d.d. 29-12-2025 — primair</span>
+            <span>Onderzoeksrapport SW-2030 — afgeleid</span>
+            <span>Bewonersenquête 2023, resultaten v0.5 — afgeleid</span>
+            <span>Nieuwsbrieven oktober 2023 en voorjaar 2024 — afgeleid</span>
+            <span>Webpagina Tennisbaan &amp; multiveld, stillewille.nl — afgeleid</span>
+            <span>Notulen Bewonersraad maart en augustus 2025 — afgeleid</span>
+          </div>
+        </div>
       </details>
       <details class="sw-subacc">
         <summary><span class="sw-subacc-n">03-c</span><span>De Boskiosk / het buurthuis</span></summary>
