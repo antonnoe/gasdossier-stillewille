@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Redactioneel protocol · Kerndossiers Landgoed De Stille Wille</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#1F7F4E">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/components.css">
+<style>
+  .redactie-top { background: var(--green-deep); padding: 14px var(--page-pad-x); }
+  .redactie-top-inner { max-width: var(--content-max); margin: 0 auto; }
+  .redactie-top a { color: rgba(255,255,255,.85); text-decoration: none; font-size: 14px; font-family: var(--font-display); font-weight: 600; }
+  .redactie-top a:hover { color: #fff; }
+
+  .page-main ul { list-style: none; padding-left: 0; }
+  .page-main ul li {
+    position: relative; padding-left: 22px; margin-bottom: 0.5em;
+  }
+  .page-main ul li::before {
+    content: ''; position: absolute; left: 0; top: 0.62em;
+    width: 7px; height: 7px; background: var(--green); border-radius: 2px;
+  }
+  .page-main ol { padding-left: 1.3em; }
+  .page-main ol li { margin-bottom: 0.4em; }
+  .page-main ol li::marker { color: var(--green); font-family: var(--font-mono); font-weight: 600; }
+
+  .verif-legend { list-style: none; padding-left: 0; margin: 8px 0 0; }
+  .verif-legend li { display: flex; align-items: baseline; gap: 10px; padding-left: 0; margin-bottom: 10px; }
+  .verif-legend li::before { content: none; }
+  .verif-dot {
+    flex: none; width: 11px; height: 11px; border-radius: 50%;
+    transform: translateY(1px);
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.04);
+  }
+  .verif-dot--groen  { background: var(--green); }
+  .verif-dot--geel   { background: var(--yellow); }
+  .verif-dot--oranje { background: var(--orange); }
+  .verif-legend strong { font-family: var(--font-display); }
+</style>
+</head>
+<body>
+
+<div class="redactie-top"><div class="redactie-top-inner"><a href="/index.html">← Terug naar de dossiers</a></div></div>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-kicker"><span class="square"></span> Redactie</div>
+    <h1 class="page-title">Redactioneel protocol</h1>
+    <p class="page-lede">Deze site documenteert feiten. Geen meningen, geen emoties, geen interpretaties zonder bronvermelding.</p>
+  </div>
+</header>
+
+<main class="page-main">
+
+  <h2>Wat wel</h2>
+  <ul>
+    <li>Feitelijke informatie gebaseerd op controleerbare bronnen</li>
+    <li>Primaire bronnen (rechtspraak, jaarrekeningen, officiële besluiten) boven afgeleide bronnen</li>
+    <li>Citaten alleen letterlijk en met bronvermelding</li>
+    <li>Verificatiestatus expliciet vermelden (primair / afgeleid / niet verifieerbaar)</li>
+  </ul>
+
+  <h2>Wat niet</h2>
+  <ul>
+    <li>Meningen van bewoners als feit presenteren</li>
+    <li>Emotionele taal, beschuldigingen of kwalificaties zonder feitelijke onderbouwing</li>
+    <li>Anonieme claims zonder bronvermelding</li>
+    <li>Speculatie over motieven van personen of organisaties</li>
+  </ul>
+
+  <h2>Bronhiërarchie</h2>
+  <ol>
+    <li>Rechterlijke uitspraken (rechtspraak.nl)</li>
+    <li>Officiële jaarrekeningen en besluiten</li>
+    <li>Notariële en contractuele stukken</li>
+    <li>Officiële communicatie (nieuwsbrieven, notulen Bewonersraad)</li>
+    <li>Onderzoeksrapporten</li>
+    <li>Enquêteresultaten (geaggregeerd)</li>
+    <li>Individuele verklaringen (alleen met expliciete bronvermelding en verificatiestatus)</li>
+  </ol>
+
+  <h2>Verificatiestatus</h2>
+  <p>Elk inhoudelijk blok vermeldt de status:</p>
+  <ul class="verif-legend">
+    <li><span class="verif-dot verif-dot--groen"></span><span><strong>Groen</strong> — dubbel geverifieerd via primaire bron + onafhankelijke controle</span></li>
+    <li><span class="verif-dot verif-dot--geel"></span><span><strong>Geel</strong> — één primaire bron</span></li>
+    <li><span class="verif-dot verif-dot--oranje"></span><span><strong>Oranje</strong> — afgeleid of niet volledig verifieerbaar</span></li>
+  </ul>
+
+  <h2>Beheerders</h2>
+  <p>Inhoud wordt alleen toegevoegd of gewijzigd door de redactie. Bewoners kunnen reageren via het reactieformulier — reacties zijn geen redactionele inhoud.</p>
+
+</main>
+
+<footer class="sw-footer">
+  <strong>Kerndossiers Landgoed De Stille Wille</strong> — dit is een groeiend dossier. Meer onderwerpen volgen.
+</footer>
+
+</body>
+</html>
