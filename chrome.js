@@ -580,18 +580,42 @@
       } catch (e) { return ''; }
     }
 
-    function renderItem(r) {
+    function renderItem(r, sb, magVerwijderen) {
       var item = el('div', { class: 'sw-react-item' });
       var head = el('div', { class: 'sw-react-item-head' });
       var naam = (r.naam && String(r.naam).trim()) ? String(r.naam).trim() : 'Anoniem';
       head.appendChild(el('span', { class: 'sw-react-item-naam', text: naam }));
-      head.appendChild(el('span', { class: 'sw-react-item-datum', text: fmtDatum(r.aangemaakt) }));
+
+      var meta = el('div', { class: 'sw-react-item-meta' });
+      meta.appendChild(el('span', { class: 'sw-react-item-datum', text: fmtDatum(r.aangemaakt) }));
+
+      // Beheerders/owners kunnen een reactie direct hier verwijderen.
+      if (magVerwijderen) {
+        var del = el('button', {
+          type: 'button',
+          class: 'sw-react-del',
+          title: 'Reactie verwijderen',
+          'aria-label': 'Reactie verwijderen',
+          text: '×'
+        });
+        del.addEventListener('click', function () {
+          if (!confirm('Deze reactie verwijderen?')) return;
+          del.disabled = true;
+          sb.from('reacties').delete().eq('id', r.id).then(function (res) {
+            if (res.error) { del.disabled = false; alert('Verwijderen mislukt: ' + res.error.message); return; }
+            laadReacties(sb, magVerwijderen);
+          });
+        });
+        meta.appendChild(del);
+      }
+
+      head.appendChild(meta);
       item.appendChild(head);
       item.appendChild(el('p', { class: 'sw-react-item-bericht', text: r.bericht }));
       return item;
     }
 
-    function laadReacties(sb) {
+    function laadReacties(sb, magVerwijderen) {
       sb.from('reacties').select('id, naam, bericht, aangemaakt')
         .eq('pagina', pagina)
         .order('aangemaakt', { ascending: true })
@@ -605,43 +629,100 @@
               text: rows.length === 1 ? '1 reactie' : rows.length + ' reacties'
             }));
           }
-          rows.forEach(function (r) { lijst.appendChild(renderItem(r)); });
+          rows.forEach(function (r) { lijst.appendChild(renderItem(r, sb, magVerwijderen)); });
         });
+    }
+
+    // Rol van de ingelogde gebruiker bepalen (voor de verwijder-knop).
+    function bepaalRol(sb) {
+      return sb.auth.getSession().then(function (s) {
+        var u = s.data && s.data.session && s.data.session.user;
+        if (!u || !u.email) return null;
+        return sb.from('gebruikers').select('rol').eq('email', u.email).maybeSingle()
+          .then(function (r) { return (r.data && r.data.rol) || null; });
+      }).catch(function () { return null; });
+    }
+
+    // Vriendelijke dialoog met duidelijk gelabelde knoppen (i.p.v. confirm(),
+    // waar "OK"/"Annuleren" verwarrend was). Resolve(true) = anoniem plaatsen,
+    // resolve(false) = terug naar het formulier om een naam in te vullen.
+    function vraagAnoniem() {
+      return new Promise(function (resolve) {
+        var overlay = el('div', { class: 'sw-anon-overlay' });
+        var dialog = el('div', {
+          class: 'sw-anon-dialog', role: 'dialog', 'aria-modal': 'true',
+          'aria-labelledby': 'sw-anon-titel'
+        });
+        dialog.appendChild(el('h3', { id: 'sw-anon-titel', class: 'sw-anon-titel', text: 'Liever met naam?' }));
+        dialog.appendChild(el('p', {
+          class: 'sw-anon-tekst',
+          text: 'U heeft geen naam ingevuld. Wij nodigen u uit uw naam en huisnummer te delen — dat maakt de discussie persoonlijker. U mag ook anoniem reageren.'
+        }));
+        var rij = el('div', { class: 'sw-anon-knoppen' });
+        var btnNaam = el('button', { type: 'button', class: 'sw-anon-btn sw-anon-btn-primary', text: 'Naam invullen' });
+        var btnAnon = el('button', { type: 'button', class: 'sw-anon-btn sw-anon-btn-ghost', text: 'Toch anoniem plaatsen' });
+        rij.appendChild(btnNaam);
+        rij.appendChild(btnAnon);
+        dialog.appendChild(rij);
+        overlay.appendChild(dialog);
+        document.body.appendChild(overlay);
+
+        function sluit(result) {
+          document.removeEventListener('keydown', onKey);
+          if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+          resolve(result);
+        }
+        function onKey(e) { if (e.key === 'Escape') sluit(false); }
+
+        btnNaam.addEventListener('click', function () { sluit(false); });
+        btnAnon.addEventListener('click', function () { sluit(true); });
+        overlay.addEventListener('click', function (e) { if (e.target === overlay) sluit(false); });
+        document.addEventListener('keydown', onKey);
+        btnNaam.focus();
+      });
     }
 
     ensureSupabase().then(function (sb) {
       if (!sb) { meld('Reacties zijn momenteel niet beschikbaar.'); return; }
-      laadReacties(sb);
 
-      btn.addEventListener('click', function () {
-        var bericht = (msgInput.value || '').trim();
-        if (!bericht) { meld('Schrijf eerst een bericht.'); return; }
+      bepaalRol(sb).then(function (rol) {
+        var magVerwijderen = (rol === 'beheerder' || rol === 'owner');
+        laadReacties(sb, magVerwijderen);
 
-        var naam = (naamInput.value || '').trim();
-        // Geen naam ingevuld? Vriendelijk uitnodigen om naam + huisnummer te
-        // delen. Annuleren → terug naar het formulier; OK → anoniem plaatsen.
-        if (!naam) {
-          var anoniem = confirm('Uw reactie wordt anoniem geplaatst. Wij nodigen u uit uw naam en huisnummer te delen — dat maakt de discussie persoonlijker. Wilt u toch anoniem reageren?');
-          if (!anoniem) { naamInput.focus(); return; }
+        function verstuur(naam) {
+          btn.disabled = true;
+          var label = btn.textContent;
+          btn.textContent = 'Versturen…';
+          melding.hidden = true;
+
+          sb.from('reacties').insert({
+            bericht: (msgInput.value || '').trim(),
+            naam: naam || null,
+            email: (emailInput.value || '').trim() || null,
+            pagina: pagina
+          }).then(function (res) {
+            btn.disabled = false;
+            btn.textContent = label;
+            if (res.error) { meld('Versturen mislukt: ' + res.error.message); return; }
+            msgInput.value = '';
+            meld('Bedankt! Uw reactie is geplaatst.');
+            laadReacties(sb, magVerwijderen);
+          });
         }
 
-        btn.disabled = true;
-        var label = btn.textContent;
-        btn.textContent = 'Versturen…';
-        melding.hidden = true;
+        btn.addEventListener('click', function () {
+          var bericht = (msgInput.value || '').trim();
+          if (!bericht) { meld('Schrijf eerst een bericht.'); return; }
 
-        sb.from('reacties').insert({
-          bericht: bericht,
-          naam: naam || null,
-          email: (emailInput.value || '').trim() || null,
-          pagina: pagina
-        }).then(function (res) {
-          btn.disabled = false;
-          btn.textContent = label;
-          if (res.error) { meld('Versturen mislukt: ' + res.error.message); return; }
-          msgInput.value = '';
-          meld('Bedankt! Uw reactie is geplaatst.');
-          laadReacties(sb);
+          var naam = (naamInput.value || '').trim();
+          if (!naam) {
+            vraagAnoniem().then(function (anoniem) {
+              if (!anoniem) { naamInput.focus(); return; }
+              verstuur('');
+            });
+            return;
+          }
+          verstuur(naam);
         });
       });
     }).catch(function () {

@@ -1093,6 +1093,23 @@
   color: var(--grey-soft);
   white-space: nowrap;
 }
+.sw-react-item-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.sw-react-del {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--orange-deep);
+  font-size: 18px;
+  line-height: 1;
+  padding: 0 2px;
+  border-radius: 4px;
+}
+.sw-react-del:hover { color: var(--orange); background: var(--orange-tint); }
+.sw-react-del:disabled { opacity: .5; cursor: default; }
 .sw-react-item-bericht {
   margin: 0;
   font-size: 14.5px;
@@ -1104,4 +1121,65 @@
 @media (max-width: 600px) {
   .sw-react-row { grid-template-columns: 1fr; }
   .sw-react-item-head { flex-direction: column; gap: 2px; }
+}
+
+/* Anoniem-bevestiging: dialoog met duidelijk gelabelde knoppen */
+.sw-anon-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(19, 78, 47, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 1000;
+}
+.sw-anon-dialog {
+  background: var(--white);
+  border-radius: 12px;
+  border-top: 4px solid var(--green);
+  max-width: 440px;
+  width: 100%;
+  padding: 28px 30px;
+  box-shadow: 0 20px 60px rgba(19, 78, 47, 0.25);
+}
+.sw-anon-titel {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--grey-dark);
+  margin: 0 0 10px;
+}
+.sw-anon-tekst {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--grey-mid);
+  margin: 0 0 22px;
+}
+.sw-anon-knoppen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.sw-anon-btn {
+  border: 0;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 11px 20px;
+  cursor: pointer;
+}
+.sw-anon-btn-primary { background: var(--green); color: #fff; }
+.sw-anon-btn-primary:hover,
+.sw-anon-btn-primary:focus-visible { background: var(--green-deep); }
+.sw-anon-btn-ghost {
+  background: var(--white);
+  color: var(--grey-mid);
+  border: 1px solid var(--green-25);
+}
+.sw-anon-btn-ghost:hover { background: var(--cream); }
+@media (max-width: 480px) {
+  .sw-anon-btn { flex: 1 1 100%; }
 }
