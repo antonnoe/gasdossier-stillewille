@@ -151,8 +151,24 @@
     if (!inner) return;
     inner.innerHTML = '';
 
-    inner.appendChild(linkNav('/', 'Hoofdpagina', slug === 'home'));
-    inner.appendChild(linkNav('/#correctie', 'Correctieverzoek indienen', false));
+    // Hoofdpagina blijft een directe homelink, met een pulldown eronder voor
+    // "Correctieverzoek" (CSS-hover, zelfde patroon als de categorie-dropdowns).
+    var hgrp = el('div', { class: 'sw-nav-grp' });
+    var hTrigger = el('a', {
+      href: '/',
+      class: 'sw-nav-grp-trigger' + (slug === 'home' ? ' is-active' : ''),
+      'aria-haspopup': 'true'
+    });
+    hTrigger.appendChild(document.createTextNode('Hoofdpagina '));
+    hTrigger.appendChild(el('span', { class: 'sw-nav-grp-caret', 'aria-hidden': 'true', text: '▾' }));
+    hgrp.appendChild(hTrigger);
+
+    var hPanel = el('div', { class: 'sw-nav-grp-panel', role: 'menu' });
+    var hCorr = el('a', { href: '/#correctie', role: 'menuitem' });
+    hCorr.appendChild(document.createTextNode('Correctieverzoek'));
+    hPanel.appendChild(hCorr);
+    hgrp.appendChild(hPanel);
+    inner.appendChild(hgrp);
 
     var groups = groupKerndossiers();
     groups.forEach(function (g) {
