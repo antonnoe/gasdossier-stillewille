@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Beheer · Kerndossiers Landgoed De Stille Wille</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#1F7F4E">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/components.css">
+<style>
+  .admin-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+    padding: 16px var(--page-pad-x);
+    background: var(--green-deep);
+    color: #fff;
+  }
+  .admin-bar .brand {
+    font-family: var(--font-display);
+    font-weight: 700; font-size: 15px; letter-spacing: -0.01em;
+  }
+  .admin-bar .who { font-size: 13px; color: rgba(255,255,255,.8); }
+  .admin-bar .who a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+
+  .admin-state {
+    max-width: var(--content-max);
+    margin: 0 auto; padding: 64px var(--page-pad-x);
+    font-size: 16px; color: var(--grey-mid);
+  }
+  .admin-state .auth-btn {
+    display: inline-block; margin-top: 18px;
+    border: 0; border-radius: 8px; background: var(--green); color: #fff;
+    font-family: var(--font-display); font-weight: 600; font-size: 15px;
+    padding: 12px 26px; text-decoration: none;
+  }
+
+  .admin-main { max-width: var(--content-max); margin: 0 auto; padding: 48px var(--page-pad-x) 80px; }
+  .admin-main h2 {
+    font-family: var(--font-display); font-weight: 700; font-size: 30px;
+    letter-spacing: -0.02em; color: var(--grey-dark); margin: 48px 0 6px;
+  }
+  .admin-main h2:first-child { margin-top: 0; }
+  .admin-main h2::before { content:''; display:block; width:36px; height:3px; background:var(--green); margin-bottom:14px; }
+  .admin-main .sub { font-size: 14px; color: var(--grey-mid); margin: 0 0 20px; }
+
+  table.admin-table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  table.admin-table th, table.admin-table td {
+    text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--green-15); vertical-align: middle;
+  }
+  table.admin-table th {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--green); font-weight: 700;
+  }
+  table.admin-table td .nm { font-weight: 600; color: var(--grey-dark); }
+  table.admin-table td .em { color: var(--grey-mid); }
+
+  .badge {
+    display: inline-block; font-family: var(--font-mono); font-size: 10.5px;
+    letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700;
+    padding: 3px 9px; border-radius: 999px;
+  }
+  .badge.pending  { background: var(--yellow-tint); color: var(--yellow-deep); }
+  .badge.approved { background: var(--green-tint);  color: var(--green-deep); }
+  .badge.rejected { background: var(--orange-tint); color: var(--orange-deep); }
+  .badge.rol { background: var(--green-08); color: var(--green-deep); }
+
+  .row-actions { display: flex; gap: 8px; }
+  .btn-sm {
+    border: 0; border-radius: 6px; cursor: pointer;
+    font-family: var(--font-display); font-weight: 600; font-size: 13px; padding: 8px 14px;
+  }
+  .btn-sm:disabled { opacity: .5; cursor: default; }
+  .btn-approve { background: var(--green); color: #fff; }
+  .btn-approve:hover:not(:disabled) { background: var(--green-deep); }
+  .btn-reject { background: var(--white); color: var(--orange-deep); border: 1px solid var(--orange); }
+  .btn-reject:hover:not(:disabled) { background: var(--orange-tint); }
+
+  .empty { color: var(--grey-soft); font-style: italic; padding: 16px 0; }
+  .err-line { color: var(--orange-deep); font-size: 14px; margin: 8px 0; }
+  #app { display: none; }
+</style>
+</head>
+<body>
+
+<div id="loading" class="admin-state">Bezig met laden…</div>
+
+<div id="denied" class="admin-state" style="display:none;">
+  <h2 style="margin-top:0;">Geen toegang</h2>
+  <p>Deze pagina is alleen toegankelijk voor beheerders.</p>
+  <a class="auth-btn" href="/index.html">Naar de dossiers</a>
+</div>
+
+<div id="app">
+  <div class="admin-bar">
+    <span class="brand">Beheer · Kerndossiers De Stille Wille</span>
+    <span class="who">Ingelogd als <span id="who-email"></span> · <a href="#" id="logout">Uitloggen</a></span>
+  </div>
+
+  <main class="admin-main">
+    <h2>Aanvragen</h2>
+    <p class="sub">Openstaande en beoordeelde toegangsaanvragen.</p>
+    <div id="aanvragen-err" class="err-line" hidden></div>
+    <table class="admin-table" id="aanvragen-table">
+      <thead>
+        <tr><th>Naam</th><th>E-mail</th><th>Status</th><th>Actie</th></tr>
+      </thead>
+      <tbody id="aanvragen-body"></tbody>
+    </table>
+    <div id="aanvragen-empty" class="empty" hidden>Geen aanvragen.</div>
+
+    <h2>Gebruikers</h2>
+    <p class="sub">Bestaande gebruikers en hun rol.</p>
+    <div id="gebruikers-err" class="err-line" hidden></div>
+    <table class="admin-table" id="gebruikers-table">
+      <thead>
+        <tr><th>E-mail</th><th>Naam</th><th>Rol</th></tr>
+      </thead>
+      <tbody id="gebruikers-body"></tbody>
+    </table>
+    <div id="gebruikers-empty" class="empty" hidden>Nog geen gebruikers.</div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/supabase-config.js"></script>
+<script>
+(function () {
+  'use strict';
+  var sb = window.sb;
+  var ADMIN_ROLES = ['beheerder', 'owner'];
+
+  var loadingEl = document.getElementById('loading');
+  var deniedEl = document.getElementById('denied');
+  var appEl = document.getElementById('app');
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+    });
+  }
+
+  function showDenied() { loadingEl.style.display = 'none'; deniedEl.style.display = 'block'; }
+  function showApp() { loadingEl.style.display = 'none'; appEl.style.display = 'block'; }
+
+  // 1. Sessie + rolcontrole
+  sb.auth.getSession().then(function (res) {
+    var session = res.data && res.data.session;
+    if (!session) { window.location.replace('/login.html'); return; }
+
+    var email = session.user.email;
+    document.getElementById('who-email').textContent = email;
+
+    sb.from('gebruikers').select('rol').eq('email', email).maybeSingle()
+      .then(function (r) {
+        var rol = r.data && r.data.rol;
+        if (r.error || !rol || ADMIN_ROLES.indexOf(rol) === -1) { showDenied(); return; }
+        showApp();
+        loadAanvragen();
+        loadGebruikers();
+      });
+  });
+
+  // 2. Aanvragen
+  function loadAanvragen() {
+    var body = document.getElementById('aanvragen-body');
+    var empty = document.getElementById('aanvragen-empty');
+    var errEl = document.getElementById('aanvragen-err');
+    errEl.hidden = true;
+
+    sb.from('aanvragen').select('id, naam, email, status').order('created_at', { ascending: false })
+      .then(function (r) {
+        if (r.error) { errEl.textContent = 'Kon aanvragen niet laden: ' + r.error.message; errEl.hidden = false; return; }
+        var rows = r.data || [];
+        body.innerHTML = '';
+        empty.hidden = rows.length > 0;
+        rows.forEach(function (a) {
+          var tr = document.createElement('tr');
+          var status = a.status || 'pending';
+          var actions = '';
+          if (status === 'pending') {
+            actions =
+              '<div class="row-actions">' +
+                '<button class="btn-sm btn-approve" data-act="approve" data-id="' + a.id + '">Goedkeuren</button>' +
+                '<button class="btn-sm btn-reject" data-act="reject" data-id="' + a.id + '">Afwijzen</button>' +
+              '</div>';
+          } else {
+            actions = '<span class="empty" style="padding:0;">—</span>';
+          }
+          tr.innerHTML =
+            '<td><span class="nm">' + esc(a.naam) + '</span></td>' +
+            '<td><span class="em">' + esc(a.email) + '</span></td>' +
+            '<td><span class="badge ' + esc(status) + '">' + esc(status) + '</span></td>' +
+            '<td>' + actions + '</td>';
+          tr.querySelectorAll('button[data-act]').forEach(function (btn) {
+            btn.addEventListener('click', function () { handleAction(a, btn.getAttribute('data-act'), tr); });
+          });
+          body.appendChild(tr);
+        });
+      });
+  }
+
+  function handleAction(aanvraag, act, tr) {
+    var buttons = tr.querySelectorAll('button');
+    buttons.forEach(function (b) { b.disabled = true; });
+
+    if (act === 'reject') {
+      sb.from('aanvragen').update({ status: 'rejected' }).eq('id', aanvraag.id)
+        .then(function (r) {
+          if (r.error) { alert('Afwijzen mislukt: ' + r.error.message); buttons.forEach(function (b) { b.disabled = false; }); return; }
+          loadAanvragen();
+        });
+      return;
+    }
+
+    // Goedkeuren → Edge Function voegt de gebruiker toe (rol "gebruiker")
+    // met de service-role sleutel (Admin API), buiten het bereik van de anon-client.
+    sb.functions.invoke('approve-aanvraag', {
+      body: { email: aanvraag.email, naam: aanvraag.naam }
+    }).then(function (r) {
+      if (r.error) {
+        alert('Goedkeuren mislukt: ' + (r.error.message || r.error));
+        buttons.forEach(function (b) { b.disabled = false; });
+        return;
+      }
+      // Markeer de aanvraag als goedgekeurd en ververs beide lijsten.
+      sb.from('aanvragen').update({ status: 'approved' }).eq('id', aanvraag.id).then(function () {
+        loadAanvragen();
+        loadGebruikers();
+      });
+    }).catch(function (err) {
+      alert('Goedkeuren mislukt: ' + (err && err.message ? err.message : err));
+      buttons.forEach(function (b) { b.disabled = false; });
+    });
+  }
+
+  // 3. Gebruikers
+  function loadGebruikers() {
+    var body = document.getElementById('gebruikers-body');
+    var empty = document.getElementById('gebruikers-empty');
+    var errEl = document.getElementById('gebruikers-err');
+    errEl.hidden = true;
+
+    sb.from('gebruikers').select('email, naam, rol').order('email', { ascending: true })
+      .then(function (r) {
+        if (r.error) { errEl.textContent = 'Kon gebruikers niet laden: ' + r.error.message; errEl.hidden = false; return; }
+        var rows = r.data || [];
+        body.innerHTML = '';
+        empty.hidden = rows.length > 0;
+        rows.forEach(function (g) {
+          var tr = document.createElement('tr');
+          tr.innerHTML =
+            '<td><span class="em">' + esc(g.email) + '</span></td>' +
+            '<td>' + (g.naam ? esc(g.naam) : '<span class="empty" style="padding:0;">—</span>') + '</td>' +
+            '<td><span class="badge rol">' + esc(g.rol || 'gebruiker') + '</span></td>';
+          body.appendChild(tr);
+        });
+      });
+  }
+
+  // 4. Uitloggen
+  document.getElementById('logout').addEventListener('click', function (e) {
+    e.preventDefault();
+    sb.auth.signOut().then(function () {
+      window.swSetAuthCookie(null);
+      window.location.replace('/login.html');
+    });
+  });
+})();
+</script>
+</body>
+</html>

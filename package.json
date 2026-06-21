@@ -1,0 +1,9 @@
+{
+  "name": "gasdossier-stillewille",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Statische kerndossiers De Stille Wille met magic-link authenticatie via Supabase.",
+  "dependencies": {
+    "@vercel/edge": "^1.2.1"
+  }
+}

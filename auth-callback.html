@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Bezig met inloggen · Kerndossiers Landgoed De Stille Wille</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#1F7F4E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/components.css">
+<style>
+  .auth-wrap {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 48px var(--page-pad-x-mobile);
+    background: var(--cream);
+  }
+  .auth-card {
+    width: 100%;
+    max-width: 440px;
+    background: var(--white);
+    border: 1px solid var(--green-15);
+    border-top: 4px solid var(--green);
+    border-radius: 12px;
+    padding: 40px 36px;
+    box-shadow: 0 12px 40px rgba(19, 78, 47, 0.08);
+    text-align: center;
+  }
+  .auth-card h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 26px;
+    letter-spacing: -0.02em;
+    color: var(--grey-dark);
+    margin: 0 0 10px;
+  }
+  .auth-card p {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--grey-mid);
+    margin: 0 0 8px;
+  }
+  .spinner {
+    width: 34px; height: 34px;
+    margin: 0 auto 20px;
+    border: 3px solid var(--green-15);
+    border-top-color: var(--green);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .auth-btn {
+    display: inline-block;
+    margin-top: 18px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--green);
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 12px 26px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .auth-btn:hover { background: var(--green-deep); }
+  .err-icon { font-size: 34px; line-height: 1; margin-bottom: 8px; }
+  #error-view, #success-view { display: none; }
+</style>
+</head>
+<body>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+
+    <div id="loading-view">
+      <div class="spinner" aria-hidden="true"></div>
+      <h1>Bezig met inloggen…</h1>
+      <p>Een moment, we controleren uw toegangslink.</p>
+    </div>
+
+    <div id="success-view">
+      <h1>Gelukt!</h1>
+      <p>U bent ingelogd. U wordt doorgestuurd…</p>
+    </div>
+
+    <div id="error-view">
+      <div class="err-icon" aria-hidden="true">⚠️</div>
+      <h1>Inloggen mislukt</h1>
+      <p id="error-text">De toegangslink is ongeldig of verlopen.</p>
+      <a class="auth-btn" href="/login.html">Terug naar inloggen</a>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/supabase-config.js"></script>
+<script>
+(function () {
+  'use strict';
+  var loadingView = document.getElementById('loading-view');
+  var successView = document.getElementById('success-view');
+  var errorView = document.getElementById('error-view');
+  var errorText = document.getElementById('error-text');
+
+  function showError(text) {
+    if (text) errorText.textContent = text;
+    loadingView.style.display = 'none';
+    successView.style.display = 'none';
+    errorView.style.display = 'block';
+  }
+
+  function showSuccess() {
+    loadingView.style.display = 'none';
+    errorView.style.display = 'none';
+    successView.style.display = 'block';
+    setTimeout(function () { window.location.replace('/index.html'); }, 800);
+  }
+
+  // Als Supabase een fout in de hash heeft teruggegeven (bv. expired link).
+  var hash = window.location.hash || '';
+  if (hash.indexOf('error') !== -1) {
+    var params = new URLSearchParams(hash.replace(/^#/, ''));
+    var desc = params.get('error_description');
+    showError(desc ? decodeURIComponent(desc.replace(/\+/g, ' ')) : null);
+    return;
+  }
+
+  // detectSessionInUrl (in supabase-config.js) verwerkt de hash automatisch.
+  // We geven dat een tel, en lezen daarna de sessie uit.
+  window.sb.auth.getSession().then(function (res) {
+    if (res.error) { showError(res.error.message); return; }
+    if (res.data && res.data.session) {
+      window.swSetAuthCookie(res.data.session);
+      showSuccess();
+    } else {
+      showError('Geen geldige sessie gevonden. Vraag een nieuwe toegangslink aan.');
+    }
+  }).catch(function (err) {
+    showError(err && err.message ? err.message : String(err));
+  });
+})();
+</script>
+</body>
+</html>
