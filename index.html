@@ -139,6 +139,17 @@
       .cv-item-antwoord { margin: 10px 0 0; padding: 12px 14px; background: var(--green-tint); border-left: 3px solid var(--green); border-radius: 0 8px 8px 0; }
       .cv-item-antwoord-label { display: block; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; color: var(--green); margin-bottom: 4px; }
       .cv-item-antwoord p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--green-deep); white-space: pre-wrap; }
+      .cv-admin-acties { display: flex; gap: 8px; margin-top: 10px; }
+      .cv-mini-btn { border: 0; border-radius: 6px; background: var(--green); color: #fff; font-family: var(--font-display); font-weight: 600; font-size: 12.5px; padding: 7px 13px; cursor: pointer; }
+      .cv-mini-btn:hover:not(:disabled) { background: var(--green-deep); }
+      .cv-mini-btn:disabled { opacity: .6; cursor: default; }
+      .cv-mini-del { background: var(--white); color: var(--orange-deep); border: 1px solid var(--orange); }
+      .cv-mini-del:hover:not(:disabled) { background: var(--orange-tint); }
+      .cv-mini-plain { background: var(--white); color: var(--grey-mid); border: 1px solid var(--green-25); }
+      .cv-mini-plain:hover:not(:disabled) { background: var(--cream); }
+      .cv-edit-inline { margin-top: 10px; }
+      .cv-edit-ta { width: 100%; font-family: var(--font-body); font-size: 14px; color: var(--grey-dark); background: var(--white); border: 1px solid var(--green-25); border-radius: 6px; padding: 9px 11px; resize: vertical; }
+      .cv-edit-ta:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-08); }
       @media (max-width: 700px) {
         .correctie { padding: 40px var(--page-pad-x-mobile); }
       }
@@ -571,6 +582,7 @@
       var btn = document.getElementById('cv-btn');
       var melding = document.getElementById('cv-melding');
       var lijst = document.getElementById('cv-lijst');
+      var magBeheer = false;   // beheerder/owner → inline verwijderen + beantwoorden
 
       function escapeHtml(s) {
         return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -595,7 +607,7 @@
 
       function laadVerzoeken() {
         window.sb.from('correctieverzoeken')
-          .select('dossier, bericht, naam, antwoord, beantwoord_op, aangemaakt')
+          .select('id, dossier, bericht, naam, antwoord, beantwoord_op, aangemaakt')
           .order('aangemaakt', { ascending: false })
           .limit(25)
           .then(function (r) {
@@ -622,9 +634,84 @@
                 '</div>' +
                 '<p class="cv-item-bericht">' + escapeHtml(c.bericht) + '</p>' +
                 naamHtml + antwoordHtml;
+              if (magBeheer) item.appendChild(maakBeheerActies(c));
               lijst.appendChild(item);
             });
           });
+      }
+
+      // Inline beheeracties (alleen voor beheerder/owner): verwijderen + beantwoorden.
+      function maakBeheerActies(c) {
+        var wrap = document.createElement('div');
+        wrap.className = 'cv-admin-acties';
+
+        var antwBtn = document.createElement('button');
+        antwBtn.type = 'button';
+        antwBtn.className = 'cv-mini-btn';
+        antwBtn.textContent = c.antwoord ? 'Antwoord bewerken' : 'Antwoorden';
+
+        var delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = 'cv-mini-btn cv-mini-del';
+        delBtn.textContent = 'Verwijderen';
+
+        wrap.appendChild(antwBtn);
+        wrap.appendChild(delBtn);
+
+        delBtn.addEventListener('click', function () {
+          if (!confirm('Dit correctieverzoek verwijderen?')) return;
+          delBtn.disabled = true;
+          window.sb.from('correctieverzoeken').delete().eq('id', c.id).then(function (res) {
+            if (res.error) { alert('Verwijderen mislukt: ' + res.error.message); delBtn.disabled = false; return; }
+            laadVerzoeken();
+          });
+        });
+
+        antwBtn.addEventListener('click', function () {
+          var volgend = wrap.nextSibling;
+          if (volgend && volgend.classList && volgend.classList.contains('cv-edit-inline')) {
+            volgend.parentNode.removeChild(volgend); return;
+          }
+          var editor = document.createElement('div');
+          editor.className = 'cv-edit-inline';
+          editor.innerHTML =
+            '<textarea rows="3" class="cv-edit-ta"></textarea>' +
+            '<div class="cv-admin-acties" style="margin-top:8px;">' +
+              '<button type="button" class="cv-mini-btn" data-x="opslaan">Opslaan</button>' +
+              '<button type="button" class="cv-mini-btn cv-mini-plain" data-x="annuleer">Annuleren</button>' +
+            '</div>';
+          wrap.parentNode.insertBefore(editor, wrap.nextSibling);
+          var ta = editor.querySelector('textarea');
+          ta.value = c.antwoord || '';
+          ta.focus();
+          editor.querySelector('[data-x="annuleer"]').addEventListener('click', function () {
+            editor.parentNode.removeChild(editor);
+          });
+          editor.querySelector('[data-x="opslaan"]').addEventListener('click', function () {
+            var opslaanBtn = editor.querySelector('[data-x="opslaan"]');
+            var val = (ta.value || '').trim();
+            opslaanBtn.disabled = true;
+            window.sb.from('correctieverzoeken')
+              .update({ antwoord: val || null, beantwoord_op: val ? new Date().toISOString() : null })
+              .eq('id', c.id)
+              .then(function (res) {
+                if (res.error) { alert('Opslaan mislukt: ' + res.error.message); opslaanBtn.disabled = false; return; }
+                laadVerzoeken();
+              });
+          });
+        });
+
+        return wrap;
+      }
+
+      // Rol van de ingelogde gebruiker bepalen (voor de beheeracties).
+      function bepaalRol() {
+        return window.sb.auth.getSession().then(function (s) {
+          var u = s.data && s.data.session && s.data.session.user;
+          if (!u || !u.email) return null;
+          return window.sb.from('gebruikers').select('rol').eq('email', u.email).maybeSingle()
+            .then(function (r) { return (r.data && r.data.rol) || null; });
+        }).catch(function () { return null; });
       }
 
       form.addEventListener('submit', function (e) {
@@ -652,7 +739,10 @@
         });
       });
 
-      laadVerzoeken();
+      bepaalRol().then(function (rol) {
+        magBeheer = (rol === 'beheerder' || rol === 'owner');
+        laadVerzoeken();
+      });
     })();
     </script>
   </body>
