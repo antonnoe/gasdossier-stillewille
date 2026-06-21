@@ -84,6 +84,25 @@
         .lr-lijst { grid-template-columns: 1fr; }
       }
 
+      /* "Over dit archief" — redactionele verklaring boven de footer */
+      .over-archief {
+        border-top: 1px solid var(--green-15);
+        padding: 48px var(--page-pad-x);
+      }
+      .over-archief-inner { max-width: 760px; margin: 0 auto; }
+      .over-archief h2 {
+        font-family: var(--font-display); font-weight: 700; font-size: 22px;
+        letter-spacing: -0.01em; color: var(--grey-dark); margin: 0 0 12px;
+      }
+      .over-archief p {
+        font-family: var(--font-body); font-size: 15px; line-height: 1.7;
+        color: var(--grey-mid); margin: 0;
+      }
+      .over-archief a { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+      @media (max-width: 700px) {
+        .over-archief { padding: 40px var(--page-pad-x-mobile); }
+      }
+
       .hero {
         display: grid;
         grid-template-columns: 1fr 480px;
@@ -409,6 +428,14 @@
       <div class="lr-inner">
         <h2 class="lr-titel">Laatste reacties van bewoners</h2>
         <div class="lr-lijst" id="lr-lijst"></div>
+      </div>
+    </section>
+
+    <!-- ─── OVER DIT ARCHIEF (redactionele verklaring) ───── -->
+    <section class="over-archief">
+      <div class="over-archief-inner">
+        <h2>Over dit archief</h2>
+        <p>Deze site publiceert uitsluitend feitelijke, controleerbare informatie over Landgoed De Stille Wille. Alle inhoud is gebaseerd op primaire bronnen of officiële documenten. Meningen en emotionele uitingen zijn geen onderdeel van dit archief. Zie het <a href="https://github.com/antonnoe/gasdossier-stillewille/blob/main/REDACTIE.md">redactioneel protocol</a>.</p>
       </div>
     </section>
 
