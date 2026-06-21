@@ -87,36 +87,43 @@
   <strong>Kerndossiers Landgoed De Stille Wille</strong> — dit is een groeiend dossier. Meer onderwerpen volgen.
 </footer>
 
+<!-- Register als single source of truth voor de te doorzoeken pagina's -->
+<script src="/dossiers.js"></script>
 <script>
 (function () {
   'use strict';
 
-  // Hardcoded lijst van te doorzoeken pagina's.
-  var PAGINAS = [
+  // Te doorzoeken pagina's — afgeleid uit het dossier-register (dossiers.js),
+  // zodat nieuwe dossiers en secties automatisch doorzoekbaar zijn.
+  //   - elk top-level dossier  -> /<slug>.html
+  //   - elke sectie met pagina -> /<sectie.pagina>
+  // Aangevuld met losse pagina's die (bewust) niet in het register staan.
+  var LOSSE_PAGINAS = [
     '/index.html',
-    '/gas.html',
-    '/gas-historie.html',
-    '/gas-juridisch.html',
-    '/gas-kosten.html',
-    '/kostenverdeling-gas.html',
-    '/financieel-overzicht.html',
-    '/exploitatieovereenkomst.html',
-    '/erfpacht.html',
-    '/mjop.html',
-    '/bovengronds.html',
-    '/cai.html',
-    '/riool.html',
-    '/water.html',
-    '/ecologie.html',
-    '/in-beeld.html',
-    '/stakeholders.html',
-    '/tijdlijn.html',
     '/overzicht.html',
-    '/enquete-2023.html',
-    '/bronnen.html',
-    '/br.html',
-    '/sww.html'
+    '/kostenverdeling-gas.html'
   ];
+
+  function bouwPaginalijst() {
+    var uniek = {};
+    var lijst = [];
+    function voegToe(pad) {
+      if (pad && !uniek[pad]) { uniek[pad] = true; lijst.push(pad); }
+    }
+
+    LOSSE_PAGINAS.forEach(voegToe);
+
+    (window.SW_DOSSIERS || []).forEach(function (d) {
+      if (d.slug) voegToe('/' + d.slug + '.html');
+      (d.secties || []).forEach(function (s) {
+        if (s.pagina) voegToe('/' + s.pagina);
+      });
+    });
+
+    return lijst;
+  }
+
+  var PAGINAS = bouwPaginalijst();
 
   var form = document.getElementById('zoek-form');
   var input = document.getElementById('zoek-input');
