@@ -136,6 +136,9 @@
       .cv-item-datum { font-family: var(--font-mono); font-size: 11px; color: var(--grey-soft); white-space: nowrap; }
       .cv-item-bericht { font-size: 14.5px; line-height: 1.6; color: var(--grey-dark); margin: 0; white-space: pre-wrap; }
       .cv-item-naam { font-family: var(--font-display); font-weight: 600; font-size: 13px; color: var(--grey-mid); margin: 4px 0 0; }
+      .cv-item-antwoord { margin: 10px 0 0; padding: 12px 14px; background: var(--green-tint); border-left: 3px solid var(--green); border-radius: 0 8px 8px 0; }
+      .cv-item-antwoord-label { display: block; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; color: var(--green); margin-bottom: 4px; }
+      .cv-item-antwoord p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--green-deep); white-space: pre-wrap; }
       @media (max-width: 700px) {
         .correctie { padding: 40px var(--page-pad-x-mobile); }
       }
@@ -592,7 +595,7 @@
 
       function laadVerzoeken() {
         window.sb.from('correctieverzoeken')
-          .select('dossier, bericht, naam, aangemaakt')
+          .select('dossier, bericht, naam, antwoord, beantwoord_op, aangemaakt')
           .order('aangemaakt', { ascending: false })
           .limit(25)
           .then(function (r) {
@@ -609,13 +612,16 @@
               item.className = 'cv-item';
               var naamHtml = (c.naam && String(c.naam).trim())
                 ? '<p class="cv-item-naam">— ' + escapeHtml(c.naam.trim()) + '</p>' : '';
+              var antwoordHtml = (c.antwoord && String(c.antwoord).trim())
+                ? '<div class="cv-item-antwoord"><span class="cv-item-antwoord-label">Antwoord van de redactie</span>' +
+                  '<p>' + escapeHtml(c.antwoord.trim()) + '</p></div>' : '';
               item.innerHTML =
                 '<div class="cv-item-head">' +
                   '<span class="cv-item-dossier">' + escapeHtml(c.dossier || 'Algemeen') + '</span>' +
                   '<span class="cv-item-datum">' + escapeHtml(fmtDatum(c.aangemaakt)) + '</span>' +
                 '</div>' +
                 '<p class="cv-item-bericht">' + escapeHtml(c.bericht) + '</p>' +
-                naamHtml;
+                naamHtml + antwoordHtml;
               lijst.appendChild(item);
             });
           });

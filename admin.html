@@ -116,6 +116,13 @@
   .btn-plain { background: var(--white); color: var(--grey-mid); border: 1px solid var(--green-25); }
   .btn-plain:hover:not(:disabled) { background: var(--cream); }
 
+  .cv-antwoord-admin { margin-top: 6px; font-size: 13px; line-height: 1.5; color: var(--green-deep); background: var(--green-tint); border-radius: 6px; padding: 6px 9px; }
+  .cv-antwoord-admin strong { font-family: var(--font-display); }
+  .cv-edit { background: var(--cream); border: 1px solid var(--green-15); border-radius: 8px; padding: 14px 16px; }
+  .cv-edit label { display: block; font-family: var(--font-display); font-weight: 600; font-size: 12px; color: var(--grey-dark); margin-bottom: 5px; }
+  .cv-edit-ta { width: 100%; font-family: var(--font-body); font-size: 14px; color: var(--grey-dark); background: var(--white); border: 1px solid var(--green-25); border-radius: 6px; padding: 9px 11px; resize: vertical; }
+  .cv-edit-ta:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-08); }
+
   .empty { color: var(--grey-soft); font-style: italic; padding: 16px 0; }
   .err-line { color: var(--orange-deep); font-size: 14px; margin: 8px 0; }
   #app { display: none; }
@@ -491,7 +498,7 @@
     var errEl = document.getElementById('correctie-err');
     errEl.hidden = true;
 
-    sb.from('correctieverzoeken').select('id, dossier, bericht, naam, aangemaakt').order('aangemaakt', { ascending: false })
+    sb.from('correctieverzoeken').select('id, dossier, bericht, naam, antwoord, beantwoord_op, aangemaakt').order('aangemaakt', { ascending: false })
       .then(function (r) {
         if (r.error) { errEl.textContent = 'Kon correctieverzoeken niet laden: ' + r.error.message; errEl.hidden = false; return; }
         var rows = r.data || [];
@@ -501,14 +508,20 @@
           var tr = document.createElement('tr');
           var datum = '';
           try { datum = new Date(c.aangemaakt).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' }); } catch (e) {}
+          var antwoordHtml = c.antwoord
+            ? '<div class="cv-antwoord-admin"><strong>Antwoord:</strong> ' + esc(c.antwoord) + '</div>' : '';
           tr.innerHTML =
             '<td><span class="em">' + esc(datum) + '</span></td>' +
             '<td>' + (c.dossier ? esc(c.dossier) : '<span class="empty" style="padding:0;">Algemeen</span>') + '</td>' +
             '<td>' + (c.naam ? esc(c.naam) : '<span class="empty" style="padding:0;">Anoniem</span>') + '</td>' +
-            '<td>' + esc(c.bericht) + '</td>' +
-            '<td><div class="row-actions"><button class="btn-sm btn-reject" data-act="delete">Verwijderen</button></div></td>';
-          tr.querySelector('button[data-act]').addEventListener('click', function () {
-            var btn = tr.querySelector('button');
+            '<td>' + esc(c.bericht) + antwoordHtml + '</td>' +
+            '<td><div class="row-actions">' +
+              '<button class="btn-sm btn-approve" data-act="antwoord">' + (c.antwoord ? 'Antwoord bewerken' : 'Antwoorden') + '</button>' +
+              '<button class="btn-sm btn-reject" data-act="delete">Verwijderen</button>' +
+            '</div></td>';
+
+          tr.querySelector('button[data-act="delete"]').addEventListener('click', function () {
+            var btn = tr.querySelector('button[data-act="delete"]');
             if (!confirm('Dit correctieverzoek verwijderen?')) return;
             btn.disabled = true;
             sb.from('correctieverzoeken').delete().eq('id', c.id).then(function (res) {
@@ -516,9 +529,58 @@
               loadCorrectie();
             });
           });
+
+          tr.querySelector('button[data-act="antwoord"]').addEventListener('click', function () {
+            toggleAntwoordEditor(tr, c);
+          });
+
           body.appendChild(tr);
         });
       });
+  }
+
+  // Inline antwoord-editor onder een correctieverzoek-rij.
+  function toggleAntwoordEditor(tr, c) {
+    var bestaand = tr.nextSibling;
+    if (bestaand && bestaand.classList && bestaand.classList.contains('cv-edit-row')) {
+      bestaand.parentNode.removeChild(bestaand);
+      return;
+    }
+    var editRow = document.createElement('tr');
+    editRow.className = 'cv-edit-row';
+    var td = document.createElement('td');
+    td.colSpan = 5;
+    td.innerHTML =
+      '<div class="cv-edit">' +
+        '<label>Antwoord van de redactie</label>' +
+        '<textarea class="cv-edit-ta" rows="3"></textarea>' +
+        '<div class="row-actions" style="margin-top:8px;">' +
+          '<button class="btn-sm btn-approve" data-edit="opslaan">Opslaan</button>' +
+          '<button class="btn-sm btn-plain" data-edit="annuleer">Annuleren</button>' +
+        '</div>' +
+      '</div>';
+    editRow.appendChild(td);
+    tr.parentNode.insertBefore(editRow, tr.nextSibling);
+
+    var ta = td.querySelector('.cv-edit-ta');
+    ta.value = c.antwoord || '';
+    ta.focus();
+
+    td.querySelector('button[data-edit="annuleer"]').addEventListener('click', function () {
+      editRow.parentNode.removeChild(editRow);
+    });
+    td.querySelector('button[data-edit="opslaan"]').addEventListener('click', function () {
+      var saveBtn = td.querySelector('button[data-edit="opslaan"]');
+      var val = (ta.value || '').trim();
+      saveBtn.disabled = true;
+      sb.from('correctieverzoeken')
+        .update({ antwoord: val || null, beantwoord_op: val ? new Date().toISOString() : null })
+        .eq('id', c.id)
+        .then(function (res) {
+          if (res.error) { alert('Opslaan mislukt: ' + res.error.message); saveBtn.disabled = false; return; }
+          loadCorrectie();
+        });
+    });
   }
 
   // 6. Uitloggen

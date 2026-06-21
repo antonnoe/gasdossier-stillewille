@@ -261,17 +261,23 @@ create policy "reacties_delete_beheer"
 --  alleen door beheerders/owners.
 -- =====================================================================
 create table if not exists public.correctieverzoeken (
-  id         uuid primary key default gen_random_uuid(),
-  dossier    text,
-  bericht    text not null,
-  naam       text,
-  aangemaakt timestamptz not null default now()
+  id           uuid primary key default gen_random_uuid(),
+  dossier      text,
+  bericht      text not null,
+  naam         text,
+  antwoord     text,           -- reactie van de redactie (beheerder/owner)
+  beantwoord_op timestamptz,   -- wanneer het antwoord is gegeven
+  aangemaakt   timestamptz not null default now()
 );
+
+-- Voor bestaande installaties: kolommen alsnog toevoegen.
+alter table public.correctieverzoeken add column if not exists antwoord text;
+alter table public.correctieverzoeken add column if not exists beantwoord_op timestamptz;
 
 alter table public.correctieverzoeken enable row level security;
 
 grant select, insert on public.correctieverzoeken to authenticated;
-grant delete           on public.correctieverzoeken to authenticated;
+grant update, delete on public.correctieverzoeken to authenticated;
 
 -- Eventuele eerder verleende anon-rechten intrekken (de tabel zit achter login).
 revoke select, insert on public.correctieverzoeken from anon;
@@ -281,6 +287,7 @@ drop policy if exists "correctie_select_publiek"  on public.correctieverzoeken;
 drop policy if exists "correctie_insert_publiek"  on public.correctieverzoeken;
 drop policy if exists "correctie_select_ingelogd" on public.correctieverzoeken;
 drop policy if exists "correctie_insert_ingelogd" on public.correctieverzoeken;
+drop policy if exists "correctie_update_beheer"   on public.correctieverzoeken;
 drop policy if exists "correctie_delete_beheer"   on public.correctieverzoeken;
 
 -- Lezen: alle ingelogde gebruikers.
@@ -296,6 +303,14 @@ create policy "correctie_insert_ingelogd"
   for insert
   to authenticated
   with check (true);
+
+-- Beantwoorden (update): alleen beheerders/owners.
+create policy "correctie_update_beheer"
+  on public.correctieverzoeken
+  for update
+  to authenticated
+  using      (public.huidige_rol() in ('beheerder', 'owner'))
+  with check (public.huidige_rol() in ('beheerder', 'owner'));
 
 -- Verwijderen: alleen beheerders/owners.
 create policy "correctie_delete_beheer"
