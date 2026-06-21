@@ -103,6 +103,43 @@
         .over-archief { padding: 40px var(--page-pad-x-mobile); }
       }
 
+      /* Correctieverzoeken-formulier */
+      .correctie { border-top: 1px solid var(--green-15); padding: 48px var(--page-pad-x); background: var(--cream); }
+      .correctie-inner { max-width: 760px; margin: 0 auto; }
+      .correctie h2 {
+        font-family: var(--font-display); font-weight: 700; font-size: 22px;
+        letter-spacing: -0.01em; color: var(--grey-dark); margin: 0 0 10px;
+      }
+      .cv-intro { font-family: var(--font-body); font-size: 15px; line-height: 1.7; color: var(--grey-mid); margin: 0 0 22px; max-width: 64ch; }
+      .cv-field { margin-bottom: 16px; }
+      .cv-field label { display: block; font-family: var(--font-display); font-weight: 600; font-size: 13px; color: var(--grey-dark); margin-bottom: 5px; }
+      .cv-field select, .cv-field textarea, .cv-field input {
+        width: 100%; font-family: var(--font-body); font-size: 15px; color: var(--grey-dark);
+        background: var(--white); border: 1px solid var(--green-25); border-radius: 8px; padding: 11px 13px;
+      }
+      .cv-field textarea { resize: vertical; min-height: 92px; line-height: 1.5; }
+      .cv-field select:focus, .cv-field textarea:focus, .cv-field input:focus {
+        outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-08);
+      }
+      .cv-btn {
+        border: 0; border-radius: 8px; background: var(--green); color: #fff;
+        font-family: var(--font-display); font-weight: 600; font-size: 14px; padding: 12px 24px; cursor: pointer;
+      }
+      .cv-btn:hover:not(:disabled) { background: var(--green-deep); }
+      .cv-btn:disabled { opacity: .6; cursor: default; }
+      .cv-melding { margin: 16px 0 0; padding: 11px 15px; border-radius: 8px; font-size: 14px; background: var(--green-tint); border: 1px solid var(--green-15); color: var(--green-deep); }
+      .cv-lijst { margin-top: 28px; }
+      .cv-lijst-kop { font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--green-deep); margin: 0 0 4px; padding-top: 18px; border-top: 1px solid var(--green-15); }
+      .cv-item { padding: 14px 0; border-bottom: 1px solid var(--green-15); }
+      .cv-item-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 5px; }
+      .cv-item-dossier { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 700; color: var(--green); background: var(--green-08); padding: 3px 9px; border-radius: 999px; }
+      .cv-item-datum { font-family: var(--font-mono); font-size: 11px; color: var(--grey-soft); white-space: nowrap; }
+      .cv-item-bericht { font-size: 14.5px; line-height: 1.6; color: var(--grey-dark); margin: 0; white-space: pre-wrap; }
+      .cv-item-naam { font-family: var(--font-display); font-weight: 600; font-size: 13px; color: var(--grey-mid); margin: 4px 0 0; }
+      @media (max-width: 700px) {
+        .correctie { padding: 40px var(--page-pad-x-mobile); }
+      }
+
       .hero {
         display: grid;
         grid-template-columns: 1fr 480px;
@@ -423,6 +460,31 @@
       <div data-sw-tile-grid></div>
     </main>
 
+    <!-- ─── CORRECTIEVERZOEKEN (via Supabase, publiek) ───── -->
+    <section class="correctie" id="correctie">
+      <div class="correctie-inner">
+        <h2>Correctieverzoek indienen</h2>
+        <p class="cv-intro">Treft u informatie aan die onjuist is of buiten de grenzen van feitelijkheid valt? Laat het ons weten. Dit archief is alleen zo sterk als zijn bronnen.</p>
+        <form id="cv-form">
+          <div class="cv-field">
+            <label for="cv-dossier">Over welk dossier?</label>
+            <select id="cv-dossier" name="dossier"></select>
+          </div>
+          <div class="cv-field">
+            <label for="cv-bericht">Beschrijf de onjuistheid of ontbrekende bron</label>
+            <textarea id="cv-bericht" name="bericht" rows="4"></textarea>
+          </div>
+          <div class="cv-field">
+            <label for="cv-naam">Naam (optioneel)</label>
+            <input type="text" id="cv-naam" name="naam" autocomplete="name">
+          </div>
+          <button type="submit" class="cv-btn" id="cv-btn">Dien correctieverzoek in</button>
+        </form>
+        <p class="cv-melding" id="cv-melding" hidden></p>
+        <div class="cv-lijst" id="cv-lijst"></div>
+      </div>
+    </section>
+
     <!-- ─── LAATSTE REACTIES (via Supabase, alleen zichtbaar als er reacties zijn) ─ -->
     <section class="laatste-reacties" id="laatste-reacties" hidden>
       <div class="lr-inner">
@@ -492,6 +554,99 @@
           });
           sec.hidden = false;
         });
+    })();
+    </script>
+    <script>
+    (function () {
+      'use strict';
+      if (!window.sb) return;
+
+      var form = document.getElementById('cv-form');
+      var sel = document.getElementById('cv-dossier');
+      var berichtEl = document.getElementById('cv-bericht');
+      var naamEl = document.getElementById('cv-naam');
+      var btn = document.getElementById('cv-btn');
+      var melding = document.getElementById('cv-melding');
+      var lijst = document.getElementById('cv-lijst');
+
+      function escapeHtml(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+          return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+        });
+      }
+      function meld(t) { melding.textContent = t; melding.hidden = false; }
+
+      // Select vullen met de hoofdmenu-items (dossiers uit het register).
+      var opties = ['Algemeen / hele site'];
+      (window.SW_DOSSIERS || []).forEach(function (d) { if (d.titel) opties.push(d.titel); });
+      opties.forEach(function (t) {
+        var o = document.createElement('option');
+        o.value = t; o.textContent = t;
+        sel.appendChild(o);
+      });
+
+      function fmtDatum(iso) {
+        try { return new Date(iso).toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' }); }
+        catch (e) { return ''; }
+      }
+
+      function laadVerzoeken() {
+        window.sb.from('correctieverzoeken')
+          .select('dossier, bericht, naam, aangemaakt')
+          .order('aangemaakt', { ascending: false })
+          .limit(25)
+          .then(function (r) {
+            if (r.error) return;
+            var rows = r.data || [];
+            lijst.innerHTML = '';
+            if (!rows.length) return;
+            lijst.appendChild(Object.assign(document.createElement('h3'), {
+              className: 'cv-lijst-kop',
+              textContent: rows.length === 1 ? '1 correctieverzoek' : rows.length + ' correctieverzoeken'
+            }));
+            rows.forEach(function (c) {
+              var item = document.createElement('div');
+              item.className = 'cv-item';
+              var naamHtml = (c.naam && String(c.naam).trim())
+                ? '<p class="cv-item-naam">— ' + escapeHtml(c.naam.trim()) + '</p>' : '';
+              item.innerHTML =
+                '<div class="cv-item-head">' +
+                  '<span class="cv-item-dossier">' + escapeHtml(c.dossier || 'Algemeen') + '</span>' +
+                  '<span class="cv-item-datum">' + escapeHtml(fmtDatum(c.aangemaakt)) + '</span>' +
+                '</div>' +
+                '<p class="cv-item-bericht">' + escapeHtml(c.bericht) + '</p>' +
+                naamHtml;
+              lijst.appendChild(item);
+            });
+          });
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var bericht = (berichtEl.value || '').trim();
+        if (!bericht) { meld('Beschrijf eerst de onjuistheid of ontbrekende bron.'); berichtEl.focus(); return; }
+
+        btn.disabled = true;
+        var label = btn.textContent;
+        btn.textContent = 'Versturen…';
+        melding.hidden = true;
+
+        window.sb.from('correctieverzoeken').insert({
+          dossier: sel.value || null,
+          bericht: bericht,
+          naam: (naamEl.value || '').trim() || null
+        }).then(function (r) {
+          btn.disabled = false;
+          btn.textContent = label;
+          if (r.error) { meld('Versturen mislukt: ' + r.error.message); return; }
+          berichtEl.value = '';
+          naamEl.value = '';
+          meld('Bedankt! Uw correctieverzoek is ontvangen en hieronder zichtbaar.');
+          laadVerzoeken();
+        });
+      });
+
+      laadVerzoeken();
     })();
     </script>
   </body>

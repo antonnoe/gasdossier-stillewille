@@ -250,3 +250,49 @@ create policy "reacties_delete_beheer"
   for delete
   to authenticated
   using (public.huidige_rol() in ('beheerder', 'owner'));
+
+
+-- =====================================================================
+--  Tabel: correctieverzoeken
+--
+--  Verzoeken van bezoekers om onjuiste informatie of ontbrekende bronnen
+--  te corrigeren. Geen login vereist — indienen én lezen mag publiek
+--  (anon), verwijderen alleen door beheerders/owners.
+-- =====================================================================
+create table if not exists public.correctieverzoeken (
+  id         uuid primary key default gen_random_uuid(),
+  dossier    text,
+  bericht    text not null,
+  naam       text,
+  aangemaakt timestamptz not null default now()
+);
+
+alter table public.correctieverzoeken enable row level security;
+
+grant select, insert on public.correctieverzoeken to anon, authenticated;
+grant delete           on public.correctieverzoeken to authenticated;
+
+drop policy if exists "correctie_select_publiek" on public.correctieverzoeken;
+drop policy if exists "correctie_insert_publiek" on public.correctieverzoeken;
+drop policy if exists "correctie_delete_beheer"  on public.correctieverzoeken;
+
+-- Lezen: iedereen (ook niet-ingelogd).
+create policy "correctie_select_publiek"
+  on public.correctieverzoeken
+  for select
+  to anon, authenticated
+  using (true);
+
+-- Indienen: iedereen (ook niet-ingelogd).
+create policy "correctie_insert_publiek"
+  on public.correctieverzoeken
+  for insert
+  to anon, authenticated
+  with check (true);
+
+-- Verwijderen: alleen beheerders/owners.
+create policy "correctie_delete_beheer"
+  on public.correctieverzoeken
+  for delete
+  to authenticated
+  using (public.huidige_rol() in ('beheerder', 'owner'));
