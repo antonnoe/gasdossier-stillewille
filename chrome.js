@@ -170,6 +170,9 @@
     var hAcc = el('a', { href: '/account.html', role: 'menuitem' });
     hAcc.appendChild(document.createTextNode('Mijn account'));
     hPanel.appendChild(hAcc);
+    var hFaq = el('a', { href: '/faq.html', role: 'menuitem' });
+    hFaq.appendChild(document.createTextNode('Veelgestelde vragen'));
+    hPanel.appendChild(hFaq);
     hgrp.appendChild(hPanel);
     inner.appendChild(hgrp);
 
@@ -801,10 +804,69 @@
 
   // --- Boot ----------------------------------------------------------------
 
+  // Huishoudelijke 4-koloms footer — site-breed via deze functie, zodat elke
+  // pagina hem krijgt zonder de paginastructuur aan te passen. Wordt vóór de
+  // bestaande .sw-footer geplaatst; slaat over als er al een hub-footer staat.
+  function renderFooter() {
+    if (document.querySelector('.hub-footer')) return;
+
+    var cols = [
+      { titel: 'Het archief', links: [
+        ['/overzicht.html', 'Dossieroverzicht'],
+        ['/bronnen.html', 'Bronnen'],
+        ['/redactie.html', 'Redactioneel protocol'],
+        ['/faq.html', 'Veelgestelde vragen']
+      ] },
+      { titel: 'Toegang & account', links: [
+        ['/login.html', 'Inloggen'],
+        ['/aanvragen.html', 'Toegang aanvragen'],
+        ['/account.html', 'Mijn account'],
+        ['/account.html', 'E-mailupdates beheren']
+      ] },
+      { titel: 'Meedoen', links: [
+        ['/#peiling', 'Draagvlak-peiling'],
+        ['/#deel', 'Nodig een bewoner uit'],
+        ['/#correctie', 'Correctieverzoek indienen'],
+        ['mailto:sw-bieb@proton.me?subject=Werkgroep%20SW-Bieb', 'Meehelpen in de werkgroep']
+      ] },
+      { titel: 'Contact & praktisch', links: [
+        ['mailto:sw-bieb@proton.me', 'sw-bieb@proton.me'],
+        ['/faq.html#privacy', 'Privacy & gegevens'],
+        ['/feed.xml', 'RSS-feed'],
+        ['/redactie.html', 'Over dit archief']
+      ] }
+    ];
+
+    var inner = el('div', { class: 'hub-footer-inner' });
+    cols.forEach(function (c) {
+      var col = el('div', { class: 'hub-col' });
+      col.appendChild(el('h3', { text: c.titel }));
+      var ul = el('ul');
+      c.links.forEach(function (l) {
+        var li = el('li');
+        li.appendChild(el('a', { href: l[0], text: l[1] }));
+        ul.appendChild(li);
+      });
+      col.appendChild(ul);
+      inner.appendChild(col);
+    });
+
+    var section = el('section', { class: 'hub-footer' });
+    section.appendChild(inner);
+
+    var bestaand = document.querySelector('footer.sw-footer');
+    if (bestaand && bestaand.parentNode) {
+      bestaand.parentNode.insertBefore(section, bestaand);
+    } else {
+      document.body.appendChild(section);
+    }
+  }
+
   function boot() {
     peildatumDynamisch();
     ensureMobileToggle();
     renderNav();
+    renderFooter();
     renderZoek();
     renderKicker();
     renderTileGrid();

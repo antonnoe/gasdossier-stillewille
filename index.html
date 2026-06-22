@@ -448,17 +448,6 @@
         .tile-icon-wrap { width: 64px; height: 64px; }
         .tile-icon { width: 36px; height: 36px; }
       }
-
-      /* Huishoudelijke footer (4 kolommen) */
-      .hub-footer { border-top: 1px solid var(--green-15); background: var(--cream); padding: 56px var(--page-pad-x) 44px; }
-      .hub-footer-inner { max-width: var(--content-max); margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
-      .hub-col h3 { font-family: var(--font-display); font-weight: 700; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--green-deep); margin: 0 0 14px; }
-      .hub-col ul { list-style: none; margin: 0; padding: 0; }
-      .hub-col li { margin: 0 0 9px; }
-      .hub-col a { font-family: var(--font-body); font-size: 14.5px; color: var(--grey-mid); text-decoration: none; }
-      .hub-col a:hover { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
-      @media (max-width: 900px) { .hub-footer-inner { grid-template-columns: repeat(2, 1fr); gap: 28px; } }
-      @media (max-width: 700px) { .hub-footer { padding: 40px var(--page-pad-x-mobile) 32px; } }
     </style>
   </head>
 
@@ -624,49 +613,9 @@
       </div>
     </section>
 
-    <!-- ─── HUISHOUDELIJKE FOOTER (4 kolommen) ───────────── -->
-    <section class="hub-footer">
-      <div class="hub-footer-inner">
-        <div class="hub-col">
-          <h3>Het archief</h3>
-          <ul>
-            <li><a href="/overzicht.html">Dossieroverzicht</a></li>
-            <li><a href="/bronnen.html">Bronnen</a></li>
-            <li><a href="/redactie.html">Redactioneel protocol</a></li>
-            <li><a href="/faq.html">Veelgestelde vragen</a></li>
-          </ul>
-        </div>
-        <div class="hub-col">
-          <h3>Toegang &amp; account</h3>
-          <ul>
-            <li><a href="/login.html">Inloggen</a></li>
-            <li><a href="/aanvragen.html">Toegang aanvragen</a></li>
-            <li><a href="/account.html">Mijn account</a></li>
-            <li><a href="/account.html">E-mailupdates beheren</a></li>
-          </ul>
-        </div>
-        <div class="hub-col">
-          <h3>Meedoen</h3>
-          <ul>
-            <li><a href="#peiling">Draagvlak-peiling</a></li>
-            <li><a href="#deel">Nodig een bewoner uit</a></li>
-            <li><a href="#correctie">Correctieverzoek indienen</a></li>
-            <li><a href="mailto:sw-bieb@proton.me?subject=Werkgroep%20SW-Bieb">Meehelpen in de werkgroep</a></li>
-          </ul>
-        </div>
-        <div class="hub-col">
-          <h3>Contact &amp; praktisch</h3>
-          <ul>
-            <li><a href="mailto:sw-bieb@proton.me">sw-bieb@proton.me</a></li>
-            <li><a href="/faq.html#privacy">Privacy &amp; gegevens</a></li>
-            <li><a href="/feed.xml">RSS-feed</a></li>
-            <li><a href="/login.html">Uitloggen / inloggen</a></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
     <!-- ─── FOOTER ──────────────────────────────────────── -->
+    <!-- De huishoudelijke 4-koloms footer wordt site-breed door chrome.js
+         vóór deze footer geplaatst. -->
     <footer class="sw-footer">
   <strong>Kerndossiers Landgoed De Stille Wille</strong> — dit is een groeiend dossier. Meer onderwerpen volgen.
   <a href="/admin.html" style="display:block;text-align:right;margin-top:12px;font-size:11px;color:rgba(31,127,78,0.3);text-decoration:none;">beheer</a>

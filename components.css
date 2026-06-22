@@ -1248,3 +1248,41 @@ mark.sw-zoek-mark {
 @media (max-width: 480px) {
   .sw-anon-btn { flex: 1 1 100%; }
 }
+
+/* ── Huishoudelijke 4-koloms footer (site-breed via chrome.js) ───────────── */
+.hub-footer {
+  border-top: 1px solid var(--green-15);
+  background: var(--cream);
+  padding: 56px var(--page-pad-x) 44px;
+}
+.hub-footer-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+.hub-col h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+  margin: 0 0 14px;
+}
+.hub-col ul { list-style: none; margin: 0; padding: 0; }
+.hub-col li { margin: 0 0 9px; }
+.hub-col a {
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  color: var(--grey-mid);
+  text-decoration: none;
+}
+.hub-col a:hover { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 900px) {
+  .hub-footer-inner { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+}
+@media (max-width: 700px) {
+  .hub-footer { padding: 40px var(--page-pad-x-mobile) 32px; }
+}
