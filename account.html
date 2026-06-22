@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Mijn account · Kerndossiers Landgoed De Stille Wille</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#1F7F4E">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/components.css">
+<style>
+  .acc-top { background: var(--green-deep); padding: 14px var(--page-pad-x); }
+  .acc-top-inner { max-width: var(--content-max); margin: 0 auto; }
+  .acc-top a { color: rgba(255,255,255,.85); text-decoration: none; font-size: 14px; font-family: var(--font-display); font-weight: 600; }
+  .acc-top a:hover { color: #fff; }
+
+  .acc-card {
+    max-width: 560px;
+    background: var(--white);
+    border: 1px solid var(--green-15);
+    border-top: 4px solid var(--green);
+    border-radius: 12px;
+    padding: 28px 30px;
+    box-shadow: 0 12px 40px rgba(19, 78, 47, 0.06);
+  }
+  .acc-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--green-15); }
+  .acc-row:last-of-type { border-bottom: 0; }
+  .acc-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--grey-soft); font-weight: 600; }
+  .acc-val { font-family: var(--font-body); font-size: 16px; color: var(--grey-dark); text-align: right; word-break: break-word; }
+  .acc-badge { display: inline-block; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; font-weight: 700; padding: 4px 11px; border-radius: 999px; background: var(--green-08); color: var(--green-deep); }
+
+  .acc-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+  .acc-btn {
+    display: inline-flex; align-items: center; border: 0; border-radius: 8px; cursor: pointer;
+    font-family: var(--font-display); font-weight: 600; font-size: 14px; padding: 11px 22px; text-decoration: none;
+  }
+  .acc-btn-primary { background: var(--green); color: #fff; }
+  .acc-btn-primary:hover { background: var(--green-deep); }
+  .acc-btn-ghost { background: var(--white); color: var(--grey-mid); border: 1px solid var(--green-25); }
+  .acc-btn-ghost:hover { background: var(--cream); }
+
+  #acc-loading { color: var(--grey-mid); font-size: 16px; }
+  #acc-content { display: none; }
+</style>
+</head>
+<body>
+
+<div class="acc-top"><div class="acc-top-inner"><a href="/index.html">← Terug naar de dossiers</a></div></div>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-kicker"><span class="square"></span> Account</div>
+    <h1 class="page-title">Mijn account</h1>
+    <p class="page-lede">Uw toegang tot de kerndossiers van Landgoed De Stille Wille.</p>
+  </div>
+</header>
+
+<main class="page-main">
+  <div id="acc-loading">Bezig met laden…</div>
+
+  <div id="acc-content">
+    <div class="acc-card">
+      <div class="acc-row">
+        <span class="acc-label">E-mailadres</span>
+        <span class="acc-val" id="acc-email">—</span>
+      </div>
+      <div class="acc-row">
+        <span class="acc-label">Rol</span>
+        <span class="acc-val"><span class="acc-badge" id="acc-rol">—</span></span>
+      </div>
+    </div>
+
+    <div class="acc-actions">
+      <a class="acc-btn acc-btn-primary" id="acc-admin" href="/admin.html" hidden>Naar beheer</a>
+      <button class="acc-btn acc-btn-ghost" id="acc-logout" type="button">Uitloggen</button>
+    </div>
+  </div>
+</main>
+
+<footer class="sw-footer">
+  <strong>Kerndossiers Landgoed De Stille Wille</strong> — dit is een groeiend dossier. Meer onderwerpen volgen.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/supabase-config.js"></script>
+<script>
+(function () {
+  'use strict';
+  var sb = window.sb;
+  var ROL_LABEL = { gebruiker: 'Bewoner', beheerder: 'Beheerder', owner: 'Eigenaar' };
+
+  sb.auth.getSession().then(function (res) {
+    var session = res.data && res.data.session;
+    if (!session) { window.location.replace('/login.html'); return; }
+
+    document.getElementById('acc-email').textContent = session.user.email;
+
+    sb.from('gebruikers').select('rol').eq('email', session.user.email).maybeSingle()
+      .then(function (r) {
+        var rol = (r.data && r.data.rol) || 'gebruiker';
+        document.getElementById('acc-rol').textContent = ROL_LABEL[rol] || rol;
+        if (rol === 'beheerder' || rol === 'owner') {
+          document.getElementById('acc-admin').hidden = false;
+        }
+        document.getElementById('acc-loading').style.display = 'none';
+        document.getElementById('acc-content').style.display = 'block';
+      });
+  });
+
+  document.getElementById('acc-logout').addEventListener('click', function () {
+    sb.auth.signOut().then(function () {
+      window.swSetAuthCookie(null);
+      window.location.replace('/login.html');
+    });
+  });
+})();
+</script>
+</body>
+</html>

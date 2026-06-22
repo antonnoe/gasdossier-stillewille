@@ -167,6 +167,9 @@
     var hCorr = el('a', { href: '/#correctie', role: 'menuitem' });
     hCorr.appendChild(document.createTextNode('Correctieverzoek'));
     hPanel.appendChild(hCorr);
+    var hAcc = el('a', { href: '/account.html', role: 'menuitem' });
+    hAcc.appendChild(document.createTextNode('Mijn account'));
+    hPanel.appendChild(hAcc);
     hgrp.appendChild(hPanel);
     inner.appendChild(hgrp);
 
