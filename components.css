@@ -1249,7 +1249,7 @@ mark.sw-zoek-mark {
   .sw-anon-btn { flex: 1 1 100%; }
 }
 
-/* ── Huishoudelijke 4-koloms footer (site-breed via chrome.js) ───────────── */
+/* ── Huishoudelijke footer (site-breed via footer.js) ────────────────────── */
 .hub-footer {
   border-top: 1px solid var(--green-15);
   background: var(--cream);
@@ -1259,8 +1259,8 @@ mark.sw-zoek-mark {
   max-width: var(--content-max);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 28px 32px;
 }
 .hub-col h3 {
   font-family: var(--font-display);
@@ -1280,9 +1280,21 @@ mark.sw-zoek-mark {
   text-decoration: none;
 }
 .hub-col a:hover { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
-@media (max-width: 900px) {
-  .hub-footer-inner { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+
+/* Externe links als uitklap-menu (pull-down) */
+.hub-dd { margin: 0 0 8px; }
+.hub-dd > summary {
+  list-style: none; cursor: pointer;
+  font-family: var(--font-body); font-size: 14.5px; color: var(--grey-mid);
+  display: flex; align-items: center; gap: 6px;
 }
+.hub-dd > summary::-webkit-details-marker { display: none; }
+.hub-dd > summary::after { content: '▾'; font-size: 11px; color: var(--green); }
+.hub-dd[open] > summary::after { content: '▴'; }
+.hub-dd > summary:hover { color: var(--green); }
+.hub-dd ul { margin: 7px 0 0; padding-left: 12px; }
+.hub-dd li { margin: 0 0 7px; }
+
 @media (max-width: 700px) {
   .hub-footer { padding: 40px var(--page-pad-x-mobile) 32px; }
 }
