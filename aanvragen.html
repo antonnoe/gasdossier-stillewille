@@ -156,7 +156,7 @@
         </select>
       </div>
       <div class="auth-field" id="huisnummer-veld" hidden>
-        <label for="huisnummer">Huisnummer <span class="optional">(3 cijfers)</span></label>
+        <label for="huisnummer">Huisnummer <span class="optional">(001–326)</span></label>
         <input type="text" id="huisnummer" name="huisnummer" inputmode="numeric"
                pattern="[0-9]{3}" maxlength="3" placeholder="bijv. 042" autocomplete="off">
       </div>
@@ -210,8 +210,11 @@
 
     if (!naam || !email) { show('Vul uw naam en e-mailadres in.', 'err'); return; }
     if (!type) { show('Geef aan wie u bent.', 'err'); return; }
-    if (type === 'bewoner' && !/^[0-9]{3}$/.test(huisnummer)) {
-      show('Vul uw huisnummer in (3 cijfers).', 'err'); huisInput.focus(); return;
+    if (type === 'bewoner') {
+      var nr = parseInt(huisnummer, 10);
+      if (!/^[0-9]{3}$/.test(huisnummer) || nr < 1 || nr > 326) {
+        show('Vul een geldig huisnummer in (001 t/m 326).', 'err'); huisInput.focus(); return;
+      }
     }
 
     btn.disabled = true;

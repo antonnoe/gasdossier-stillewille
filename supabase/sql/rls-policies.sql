@@ -188,14 +188,14 @@ on conflict (sleutel) do nothing;
 --  Tabel: aanvragen — extra velden bij de aanmelding
 --
 --  categorie:  'bewoner' | 'lsw' | 'swb' | 'dienstverlener'
---  huisnummer: 3 cijfers, alleen voor bewoners (anders NULL).
+--  huisnummer: 3 cijfers in het bereik 001–326, alleen voor bewoners (NULL anders).
 -- =====================================================================
 alter table public.aanvragen add column if not exists categorie  text;
 alter table public.aanvragen add column if not exists huisnummer text;
 
 alter table public.aanvragen drop constraint if exists aanvragen_huisnummer_chk;
 alter table public.aanvragen add constraint aanvragen_huisnummer_chk
-  check (huisnummer is null or huisnummer ~ '^[0-9]{3}$');
+  check (huisnummer is null or (huisnummer ~ '^[0-9]{3}$' and huisnummer::int between 1 and 326));
 
 
 -- =====================================================================
