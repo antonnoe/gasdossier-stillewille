@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  feed.xml — RSS-feed met korte update-mededelingen.
+
+  Publiek toegankelijk (feedlezers halen dit zonder login op); bevat alleen
+  titels, datums en links. De dossiers zelf blijven achter de login.
+
+  NIEUWE UPDATE TOEVOEGEN: kopieer één <item>-blok hieronder, zet het bovenaan
+  (nieuwste eerst) en pas aan:
+    <title>     korte mededeling, bijv. "Dossier XXX is geactualiseerd"
+    <link>      volledige URL naar de dossierpagina
+    <guid>      uniek, ongewijzigd kenmerk (bijv. slug + datum)
+    <pubDate>   RFC-822 datum, bijv. "Mon, 22 Jun 2026 00:00:00 +0000"
+    <description> één regel uitleg, zonder beoordeling
+  Werk ook <lastBuildDate> bij naar de datum van de nieuwste update.
+-->
+<rss version="2.0">
+  <channel>
+    <title>Kerndossiers Landgoed De Stille Wille — updates</title>
+    <link>https://kerndossiers-stillewille.vercel.app/</link>
+    <description>Korte mededelingen zodra een dossier is geactualiseerd. Toegang tot de dossiers vereist inloggen.</description>
+    <language>nl-NL</language>
+    <lastBuildDate>Mon, 22 Jun 2026 00:00:00 +0000</lastBuildDate>
+
+    <item>
+      <title>Dossier Bovengrondse infrastructuur is geactualiseerd</title>
+      <link>https://kerndossiers-stillewille.vercel.app/bovengronds.html</link>
+      <guid isPermaLink="false">bovengronds-2026-06-22</guid>
+      <pubDate>Mon, 22 Jun 2026 00:00:00 +0000</pubDate>
+      <description>De sectie Recreatieve voorzieningen is uitgebreid. Klik om in te loggen en het dossier te bekijken.</description>
+    </item>
+  </channel>
+</rss>
