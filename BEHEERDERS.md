@@ -39,8 +39,9 @@ beleid (wat wel/niet op de site mag), zie `REDACTIE.md`.
   Laposta-mail, dan staat de schakelaar op zijn accountpagina mogelijk nog op
   "aan". (Optioneel kan dit later automatisch synchroon worden gemaakt via een
   Laposta-webhook.)
-- **Nieuwe bewoners:** komen pas op de lijst zodra ze de schakelaar aanzetten,
-  of via een eenmalige import in Laposta.
+- **Nieuwe bewoners:** worden bij **goedkeuring** van hun aanvraag automatisch
+  op de Laposta-lijst gezet (opt-out). Handmatig toegevoegde accounts (via SQL)
+  of bestaande adressen kun je eenmalig in Laposta importeren.
 - **Toon en inhoud:** houd updates kort en feitelijk, zonder oordeel
   (zie `REDACTIE.md`).
 

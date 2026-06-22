@@ -1,7 +1,9 @@
 // supabase/functions/invite-gebruiker/index.ts
 //
 // Edge Function "invite-gebruiker" — verstuurt een invite-mail aan een
-// goedgekeurde aanvrager.
+// goedgekeurde aanvrager én zet hem automatisch op de Laposta-nieuwsbrieflijst
+// (opt-out: iedereen ontvangt standaard updates; afmelden kan op de
+// accountpagina).
 //
 // Wordt vanuit admin.html aangeroepen (na de RPC invite_gebruiker) via:
 //   fetch(SUPABASE_URL + '/functions/v1/invite-gebruiker',
@@ -13,17 +15,24 @@
 // sleutel alle beveiliging omzeilt, controleert de functie eerst of de
 // aanroeper zélf een ingelogde beheerder of owner is.
 //
-// Benodigde omgevingsvariabelen — door Supabase automatisch geïnjecteerd,
-// je hoeft niets handmatig in te stellen:
-//   - SUPABASE_URL
-//   - SUPABASE_SERVICE_ROLE_KEY   (geheim — nooit in client-side code!)
-//   - SUPABASE_ANON_KEY
+// Benodigde omgevingsvariabelen:
+//   - SUPABASE_URL                (automatisch)
+//   - SUPABASE_SERVICE_ROLE_KEY   (automatisch — geheim!)
+//   - SUPABASE_ANON_KEY           (automatisch)
+//   - LAPOSTA_API_KEY             (secret — voor het toevoegen aan de lijst)
+//   - LAPOSTA_LIST_ID             (secret — id van de bewonerslijst)
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 const ANON_KEY = Deno.env.get('SUPABASE_ANON_KEY')!;
+
+// Laposta-secrets: ontbreken ze, dan slaan we het toevoegen netjes over
+// (de invite zelf mag er nooit op stuklopen).
+const LAPOSTA_API_KEY = Deno.env.get('LAPOSTA_API_KEY');
+const LAPOSTA_LIST_ID = Deno.env.get('LAPOSTA_LIST_ID');
+const LAPOSTA_BASE = 'https://api.laposta.nl/v2';
 
 // Waar de uitnodigingslink naartoe leidt nadat de gebruiker hem opent.
 const INVITE_REDIRECT = 'https://kerndossiers-stillewille.vercel.app/auth-callback.html';
@@ -42,6 +51,52 @@ function json(body: unknown, status = 200): Response {
     status,
     headers: { ...corsHeaders, 'Content-Type': 'application/json' },
   });
+}
+
+function form(obj: Record<string, string>): string {
+  return Object.entries(obj)
+    .map(([k, v]) => encodeURIComponent(k) + '=' + encodeURIComponent(v))
+    .join('&');
+}
+
+// Zet een bewoner op de Laposta-lijst (single opt-in, geen welkomstmail —
+// die zou bovenop de aankondiging en de inlogmail een derde mail zijn).
+// Best effort: een fout hier mag de goedkeuring niet blokkeren.
+async function lapostaToevoegen(
+  email: string,
+  admin: ReturnType<typeof createClient>,
+): Promise<{ laposta: string }> {
+  if (!LAPOSTA_API_KEY || !LAPOSTA_LIST_ID) {
+    return { laposta: 'overgeslagen (geen Laposta-secrets ingesteld)' };
+  }
+  try {
+    const resp = await fetch(`${LAPOSTA_BASE}/member`, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Basic ' + btoa(LAPOSTA_API_KEY + ':'),
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: form({
+        list_id: LAPOSTA_LIST_ID,
+        email,
+        ip: '0.0.0.0',
+        'options[ignore_doubleoptin]': 'true',
+        'options[suppress_email_welcome]': 'true',
+      }),
+    });
+    const data = await resp.json().catch(() => ({}));
+    if (!resp.ok) return { laposta: 'mislukt (' + resp.status + ')' };
+
+    const id = data?.member?.member_id ?? data?.member?.id;
+    if (id) {
+      await admin.from('gebruikers')
+        .update({ nieuwsbrief: true, laposta_id: String(id) })
+        .ilike('email', email);
+    }
+    return { laposta: 'toegevoegd' };
+  } catch (e) {
+    return { laposta: 'fout: ' + (e instanceof Error ? e.message : String(e)) };
+  }
 }
 
 Deno.serve(async (req) => {
@@ -68,7 +123,7 @@ Deno.serve(async (req) => {
   }
   const callerEmail = userData.user.email;
 
-  // Service-role client: voor de rolcontrole én het versturen van de invite.
+  // Service-role client: voor de rolcontrole, de invite én het Laposta-werk.
   const admin = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
     auth: { autoRefreshToken: false, persistSession: false },
   });
@@ -100,18 +155,26 @@ Deno.serve(async (req) => {
   }
 
   // 4. Invite-mail versturen --------------------------------------------------
+  let inviteStatus: Record<string, unknown>;
   const { data, error } = await admin.auth.admin.inviteUserByEmail(email, {
     redirectTo: INVITE_REDIRECT,
   });
 
   if (error) {
-    // Bestaat de gebruiker al in auth? Dan is een invite niet nodig.
+    // Bestaat de gebruiker al in auth? Dan is een invite niet nodig, maar we
+    // zetten hem alsnog op de nieuwsbrieflijst (stap 5).
     const msg = (error.message || '').toLowerCase();
     if (msg.includes('already') || msg.includes('registered') || msg.includes('exists')) {
-      return json({ ok: true, alreadyInvited: true }, 200);
+      inviteStatus = { ok: true, alreadyInvited: true };
+    } else {
+      return json({ error: 'Invite versturen mislukt: ' + error.message }, 500);
     }
-    return json({ error: 'Invite versturen mislukt: ' + error.message }, 500);
+  } else {
+    inviteStatus = { ok: true, userId: data?.user?.id ?? null };
   }
 
-  return json({ ok: true, userId: data?.user?.id ?? null }, 200);
+  // 5. Automatisch op de Laposta-nieuwsbrieflijst zetten (opt-out). ----------
+  const lapostaResult = await lapostaToevoegen(email, admin);
+
+  return json({ ...inviteStatus, ...lapostaResult }, 200);
 });
