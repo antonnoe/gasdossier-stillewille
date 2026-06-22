@@ -137,6 +137,48 @@ create policy "aanvragen_delete_beheer"
 
 
 -- =====================================================================
+--  Tabel: app_instellingen  (eenvoudige sleutel/waarde-instellingen)
+--
+--  Gebruikt voor o.a. de "toegangspauze": zolang current_date < waarde van
+--  'toegang_vanaf' verleent invite_gebruiker geen toegang (testfase).
+--  Pauze opheffen of datum wijzigen = één rij bijwerken; geen code aanpassen.
+-- =====================================================================
+create table if not exists public.app_instellingen (
+  sleutel text primary key,
+  waarde  text
+);
+
+alter table public.app_instellingen enable row level security;
+
+grant select                 on public.app_instellingen to authenticated;
+grant insert, update, delete on public.app_instellingen to authenticated;
+
+drop policy if exists "instellingen_select_ingelogd" on public.app_instellingen;
+drop policy if exists "instellingen_wijzig_beheer"   on public.app_instellingen;
+
+-- Lezen: alle ingelogde gebruikers (zodat het beheerpaneel de pauze toont).
+create policy "instellingen_select_ingelogd"
+  on public.app_instellingen
+  for select
+  to authenticated
+  using (true);
+
+-- Wijzigen: alleen beheerders/owners.
+create policy "instellingen_wijzig_beheer"
+  on public.app_instellingen
+  for all
+  to authenticated
+  using      (public.huidige_rol() in ('beheerder', 'owner'))
+  with check (public.huidige_rol() in ('beheerder', 'owner'));
+
+-- Standaard: toegang verlenen gepauzeerd tot deze datum (pas aan of verwijder
+-- de rij om de pauze op te heffen).
+insert into public.app_instellingen (sleutel, waarde)
+values ('toegang_vanaf', '2026-07-13')
+on conflict (sleutel) do nothing;
+
+
+-- =====================================================================
 --  RPC: invite_gebruiker(p_email)
 --
 --  Keurt een toegangsaanvraag goed. Wordt vanuit admin.html aangeroepen
@@ -165,11 +207,23 @@ as $$
 declare
   v_email text := lower(trim(p_email));
   v_naam  text;
+  v_vanaf text;
 begin
   -- Alleen beheerders/owners mogen goedkeuren.
   if public.huidige_rol() not in ('beheerder', 'owner') then
     raise exception 'Geen beheerdersrechten'
       using errcode = '42501';  -- insufficient_privilege
+  end if;
+
+  -- Toegangspauze (testfase): zolang vandaag vóór 'toegang_vanaf' ligt, wordt
+  -- er geen toegang verleend. Aanvragen blijven gewoon binnenkomen.
+  select waarde into v_vanaf
+  from public.app_instellingen
+  where sleutel = 'toegang_vanaf';
+
+  if v_vanaf is not null and v_vanaf <> '' and current_date < v_vanaf::date then
+    raise exception 'Toegang verlenen is gepauzeerd tot % (testfase).', v_vanaf
+      using errcode = 'P0001';
   end if;
 
   if v_email is null or v_email = '' then

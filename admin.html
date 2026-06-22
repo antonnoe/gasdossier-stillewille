@@ -134,6 +134,7 @@
 
   .empty { color: var(--grey-soft); font-style: italic; padding: 16px 0; }
   .err-line { color: var(--orange-deep); font-size: 14px; margin: 8px 0; }
+  .pauze-banner { margin: 0 0 16px; padding: 12px 15px; border-radius: 8px; font-size: 14px; line-height: 1.5; background: var(--orange-tint); border: 1px solid var(--orange); color: var(--orange-deep); }
   #app { display: none; }
 </style>
 </head>
@@ -178,6 +179,7 @@
 
     <h2>Aanvragen</h2>
     <p class="sub">Openstaande en beoordeelde toegangsaanvragen.</p>
+    <div id="pauze-banner" class="pauze-banner" hidden></div>
     <div id="aanvragen-err" class="err-line" hidden></div>
     <table class="admin-table" id="aanvragen-table">
       <thead>
@@ -264,7 +266,7 @@
         loadStats();
         loadMailAantal();
         loadDraagvlak();
-        loadAanvragen();
+        loadPauze();
         loadGebruikers();
         loadReacties();
         loadCorrectie();
@@ -313,6 +315,37 @@
       });
   }
 
+  // Toegangspauze (testfase): aanvragen blijven binnenkomen, maar goedkeuren
+  // is uitgeschakeld tot de datum in app_instellingen.toegang_vanaf.
+  var toegangGepauzeerd = false;
+  var toegangVanaf = null;
+
+  function fmtDatumNL(d) {
+    try { return new Date(d + 'T00:00:00').toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' }); }
+    catch (e) { return d; }
+  }
+
+  function loadPauze() {
+    sb.from('app_instellingen').select('waarde').eq('sleutel', 'toegang_vanaf').maybeSingle()
+      .then(function (r) {
+        toegangVanaf = (r.data && r.data.waarde) || null;
+        toegangGepauzeerd = false;
+        if (toegangVanaf) {
+          var vandaag = new Date(); vandaag.setHours(0, 0, 0, 0);
+          toegangGepauzeerd = vandaag < new Date(toegangVanaf + 'T00:00:00');
+        }
+        var banner = document.getElementById('pauze-banner');
+        if (toegangGepauzeerd) {
+          banner.textContent = 'Goedkeuren is gepauzeerd tot ' + fmtDatumNL(toegangVanaf) +
+            ' (testfase). Aanvragen worden wel verzameld; toegang verleen je daarna.';
+          banner.hidden = false;
+        } else {
+          banner.hidden = true;
+        }
+        loadAanvragen();
+      });
+  }
+
   // 2. Aanvragen
   function loadAanvragen() {
     var body = document.getElementById('aanvragen-body');
@@ -331,9 +364,12 @@
           var status = a.status || 'pending';
           var actions = '';
           if (status === 'pending') {
+            var goedkeurBtn = toegangGepauzeerd
+              ? '<button class="btn-sm btn-approve" data-act="approve" data-id="' + a.id + '" disabled title="Gepauzeerd tot ' + esc(fmtDatumNL(toegangVanaf)) + '">Goedkeuren</button>'
+              : '<button class="btn-sm btn-approve" data-act="approve" data-id="' + a.id + '">Goedkeuren</button>';
             actions =
               '<div class="row-actions">' +
-                '<button class="btn-sm btn-approve" data-act="approve" data-id="' + a.id + '">Goedkeuren</button>' +
+                goedkeurBtn +
                 '<button class="btn-sm btn-reject" data-act="reject" data-id="' + a.id + '">Afwijzen</button>' +
               '</div>';
           } else {
@@ -353,6 +389,11 @@
   }
 
   function handleAction(aanvraag, act, tr) {
+    if (act === 'approve' && toegangGepauzeerd) {
+      alert('Goedkeuren is gepauzeerd tot ' + fmtDatumNL(toegangVanaf) + ' (testfase).');
+      return;
+    }
+
     var buttons = tr.querySelectorAll('button');
     buttons.forEach(function (b) { b.disabled = true; });
 
