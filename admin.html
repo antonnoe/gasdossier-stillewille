@@ -194,7 +194,7 @@
     <div id="gebruikers-err" class="err-line" hidden></div>
     <table class="admin-table" id="gebruikers-table">
       <thead>
-        <tr><th>E-mail</th><th>Naam</th><th>Rol</th><th>Actie</th></tr>
+        <tr><th>E-mail</th><th>Naam</th><th>Type</th><th>Rol</th><th>Actie</th></tr>
       </thead>
       <tbody id="gebruikers-body"></tbody>
     </table>
@@ -480,7 +480,7 @@
     var errEl = document.getElementById('gebruikers-err');
     errEl.hidden = true;
 
-    sb.from('gebruikers').select('email, naam, rol').order('email', { ascending: true })
+    sb.from('gebruikers').select('email, naam, rol, categorie, huisnummer').order('email', { ascending: true })
       .then(function (r) {
         if (r.error) { errEl.textContent = 'Kon gebruikers niet laden: ' + r.error.message; errEl.hidden = false; return; }
         var rows = r.data || [];
@@ -510,6 +510,7 @@
           tr.innerHTML =
             '<td><span class="em">' + esc(g.email) + '</span></td>' +
             '<td>' + (g.naam ? esc(g.naam) : '<span class="empty" style="padding:0;">—</span>') + '</td>' +
+            '<td>' + esc(typeLabel(g.categorie, g.huisnummer)) + '</td>' +
             '<td><span class="badge rol">' + esc(rol) + '</span></td>' +
             '<td><div class="row-actions">' + acties + '</div></td>';
 

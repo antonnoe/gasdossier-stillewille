@@ -57,6 +57,12 @@ grant execute on function public.huidige_rol() to anon, authenticated;
 -- =====================================================================
 alter table public.gebruikers enable row level security;
 
+-- Herkomst van het account (overgenomen uit de aanvraag bij goedkeuring):
+--   categorie:  'bewoner' | 'lsw' | 'swb' | 'dienstverlener'
+--   huisnummer: 3 cijfers, alleen voor bewoners.
+alter table public.gebruikers add column if not exists categorie  text;
+alter table public.gebruikers add column if not exists huisnummer text;
+
 -- Basisrechten (RLS blijft de poortwachter).
 grant select on public.gebruikers to authenticated;
 
@@ -219,9 +225,12 @@ security definer
 set search_path = public
 as $$
 declare
-  v_email text := lower(trim(p_email));
-  v_naam  text;
-  v_vanaf text;
+  v_email      text := lower(trim(p_email));
+  v_naam       text;
+  v_categorie  text;
+  v_huisnummer text;
+  v_vanaf      text;
+  v_bestaat    boolean;
 begin
   -- Alleen beheerders/owners mogen goedkeuren.
   if public.huidige_rol() not in ('beheerder', 'owner') then
@@ -245,19 +254,51 @@ begin
       using errcode = '22023';  -- invalid_parameter_value
   end if;
 
-  -- Naam uit de meest recente aanvraag van dit e-mailadres halen.
-  select naam into v_naam
+  -- Naam, categorie en huisnummer uit de meest recente aanvraag halen.
+  select naam, categorie, huisnummer
+    into v_naam, v_categorie, v_huisnummer
   from public.aanvragen
   where lower(email) = v_email
   order by created_at desc
   limit 1;
 
-  -- Gebruiker toevoegen met rol "gebruiker". Bestaat de gebruiker al,
-  -- dan alleen de naam aanvullen — een bestaande rol blijft ongemoeid.
-  insert into public.gebruikers (email, naam, rol)
-  values (v_email, nullif(trim(v_naam), ''), 'gebruiker')
+  -- Accountlimieten — alleen voor een NIEUW account (bestaat de gebruiker al,
+  -- dan is dit een bijwerking en gelden de limieten niet opnieuw).
+  select exists(select 1 from public.gebruikers where email = v_email) into v_bestaat;
+
+  if not v_bestaat then
+    if v_categorie = 'lsw' then
+      if (select count(*) from public.gebruikers where categorie = 'lsw') >= 2 then
+        raise exception 'Maximum van 2 LSW-accounts is al bereikt.' using errcode = 'P0001';
+      end if;
+    elsif v_categorie = 'swb' then
+      if (select count(*) from public.gebruikers where categorie = 'swb') >= 2 then
+        raise exception 'Maximum van 2 SWB-accounts is al bereikt.' using errcode = 'P0001';
+      end if;
+    elsif v_categorie = 'dienstverlener' then
+      if (select count(*) from public.gebruikers where categorie = 'dienstverlener') >= 1 then
+        raise exception 'Er is al een dienstverlener-account (maximum 1).' using errcode = 'P0001';
+      end if;
+    elsif v_categorie = 'bewoner' then
+      if v_huisnummer is null or v_huisnummer = '' then
+        raise exception 'Huisnummer ontbreekt voor deze bewoner.' using errcode = '22023';
+      end if;
+      if (select count(*) from public.gebruikers
+            where categorie = 'bewoner' and huisnummer = v_huisnummer) >= 2 then
+        raise exception 'Voor huisnummer % bestaan al 2 accounts (maximum 2).', v_huisnummer
+          using errcode = 'P0001';
+      end if;
+    end if;
+  end if;
+
+  -- Gebruiker toevoegen met rol "gebruiker". Bestaat de gebruiker al, dan
+  -- alleen ontbrekende velden aanvullen — een bestaande rol blijft ongemoeid.
+  insert into public.gebruikers (email, naam, rol, categorie, huisnummer)
+  values (v_email, nullif(trim(v_naam), ''), 'gebruiker', v_categorie, v_huisnummer)
   on conflict (email) do update
-    set naam = coalesce(excluded.naam, public.gebruikers.naam);
+    set naam       = coalesce(excluded.naam, public.gebruikers.naam),
+        categorie  = coalesce(public.gebruikers.categorie, excluded.categorie),
+        huisnummer = coalesce(public.gebruikers.huisnummer, excluded.huisnummer);
 
   -- Bijbehorende openstaande aanvraag op "approved" zetten.
   update public.aanvragen
@@ -265,7 +306,8 @@ begin
     where lower(email) = v_email
       and status = 'pending';
 
-  return jsonb_build_object('ok', true, 'email', v_email, 'rol', 'gebruiker');
+  return jsonb_build_object('ok', true, 'email', v_email, 'rol', 'gebruiker',
+                            'categorie', v_categorie, 'huisnummer', v_huisnummer);
 end;
 $$;
 
