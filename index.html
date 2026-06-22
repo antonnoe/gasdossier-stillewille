@@ -147,6 +147,26 @@
         .peiling-resultaat { grid-template-columns: 1fr; }
       }
 
+      /* Deel-functie / medebewoner uitnodigen */
+      .deel { border-top: 1px solid var(--green-15); padding: 48px var(--page-pad-x); }
+      .deel-inner { max-width: 760px; margin: 0 auto; }
+      .deel h2 {
+        font-family: var(--font-display); font-weight: 700; font-size: 22px;
+        letter-spacing: -0.01em; color: var(--grey-dark); margin: 0 0 12px;
+      }
+      .deel p { font-family: var(--font-body); font-size: 15px; line-height: 1.7; color: var(--grey-mid); margin: 0 0 18px; max-width: 64ch; }
+      .deel a { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+      .deel-btn {
+        border: 0; border-radius: 8px; background: var(--green); color: #fff;
+        font-family: var(--font-display); font-weight: 600; font-size: 14px; padding: 12px 24px; cursor: pointer;
+      }
+      .deel-btn:hover:not(:disabled) { background: var(--green-deep); }
+      .deel-btn:disabled { opacity: .6; cursor: default; }
+      .deel-melding { margin-left: 12px; font-family: var(--font-display); font-weight: 600; font-size: 13px; color: var(--green-deep); }
+      @media (max-width: 700px) {
+        .deel { padding: 40px var(--page-pad-x-mobile); }
+      }
+
       /* Correctieverzoeken-formulier */
       .correctie { border-top: 1px solid var(--green-15); padding: 48px var(--page-pad-x); background: var(--cream); }
       .correctie-inner { max-width: 760px; margin: 0 auto; }
@@ -558,6 +578,16 @@
       </div>
     </section>
 
+    <!-- ─── DEEL-FUNCTIE (medebewoner uitnodigen) ───── -->
+    <section class="deel" id="deel">
+      <div class="deel-inner">
+        <h2>Ken je een medebewoner?</h2>
+        <p>Anderen kunnen toegang aanvragen via het <a href="/aanvragen.html">aanvraagformulier</a>. Deel niet je eigen inloglink — die is persoonlijk en eenmalig.</p>
+        <button type="button" class="deel-btn" id="deel-btn">Kopieer uitnodigingstekst</button>
+        <span class="deel-melding" id="deel-melding" hidden></span>
+      </div>
+    </section>
+
     <!-- ─── CORRECTIEVERZOEKEN (via Supabase, publiek) ───── -->
     <section class="correctie" id="correctie">
       <div class="correctie-inner">
@@ -907,6 +937,47 @@
               toonResultaat(true);
             });
         });
+      });
+    })();
+    </script>
+    <script>
+    (function () {
+      'use strict';
+      var btn = document.getElementById('deel-btn');
+      var melding = document.getElementById('deel-melding');
+      if (!btn) return;
+
+      var link = window.location.origin + '/aanvragen.html';
+      var tekst =
+        'Hoi! Ik gebruik het bewonersarchief van Landgoed De Stille Wille — een besloten archief met ' +
+        'uitsluitend feitelijke, controleerbare informatie over ons landgoed. Wil je ook toegang? ' +
+        'Vraag die zelf aan via deze link:\n' + link + '\n\n' +
+        '(Deel geen persoonlijke inloglinks — die zijn eenmalig. Iedereen vraagt zijn eigen toegang aan.)';
+
+      function toon(t) { melding.textContent = t; melding.hidden = false; }
+
+      function fallbackKopie() {
+        var ta = document.createElement('textarea');
+        ta.value = tekst;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'absolute'; ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+        document.body.removeChild(ta);
+        return ok;
+      }
+
+      btn.addEventListener('click', function () {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(tekst).then(
+            function () { toon('Gekopieerd! Plak de tekst in een bericht of e-mail.'); },
+            function () { toon(fallbackKopie() ? 'Gekopieerd!' : 'Kopiëren lukte niet — selecteer en kopieer handmatig.'); }
+          );
+        } else {
+          toon(fallbackKopie() ? 'Gekopieerd!' : 'Kopiëren lukte niet — selecteer en kopieer handmatig.');
+        }
       });
     })();
     </script>
