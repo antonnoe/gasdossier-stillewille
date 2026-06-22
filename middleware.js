@@ -29,6 +29,7 @@ const PUBLIC_PAGES = new Set([
   '/aanvragen.html',
   '/redactie.html',
   '/faq.html',
+  '/functies.html',
 ]);
 
 // Statische assets altijd doorlaten.

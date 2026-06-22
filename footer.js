@@ -17,7 +17,8 @@
         ['/overzicht.html', 'Dossieroverzicht'],
         ['/bronnen.html', 'Bronnen'],
         ['/redactie.html', 'Redactioneel protocol'],
-        ['/faq.html', 'Veelgestelde vragen']
+        ['/faq.html', 'Veelgestelde vragen'],
+        ['/functies.html', 'Functies van de site']
       ] },
       { titel: 'Toegang & account', links: [
         ['/login.html', 'Inloggen'],
