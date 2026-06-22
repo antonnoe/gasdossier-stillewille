@@ -28,6 +28,7 @@ const PUBLIC_PAGES = new Set([
   '/auth-callback.html',
   '/aanvragen.html',
   '/redactie.html',
+  '/faq.html',
 ]);
 
 // Statische assets altijd doorlaten.
