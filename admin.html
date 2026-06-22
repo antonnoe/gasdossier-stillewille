@@ -183,7 +183,7 @@
     <div id="aanvragen-err" class="err-line" hidden></div>
     <table class="admin-table" id="aanvragen-table">
       <thead>
-        <tr><th>Naam</th><th>E-mail</th><th>Status</th><th>Actie</th></tr>
+        <tr><th>Naam</th><th>E-mail</th><th>Type</th><th>Status</th><th>Actie</th></tr>
       </thead>
       <tbody id="aanvragen-body"></tbody>
     </table>
@@ -346,6 +346,17 @@
       });
   }
 
+  // Leesbare weergave van categorie + huisnummer.
+  function typeLabel(categorie, huisnummer) {
+    switch (categorie) {
+      case 'bewoner':       return 'Bewoner' + (huisnummer ? ' · nr. ' + huisnummer : '');
+      case 'lsw':           return 'Directie LSW';
+      case 'swb':           return 'Directie SWB';
+      case 'dienstverlener': return 'Dienstverlener';
+      default:              return '—';
+    }
+  }
+
   // 2. Aanvragen
   function loadAanvragen() {
     var body = document.getElementById('aanvragen-body');
@@ -353,7 +364,7 @@
     var errEl = document.getElementById('aanvragen-err');
     errEl.hidden = true;
 
-    sb.from('aanvragen').select('id, naam, email, status').order('created_at', { ascending: false })
+    sb.from('aanvragen').select('id, naam, email, status, categorie, huisnummer').order('created_at', { ascending: false })
       .then(function (r) {
         if (r.error) { errEl.textContent = 'Kon aanvragen niet laden: ' + r.error.message; errEl.hidden = false; return; }
         var rows = r.data || [];
@@ -378,6 +389,7 @@
           tr.innerHTML =
             '<td><span class="nm">' + esc(a.naam) + '</span></td>' +
             '<td><span class="em">' + esc(a.email) + '</span></td>' +
+            '<td>' + esc(typeLabel(a.categorie, a.huisnummer)) + '</td>' +
             '<td><span class="badge ' + esc(status) + '">' + esc(status) + '</span></td>' +
             '<td>' + actions + '</td>';
           tr.querySelectorAll('button[data-act]').forEach(function (btn) {
