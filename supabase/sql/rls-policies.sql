@@ -347,3 +347,67 @@ create policy "correctie_delete_beheer"
   for delete
   to authenticated
   using (public.huidige_rol() in ('beheerder', 'owner'));
+
+
+-- =====================================================================
+--  Tabel: peiling
+--
+--  Draagvlak-peiling onder bewoners (twee stellingen, schaal 1–5). Eén stem
+--  per gebruiker: dat wordt afgedwongen met een UNIQUE op email plus een
+--  insert-policy die alleen de eigen rij toestaat. Om de privacy te bewaken
+--  mogen gewone gebruikers alléén hun eigen rij lezen; beheerders/owners
+--  zien alles. De geaggregeerde uitslag (gemiddelden + aantal) loopt via de
+--  SECURITY DEFINER functie peiling_resultaat(), zodat niemand andermans
+--  e-mailadres of losse score hoeft te kunnen lezen.
+-- =====================================================================
+create table if not exists public.peiling (
+  id         uuid primary key default gen_random_uuid(),
+  email      text not null unique,
+  stelling1  int  not null check (stelling1 between 1 and 5),
+  stelling2  int  not null check (stelling2 between 1 and 5),
+  aangemaakt timestamptz not null default now()
+);
+
+alter table public.peiling enable row level security;
+
+grant select, insert on public.peiling to authenticated;
+
+drop policy if exists "peiling_select_eigen_of_beheer" on public.peiling;
+drop policy if exists "peiling_insert_eigen"           on public.peiling;
+
+-- Lezen: eigen rij, of beheerder/owner.
+create policy "peiling_select_eigen_of_beheer"
+  on public.peiling
+  for select
+  to authenticated
+  using (email = (auth.jwt() ->> 'email') or public.huidige_rol() in ('beheerder', 'owner'));
+
+-- Invullen: alleen de eigen rij, met geldige waarden (1–5). De UNIQUE op
+-- email zorgt dat een tweede stem wordt geweigerd.
+create policy "peiling_insert_eigen"
+  on public.peiling
+  for insert
+  to authenticated
+  with check (
+    email = (auth.jwt() ->> 'email')
+    and stelling1 between 1 and 5
+    and stelling2 between 1 and 5
+  );
+
+-- Geaggregeerde uitslag voor de hoofdpagina en het beheerpaneel.
+create or replace function public.peiling_resultaat()
+returns table (gemiddelde1 numeric, gemiddelde2 numeric, aantal bigint)
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select
+    round(avg(stelling1)::numeric, 1),
+    round(avg(stelling2)::numeric, 1),
+    count(*)
+  from public.peiling;
+$$;
+
+revoke all on function public.peiling_resultaat() from public;
+grant execute on function public.peiling_resultaat() to authenticated;

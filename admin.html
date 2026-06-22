@@ -168,6 +168,14 @@
       <a class="btn-sm btn-approve" href="https://laposta.nl/" target="_blank" rel="noopener">Inloggen bij Laposta</a>
     </div>
 
+    <h2>Draagvlak</h2>
+    <p class="sub">Resultaten van de draagvlak-peiling op de hoofdpagina (1 = oneens, 5 = eens).</p>
+    <div class="stats-bar" id="draagvlak-bar" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="stat"><div class="stat-num" id="dv-gem1">–</div><div class="stat-label">Waardevol om samen op te bouwen</div></div>
+      <div class="stat"><div class="stat-num" id="dv-gem2">–</div><div class="stat-label">Bereid bij te dragen</div></div>
+      <div class="stat"><div class="stat-num" id="dv-aantal">–</div><div class="stat-label">Respondenten</div></div>
+    </div>
+
     <h2>Aanvragen</h2>
     <p class="sub">Openstaande en beoordeelde toegangsaanvragen.</p>
     <div id="aanvragen-err" class="err-line" hidden></div>
@@ -255,12 +263,24 @@
         showApp();
         loadStats();
         loadMailAantal();
+        loadDraagvlak();
         loadAanvragen();
         loadGebruikers();
         loadReacties();
         loadCorrectie();
       });
   });
+
+  // Draagvlak-peiling: geaggregeerde uitslag via SECURITY DEFINER RPC.
+  function loadDraagvlak() {
+    function fmt(v) { return (v == null) ? '–' : String(v).replace('.', ','); }
+    sb.rpc('peiling_resultaat').then(function (r) {
+      var row = (r.data && r.data[0]) || {};
+      document.getElementById('dv-gem1').textContent = r.error ? '?' : fmt(row.gemiddelde1);
+      document.getElementById('dv-gem2').textContent = r.error ? '?' : fmt(row.gemiddelde2);
+      document.getElementById('dv-aantal').textContent = r.error ? '?' : (row.aantal || 0);
+    });
+  }
 
   // E-mailupdate sturen
   function loadMailAantal() {

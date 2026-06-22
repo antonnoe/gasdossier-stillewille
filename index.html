@@ -106,6 +106,47 @@
         .over-archief { padding: 40px var(--page-pad-x-mobile); }
       }
 
+      /* Draagvlak-peiling */
+      .peiling { border-top: 1px solid var(--green-15); padding: 48px var(--page-pad-x); }
+      .peiling-inner { max-width: 760px; margin: 0 auto; }
+      .peiling h2 {
+        font-family: var(--font-display); font-weight: 700; font-size: 22px;
+        letter-spacing: -0.01em; color: var(--grey-dark); margin: 0 0 10px;
+      }
+      .peiling-intro { font-family: var(--font-body); font-size: 15px; line-height: 1.7; color: var(--grey-mid); margin: 0 0 24px; max-width: 64ch; }
+      .peiling-stelling { border: 0; margin: 0 0 24px; padding: 0; }
+      .peiling-stelling legend { font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--grey-dark); margin-bottom: 12px; line-height: 1.5; padding: 0; }
+      .peiling-schaal { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+      .peiling-eind { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--grey-soft); }
+      .peiling-eind:first-child { margin-right: 4px; }
+      .peiling-eind:last-child { margin-left: 4px; }
+      .peiling-optie input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+      .peiling-optie label {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 40px; height: 40px; border: 1px solid var(--green-25); border-radius: 8px;
+        background: var(--white); font-family: var(--font-display); font-weight: 600; font-size: 15px;
+        color: var(--grey-mid); cursor: pointer; transition: background .12s, border-color .12s, color .12s;
+      }
+      .peiling-optie label:hover { border-color: var(--green); }
+      .peiling-optie input:checked + label { background: var(--green); border-color: var(--green); color: #fff; }
+      .peiling-optie input:focus-visible + label { box-shadow: 0 0 0 3px var(--green-08); }
+      .peiling-btn {
+        border: 0; border-radius: 8px; background: var(--green); color: #fff;
+        font-family: var(--font-display); font-weight: 600; font-size: 14px; padding: 12px 24px; cursor: pointer;
+      }
+      .peiling-btn:hover:not(:disabled) { background: var(--green-deep); }
+      .peiling-btn:disabled { opacity: .6; cursor: default; }
+      .peiling-melding { margin: 16px 0 0; padding: 11px 15px; border-radius: 8px; font-size: 14px; background: var(--orange-tint); border: 1px solid var(--orange); color: var(--orange-deep); }
+      .peiling-dank { font-family: var(--font-body); font-size: 14.5px; line-height: 1.6; color: var(--green-deep); margin: 0 0 18px; }
+      .peiling-resultaat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      .peiling-kpi { background: var(--cream); border: 1px solid var(--green-15); border-top: 3px solid var(--green); border-radius: 10px; padding: 18px 16px; text-align: center; }
+      .peiling-kpi-num { font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 1; color: var(--green-deep); }
+      .peiling-kpi-label { font-family: var(--font-body); font-size: 13px; color: var(--grey-mid); margin-top: 8px; line-height: 1.4; }
+      @media (max-width: 700px) {
+        .peiling { padding: 40px var(--page-pad-x-mobile); }
+        .peiling-resultaat { grid-template-columns: 1fr; }
+      }
+
       /* Correctieverzoeken-formulier */
       .correctie { border-top: 1px solid var(--green-15); padding: 48px var(--page-pad-x); background: var(--cream); }
       .correctie-inner { max-width: 760px; margin: 0 auto; }
@@ -494,6 +535,29 @@
       </div>
     </section>
 
+    <!-- ─── DRAAGVLAK-PEILING (via Supabase, alleen ingelogd) ───── -->
+    <section class="peiling" id="peiling">
+      <div class="peiling-inner">
+        <h2>Wat vindt u van dit initiatief?</h2>
+        <p class="peiling-intro">Deze peiling gaat niet over de inhoud van de dossiers, maar over het idee zelf: samen een betrouwbaar archief opbouwen en behouden.</p>
+
+        <form id="peiling-form" hidden>
+          <fieldset class="peiling-stelling">
+            <legend>Ik vind het waardevol dat bewoners samen een betrouwbaar archief opbouwen en behouden.</legend>
+            <div class="peiling-schaal" data-naam="stelling1"></div>
+          </fieldset>
+          <fieldset class="peiling-stelling">
+            <legend>Ik ben bereid hieraan bij te dragen — met documenten, kennis of beheer.</legend>
+            <div class="peiling-schaal" data-naam="stelling2"></div>
+          </fieldset>
+          <button type="submit" class="peiling-btn" id="peiling-btn">Versturen</button>
+          <p class="peiling-melding" id="peiling-melding" hidden></p>
+        </form>
+
+        <div id="peiling-resultaat" hidden></div>
+      </div>
+    </section>
+
     <!-- ─── CORRECTIEVERZOEKEN (via Supabase, publiek) ───── -->
     <section class="correctie" id="correctie">
       <div class="correctie-inner">
@@ -746,6 +810,103 @@
       bepaalRol().then(function (rol) {
         magBeheer = (rol === 'beheerder' || rol === 'owner');
         laadVerzoeken();
+      });
+    })();
+    </script>
+    <script>
+    (function () {
+      'use strict';
+      if (!window.sb) return;
+
+      var form = document.getElementById('peiling-form');
+      var resultaatEl = document.getElementById('peiling-resultaat');
+      var btn = document.getElementById('peiling-btn');
+      var melding = document.getElementById('peiling-melding');
+      if (!form || !resultaatEl) return;
+
+      // Schaal-knoppen (1–5) opbouwen, met eindlabels "oneens" (1) en "eens" (5).
+      function bouwSchaal(schaal) {
+        var naam = schaal.getAttribute('data-naam');
+        var links = document.createElement('span');
+        links.className = 'peiling-eind'; links.textContent = 'oneens';
+        schaal.appendChild(links);
+        for (var i = 1; i <= 5; i++) {
+          var wrap = document.createElement('span');
+          wrap.className = 'peiling-optie';
+          var id = 'p-' + naam + '-' + i;
+          var input = document.createElement('input');
+          input.type = 'radio'; input.name = naam; input.id = id; input.value = String(i);
+          var label = document.createElement('label');
+          label.setAttribute('for', id); label.textContent = String(i);
+          wrap.appendChild(input); wrap.appendChild(label);
+          schaal.appendChild(wrap);
+        }
+        var rechts = document.createElement('span');
+        rechts.className = 'peiling-eind'; rechts.textContent = 'eens';
+        schaal.appendChild(rechts);
+      }
+      Array.prototype.forEach.call(form.querySelectorAll('.peiling-schaal'), bouwSchaal);
+
+      function fmtGem(v) { return (v == null) ? '–' : String(v).replace('.', ','); }
+
+      function toonResultaat(zojuistGestemd) {
+        window.sb.rpc('peiling_resultaat').then(function (r) {
+          var row = (r.data && r.data[0]) || {};
+          var aantal = row.aantal || 0;
+          resultaatEl.innerHTML =
+            (zojuistGestemd ? '<p class="peiling-dank">Bedankt, uw stem is geregistreerd. Hieronder de uitslag tot nu toe.</p>' : '') +
+            '<div class="peiling-resultaat">' +
+              '<div class="peiling-kpi"><div class="peiling-kpi-num">' + fmtGem(row.gemiddelde1) + '</div><div class="peiling-kpi-label">gemiddeld — waardevol om samen op te bouwen</div></div>' +
+              '<div class="peiling-kpi"><div class="peiling-kpi-num">' + fmtGem(row.gemiddelde2) + '</div><div class="peiling-kpi-label">gemiddeld — bereid bij te dragen</div></div>' +
+              '<div class="peiling-kpi"><div class="peiling-kpi-num">' + aantal + '</div><div class="peiling-kpi-label">' + (aantal === 1 ? 'respondent' : 'respondenten') + '</div></div>' +
+            '</div>';
+          resultaatEl.hidden = false;
+        });
+      }
+
+      function gekozen(naam) {
+        var el = form.querySelector('input[name="' + naam + '"]:checked');
+        return el ? parseInt(el.value, 10) : null;
+      }
+
+      // Bij laden: al gestemd → uitslag tonen, anders het formulier tonen.
+      window.sb.auth.getSession().then(function (s) {
+        var u = s.data && s.data.session && s.data.session.user;
+        var email = u && u.email;
+        if (!email) return;   // de hele site zit achter de login
+        window.sb.from('peiling').select('id').eq('email', email).maybeSingle()
+          .then(function (r) {
+            if (r.data) toonResultaat(false);
+            else form.hidden = false;
+          });
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var s1 = gekozen('stelling1'), s2 = gekozen('stelling2');
+        melding.hidden = true;
+        if (!s1 || !s2) {
+          melding.textContent = 'Kies bij beide stellingen een waarde van 1 tot 5.';
+          melding.hidden = false; return;
+        }
+        btn.disabled = true;
+        var label = btn.textContent;
+        btn.textContent = 'Versturen…';
+        window.sb.auth.getSession().then(function (s) {
+          var u = s.data && s.data.session && s.data.session.user;
+          var email = u && u.email;
+          if (!email) {
+            melding.textContent = 'U moet ingelogd zijn om mee te doen.';
+            melding.hidden = false; btn.disabled = false; btn.textContent = label; return;
+          }
+          window.sb.from('peiling').insert({ email: email, stelling1: s1, stelling2: s2 })
+            .then(function (r) {
+              btn.disabled = false; btn.textContent = label;
+              // Bij een unique-conflict (al gestemd) tonen we gewoon de uitslag.
+              form.hidden = true;
+              toonResultaat(true);
+            });
+        });
       });
     })();
     </script>
