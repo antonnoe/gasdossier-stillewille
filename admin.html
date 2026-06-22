@@ -129,8 +129,8 @@
   .mail-form input, .mail-form textarea { width: 100%; font-family: var(--font-body); font-size: 14px; color: var(--grey-dark); background: var(--white); border: 1px solid var(--green-25); border-radius: 6px; padding: 9px 11px; }
   .mail-form textarea { resize: vertical; line-height: 1.5; }
   .mail-form input:focus, .mail-form textarea:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-08); }
-  .mail-form #mail-verstuur { margin-top: 14px; }
-  #mail-melding { margin: 12px 0 0; font-size: 14px; padding: 10px 13px; border-radius: 6px; background: var(--green-tint); color: var(--green-deep); }
+  .mail-note { margin: 0 0 14px; font-size: 14px; line-height: 1.55; color: var(--grey-dark); }
+  .mail-form a.btn-approve { display: inline-block; text-decoration: none; }
 
   .empty { color: var(--grey-soft); font-style: italic; padding: 16px 0; }
   .err-line { color: var(--orange-deep); font-size: 14px; margin: 8px 0; }
@@ -161,18 +161,11 @@
       <div class="stat"><div class="stat-num" id="stat-laatste">–</div><div class="stat-label">Laatste aanmelding</div></div>
     </div>
 
-    <h2>E-mailupdate sturen</h2>
-    <p class="sub">Stuur een korte update naar alle bewoners die updates ontvangen (<span id="mail-aantal">…</span>).</p>
-    <div id="mail-err" class="err-line" hidden></div>
+    <h2>Nieuwsbrief</h2>
+    <p class="sub">E-mailupdates staan momenteel aan voor <span id="mail-aantal">…</span>. De nieuwsbrief zelf schrijf en verstuur je in Laposta.</p>
     <div class="mail-form">
-      <label for="mail-onderwerp">Onderwerp</label>
-      <input type="text" id="mail-onderwerp" placeholder="Bijv. Dossier Bovengronds is bijgewerkt">
-      <label for="mail-bericht">Bericht</label>
-      <textarea id="mail-bericht" rows="4" placeholder="Korte mededeling, zonder beoordeling…"></textarea>
-      <label for="mail-link">Link (optioneel)</label>
-      <input type="text" id="mail-link" placeholder="https://kerndossiers-stillewille.vercel.app/bovengronds.html">
-      <button class="btn-sm btn-approve" id="mail-verstuur" type="button">Versturen naar bewoners</button>
-      <p id="mail-melding" hidden></p>
+      <p class="mail-note">Bewoners beheren hun aanmelding via de schakelaar <strong>“E-mailupdates”</strong> op hun accountpagina. Dat wordt automatisch met je Laposta-lijst gesynchroniseerd — aan = toegevoegd, uit = afgemeld.</p>
+      <a class="btn-sm btn-approve" href="https://laposta.nl/" target="_blank" rel="noopener">Inloggen bij Laposta</a>
     </div>
 
     <h2>Aanvragen</h2>
@@ -262,7 +255,6 @@
         showApp();
         loadStats();
         loadMailAantal();
-        wireMail();
         loadAanvragen();
         loadGebruikers();
         loadReacties();
@@ -274,42 +266,8 @@
   function loadMailAantal() {
     sb.from('gebruikers').select('*', { count: 'exact', head: true }).eq('nieuwsbrief', true)
       .then(function (r) {
-        document.getElementById('mail-aantal').textContent = r.error ? '?' : (r.count + (r.count === 1 ? ' ontvanger' : ' ontvangers'));
+        document.getElementById('mail-aantal').textContent = r.error ? '?' : (r.count + (r.count === 1 ? ' bewoner' : ' bewoners'));
       });
-  }
-
-  function wireMail() {
-    var btn = document.getElementById('mail-verstuur');
-    var melding = document.getElementById('mail-melding');
-    btn.addEventListener('click', function () {
-      var onderwerp = (document.getElementById('mail-onderwerp').value || '').trim();
-      var bericht = (document.getElementById('mail-bericht').value || '').trim();
-      var link = (document.getElementById('mail-link').value || '').trim();
-      melding.hidden = true;
-      if (!onderwerp || !bericht) { alert('Vul een onderwerp en bericht in.'); return; }
-      if (!confirm('Deze update naar alle aangemelde bewoners versturen?')) return;
-
-      btn.disabled = true;
-      var label = btn.textContent;
-      btn.textContent = 'Versturen…';
-
-      sb.functions.invoke('stuur-update', { body: { onderwerp: onderwerp, bericht: bericht, link: link } })
-        .then(function (r) {
-          btn.disabled = false;
-          btn.textContent = label;
-          if (r.error) { alert('Versturen mislukt: ' + (r.error.message || r.error)); return; }
-          var data = r.data || {};
-          melding.textContent = 'Verzonden naar ' + (data.verzonden != null ? data.verzonden : '?') + ' bewoner(s).';
-          melding.hidden = false;
-          document.getElementById('mail-onderwerp').value = '';
-          document.getElementById('mail-bericht').value = '';
-          document.getElementById('mail-link').value = '';
-        })
-        .catch(function (e) {
-          btn.disabled = false; btn.textContent = label;
-          alert('Versturen mislukt: ' + (e && e.message ? e.message : e));
-        });
-    });
   }
 
   // Statistiekenbalk — losse count-queries (head: true haalt geen rijen op).

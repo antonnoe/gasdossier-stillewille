@@ -214,6 +214,7 @@ grant execute on function public.invite_gebruiker(text) to authenticated;
 --  via deze weg z'n eigen rol of andermans gegevens wijzigen.
 -- =====================================================================
 alter table public.gebruikers add column if not exists nieuwsbrief boolean not null default true;
+alter table public.gebruikers add column if not exists laposta_id text;
 
 create or replace function public.set_nieuwsbrief(p_aan boolean)
 returns boolean

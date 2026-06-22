@@ -133,9 +133,9 @@
         chk.addEventListener('change', function () {
           chk.disabled = true;
           var nieuw = chk.checked;
-          sb.rpc('set_nieuwsbrief', { p_aan: nieuw }).then(function (res) {
+          sb.functions.invoke('laposta-sync', { body: { aan: nieuw } }).then(function (res) {
             chk.disabled = false;
-            if (res.error) { chk.checked = !nieuw; alert('Opslaan mislukt: ' + res.error.message); return; }
+            if (res.error) { chk.checked = !nieuw; alert('Opslaan mislukt: ' + (res.error.message || res.error)); return; }
             toonStand();
           });
         });
