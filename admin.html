@@ -135,6 +135,8 @@
   .empty { color: var(--grey-soft); font-style: italic; padding: 16px 0; }
   .err-line { color: var(--orange-deep); font-size: 14px; margin: 8px 0; }
   .pauze-banner { margin: 0 0 16px; padding: 12px 15px; border-radius: 8px; font-size: 14px; line-height: 1.5; background: var(--orange-tint); border: 1px solid var(--orange); color: var(--orange-deep); }
+  .aanvraag-detail td { font-size: 13px; color: var(--grey-mid); background: var(--cream); padding-top: 6px; padding-bottom: 10px; }
+  .aanvraag-detail strong { color: var(--orange-deep); }
   #app { display: none; }
 </style>
 </head>
@@ -364,7 +366,7 @@
     var errEl = document.getElementById('aanvragen-err');
     errEl.hidden = true;
 
-    sb.from('aanvragen').select('id, naam, email, status, categorie, huisnummer').order('created_at', { ascending: false })
+    sb.from('aanvragen').select('id, naam, email, status, categorie, huisnummer, telefoon, uitgenodigd_door, gewenste_duur').order('created_at', { ascending: false })
       .then(function (r) {
         if (r.error) { errEl.textContent = 'Kon aanvragen niet laden: ' + r.error.message; errEl.hidden = false; return; }
         var rows = r.data || [];
@@ -396,6 +398,19 @@
             btn.addEventListener('click', function () { handleAction(a, btn.getAttribute('data-act'), tr); });
           });
           body.appendChild(tr);
+
+          // Controlegegevens van derden (dienstverleners) — extra rij.
+          if (a.categorie === 'dienstverlener' && (a.telefoon || a.uitgenodigd_door || a.gewenste_duur)) {
+            var det = document.createElement('tr');
+            det.className = 'aanvraag-detail';
+            det.innerHTML = '<td colspan="5">' +
+              '<strong>Controle derde partij —</strong> ' +
+              'tel.: ' + esc(a.telefoon || '—') +
+              ' · uitgenodigd door: ' + esc(a.uitgenodigd_door || '—') +
+              ' · gewenste duur: ' + esc(a.gewenste_duur || '—') +
+              '</td>';
+            body.appendChild(det);
+          }
         });
       });
   }

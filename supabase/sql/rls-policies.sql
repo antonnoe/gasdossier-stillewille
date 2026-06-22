@@ -189,9 +189,14 @@ on conflict (sleutel) do nothing;
 --
 --  categorie:  'bewoner' | 'lsw' | 'swb' | 'dienstverlener'
 --  huisnummer: 3 cijfers in het bereik 001–326, alleen voor bewoners (NULL anders).
+--  De velden telefoon/uitgenodigd_door/gewenste_duur dienen om derden
+--  (dienstverleners) te kunnen controleren vóór toegang wordt verleend.
 -- =====================================================================
-alter table public.aanvragen add column if not exists categorie  text;
-alter table public.aanvragen add column if not exists huisnummer text;
+alter table public.aanvragen add column if not exists categorie        text;
+alter table public.aanvragen add column if not exists huisnummer       text;
+alter table public.aanvragen add column if not exists telefoon         text;
+alter table public.aanvragen add column if not exists uitgenodigd_door text;
+alter table public.aanvragen add column if not exists gewenste_duur    text;
 
 alter table public.aanvragen drop constraint if exists aanvragen_huisnummer_chk;
 alter table public.aanvragen add constraint aanvragen_huisnummer_chk

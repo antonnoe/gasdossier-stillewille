@@ -160,6 +160,23 @@
         <input type="text" id="huisnummer" name="huisnummer" inputmode="numeric"
                pattern="[0-9]{3}" maxlength="3" placeholder="bijv. 042" autocomplete="off">
       </div>
+      <div id="derden-velden" hidden>
+        <div class="auth-field">
+          <label for="telefoon">Telefoonnummer</label>
+          <input type="tel" id="telefoon" name="telefoon" autocomplete="tel"
+                 placeholder="bijv. 06-12345678">
+        </div>
+        <div class="auth-field">
+          <label for="uitgenodigd">Wie heeft u uitgenodigd?</label>
+          <input type="text" id="uitgenodigd" name="uitgenodigd"
+                 placeholder="Naam (en evt. huisnummer) van uw contactpersoon">
+        </div>
+        <div class="auth-field">
+          <label for="duur">Hoe lang wenst u toegang?</label>
+          <input type="text" id="duur" name="duur"
+                 placeholder="bijv. 2 weken, of tot 1 augustus 2026">
+        </div>
+      </div>
       <div class="auth-field">
         <label for="reden">Reden <span class="optional">(optioneel)</span></label>
         <textarea id="reden" name="reden" placeholder="Bijv. uw adres of relatie tot het landgoed."></textarea>
@@ -186,6 +203,10 @@
   var typeSel = document.getElementById('type');
   var huisVeld = document.getElementById('huisnummer-veld');
   var huisInput = document.getElementById('huisnummer');
+  var derdenVeld = document.getElementById('derden-velden');
+  var telefoonInput = document.getElementById('telefoon');
+  var uitgenodigdInput = document.getElementById('uitgenodigd');
+  var duurInput = document.getElementById('duur');
 
   function show(text, kind) {
     msg.textContent = text;
@@ -193,11 +214,14 @@
     msg.hidden = false;
   }
 
-  // Huisnummer-veld alleen tonen voor bewoners.
+  // Huisnummer alleen voor bewoners; extra controlevelden alleen voor derden.
   typeSel.addEventListener('change', function () {
     var bewoner = typeSel.value === 'bewoner';
+    var derde = typeSel.value === 'dienstverlener';
     huisVeld.hidden = !bewoner;
+    derdenVeld.hidden = !derde;
     if (!bewoner) huisInput.value = '';
+    if (!derde) { telefoonInput.value = ''; uitgenodigdInput.value = ''; duurInput.value = ''; }
   });
 
   form.addEventListener('submit', function (e) {
@@ -207,6 +231,9 @@
     var reden = (document.getElementById('reden').value || '').trim();
     var type = typeSel.value;
     var huisnummer = (huisInput.value || '').trim();
+    var telefoon = (telefoonInput.value || '').trim();
+    var uitgenodigd = (uitgenodigdInput.value || '').trim();
+    var duur = (duurInput.value || '').trim();
 
     if (!naam || !email) { show('Vul uw naam en e-mailadres in.', 'err'); return; }
     if (!type) { show('Geef aan wie u bent.', 'err'); return; }
@@ -215,6 +242,9 @@
       if (!/^[0-9]{3}$/.test(huisnummer) || nr < 1 || nr > 326) {
         show('Vul een geldig huisnummer in (001 t/m 326).', 'err'); huisInput.focus(); return;
       }
+    }
+    if (type === 'dienstverlener' && (!telefoon || !uitgenodigd || !duur)) {
+      show('Vul voor een dienstverlener telefoonnummer, uitnodiger en gewenste duur in.', 'err'); return;
     }
 
     btn.disabled = true;
@@ -227,6 +257,9 @@
       reden: reden || null,
       categorie: type,
       huisnummer: (type === 'bewoner') ? huisnummer : null,
+      telefoon: (type === 'dienstverlener') ? telefoon : null,
+      uitgenodigd_door: (type === 'dienstverlener') ? uitgenodigd : null,
+      gewenste_duur: (type === 'dienstverlener') ? duur : null,
       status: 'pending'
     }).then(function (res) {
       if (res.error) {
