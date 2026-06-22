@@ -35,6 +35,10 @@
   .acc-val { font-family: var(--font-body); font-size: 16px; color: var(--grey-dark); text-align: right; word-break: break-word; }
   .acc-badge { display: inline-block; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; font-weight: 700; padding: 4px 11px; border-radius: 999px; background: var(--green-08); color: var(--green-deep); }
 
+  .acc-switch { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; color: var(--grey-dark); }
+  .acc-switch input { width: 18px; height: 18px; accent-color: var(--green); cursor: pointer; }
+  .acc-hint { max-width: 560px; margin: 12px 2px 0; font-size: 13px; color: var(--grey-soft); }
+
   .acc-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
   .acc-btn {
     display: inline-flex; align-items: center; border: 0; border-radius: 8px; cursor: pointer;
@@ -74,7 +78,17 @@
         <span class="acc-label">Rol</span>
         <span class="acc-val"><span class="acc-badge" id="acc-rol">—</span></span>
       </div>
+      <div class="acc-row">
+        <span class="acc-label">E-mailupdates</span>
+        <span class="acc-val">
+          <label class="acc-switch">
+            <input type="checkbox" id="acc-nieuwsbrief">
+            <span id="acc-nieuwsbrief-txt">—</span>
+          </label>
+        </span>
+      </div>
     </div>
+    <p class="acc-hint">U ontvangt een korte e-mail zodra een dossier is bijgewerkt. Zet dit hierboven uit als u dat niet wilt.</p>
 
     <div class="acc-actions">
       <a class="acc-btn acc-btn-primary" id="acc-admin" href="/admin.html" hidden>Naar beheer</a>
@@ -101,13 +115,31 @@
 
     document.getElementById('acc-email').textContent = session.user.email;
 
-    sb.from('gebruikers').select('rol').eq('email', session.user.email).maybeSingle()
+    sb.from('gebruikers').select('rol, nieuwsbrief').eq('email', session.user.email).maybeSingle()
       .then(function (r) {
         var rol = (r.data && r.data.rol) || 'gebruiker';
         document.getElementById('acc-rol').textContent = ROL_LABEL[rol] || rol;
         if (rol === 'beheerder' || rol === 'owner') {
           document.getElementById('acc-admin').hidden = false;
         }
+
+        // E-mailupdates-schakelaar (standaard aan tenzij expliciet uit).
+        var aan = !(r.data && r.data.nieuwsbrief === false);
+        var chk = document.getElementById('acc-nieuwsbrief');
+        var txt = document.getElementById('acc-nieuwsbrief-txt');
+        function toonStand() { txt.textContent = chk.checked ? 'Aan' : 'Uit'; }
+        chk.checked = aan;
+        toonStand();
+        chk.addEventListener('change', function () {
+          chk.disabled = true;
+          var nieuw = chk.checked;
+          sb.rpc('set_nieuwsbrief', { p_aan: nieuw }).then(function (res) {
+            chk.disabled = false;
+            if (res.error) { chk.checked = !nieuw; alert('Opslaan mislukt: ' + res.error.message); return; }
+            toonStand();
+          });
+        });
+
         document.getElementById('acc-loading').style.display = 'none';
         document.getElementById('acc-content').style.display = 'block';
       });

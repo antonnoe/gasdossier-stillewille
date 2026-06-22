@@ -206,6 +206,34 @@ grant execute on function public.invite_gebruiker(text) to authenticated;
 
 
 -- =====================================================================
+--  E-mailupdates: aan-/afmelden (kolom + RPC)
+--
+--  Gebruikers ontvangen standaard updates (opt-out). Zij kunnen zich op de
+--  accountpagina aan-/afmelden. Dat gebeurt via een SECURITY DEFINER functie
+--  die UITSLUITEND de nieuwsbrief-vlag van de eigen rij zet — zo kan niemand
+--  via deze weg z'n eigen rol of andermans gegevens wijzigen.
+-- =====================================================================
+alter table public.gebruikers add column if not exists nieuwsbrief boolean not null default true;
+
+create or replace function public.set_nieuwsbrief(p_aan boolean)
+returns boolean
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  update public.gebruikers
+    set nieuwsbrief = coalesce(p_aan, true)
+    where email = (auth.jwt() ->> 'email');
+  return coalesce(p_aan, true);
+end;
+$$;
+
+revoke all on function public.set_nieuwsbrief(boolean) from public;
+grant execute on function public.set_nieuwsbrief(boolean) to authenticated;
+
+
+-- =====================================================================
 --  Tabel: reacties
 --
 --  Reacties op de dossierpagina's. Geen moderatie — direct zichtbaar.
