@@ -56,8 +56,9 @@
         ] },
         { label: 'Gemeente Oirschot', links: [
           ['https://www.oirschot.nl/', 'Website'],
-          ['https://oirschot.archiefweb.eu/#search.1782163524246', 'Archief Stille Wille'],
-          ['https://oirschot.archiefweb.eu/#archive', 'Pagina Stille Wille']
+          ['https://oirschot.archiefweb.eu/#search.1782164532705', 'Archief Stille Wille'],
+          ['https://www.oirschot.nl/landgoed-de-stille-wille', 'Wijk Stille Wille'],
+          ['https://vervoervoormij.nl/gemeente/oirschot/', 'Vervoer vanuit de Stille Wille']
         ] }
       ]
     };
