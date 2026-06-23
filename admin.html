@@ -193,22 +193,6 @@
 
     <h2>Gebruikers</h2>
     <p class="sub">Bestaande gebruikers en hun rol.</p>
-
-    <div class="mail-form" style="margin-bottom:24px;">
-      <p class="mail-note">
-        <strong>Bulk-uitnodigen.</strong> Stuurt een inloglink (invite-mail) naar
-        álle adressen in de gebruikerstabel die nog géén Supabase Auth-account
-        hebben. Adressen die al een account hebben worden overgeslagen, dus je
-        kunt dit veilig opnieuw uitvoeren. Klik eerst op <em>Controleren</em> voor
-        een overzicht zonder te versturen.
-      </p>
-      <div class="row-actions">
-        <button class="btn-sm btn-plain" id="bulk-check">Controleren</button>
-        <button class="btn-sm btn-approve" id="bulk-send">Invites versturen</button>
-      </div>
-      <div id="bulk-status" class="mail-note" style="margin:14px 0 0;" hidden></div>
-    </div>
-
     <div id="gebruikers-err" class="err-line" hidden></div>
     <table class="admin-table" id="gebruikers-table">
       <thead>
@@ -712,94 +696,6 @@
         });
     });
   }
-
-  // 5b. Bulk-uitnodigen — roept de Edge Function "bulk-invite" aan, die voor
-  // alle adressen in de gebruikerstabel zonder Auth-account een invite stuurt.
-  function callBulkInvite(dryRun) {
-    return sb.auth.getSession().then(function (s) {
-      var token = s.data && s.data.session ? s.data.session.access_token : '';
-      return fetch(window.SUPABASE_URL + '/functions/v1/bulk-invite', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': window.SUPABASE_ANON_KEY,
-          'Authorization': 'Bearer ' + token
-        },
-        body: JSON.stringify({ dryRun: !!dryRun })
-      }).then(function (resp) {
-        return resp.json().catch(function () { return {}; }).then(function (j) {
-          return { ok: resp.ok, status: resp.status, body: j };
-        });
-      });
-    });
-  }
-
-  var bulkCheckBtn = document.getElementById('bulk-check');
-  var bulkSendBtn = document.getElementById('bulk-send');
-  var bulkStatus = document.getElementById('bulk-status');
-
-  function setBulkBusy(busy) {
-    bulkCheckBtn.disabled = busy;
-    bulkSendBtn.disabled = busy;
-  }
-
-  function toonBulkResultaat(res, dryRun) {
-    bulkStatus.hidden = false;
-    if (!res.ok) {
-      var fout = (res.body && res.body.error) ? res.body.error : ('HTTP ' + res.status);
-      bulkStatus.innerHTML = '<span style="color:var(--orange-deep);">Mislukt: ' + esc(fout) + '</span>';
-      return;
-    }
-    var b = res.body || {};
-    if (dryRun) {
-      bulkStatus.innerHTML =
-        '<strong>Controle (niets verstuurd):</strong> ' +
-        esc(b.totaalGebruikers) + ' gebruikers, waarvan ' +
-        esc(b.teVersturen) + ' nog een invite nodig hebben en ' +
-        esc(b.overgeslagen) + ' al een account hebben.';
-      return;
-    }
-    var html =
-      '<strong>Klaar:</strong> ' + esc(b.verstuurd) + ' invite(s) verstuurd, ' +
-      esc(b.overgeslagen) + ' overgeslagen (bestond al)';
-    if (b.mislukt) {
-      html += ', <span style="color:var(--orange-deep);">' + esc(b.mislukt) + ' mislukt</span>';
-      if (b.fouten && b.fouten.length) {
-        html += '<br><span class="em" style="font-size:13px;">' +
-          b.fouten.map(function (f) { return esc(f.email) + ': ' + esc(f.fout); }).join('<br>') +
-          '</span>';
-      }
-    }
-    html += '.';
-    bulkStatus.innerHTML = html;
-  }
-
-  bulkCheckBtn.addEventListener('click', function () {
-    setBulkBusy(true);
-    bulkStatus.hidden = false;
-    bulkStatus.textContent = 'Bezig met controleren…';
-    callBulkInvite(true).then(function (res) {
-      toonBulkResultaat(res, true);
-    }).catch(function (e) {
-      bulkStatus.hidden = false;
-      bulkStatus.innerHTML = '<span style="color:var(--orange-deep);">Mislukt: ' + esc(e && e.message ? e.message : String(e)) + '</span>';
-    }).then(function () { setBulkBusy(false); });
-  });
-
-  bulkSendBtn.addEventListener('click', function () {
-    if (!confirm('Invites versturen naar alle gebruikers zonder account?\n\nDoe eerst "Controleren" als je het aantal wilt weten. Dit verstuurt echte e-mails.')) {
-      return;
-    }
-    setBulkBusy(true);
-    bulkStatus.hidden = false;
-    bulkStatus.textContent = 'Bezig met versturen… (dit kan even duren)';
-    callBulkInvite(false).then(function (res) {
-      toonBulkResultaat(res, false);
-    }).catch(function (e) {
-      bulkStatus.hidden = false;
-      bulkStatus.innerHTML = '<span style="color:var(--orange-deep);">Mislukt: ' + esc(e && e.message ? e.message : String(e)) + '</span>';
-    }).then(function () { setBulkBusy(false); });
-  });
 
   // 6. Uitloggen
   document.getElementById('logout').addEventListener('click', function (e) {
