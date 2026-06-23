@@ -57,3 +57,42 @@ beleid (wat wel/niet op de site mag), zie `REDACTIE.md`.
 - **Gebruikers** — rollen bekijken/wijzigen.
 - **Reacties** — reacties van bewoners beheren.
 - **Correctieverzoeken** — verzoeken tot correctie van dossiers afhandelen.
+
+## 6. Bestaande bewoners eenmalig uitnodigen (bulk-invite)
+Soms staan er al adressen in de tabel **`gebruikers`** (bijv. handmatig via SQL
+toegevoegd) die nog nooit een inloglink hebben ontvangen. Met de **bulk-invite**
+verstuur je in één keer een invite-mail naar iedereen die nog géén Supabase
+Auth-account heeft. Adressen die al een account hebben worden overgeslagen — je
+kunt dit dus veilig opnieuw uitvoeren, er gaan nooit dubbele invites uit.
+
+### Stap 1 — Edge Function éénmalig publiceren (Supabase-dashboard)
+Dit hoeft maar één keer; daarna kun je de knop steeds gebruiken. **Geen lokale
+CLI nodig.**
+1. Open het **Supabase-dashboard** → project → **Edge Functions**.
+2. Klik **Create a new function** (of **Deploy a new function**).
+3. Naam: **`bulk-invite`** (exact zo).
+4. Plak de volledige inhoud van `supabase/functions/bulk-invite/index.ts`
+   (uit deze repository) in de editor en klik **Deploy**.
+5. Secrets: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` en `SUPABASE_ANON_KEY`
+   zijn standaard al aanwezig — je hoeft niets extra in te stellen.
+
+### Stap 2 — Uitvoeren via /admin.html (de knop)
+1. Log in op **/admin.html** als beheerder of owner.
+2. Ga naar het blok **Gebruikers → Bulk-uitnodigen**.
+3. Klik eerst **Controleren**: je ziet hoeveel adressen nog een invite nodig
+   hebben en hoeveel er worden overgeslagen — er wordt dan nóg niets verstuurd.
+4. Klopt het? Klik **Invites versturen**. Na afloop verschijnt een overzicht:
+   *zoveel verstuurd, zoveel overgeslagen* (en eventueel welke mislukten).
+
+> **Let op — e-mail-rate-limit.** Supabase' ingebouwde mailserver verstuurt maar
+> een paar mails per uur. Voor een grotere lijst moet er een eigen SMTP-server
+> ingesteld zijn (Dashboard → **Authentication → Emails / SMTP Settings**),
+> anders lopen de meeste invites op een rate-limit-fout vast. De knop kan zonder
+> bezwaar later opnieuw worden gebruikt: wie al een invite (account) heeft, wordt
+> overgeslagen.
+
+### Alternatief — direct vanuit het Supabase-dashboard testen
+Je kunt de functie ook in het dashboard aanroepen (Edge Functions → `bulk-invite`
+→ tab **Invoke/Test**), maar dan moet je zelf een `Authorization: Bearer <jwt>`
+van een ingelogde beheerder meegeven. De knop op **/admin.html** doet dat
+automatisch en is daarom de makkelijkste weg.
