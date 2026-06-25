@@ -37,7 +37,8 @@ values
   ('joostmichels@mail.com',      'gebruiker'),
   ('rickpbos@gmail.com',         'gebruiker'),
   ('paul.schoenmakers@trined.nl','gebruiker'),
-  ('susan@vanheesbeen.com',      'gebruiker')
+  ('susan@vanheesbeen.com',      'gebruiker'),
+  ('gerdragstra@gmail.com',      'gebruiker')
 on conflict (email) do nothing;
 
 -- Controle: laat zien welke van de adressen nu in de tabel staan.
@@ -49,6 +50,6 @@ where email in (
   'ansvanderstaak@gmail.com','bram@bramperry.com','koosvankampen@gmail.com',
   'hans@vanheesbeen.com','lounonkes@outlook.com','info@nederlanders.fr',
   'joostmichels@mail.com','rickpbos@gmail.com','paul.schoenmakers@trined.nl',
-  'susan@vanheesbeen.com'
+  'susan@vanheesbeen.com','gerdragstra@gmail.com'
 )
 order by email;
