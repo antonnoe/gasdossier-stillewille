@@ -1,0 +1,22 @@
+# Secrets & lokale config — NOOIT committen
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Supabase lokaal
+.supabase/
+
+# Build / Vercel
+.vercel/
+
+# Logs
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
