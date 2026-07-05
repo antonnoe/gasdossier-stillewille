@@ -162,10 +162,12 @@ window.SW_DOSSIERS = [
     categorie: "Contracten & grond",
     accent: "orange",
     status: "in-uitvoering",
-    omschrijving: "Contractvormen, grondprijzen en het sociaal plan.",
+    omschrijving: "Contractvormen, canon, het vonnis van 2026 en het sociaal plan.",
     secties: [
-      { titel: "De contractvormen", omschrijving: "Verschillen tussen de looptijden van de erfpachtcontracten." },
-      { titel: "Grondaankoop & prijzen", omschrijving: "Informatievoorziening over kosten per m² en de canonberekening." },
+      { titel: "De contractvormen",           omschrijving: "AB1997, AB2004 en AB2015 per onderwerp vergeleken, met artikel en kerntekst.", pagina: "erfpacht-contracten.html" },
+      { titel: "Eigendomsketen & partijen",   omschrijving: "Wie de grond bezit, wie exploiteert en hoe dat sinds 1997 is verschoven.",      pagina: "erfpacht-eigendom.html" },
+      { titel: "Canon, taxatie & grondprijzen", omschrijving: "De rekenregels van 2015, de grondprijzen na 2020 en de 5%-provisie.",         pagina: "erfpacht-canon.html" },
+      { titel: "De procedure & het vonnis",   omschrijving: "De civiele zaak over het omzettingsaanbod: bewijsopdracht, dictum en status.",  pagina: "erfpacht-vonnis.html" },
       { titel: "Het sociaal plan", omschrijving: "De regeling voor pachters die de grond niet kopen." }
     ]
   },
