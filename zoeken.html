@@ -137,6 +137,18 @@
   }
   function escapeRegExp(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 
+  // Splits de zoekopdracht in losse woorden. Een pagina telt als treffer
+  // wanneer ALLE woorden erop voorkomen (AND-logica); ze hoeven niet naast
+  // elkaar te staan. "erfpacht 2028" vindt dus ook pagina's waar die woorden
+  // in verschillende zinnen staan. Een frase tussen "dubbele aanhalingstekens"
+  // wordt wél als geheel gezocht.
+  function parseTermen(term) {
+    var frasen = [];
+    term = term.replace(/"([^"]+)"/g, function (m, f) { frasen.push(f.trim()); return ' '; });
+    var woorden = term.split(/\s+/).filter(function (w) { return w.length > 0; });
+    return frasen.concat(woorden);
+  }
+
   // Maak een snippet rond de eerste treffer, met de term gemarkeerd.
   function maakSnippet(text, term) {
     var lower = text.toLowerCase();
@@ -169,12 +181,28 @@
       for (var i = 0; i < weg.length; i++) weg[i].parentNode && weg[i].parentNode.removeChild(weg[i]);
       var bron = doc.body || doc.documentElement;
       var text = (bron.textContent || '').replace(/\s+/g, ' ').trim();
-      if (text.toLowerCase().indexOf(term.toLowerCase()) === -1) return null;
+      var lower = text.toLowerCase();
+      var termen = parseTermen(term);
+      if (!termen.length) return null;
+      // AND-logica: elke term moet op de pagina voorkomen.
+      for (var t = 0; t < termen.length; t++) {
+        if (lower.indexOf(termen[t].toLowerCase()) === -1) return null;
+      }
+      var totaal = 0;
+      for (var t2 = 0; t2 < termen.length; t2++) totaal += telTreffers(text, termen[t2]);
+      // Snippet rond de langste (meest onderscheidende) term; markeer daarna alle termen.
+      var langste = termen.slice().sort(function (a, b) { return b.length - a.length; })[0];
+      var snip = maakSnippet(text, langste);
+      for (var t3 = 0; t3 < termen.length; t3++) {
+        if (termen[t3] === langste) continue;
+        var rx = new RegExp('(?![^<]*>)' + escapeRegExp(escapeHtml(termen[t3])), 'gi');
+        snip = snip.replace(rx, function (m) { return '<mark>' + m + '</mark>'; });
+      }
       return {
         url: url,
         titel: titel,
-        aantal: telTreffers(text, term),
-        snippet: maakSnippet(text, term)
+        aantal: totaal,
+        snippet: snip
       };
     }).catch(function () { return null; });
   }

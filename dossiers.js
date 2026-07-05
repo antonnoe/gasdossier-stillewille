@@ -58,6 +58,33 @@ window.SW_META = {
   bijgewerkt: "juli 2026"
 };
 
+/* ── UPDATELOG ──────────────────────────────────────────────────────────
+ * Bron van waarheid voor de "Laatste update"-strip op de startpagina.
+ * NIEUWSTE BOVENAAN. Per release: datum (leesbaar) + items (concrete
+ * deliverables, kort en feitelijk). index.html rendert hieruit: de
+ * bovenste regel als strip, de volledige lijst achter "alle updates".
+ * Bij elke inhoudelijke release: hier een blok toevoegen — niet meer
+ * handmatig in index.html.
+ * ─────────────────────────────────────────────────────────────────────── */
+window.SW_UPDATES = [
+  {
+    datum: "5 juli 2026",
+    items: [
+      "Erfpachtdossier uitgebreid met vier subpagina's: de contractvormen (AB1997/AB2004/AB2015), eigendomsketen & partijen, canon & grondprijzen, en de procedure & het vonnis van 22 april 2026.",
+      "Tijdlijn aangevuld met 25 erfpacht-gebeurtenissen (1997–2026), elk met bron en verificatiestatus.",
+      "Bronnenregister uitgebreid: beide vonnissen met ECLI-link naar rechtspraak.nl, zeven erfpacht-kerndocumenten en acht nieuwe regels in het verificatieregister.",
+      "Stakeholders: standpuntenregister erfpacht toegevoegd — wie wanneer wat schriftelijk heeft gesteld, gescheiden van de feiten.",
+      "Zoekfunctie verbeterd: zoekt nu op losse woorden (bijv. 'erfpacht 2028'); een frase tussen \"aanhalingstekens\" wordt als geheel gezocht."
+    ]
+  },
+  {
+    datum: "21 juni 2026",
+    items: [
+      "Reactiefunctie toegevoegd — u kunt nu per dossier meedenken en meelezen."
+    ]
+  }
+];
+
 window.SW_DOSSIERS = [
 
   /* ============================================================

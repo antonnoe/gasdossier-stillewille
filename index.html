@@ -45,6 +45,25 @@
         font-size: 14.5px;
         color: var(--grey-dark);
       }
+      .laatste-update-log { flex-basis: 100%; }
+      .laatste-update-log summary {
+        cursor: pointer;
+        font-family: var(--font-mono);
+        font-size: 11.5px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--green-deep);
+      }
+      .laatste-update-log[open] summary { margin-bottom: 8px; }
+      .laatste-update-logdatum {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--grey-dark);
+        margin: 10px 0 4px;
+      }
+      .laatste-update-loglijst ul { margin: 0 0 6px; padding-left: 20px; }
+      .laatste-update-loglijst li { font-size: 13.5px; line-height: 1.6; margin-bottom: 3px; }
       .laatste-update-label {
         font-family: var(--font-mono);
         font-size: var(--fs-mono);
@@ -457,11 +476,48 @@
 
     <!-- ─── LAATSTE UPDATE (handmatig bijwerken) ────────────
          Pas de datum en tekst hieronder met de hand aan. -->
-    <div class="laatste-update">
+    <div class="laatste-update" data-sw-updates>
       <span class="laatste-update-label">Laatste update</span>
-      <span class="laatste-update-datum">21 juni 2026</span>
-      <span class="laatste-update-tekst">Reactiefunctie toegevoegd — u kunt nu per dossier meedenken en meelezen.</span>
+      <span class="laatste-update-datum"></span>
+      <span class="laatste-update-tekst"></span>
+      <details class="laatste-update-log">
+        <summary>alle updates</summary>
+        <div class="laatste-update-loglijst"></div>
+      </details>
     </div>
+    <script>
+      // Rendert de updatestrip uit window.SW_UPDATES (dossiers.js) —
+      // dossiers.js is hier al geladen via de <head>/onderaan; deze code
+      // draait defensief voor het geval de volgorde ooit wijzigt.
+      (function () {
+        function render() {
+          var ups = window.SW_UPDATES || [];
+          var wrap = document.querySelector('[data-sw-updates]');
+          if (!wrap || !ups.length) return;
+          var laatste = ups[0];
+          wrap.querySelector('.laatste-update-datum').textContent = laatste.datum;
+          wrap.querySelector('.laatste-update-tekst').textContent =
+            laatste.items.length === 1 ? laatste.items[0]
+            : laatste.items.length + ' verbeteringen — zie "alle updates".';
+          var lijst = wrap.querySelector('.laatste-update-loglijst');
+          ups.forEach(function (u) {
+            var h = document.createElement('p');
+            h.className = 'laatste-update-logdatum';
+            h.textContent = u.datum;
+            lijst.appendChild(h);
+            var ul = document.createElement('ul');
+            u.items.forEach(function (t) {
+              var li = document.createElement('li');
+              li.textContent = t;
+              ul.appendChild(li);
+            });
+            lijst.appendChild(ul);
+          });
+        }
+        if (window.SW_UPDATES) render();
+        else document.addEventListener('DOMContentLoaded', render);
+      })();
+    </script>
 
     <!-- ─── HERO ────────────────────────────────────────── -->
     <header class="hero">
