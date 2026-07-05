@@ -55,7 +55,7 @@ window.SW_META = {
   // {datum}"-badge verschijnt. Pas aan bij iedere INHOUDELIJKE release —
   // een puur structurele wijziging (zoals deze nav-herstructurering)
   // ververst de inhoudelijke peildatum niet.
-  bijgewerkt: "mei 2026"
+  bijgewerkt: "juli 2026"
 };
 
 window.SW_DOSSIERS = [
