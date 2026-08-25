@@ -4,8 +4,16 @@ name: Supabase keepalive
 #
 # Gratis Supabase-projecten pauzeren na 7 dagen zonder API-verkeer — bij
 # een klein aantal bewoners dat inlogt, is die termijn eerder overschreden
-# dan je zou denken. Deze workflow raakt de REST-API elke 3 dagen (ruim
-# binnen de 7-dagentermijn, met marge voor een gemiste of vertraagde run).
+# dan je zou denken (zie het "Failed to fetch"-incident van 25 augustus
+# 2026 op de inlogpagina, veroorzaakt door precies zo'n pauze). Deze
+# workflow raakt de Auth-service elke 3 dagen (ruim binnen de
+# 7-dagentermijn, met marge voor een gemiste of vertraagde run) via
+# /auth/v1/settings — een publiek, side-effect-vrij health-endpoint dat
+# precies het onderdeel raakt waar de inlogflow (signInWithOtp) op leunt.
+#
+# Getest via workflow_dispatch op 25 augustus 2026: het kale /rest/v1/
+# rootpad geeft op dit project bewust 401 (los van de geldigheid van de
+# key) — gebruik daarom niet dat pad als je dit ooit aanpast.
 #
 # Let op — GitHub schakelt geplande workflows automatisch uit als de
 # repository zelf 60 dagen geen enkele commit heeft gehad. Blijft de site
@@ -22,18 +30,14 @@ jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Supabase REST API
+      - name: Ping Supabase Auth API
         run: |
           KEY="sb_publishable_NMp666YWWKcObtkPD4EvAQ_p3ChGeRk"
-          echo "-- /rest/v1/ --"
-          curl -sS -o /dev/null -w "HTTP %{http_code}\n" \
-            "https://pmnquozexgxhpbpuergj.supabase.co/rest/v1/" \
-            -H "apikey: $KEY" -H "Authorization: Bearer $KEY"
-          echo "-- /auth/v1/settings --"
-          curl -sS -w "\nHTTP %{http_code}\n" \
+          code=$(curl -sS -o /dev/null -w "%{http_code}" \
             "https://pmnquozexgxhpbpuergj.supabase.co/auth/v1/settings" \
-            -H "apikey: $KEY"
-          echo "-- /rest/v1/reacties?select=id&limit=1 --"
-          curl -sS -w "\nHTTP %{http_code}\n" \
-            "https://pmnquozexgxhpbpuergj.supabase.co/rest/v1/reacties?select=id&limit=1" \
-            -H "apikey: $KEY" -H "Authorization: Bearer $KEY"
+            -H "apikey: $KEY")
+          echo "HTTP status: $code"
+          if [ "$code" -lt 200 ] || [ "$code" -ge 300 ]; then
+            echo "Onverwacht antwoord van Supabase (status $code) — controleer of de anon key nog geldig is."
+            exit 1
+          fi
