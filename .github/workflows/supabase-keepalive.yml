@@ -24,11 +24,13 @@ jobs:
     steps:
       - name: Ping Supabase REST API
         run: |
+          KEY="sb_publishable_NMp666YWWKcObtkPD4EvAQ_p3ChGeRk"
           code=$(curl -sS -o /dev/null -w "%{http_code}" \
             "https://pmnquozexgxhpbpuergj.supabase.co/rest/v1/" \
-            -H "apikey: sb_publishable_NMp666YWWKcObtkPD4EvAQ_p3ChGeRk")
+            -H "apikey: $KEY" \
+            -H "Authorization: Bearer $KEY")
           echo "HTTP status: $code"
-          if [ "$code" -lt 200 ] || [ "$code" -ge 500 ]; then
-            echo "Onverwachte serverfout van Supabase (status $code)."
+          if [ "$code" -lt 200 ] || [ "$code" -ge 300 ]; then
+            echo "Onverwacht antwoord van Supabase (status $code) — controleer of de anon key nog geldig is."
             exit 1
           fi
