@@ -1,0 +1,34 @@
+name: Supabase keepalive
+
+# Voorkomt dat het Supabase-project automatisch pauzeert.
+#
+# Gratis Supabase-projecten pauzeren na 7 dagen zonder API-verkeer — bij
+# een klein aantal bewoners dat inlogt, is die termijn eerder overschreden
+# dan je zou denken. Deze workflow raakt de REST-API elke 3 dagen (ruim
+# binnen de 7-dagentermijn, met marge voor een gemiste of vertraagde run).
+#
+# Let op — GitHub schakelt geplande workflows automatisch uit als de
+# repository zelf 60 dagen geen enkele commit heeft gehad. Blijft de site
+# zo lang stil, dan moet deze workflow via het Actions-tabblad ("Enable
+# workflow") handmatig weer aangezet worden, of overweeg dan het
+# Supabase-project te upgraden naar het Pro-abonnement (geen auto-pauze).
+
+on:
+  schedule:
+    - cron: '17 6 */3 * *'
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API
+        run: |
+          code=$(curl -sS -o /dev/null -w "%{http_code}" \
+            "https://pmnquozexgxhpbpuergj.supabase.co/rest/v1/" \
+            -H "apikey: sb_publishable_NMp666YWWKcObtkPD4EvAQ_p3ChGeRk")
+          echo "HTTP status: $code"
+          if [ "$code" -lt 200 ] || [ "$code" -ge 500 ]; then
+            echo "Onverwachte serverfout van Supabase (status $code)."
+            exit 1
+          fi
