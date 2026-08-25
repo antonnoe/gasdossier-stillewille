@@ -55,7 +55,7 @@ window.SW_META = {
   // {datum}"-badge verschijnt. Pas aan bij iedere INHOUDELIJKE release —
   // een puur structurele wijziging (zoals deze nav-herstructurering)
   // ververst de inhoudelijke peildatum niet.
-  bijgewerkt: "juli 2026"
+  bijgewerkt: "augustus 2026"
 };
 
 /* ── UPDATELOG ──────────────────────────────────────────────────────────
@@ -67,6 +67,13 @@ window.SW_META = {
  * handmatig in index.html.
  * ─────────────────────────────────────────────────────────────────────── */
 window.SW_UPDATES = [
+  {
+    datum: "25 augustus 2026",
+    items: [
+      "MJOP-dossier volledig uitgewerkt: reconstructie van het adviesrapport 2026 (€ 137.632/jaar, rekenkundig nagerekend), een vijf-lagenverdeling van alle posten, en een vergelijking met wat bekend is over de eerdere, onvolledige MJOP-versie uit 2022.",
+      "De kernvraag \"wie draagt de kosten van vervanging van ondergrondse infrastructuur\" behandeld aan de hand van gepubliceerde rechtspraak (Gerechtshof 's-Hertogenbosch), met kruisverwijzingen naar het financieel overzicht en het exploitatiedossier."
+    ]
+  },
   {
     datum: "5 juli 2026",
     items: [
@@ -250,12 +257,12 @@ window.SW_DOSSIERS = [
     titel: "MJOP",
     categorie: "Organisatie & beheer",
     accent: "yellow",
-    status: "gepland",
-    omschrijving: "Het meerjarenonderhoudsplan en de onderhoudsfondsen.",
+    status: "in-uitvoering",
+    omschrijving: "Twee MJOP-versies (2022 en 2026) vergeleken: de reconstructie van het adviesbedrag en de vraag wie de kosten van vervanging draagt.",
     secties: [
-      { titel: "Het conditierapport", omschrijving: "De onafhankelijke conditiemeting als basis voor de planning." },
-      { titel: "Investerings- versus reserveringsfonds", omschrijving: "De scheiding tussen de fondsen voor onderhoud en vernieuwing." },
-      { titel: "Ontbrekende elementen", omschrijving: "De vraag of zware ondergrondse infrastructuur in het plan is opgenomen." }
+      { titel: "Twee MJOP's naast elkaar", omschrijving: "Wat het rapport uit 2022 miste, en wat de versie van 2026 daaraan toevoegt." },
+      { titel: "De vijf-lagenverdeling", omschrijving: "Reconstructie en herordening van het adviesbedrag van € 137.632 per jaar." },
+      { titel: "Eigendom & de rechterlijke lijn", omschrijving: "Wie de kosten van vervanging van ondergrondse infrastructuur draagt, getoetst aan de rechtspraak." }
     ]
   },
 

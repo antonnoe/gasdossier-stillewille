@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>MJOP · Kerndossiers Landgoed De Stille Wille</title>
+<meta name="description" content="Twee MJOP-versies (2022 en 2026) naast elkaar: de reconstructie van het adviesbedrag, de vijf-lagenverdeling en de onbeantwoorde vraag wie de kosten van vervanging van ondergrondse infrastructuur draagt.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="theme-color" content="#1F7F4E">
@@ -19,47 +20,66 @@
 <link rel="stylesheet" href="/tokens.css">
 <link rel="stylesheet" href="/components.css">
 <style>
-  details.sw-acc {
-    border-top: 1px solid var(--green-15);
-    padding: 0;
-  }
-  details.sw-acc:last-of-type { border-bottom: 1px solid var(--green-15); }
+  html { scroll-behavior: smooth; }
+
+  .verif { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-mono); font-size: var(--fs-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--grey-soft); font-weight: 600; margin: 0 0 10px; }
+  .verif-dot { width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(0,0,0,0.04); flex: none; }
+  .verif-dot--groen  { background: var(--green); }
+  .verif-dot--geel   { background: var(--yellow); }
+  .verif-dot--oranje { background: var(--orange); }
+
+  .kaart { background: var(--white); border: 1px solid var(--green-15); border-left: 4px solid var(--green); border-radius: 10px; padding: 22px 26px; margin: 26px 0; box-shadow: 0 6px 22px rgba(19,78,47,.05); }
+  .kaart h3 { margin-top: 0; }
+  .kaart--geel { border-left-color: var(--yellow); }
+  .kaart--oranje { border-left-color: var(--orange); }
+
+  .laag-tag { display: inline-block; font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: .1em; padding: 2px 7px; border-radius: 4px; }
+  .laag-A { background: var(--green-tint); color: var(--green-deep); }
+  .laag-B { background: var(--yellow-tint); color: var(--yellow-deep); }
+  .laag-C { background: var(--orange-tint); color: var(--orange-deep); }
+  .laag-D { background: #EEE; color: #444; }
+  .laag-E { background: #EEE; color: #444; }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--green-15); border: 1px solid var(--green-15); border-radius: 10px; overflow: hidden; margin: 28px 0; }
+  .kpi { background: var(--white); padding: 20px 22px; }
+  .kpi .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--green); font-weight: 600; }
+  .kpi .v { font-family: var(--font-display); font-weight: 700; font-size: 26px; line-height: 1.2; margin-top: 6px; color: var(--grey-dark); }
+  .kpi .t { font-size: 13px; color: var(--grey-soft); line-height: 1.5; margin-top: 4px; }
+
+  .page-main .sources { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--green-15); font-family: var(--font-mono); font-size: 12px; color: var(--grey-soft); line-height: 1.6; }
+  .page-main .sources strong { color: var(--green); font-weight: 600; }
+  .page-main .sources span { display: block; margin-top: 4px; }
+  .bron { font-size: 14px; color: var(--grey-mid); }
+
+  /* Accordeon Tak A/B — zelfde patroon als financieel-overzicht.html */
+  details.sw-acc { border: 1px solid var(--green-15); border-radius: 6px; margin: 16px 0; padding: 0; }
   details.sw-acc summary {
-    list-style: none;
-    cursor: pointer;
-    padding: 22px 28px;
-    display: grid;
-    grid-template-columns: 48px 1fr 24px;
-    gap: 20px;
-    align-items: center;
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--grey-dark);
+    list-style: none; cursor: pointer; padding: 18px 22px;
+    display: grid; grid-template-columns: 52px 1fr 24px; gap: 16px; align-items: center;
+    font-family: var(--font-display); font-weight: 600; font-size: 17px; color: var(--grey-dark);
   }
   details.sw-acc summary::-webkit-details-marker { display: none; }
-  details.sw-acc summary::after {
-    content: '+';
-    font-family: var(--font-mono);
-    color: var(--green);
-    font-size: 18px;
-  }
+  details.sw-acc summary::after { content: '+'; font-family: var(--font-mono); color: var(--green); font-size: 18px; }
   details.sw-acc[open] summary::after { content: '–'; }
   details.sw-acc summary:hover { background: var(--cream); }
   details.sw-acc .sw-acc-n {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    color: var(--green);
-    font-weight: 700;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em;
+    color: var(--green); font-weight: 700; text-align: center;
+    border: 1px solid var(--green-25); border-radius: 999px; padding: 3px 0;
   }
-  details.sw-acc .sw-acc-body {
-    padding: 4px 28px 24px 96px;
-    color: var(--grey-mid);
-    font-size: 15px;
-    line-height: 1.65;
-  }
-  details.sw-acc .sw-acc-body p { margin: 0; max-width: 70ch; }
+  details.sw-acc .sw-acc-body { padding: 4px 22px 22px; color: var(--grey-mid); font-size: 15px; line-height: 1.65; }
+  .sw-acc-body h4 { font-family: var(--font-display); font-size: 15px; color: var(--grey-dark); margin: 16px 0 6px; }
+  .sw-acc-body h4:first-child { margin-top: 0; }
+  .sw-acc-body p { margin: 0 0 10px; max-width: 74ch; }
+  .acc-branch { border-left: 3px solid var(--green-25); background: rgba(31,127,78,0.03); padding: 10px 14px; margin: 8px 0; font-size: 14.5px; line-height: 1.6; }
+  .acc-branch.b { border-left-color: var(--grey-mid); }
+  .acc-bewijs { background: var(--green-tint); border-radius: 6px; padding: 10px 14px; margin: 10px 0 4px; font-size: 14px; line-height: 1.6; }
+  .acc-status { background: var(--cream); border: 1px solid var(--green-15); border-radius: 6px; padding: 10px 14px; margin: 12px 0; font-size: 13px; line-height: 1.6; color: var(--grey-mid); }
+  .acc-inschatting { border-left: 3px solid var(--yellow); background: var(--yellow-tint); padding: 10px 14px; margin: 12px 0; font-size: 13.5px; line-height: 1.6; color: var(--grey-dark); }
+
+  .page-main ol { padding-left: 1.3em; }
+  .page-main ol li { margin-bottom: 0.4em; }
+  .page-main ol li::marker { color: var(--green); font-family: var(--font-mono); font-weight: 600; }
 </style>
 </head>
 <body data-slug="mjop">
@@ -69,32 +89,246 @@
 <header class="page-header">
   <div class="page-header-inner">
     <div class="page-kicker"><span class="square"></span></div>
-    <h1 class="page-title">MJOP</h1>
-    <p class="page-lede">Het meerjarenonderhoudsplan en de onderhoudsfondsen.</p>
+    <h1 class="page-title">Meerjarenonderhoudsplan: twee versies, twee onbeantwoorde vragen</h1>
+    <p class="page-lede">Er bestaan twee MJOP's voor het landgoed: een onvolledige uit 2022 en een volledig doorgerekende uit 2026 met een adviesbedrag van € 137.632 per jaar. Deze pagina rekent de versie van 2026 na, zet haar naast wat over 2022 bekend is, en behandelt de vraag die in geen van beide wordt beantwoord — wie de kosten draagt — aan de hand van wat het Gerechtshof 's-Hertogenbosch daarover heeft geoordeeld, niet aan de hand van een standpunt van bewoners of exploitant.</p>
   </div>
 </header>
 
 <main class="page-main">
 
-  <div data-sw-status></div>
+<div class="leeswijzer">
+  <div class="leeswijzer-label">Leeswijzer</div>
+  <p>Deze pagina behandelt twee brondocumenten met een verschillende status. Het MJOP-2026-rapport is zelf geraadpleegd; alle cijfers daaruit zijn nagerekend en gemarkeerd <strong>groen</strong>. Het MJOP uit 2022 is niet zelf ingezien — wat erover bekend is, komt uit BR-verslagen en nieuwsbrieven en is gemarkeerd <strong>geel</strong> of <strong>oranje</strong>. Bij de vraag wie welke kosten draagt, citeert deze pagina uitsluitend gepubliceerde rechtspraak (Gerechtshof 's-Hertogenbosch) en legt zij, waar de rechtspraak geen uitsluitsel geeft, twee lezingen naast elkaar (Tak A / Tak B) in plaats van er zelf een keuze in te maken. Geen van beide MJOP-versies wordt hier "geldig" of "ongeldig" verklaard.</p>
+</div>
 
-  <h2>Secties</h2>
-  <p>Onderstaande indeling is voorlopig; per sectie wordt de inhoud opgebouwd op basis van geverifieerde brondocumenten.</p>
+<h2>1. Twee MJOP's, twee bronstatussen</h2>
 
-  <details class="sw-acc">
-    <summary><span class="sw-acc-n">01</span><span>Het conditierapport</span></summary>
-    <div class="sw-acc-body"><p>De onafhankelijke conditiemeting als basis voor de planning.</p></div>
-  </details>
-  <details class="sw-acc">
-    <summary><span class="sw-acc-n">02</span><span>Investerings- versus reserveringsfonds</span></summary>
-    <div class="sw-acc-body"><p>De scheiding tussen de fondsen voor onderhoud en vernieuwing.</p></div>
-  </details>
-  <details class="sw-acc">
-    <summary><span class="sw-acc-n">03</span><span>Ontbrekende elementen</span></summary>
-    <div class="sw-acc-body"><p>De vraag of zware ondergrondse infrastructuur in het plan is opgenomen.</p></div>
-  </details>
+<p class="verif"><span class="verif-dot verif-dot--groen"></span> MJOP 2026 — primaire bron, zelf gelezen &nbsp;·&nbsp; <span class="verif-dot verif-dot--geel"></span> MJOP 2022 — secundaire bronnen</p>
 
-  <nav class="pager" data-sw-pager></nav>
+<p>Er is niet één MJOP, er zijn er twee, met een verschillend bewijsniveau.</p>
+
+<div class="kaart">
+  <h3>MJOP 2022 — de eerste, onvolledige versie</h3>
+  <p>Een SWW-nieuwsbrief van oktober 2023 meldt over het toen bestaande MJOP: "Het externe MJOP uit 2022 was nog geen werkbare planningstool: kostenoverzicht onvolledig (o.a. ondergrondse infrastructuur) en twijfel over relevante posten (onderhoud oud receptiegebouw terwijl een nieuw gebouw in voorbereiding is)." Uit een BR-stuk van dezelfde periode is bekend dat deze versie de noodzakelijke onderhouds- en vernieuwingskosten tot en met 2032 raamde op ongeveer € 600.000, exclusief investeringsfonds, expliciet als "grove schatting".</p>
+  <p>Het document zelf is niet in de beschikbare bronnen aangetroffen — deze pagina citeert het via secundaire bronnen (nieuwsbrief, BR-verslag). Dat is de reden voor de gele status.</p>
+</div>
+
+<div class="kaart">
+  <h3>MJOP 2026 — de versie die deze pagina narekent</h3>
+  <p>Standaardrapportage van softwarepakket IGBS (versie 810), opgesteld door een extern adviesbureau, opdrachtnummer mjop 2026-5. Inspectie 26 mei 2026, printdatum 18 juni 2026. Opdrachtgever: Stille Wille Brabant B.V. (de exploitatiemaatschappij, niet de landgoedeigenaar). Geadviseerd bedrag: € 137.632 per jaar. Het rapport is, blijkens de eigen inleiding en opmerkingenparagraaf, een sjabloon voor verenigingen van eigenaars (appartementencomplexen); op het landgoed bestaat geen VvE en dus ook niet de wettelijke reserveringsplicht (art. 5:126 lid 1 BW) die het advies impliciet veronderstelt.</p>
+</div>
+
+<div class="callout callout-yellow">
+  <div class="callout-label">Wat opvalt bij het naast elkaar leggen</div>
+  <p>Het gat dat in 2023 expliciet werd benoemd — <strong>ontbrekende ondergrondse infrastructuur</strong> — is in de 2026-versie opgevuld: laag A (zie hieronder) bevat nu riool, water, gas en glasvezel, samen € 1.023.097 over dertig jaar. Het totaalbedrag voor een vergelijkbare periode is intussen meer dan verdubbeld: € 600.000 (2022, tot 2032) tegenover € 1.262.422 (2026-versie, kolom 2026–2035). Of dat verschil volledig door de toegevoegde ondergrondse infrastructuur wordt verklaard, dan wel ook door gewijzigde aannames voor bestaande posten, is met de beschikbare secundaire bronnen over de 2022-versie niet vast te stellen.</p>
+</div>
+
+<h2>2. Wat het 2026-rapport zelf is</h2>
+
+<p class="verif"><span class="verif-dot verif-dot--groen"></span> Primaire bron — het rapport zelf</p>
+
+<p>Twee gegevens zijn voor de duiding bepalend. Ten eerste: het rapport is opgesteld voor de exploitatiemaatschappij, niet voor de landgoedeigenaar — op het landgoed zijn dat twee verschillende rechtspersonen (Stille Wille Brabant B.V. en Landgoed Stille Wille B.V.). Ten tweede: het rapport is een sjabloon voor verenigingen van eigenaars, met een inleiding die spreekt over appartementencomplexen, portieken en trappenhallen. Op het landgoed staat geen hoogbouw en bestaat geen VvE; de wettelijke reserveringsplicht van art. 5:126 lid 1 BW die het advies impliciet veronderstelt, is hier niet van toepassing, en het rapport benoemt zelf geen verdeelsleutel naar bewoners.</p>
+
+<p>Onderaan elke pagina staat een generiek auteursrechtvoorbehoud van de softwareleverancier. Sinds 1 januari 2015 kent de Auteurswet geen geschriftenbescherming meer (art. 10 lid 1 onder 1° Aw, gewijzigd bij wet 33 800, i.w.tr. Stb. 2014, 437); feitelijke gegevens — bedragen, jaartallen, cyclustermijnen — zijn bovendien nooit auteursrechtelijk beschermd geweest. Dat verhindert niet dat de cijfers hier worden nagerekend en besproken.</p>
+
+<h2>3. Reconstructie: het 2026-plan is volledig nagerekend</h2>
+
+<p class="verif"><span class="verif-dot verif-dot--groen"></span> Rekenkundig sluitend gecontroleerd tegen de kapitalisatietabel</p>
+
+<p>Elke post uit het reserverings- en afschrijvingsoverzicht is opnieuw doorgerekend over de volledige rapporthorizon 2026 tot en met 2055. De uitkomst is per jaar vergeleken met hoofdstuk 10 van het rapport, de kapitalisatie. Voor alle dertig jaren is het verschil nul.</p>
+
+<div class="sw-table-wrap"><table>
+  <thead><tr><th>Jaar</th><th class="num">Reconstructie</th><th class="num">Rapport</th><th class="num">Verschil</th></tr></thead>
+  <tbody>
+    <tr><td>2026</td><td class="num">107.541</td><td class="num">107.541</td><td class="num">0</td></tr>
+    <tr><td>2030</td><td class="num">271.523</td><td class="num">271.523</td><td class="num">0</td></tr>
+    <tr><td>2036</td><td class="num">490.564</td><td class="num">490.564</td><td class="num">0</td></tr>
+    <tr><td>2045</td><td class="num">214.062</td><td class="num">214.062</td><td class="num">0</td></tr>
+    <tr><td>2051</td><td class="num">339.038</td><td class="num">339.038</td><td class="num">0</td></tr>
+    <tr class="row-total"><td><strong>2026–2055</strong></td><td class="num"><strong>4.128.956</strong></td><td class="num"><strong>4.128.956</strong></td><td class="num"><strong>0</strong></td></tr>
+  </tbody>
+</table></div>
+
+<p>Het geadviseerde jaarbedrag van € 137.632 is precies het dertigste deel van € 4.128.956. Het advies is dus geen onderbouwde spaarnorm maar een rekenkundig gemiddelde van alle voorgenomen uitgaven.</p>
+
+<h2>4. Kerncijfers</h2>
+
+<div class="kpi-grid">
+  <div class="kpi"><div class="k">Totale uitgaven 30 jaar</div><div class="v">€ 4.128.956</div><div class="t">2026 t/m 2055, prijspeil 2026</div></div>
+  <div class="kpi"><div class="k">Geadviseerde toevoeging</div><div class="v">€ 137.632</div><div class="t">per jaar, gemiddelde van de uitgaven</div></div>
+  <div class="kpi"><div class="k">Per eenheid per jaar</div><div class="v">€ 420,89</div><div class="t">bij 327 eenheden — eigen rekensom, geen verdeelsleutel uit het rapport</div></div>
+  <div class="kpi"><div class="k">Inhaalpositie</div><div class="v">€ 884.853</div><div class="t">bedrag dat volgens de systematiek van het rapport al gespaard had moeten zijn</div></div>
+  <div class="kpi"><div class="k">Jaarschijf 2026</div><div class="v">€ 107.541</div><div class="t">piekjaren: 2036 € 490.564 en 2051 € 339.038</div></div>
+  <div class="kpi"><div class="k">Indexering</div><div class="v">0,00 %</div><div class="t">over een looptijd van 30 jaar</div></div>
+</div>
+
+<h2>5. De verdeling in vijf lagen</h2>
+
+<p class="verif"><span class="verif-dot verif-dot--groen"></span> Rekenkundig sluitend &nbsp;·&nbsp; <span class="verif-dot verif-dot--oranje"></span> indeling is een redactionele keuze</p>
+
+<p>Het rapport ordent op gebouwdeel en elementcode, passend bij een appartementencomplex. Voor een landgoed is een andere ordening bruikbaarder. Hieronder vijf lagen; elke post uit het rapport is aan precies één laag toegewezen.</p>
+
+<div class="sw-table-wrap"><table>
+  <thead><tr><th>Laag</th><th class="num">30 jaar</th><th class="num">Aandeel</th><th class="num">2026–2035</th><th class="num">Per jaar</th><th class="num">Per eenheid p.j.</th></tr></thead>
+  <tbody>
+    <tr><td><span class="laag-tag laag-A">A</span> Ondergrondse netwerken</td><td class="num">1.023.097</td><td class="num">24,8 %</td><td class="num">318.029</td><td class="num">34.103</td><td class="num">104,29</td></tr>
+    <tr><td><span class="laag-tag laag-B">B</span> Bovengronds terrein</td><td class="num">1.938.677</td><td class="num">47,0 %</td><td class="num">533.765</td><td class="num">64.623</td><td class="num">197,62</td></tr>
+    <tr><td><span class="laag-tag laag-C">C</span> Recreatieve voorzieningen</td><td class="num">683.531</td><td class="num">16,6 %</td><td class="num">143.198</td><td class="num">22.784</td><td class="num">69,68</td></tr>
+    <tr><td><span class="laag-tag laag-D">D</span> Gebouwen van de exploitant</td><td class="num">353.870</td><td class="num">8,6 %</td><td class="num">208.070</td><td class="num">11.796</td><td class="num">36,07</td></tr>
+    <tr><td><span class="laag-tag laag-E">E</span> Materieel en gereedschap</td><td class="num">129.781</td><td class="num">3,1 %</td><td class="num">59.360</td><td class="num">4.326</td><td class="num">13,23</td></tr>
+    <tr class="row-total"><td><strong>Totaal</strong></td><td class="num"><strong>4.128.956</strong></td><td class="num"><strong>100 %</strong></td><td class="num"><strong>1.262.422</strong></td><td class="num"><strong>137.632</strong></td><td class="num"><strong>420,89</strong></td></tr>
+  </tbody>
+</table></div>
+
+<p>Wegen en paden (€ 728.169), groen en water (€ 637.608), riolering (€ 515.257) en het zwembad met technische installatie (€ 444.829) zijn samen goed voor € 2.325.863, ofwel 56,3 procent van de dertigjarige last.</p>
+
+<h2>6. Laag A — de ondergrondse infrastructuur</h2>
+
+<p class="verif"><span class="verif-dot verif-dot--groen"></span> Alle posten letterlijk uit het rapport</p>
+
+<p>Zestien posten, samen € 1.023.097 over dertig jaar (€ 34.103 per jaar, bijna een kwart van de totale last), verspreid over hoofdstuk "03. Installatie", elementcodes 320, 321, 330 en 340.</p>
+
+<div class="sw-table-wrap"><table>
+  <thead><tr><th>Post</th><th>Netwerk</th><th class="num">Bedrag</th><th class="num">Start</th><th class="num">Cyclus</th><th class="num">30 jaar</th></tr></thead>
+  <tbody>
+    <tr><td>Riolering: inspectie, reparatie, reinigen, relining, vervangen</td><td>Riool</td><td class="num">17.519</td><td class="num">2027</td><td class="num">1 jr</td><td class="num">508.051</td></tr>
+    <tr><td>Herstel of vervanging watervoorziening</td><td>Water</td><td class="num">8.385</td><td class="num">2027</td><td class="num">1 jr</td><td class="num">243.165</td></tr>
+    <tr><td>Plaatselijk herstel gasvoorziening</td><td>Gas</td><td class="num">3.790</td><td class="num">2026</td><td class="num">1 jr</td><td class="num">113.700</td></tr>
+    <tr><td>Afschrijving glasvezelvoorziening</td><td>Glasvezel</td><td class="num">67.966</td><td class="num">2036</td><td class="num">eenmalig</td><td class="num">67.966</td></tr>
+    <tr><td>Herstel of vervanging bluswatervoorziening</td><td>Water</td><td class="num">883</td><td class="num">2027</td><td class="num">1 jr</td><td class="num">25.607</td></tr>
+    <tr><td>Vervangen brandweerpomp</td><td>Water</td><td class="num">5.557</td><td class="num">2036</td><td class="num">15 jr</td><td class="num">11.114</td></tr>
+    <tr><td>Renoveren infra gas (drie afzonderlijke posten)</td><td>Gas</td><td class="num">3 × 9.000</td><td class="num">2026–28</td><td class="num">eenmalig</td><td class="num">27.000</td></tr>
+    <tr><td>Waterkranen en ringleiding, fase 1 t/m 4</td><td>Water</td><td class="num">4 × 2.411</td><td class="num">2026–29</td><td class="num">24 jr</td><td class="num">19.288</td></tr>
+    <tr><td>Vervangen vuilwaterpompen 1, 2 en 3</td><td>Riool</td><td class="num">3 × 1.201</td><td class="num">2030–40</td><td class="num">15 jr</td><td class="num">7.206</td></tr>
+    <tr class="row-total"><td colspan="5"><strong>Totaal laag A</strong></td><td class="num"><strong>1.023.097</strong></td></tr>
+  </tbody>
+</table></div>
+
+<div class="kaart">
+  <h3>Vier observaties bij laag A</h3>
+  <p><strong>Vier posten zijn geen reservering maar een jaarlast.</strong> Riolering, watervoorziening, bluswater en gasherstel hebben cyclus 1 jaar. Samen € 30.577 per jaar, 90 procent van laag A en 22 procent van het volledige adviesbedrag.</p>
+  <p><strong>De grootste post van het hele plan rust op een schatting.</strong> Het rapport meldt dat nog geen algehele camera-inspectie van het rioolstelsel is uitgevoerd; de post riolering (€ 508.051 over dertig jaar) is een prognose, en tegelijk de grootste enkelvoudige post van het plan (12,3 procent).</p>
+  <p><strong>Glasvezel staat als afschrijving, niet als onderhoud.</strong> Zie sectie 9 voor wat elders op de site over de financiering van deze post bekend is.</p>
+  <p><strong>Eén ondergronds element is bewust buiten de reservering gehouden — op eigendomsgrond.</strong> De elementenlijst noemt "321 Pompgemaal hogedruk riolering (eigendom gemeente)" met conditie 2, zonder reservering. Dit is de enige plek in het rapport waar eigendom expliciet de reden is om een post buiten de bewonersbijdrage te houden. Bij riool, water, gas en glasvezel elders in laag A ontbreekt een vergelijkbare vermelding.</p>
+</div>
+
+<h2>7. Posten waarvan de aansluiting op dit landgoed vragen oproept</h2>
+
+<p class="verif"><span class="verif-dot verif-dot--groen"></span> Feiten uit het rapport &nbsp;·&nbsp; <span class="verif-dot verif-dot--oranje"></span> duiding en vraagstelling</p>
+
+<h3>7.1 Een post van € 191.272 aan kozijnen in de pompruimte</h3>
+<p>Onder "01. Exterieur pompruimte zwembad" staat "vervangen kozijn", 18 pst à € 10.626,22, totaal € 191.272, startjaar 2051. De elementenlijst vermeldt voor diezelfde pompruimte 8,00 m² buitenkozijnen kunststof, conditie 2 "Goed". Ter vergelijking: het kleed- en toiletgebouw met 15,00 m² kozijnen krijgt 1 pst à € 13.046. Bij een hoeveelheid van 1 pst in plaats van 18 pst zou het adviesbedrag € 131.610 zijn in plaats van € 137.632.</p>
+
+<h3>7.2 Bedrijfsmiddelen van de exploitant</h3>
+<p>Laag E: tractor (€ 36.300), zitmaaier, gierton, bladzuigmachine, dieseltank, handgereedschap, kleine machines en een stelpost "aanschaf groot materiaal" van € 40.000. Samen € 129.781 over dertig jaar — bedrijfsmiddelen die op de balans van de exploitant thuishoren, niet in een conditiemeting van dak, gevel en terrein.</p>
+
+<h3>7.3 De bedrijfshuisvesting van de exploitant</h3>
+<p>Laag D (€ 353.870) betreft het receptie- en kantoorgebouw en de werf: kantoorinrichting (€ 16.954), keuken en sanitair (€ 4.945), vloer-/wand-/plafondafwerking (€ 25.000), cv-installatie en tweemaal een stelpost warmtepomp (€ 15.000). Zie sectie 9 voor de rechterlijke uitspraak die specifiek over de huisvestingskosten van deze panden gaat.</p>
+
+<h3>7.4 Verbetering gepresenteerd als onderhoud</h3>
+<p>Vijf posten zijn investering of kwaliteitsverbetering, samen € 504.474 (12,2 procent): de aanleg van twee kilometer betonnen H-klinkers ter vervanging van grind (€ 319.953, 2036), de glasvezelafschrijving (€ 67.966), de stelpost groot materiaal (€ 40.000), een nieuw stalen geraamte voor de werf (€ 46.555) en tweemaal een stelpost warmtepomp (€ 30.000).</p>
+
+<h3>7.5 Structurele jaarlasten binnen een onderhoudsplan</h3>
+<p>Acht posten met cyclus 1 jaar keren elk jaar terug: riolering (€ 17.519), watervoorziening (€ 8.385), grindpaden (€ 8.470), sloten uitdiepen (€ 7.865), bomen herplanten (€ 7.550), gasherstel (€ 3.790), tennisbaanonderhoud (€ 1.156) en bluswater (€ 883). Samen € 55.618 per jaar, 40,4 procent van het adviesbedrag. Of deze bedragen al in de jaarlijkse exploitatiebegroting zijn opgenomen, blijkt niet uit het rapport — zie sectie 9 voor wat de exploitatiebegroting daarover elders op de site laat zien.</p>
+
+<h3>7.6 Het plan is naar eigen zeggen onvolledig</h3>
+<p>Onderhoudsjaarcontracten zijn niet opgenomen. Bij twee groenposten en het milieupark staat € 0 met de aantekening "exploitatie door extern beheerder". Bij de vijvers meldt het rapport dat een onderzoek door Deltares volgt en de kosten daarvan later worden toegevoegd.</p>
+
+<h2>8. Methodische aandachtspunten</h2>
+
+<p class="verif"><span class="verif-dot verif-dot--groen"></span> Rapportparameters &nbsp;·&nbsp; <span class="verif-dot verif-dot--geel"></span> doorrekening door de redactie</p>
+
+<div class="callout">
+  <div class="callout-label">Indexering 0,00 procent over dertig jaar</div>
+  <p>Bij 1 procent prijsstijging per jaar bedraagt de nominale last € 4.775.780, bij 2 procent € 5.556.436 en bij 3 procent € 6.501.050 — 16, 35 en 57 procent boven het genoemde totaal. Het adviesbedrag van € 137.632 is een bedrag in euro's van 2026, geen bedrag dat dertig jaar lang volstaat.</p>
+</div>
+
+<div class="callout callout-yellow">
+  <div class="callout-label">De reservering dekt de pieken niet</div>
+  <p>Het rapport rekent met beginsaldo € 0 en houdt geen rekening met een eventueel bestaand reservefonds. Zelfs met € 137.632 per jaar staat het saldo in 17 van de 29 doorgerekende jaren negatief, met een diepste punt van min € 239.035 in 2036.</p>
+</div>
+
+<div class="callout callout-orange">
+  <div class="callout-label">De inhaalpositie van € 884.853</div>
+  <p>De kolom "Saldo" telt op tot € 884.853 — geen uitgave, maar het bedrag dat volgens de systematiek van het rapport nu al gespaard had moeten zijn. Gedeeld door 327 eenheden: € 2.706 per eenheid. Het veld "gereserveerd voor onderhoud" op de gegevenspagina van het rapport is leeg gelaten — zie sectie 9 voor wat de jaarrekeningen van de exploitatiemaatschappij hierover wél laten zien.</p>
+</div>
+
+<h2>9. De kern: wie draagt de kosten?</h2>
+
+<p class="verif"><span class="verif-dot verif-dot--groen"></span> Gepubliceerde rechtspraak &nbsp;·&nbsp; <span class="verif-dot verif-dot--oranje"></span> toepassing op de posten van dit rapport is niet vastgesteld</p>
+
+<p>Geen van beide MJOP-versies beantwoordt de vraag die het meest bepalend is voor wat bewoners uiteindelijk betalen: wie draagt welke kostenpost. Die vraag valt uiteen in twee delen, en voor geen van beide geeft dit rapport uitsluitsel.</p>
+
+<h3>9.1 Eigendom per netwerk</h3>
+<p>Het rapport maakt op één plaats onderscheid naar eigendom — het pompgemaal "eigendom gemeente" krijgt geen reservering (zie sectie 6). Bij riool, waterleiding, gasnet en glasvezelnetwerk ontbreekt een vergelijkbare vermelding. Wie deze netwerken bezit, is uit het rapport niet af te leiden.</p>
+
+<h3>9.2 Onderhoud versus vervanging — de rechterlijke lijn</h3>
+<p>Onafhankelijk van de eigendomsvraag heeft het Gerechtshof 's-Hertogenbosch het kostenonderscheid voor dit landgoed al eerder vastgelegd, specifiek voor het gas- en waterleidingnet: instandhouding en onderhoud komen voor rekening van de exploitant — en daarmee de bewoners — maar de kosten van <strong>vervanging</strong> van het gasnet en het waterleidingnet komen voor rekening van de eigenaar (ECLI:NL:GHSHE:2013:3708, r.o. 5.13.8, 5.13.9/5.13.10 en 5.22.4). Het hof heeft dit onderscheid laten doorwerken in de gedicteerde contracttekst: bij gas en water staat bewust "instandhouding en onderhoud", en ontbreekt het woord "vervanging" (eindarrest ECLI:NL:GHSHE:2014:3639, r.o. 8.10, artikel 4.9).</p>
+
+<details class="sw-acc">
+  <summary><span class="sw-acc-n">A/B</span><span>Vallen de laag-A-posten die zelf "vervanging" heten onder de bewonersbijdrage?</span></summary>
+  <div class="sw-acc-body">
+    <h4>Feitelijke basis</h4>
+    <p>Vijf posten in laag A dragen in het rapport zelf het woord "vervanging" of "vervangen" in hun naam: "Herstel of vervanging watervoorziening" (€ 243.165/30 jr), "Herstel of vervanging bluswatervoorziening" (€ 25.607), "Vervangen brandweerpomp" (€ 11.114), "Vervangen vuilwaterpompen 1, 2 en 3" (€ 7.206) en "Renoveren infra gas" (€ 27.000). Het rapport splitst binnen deze posten geen onderhouds- van een vervangingscomponent.</p>
+    <div class="acc-branch"><strong>Tak A —</strong> Deze posten betreffen overwegend instandhouding van bestaand water- en gasleidingwerk (reparaties, plaatselijk herstel) → dan vallen zij, conform de aangehaalde rechtspraak, terecht onder de exploitant- en daarmee bewonersbijdrage, zoals het MJOP ze nu behandelt.</div>
+    <div class="acc-branch b"><strong>Tak B —</strong> Deze posten betreffen (deels) vervanging van verouderde infrastructuur die aan het einde van haar levensduur is → dan hoort dat deel, conform diezelfde rechtspraak, thuis bij de eigenaar (LSW) en niet in de € 137.632.</div>
+    <div class="acc-bewijs"><strong>Bewijslast:</strong> wie de huidige indeling verdedigt — alles ten laste van de bewonersbijdrage — onderbouwt dat de posten instandhouding betreffen en geen vervanging. Dat de posten zelf het woord "vervanging" dragen, maakt die onderbouwing niet vanzelfsprekend.</div>
+    <div class="acc-inschatting"><strong>Inschatting (geen oordeel):</strong> de aangehaalde arresten zijn uitdrukkelijk uitgesproken voor het gas- en waterleidingnet. Of hetzelfde onderscheid zich uitstrekt tot riolering, glasvezel of wegen, is in de geraadpleegde rechtspraak niet vastgesteld.</div>
+    <div class="acc-status"><strong>Status:</strong> voor de water- en gasposten in laag A (samen ruim € 286.000 over dertig jaar) valt de vraag binnen het bereik van bestaande, gepubliceerde rechtspraak. Voor riolering, glasvezel en de overige netwerken ontbreekt een vergelijkbare uitspraak in de tot dusver geraadpleegde bronnen.</div>
+    <p style="margin-top:12px;">Zie ook het <a href="/gas-juridisch.html">juridisch dossier Gas</a> voor de volledige toepassing van dit onderscheid op de gasrekening.</p>
+    <div class="sources"><strong>Bronnen</strong><span>ECLI:NL:GHSHE:2013:3708, r.o. 5.13.8, 5.13.9/5.13.10, 5.22.4; ECLI:NL:GHSHE:2014:3639 (eindarrest), r.o. 8.10, art. 4.9.</span></div>
+  </div>
+</details>
+
+<h3>9.3 Wat wél is vastgelegd: laag D en de huur opstallen</h3>
+<p>Voor laag D (receptie en werf, § 7.3) ligt er, anders dan bij de netwerken, al een directe rechterlijke uitspraak. Het Gerechtshof oordeelde op 12 januari 2010 (bevestigd in ECLI:NL:GHSHE:2013:3708) dat erfpachters niet via een 1/323e-doorbelasting hoeven bij te dragen aan de huur die de exploitant voor precies deze panden — werkplaats en receptie — aan de landgoedeigenaar betaalt. Dat is de "huur opstallen": in 2003 vastgesteld op € 60.000, geïndexeerd tot € 95.295 in 2025 (zie het <a href="/exploitatieovereenkomst.html#huur-opstallen">exploitatiedossier</a>). Deze uitspraak beantwoordt niet automatisch de vraag over de onderhoudskosten van diezelfde panden in laag D, maar bevestigt wel dat de kostenpositie van deze gebouwen al eerder, specifiek voor bewoners, is beoordeeld.</p>
+
+<h3>9.4 Wat elders op de site al bekend is</h3>
+<p>Drie gegevens uit de jaarrekeningen van de exploitatiemaatschappij raken direct aan open vragen van dit MJOP:</p>
+<ul>
+  <li><strong>Er bestaat al een voorziening groot onderhoud.</strong> Eind 2025 stond deze op € 378.790 (SWB-deel € 151.678, LSW-deel € 227.112) — zie het <a href="/financieel-overzicht.html">financieel overzicht</a>. Het MJOP-2026-rapport rekent met beginsaldo € 0 en vermeldt dit niet.</li>
+  <li><strong>De glasvezelafschrijving heeft een herleidbare oorsprong.</strong> SWB heeft een 20-jarige lening bij LSW van oorspronkelijk € 315.000 ter voorfinanciering van het glasvezelnet (aanschafwaarde € 324.862); de jaarrekening 2025 boekt hierop € 5.617 afschrijving. Dat bedrag maal circa twaalf jaar benadert de eenmalige MJOP-post van € 67.966 in 2036, wat er op wijst dat deze post samenhangt met het aflopen van die lening rond 2033–2034 — een aanwijzing, geen bevestiging, omdat de aansluiting niet expliciet in een bron is teruggevonden.</li>
+  <li><strong>Er bestaat al een apart Reserverings- en Investeringsfonds.</strong> Volgens een gezamenlijk artikel van LSW, SWB en SWW (19-10-2023) reserveert de exploitatiebegroting apart € 20.000 per jaar (bandbreedte € 200.000–€ 250.000) in een Reserveringsfonds, naast een Investeringsfonds dat LSW voedt uit de huur opstallen (~€ 80.000–100.000/jaar, tot en met 2028) en uitsluitend voor structurele vernieuwing is bedoeld. Het MJOP-2026-rapport verhoudt zich tot geen van beide fondsen.</li>
+</ul>
+
+<h2>10. Wat een definitief MJOP zou vergen</h2>
+
+<p class="verif"><span class="verif-dot verif-dot--oranje"></span> Redactionele synthese, geen bevinding uit het rapport</p>
+
+<p>Voor een MJOP dat standhoudt, zijn minimaal vier gegevens nodig die in de 2026-versie ontbreken:</p>
+
+<ol>
+  <li><strong>Eigendom per netwerk en per element</strong> — riool, waterleiding, gasnet, glasvezel, wegen, verlichting en hekwerk: van wie zijn deze?</li>
+  <li><strong>De onderhoud/vervanging-splitsing binnen elke post</strong> — conform de rechtspraak die dit al voor gas en water vastlegt (§ 9.2), maar die het rapport zelf niet toepast.</li>
+  <li><strong>De doorbelastingsgrondslag</strong> — welke kostensoorten mogen op grond van de exploitatieovereenkomst via de bewonersbijdrage worden doorbelast, en welke niet (zoals bij de huur opstallen al is vastgelegd, § 9.3)?</li>
+  <li><strong>De afbakening tussen MJOP en exploitatiebegroting</strong> — van de € 137.632 is € 55.618 jaarlijks terugkerend onderhoud (§ 7.5); staat dat ook al in de exploitatiebegroting, dan dreigt dubbele dekking.</li>
+</ol>
+
+<p>Zuiver rekenkundig, zonder oordeel over welke correctie terecht is: zonder laag D en E (bedrijfshuisvesting en materieel van de exploitant) resteert € 3.645.305 over dertig jaar, ofwel € 121.510 per jaar. Wordt daarnaast de kozijnpost van de pompruimte gecorrigeerd naar 1 in plaats van 18 stuks, dan resteert € 3.464.659, ofwel € 115.489 per jaar.</p>
+
+<h2>11. Openstaande vragen</h2>
+
+<p class="verif"><span class="verif-dot verif-dot--oranje"></span> Niet beantwoordbaar op basis van de tot dusver geraadpleegde bronnen</p>
+
+<ol>
+  <li>Wie is eigenaar van riool, waterleiding, ringleiding, gasnet en glasvezelnetwerk?</li>
+  <li>Welk deel van de posten "herstel of vervanging watervoorziening", "vervangen brandweerpomp", "vervangen vuilwaterpompen" en "renoveren infra gas" is vervanging in de zin van ECLI:NL:GHSHE:2013:3708, en welk deel instandhouding?</li>
+  <li>Welke kostensoorten mogen volgens de exploitatieovereenkomst via de bewonersbijdrage worden doorbelast?</li>
+  <li>Zijn de jaarlijks terugkerende MJOP-posten (€ 55.618) ook opgenomen in de exploitatiebegroting van ~€ 500.000/jaar?</li>
+  <li>Verhoudt de geadviseerde bijdrage van € 137.632 zich tot het bestaande Reserveringsfonds (€ 20.000/jaar) en Investeringsfonds, of komt zij daar los van te staan?</li>
+  <li>Bestaat het volledige MJOP-document van 2022, en is het te achterhalen voor een regel-voor-regel vergelijking met de 2026-versie?</li>
+  <li>Is de camera-inspectie van het rioolstelsel inmiddels uitgevoerd of gepland?</li>
+  <li>Overlapt de MJOP-post voor tennisbaan/speeltuin met de renovatie van het recreatiegebied die in 2024 al is uitgevoerd (heropening tennisbaan 25 mei 2024)?</li>
+  <li>Is dit MJOP in de Bewonersraad besproken, en zo ja: met welk besluit?</li>
+  <li>Wat verklaart de hoeveelheid van 18 pst bij de kozijnen van de pompruimte?</li>
+</ol>
+
+<h2>Bronstatus</h2>
+
+<p class="bron"><strong>Groen</strong> — alle bedragen, jaartallen, hoeveelheden en cyclustermijnen uit het MJOP-2026-rapport ("Meerjarenonderhoudsplanning Stille Wille Brabant B.V.", opdrachtnummer mjop 2026-5, printdatum 18 juni 2026) zijn per jaar getoetst aan hoofdstuk 10 van datzelfde rapport en sluiten voor alle dertig jaren exact aan. De aangehaalde arresten (ECLI:NL:GHSHE:2013:3708 en ECLI:NL:GHSHE:2014:3639) en de cijfers over de voorziening groot onderhoud en de glasvezellening zijn gecontroleerd tegen de jaarrekeningen SWB en het financieel overzicht van deze site.</p>
+<p class="bron"><strong>Geel</strong> — de gegevens over het MJOP van 2022 (raming ~€ 600.000, onvolledigheid ondergrondse infrastructuur) komen uit een secundaire bron (SWW-nieuwsbrief oktober 2023, BR-stuk); het onderliggende 2022-document is niet zelf geraadpleegd. De aansluiting tussen de glasvezelafschrijving in het MJOP en de LSW-lening is een rekenkundige aanwijzing, geen bevestigde bron.</p>
+<p class="bron"><strong>Oranje</strong> — de indeling in vijf lagen, de kwalificatie van posten als investering dan wel onderhoud, de toepassing van het onderhoud/vervanging-onderscheid op specifieke MJOP-posten (§ 9.2), en alle openstaande vragen zijn redactionele analyse. De bedragen per eenheid zijn een eigen deling door 327, het aantal eenheden dat het rapport noemt; het rapport bevat geen verdeelsleutel.</p>
+
 </main>
 
 <footer class="sw-footer">
