@@ -4,5 +4,8 @@
     { "source": "/historie.html",         "destination": "/gas-historie.html",  "permanent": true },
     { "source": "/juridische-basis.html", "destination": "/gas-juridisch.html", "permanent": true },
     { "source": "/financiele-basis.html", "destination": "/gas-kosten.html",    "permanent": true }
+  ],
+  "crons": [
+    { "path": "/api/keep-alive", "schedule": "0 4 * * *" }
   ]
 }
