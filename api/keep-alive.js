@@ -44,8 +44,12 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  var baseUrl = (process.env.SUPABASE_URL || DEFAULT_SUPABASE_URL).replace(/\/+$/, '');
-  var key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  var baseUrl = (process.env.SUPABASE_URL || DEFAULT_SUPABASE_URL).replace(/\s+/g, '').replace(/\/+$/, '');
+
+  // Alle witruimte weghalen, niet alleen aan de randen. Een sleutel die met een
+  // regeleinde in de Vercel-interface is geplakt laat fetch() anders struikelen
+  // op "invalid header value", en dat gebeurde hier ook echt (04-09-2026).
+  var key = (process.env.SUPABASE_SERVICE_ROLE_KEY || '').replace(/\s+/g, '');
 
   if (!key) {
     res.status(500).json({
@@ -83,13 +87,19 @@ module.exports = async function handler(req, res) {
 
     res.status(200).json({ ok: true, table: TABLE, timestamp: now });
   } catch (err) {
+    // De foutmelding gaat naar de Vercel-logs, NIET naar de response. Deze
+    // route is publiek bereikbaar zolang CRON_SECRET niet gezet is, en
+    // foutmeldingen van fetch() kunnen de service-role key woordelijk
+    // bevatten (zo lekte die hier op 04-09-2026 uit de 500-response).
+    console.error('[keep-alive] mislukt:', err && err.message ? err.message : String(err));
+
     // Bewust status 500: zo is een mislukte run zichtbaar in de Vercel-logs
     // en in het cron-overzicht, in plaats van stilletjes te slagen.
     res.status(500).json({
       ok: false,
       table: TABLE,
       timestamp: now,
-      error: err && err.message ? err.message : String(err)
+      error: 'Keep-alive mislukt. Zie de Vercel-logs voor de details.'
     });
   }
 };
