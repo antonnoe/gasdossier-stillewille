@@ -181,12 +181,24 @@
     btn.textContent = 'Versturen…';
     msg.hidden = true;
 
+    // shouldCreateUser expliciet uit. In Supabase staat "Allow new users to
+    // sign up" ook uit, maar zonder deze regel zou de client alsnog om een
+    // nieuw account vragen en krijgt de bezoeker een technische foutmelding
+    // terug in plaats van uitleg. Toegang loopt uitsluitend via een aanvraag
+    // die een beheerder goedkeurt.
     window.sb.auth.signInWithOtp({
       email: email,
-      options: { emailRedirectTo: REDIRECT_TO }
+      options: { emailRedirectTo: REDIRECT_TO, shouldCreateUser: false }
     }).then(function (res) {
       if (res.error) {
-        show('Er ging iets mis: ' + res.error.message, 'err');
+        // Supabase meldt "Signups not allowed for otp" als het adres nog geen
+        // account heeft. Dat is geen storing maar de normale gang van zaken.
+        var t = (res.error.message || '').toLowerCase();
+        if (t.indexOf('signup') !== -1 || t.indexOf('not allowed') !== -1 || t.indexOf('not found') !== -1) {
+          show('Dit e-mailadres heeft nog geen toegang. Vraag toegang aan via het aanvraagformulier hieronder; een beheerder beoordeelt uw aanvraag.', 'err');
+        } else {
+          show('Er ging iets mis: ' + res.error.message, 'err');
+        }
         btn.disabled = false;
         btn.textContent = 'Stuur toegangslink';
         return;

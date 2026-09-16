@@ -173,6 +173,19 @@
     var hFaq = el('a', { href: '/faq.html', role: 'menuitem' });
     hFaq.appendChild(document.createTextNode('Veelgestelde vragen'));
     hPanel.appendChild(hFaq);
+
+    // "Beheer" staat er standaard niet in en verschijnt alleen als de
+    // ingelogde bezoeker beheerder of owner is. Dat is een kwestie van
+    // netjes opruimen, geen beveiliging: /admin.html controleert de rol
+    // zelf opnieuw en de RLS-policies in de database doen dat ook.
+    var hBeheer = el('a', { href: '/admin.html', role: 'menuitem' });
+    hBeheer.appendChild(document.createTextNode('Beheer'));
+    hBeheer.hidden = true;
+    hPanel.appendChild(hBeheer);
+    haalRol().then(function (rol) {
+      if (rol === 'beheerder' || rol === 'owner') hBeheer.hidden = false;
+    });
+
     hgrp.appendChild(hPanel);
     inner.appendChild(hgrp);
 
@@ -546,6 +559,35 @@
     });
   }
 
+  // Rol van de ingelogde bezoeker, één keer opgehaald en daarna hergebruikt.
+  // Geeft null terug als er niemand is ingelogd of het adres niet in de
+  // tabel "gebruikers" staat.
+  var _rol = null;
+  function haalRol() {
+    if (_rol) return _rol;
+
+    // Geen sessiecookie betekent: niemand ingelogd. Dan meteen klaar, zonder
+    // de Supabase-bundel binnen te halen. Anders zou elke publieke pagina
+    // (inloggen, aanvragen, veelgestelde vragen) die bundel gaan laden om
+    // vervolgens niets te vinden. De cookie wordt gezet in supabase-config.js
+    // en is dezelfde die de Edge Middleware leest.
+    if (!/(?:^|;\s*)sb-access-token=/.test(document.cookie || '')) {
+      _rol = Promise.resolve(null);
+      return _rol;
+    }
+
+    _rol = ensureSupabase().then(function (sb) {
+      if (!sb) return null;
+      return sb.auth.getSession().then(function (s) {
+        var u = s.data && s.data.session && s.data.session.user;
+        if (!u || !u.email) return null;
+        return sb.from('gebruikers').select('rol').eq('email', u.email).maybeSingle()
+          .then(function (r) { return (r.data && r.data.rol) || null; });
+      });
+    }).catch(function () { return null; });
+    return _rol;
+  }
+
   var _sbReady = null;
   function ensureSupabase() {
     if (window.sb) return Promise.resolve(window.sb);
@@ -668,13 +710,10 @@
     }
 
     // Rol van de ingelogde gebruiker bepalen (voor de verwijder-knop).
-    function bepaalRol(sb) {
-      return sb.auth.getSession().then(function (s) {
-        var u = s.data && s.data.session && s.data.session.user;
-        if (!u || !u.email) return null;
-        return sb.from('gebruikers').select('rol').eq('email', u.email).maybeSingle()
-          .then(function (r) { return (r.data && r.data.rol) || null; });
-      }).catch(function () { return null; });
+    // Zie haalRol() hierboven: één bron, zodat het reactieblok en de
+    // Beheer-link in de navigatie niet uiteen kunnen lopen.
+    function bepaalRol() {
+      return haalRol();
     }
 
     // Vriendelijke dialoog met duidelijk gelabelde knoppen (i.p.v. confirm(),
@@ -719,7 +758,7 @@
     ensureSupabase().then(function (sb) {
       if (!sb) { meld('Reacties zijn momenteel niet beschikbaar.'); return; }
 
-      bepaalRol(sb).then(function (rol) {
+      bepaalRol().then(function (rol) {
         var magVerwijderen = (rol === 'beheerder' || rol === 'owner');
         laadReacties(sb, magVerwijderen);
 

@@ -88,7 +88,7 @@
         </span>
       </div>
     </div>
-    <p class="acc-hint">U ontvangt een korte e-mail zodra een dossier is bijgewerkt. Zet dit hierboven uit als u dat niet wilt.</p>
+    <p class="acc-hint">U ontvangt af en toe een nieuwsbrief over de kerndossiers. Zet dit hierboven uit als u dat niet wilt. Afmelden kan ook via de link onderaan elke nieuwsbrief.</p>
 
     <div class="acc-actions">
       <a class="acc-btn acc-btn-primary" id="acc-admin" href="/admin.html" hidden>Naar beheer</a>
@@ -133,7 +133,9 @@
         chk.addEventListener('change', function () {
           chk.disabled = true;
           var nieuw = chk.checked;
-          sb.functions.invoke('laposta-sync', { body: { aan: nieuw } }).then(function (res) {
+          // Schrijft alleen de eigen nieuwsbrief-vlag, via een SECURITY
+          // DEFINER functie die niets anders kan aanraken.
+          sb.rpc('set_nieuwsbrief', { p_aan: nieuw }).then(function (res) {
             chk.disabled = false;
             if (res.error) { chk.checked = !nieuw; alert('Opslaan mislukt: ' + (res.error.message || res.error)); return; }
             toonStand();

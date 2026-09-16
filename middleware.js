@@ -5,6 +5,7 @@
  *   - /login.html
  *   - /auth-callback.html
  *   - /aanvragen.html
+ *   - /afmelden.html
  * Plus alle statische assets (css, js, afbeeldingen, fonts, manifest, …),
  * anders zou de loginpagina zelf zonder styling laden.
  *
@@ -27,6 +28,9 @@ const PUBLIC_PAGES = new Set([
   '/login.html',
   '/auth-callback.html',
   '/aanvragen.html',
+  // Afmelden voor de nieuwsbrief gebeurt per definitie zonder inloggen: de
+  // link staat onderaan elke nieuwsbrief en is ondertekend.
+  '/afmelden.html',
   '/redactie.html',
   '/faq.html',
   '/functies.html',

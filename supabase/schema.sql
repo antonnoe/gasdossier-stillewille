@@ -78,8 +78,16 @@ create table if not exists public.gebruikers (
 alter table public.gebruikers add column if not exists categorie   text;
 alter table public.gebruikers add column if not exists huisnummer  text;
 
--- E-mailupdates via Laposta (opt-out: standaard aan).
+-- E-mailupdates (opt-out: standaard aan). Deze ene kolom bepaalt wie de
+-- nieuwsbrief ontvangt; de bewoner zet hem zelf aan of uit.
 alter table public.gebruikers add column if not exists nieuwsbrief boolean not null default true;
+
+-- De kolom laposta_id is niet meer in gebruik: de Laposta-koppeling is
+-- verwijderd en de nieuwsbrief loopt nu via de Edge Function
+-- "nieuwsbrief-versturen". De kolom blijft bewust staan, omdat weggooien
+-- data vernietigt en niets oplost. Wil je hem alsnog kwijt, dan is dat één
+-- losse handeling:
+--   alter table public.gebruikers drop column laposta_id;
 alter table public.gebruikers add column if not exists laposta_id  text;
 
 

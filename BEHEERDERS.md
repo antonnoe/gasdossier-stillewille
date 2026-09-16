@@ -12,45 +12,53 @@ beleid (wat wel/niet op de site mag), zie `REDACTIE.md`.
 ## 2. Nieuwsbrief / e-mailupdates — hoe het werkt
 **Doel:** bewoners op de hoogte houden zodra een dossier is bijgewerkt.
 
-- De **mailinglijst en het versturen** lopen volledig via **Laposta** (AVG-proof,
-  met wettelijke afmeldlink en statistieken).
-- Elke bewoner regelt zijn aanmelding zelf met de schakelaar
-  **"E-mailupdates: Aan/Uit"** op zijn **accountpagina** (`/account.html`).
-  - **Aan** → bewoner wordt automatisch aan de Laposta-lijst toegevoegd.
-  - **Uit** → bewoner wordt automatisch afgemeld.
+- Schrijven én versturen gebeurt **in het beheerpaneel zelf**, onder
+  **"Nieuwsbrief"** op `/admin.html`. Er is geen externe maildienst meer waar
+  je apart moet inloggen.
+- Wie de nieuwsbrief ontvangt, staat in één kolom in de database:
+  `gebruikers.nieuwsbrief`. Elke bewoner zet die zelf aan of uit met de
+  schakelaar **"E-mailupdates"** op zijn **accountpagina** (`/account.html`),
+  of via de **afmeldlink onderaan elke nieuwsbrief**.
 - Standaard staat het **aan** (opt-out): iedereen ontvangt updates, tenzij hij
   zich afmeldt.
-- In het beheerpaneel zie je onder **"Nieuwsbrief"** voor hoeveel bewoners het
-  aan staat.
+- Boven het opstelscherm zie je voor hoeveel bewoners het aan staat. Onder het
+  opstelscherm staat de lijst met eerder verzonden nieuwsbrieven.
 
 ### De nieuwsbrief versturen (dit doe jij als beheerder)
-1. Log in bij **Laposta** (menu: **Relaties / Campagnes / Automations / Resultaten**).
-2. Maak onder **Campagnes** een nieuwe campagne aan, gericht op de bewonerslijst.
-3. Schrijf een **korte, feitelijke** update (bijv. "Dossier Bovengronds is
-   bijgewerkt") met eventueel een link naar het dossier.
-4. Verstuur of plan de campagne. Laposta voegt zelf de afmeldlink toe.
-5. Resultaten (geopend, geklikt) zie je onder **Resultaten**.
+1. Ga naar `/admin.html`, blok **Nieuwsbrief**.
+2. Vul een **onderwerp** in en schrijf de **tekst**. Platte tekst volstaat: een
+   lege regel begint een nieuwe alinea en links die met `https://` beginnen
+   worden vanzelf klikbaar.
+3. Klik **"Stuur testmail naar mij"**. Die gaat alleen naar je eigen
+   e-mailadres, wordt niet vastgelegd en bereikt geen enkele bewoner.
+4. Ziet de testmail er goed uit, klik dan **"Versturen"**. Je krijgt eerst een
+   bevestigingsvraag met het **aantal ontvangers** erbij.
+5. Na afloop verschijnt de verzending in de lijst eronder, met datum,
+   onderwerp en aantal ontvangers.
 
-> Let op: in de wébsite zit géén verzendknop — schrijven en versturen gebeurt
-> altíjd in Laposta. De website regelt alleen aan-/afmelden.
+> Houd updates kort en feitelijk, zonder oordeel (zie `REDACTIE.md`).
 
 ## 3. Belangrijke aandachtspunten
-- **Afmelden via de mail:** meldt iemand zich af via de afmeldlink in een
-  Laposta-mail, dan staat de schakelaar op zijn accountpagina mogelijk nog op
-  "aan". (Optioneel kan dit later automatisch synchroon worden gemaakt via een
-  Laposta-webhook.)
-- **Nieuwe bewoners:** worden bij **goedkeuring** van hun aanvraag automatisch
-  op de Laposta-lijst gezet (opt-out). Handmatig toegevoegde accounts (via SQL)
-  of bestaande adressen kun je eenmalig in Laposta importeren.
-- **Toon en inhoud:** houd updates kort en feitelijk, zonder oordeel
-  (zie `REDACTIE.md`).
+- **Afmelden werkt meteen.** De afmeldlink onderaan de mail zet dezelfde
+  schakelaar uit als die op de accountpagina. Er is dus geen verschil meer
+  tussen "afgemeld in de mail" en "afgemeld op de site".
+- **Nieuwe bewoners** staan bij goedkeuring automatisch op **aan** (opt-out).
+- **Verzendlimiet.** De mail loopt via Resend. Er gaan maximaal 100 mails per
+  aanroep en het beheerpaneel wacht tussen de porties, zodat de limiet van het
+  Resend-account niet wordt overschreden. Het dagelijkse maximum hangt af van
+  je Resend-abonnement; dat zie je in het Resend-dashboard.
 
 ## 4. Technische sleutels (niet delen)
-- De koppeling gebruikt in Supabase twee geheimen: **`LAPOSTA_API_KEY`** en
-  **`LAPOSTA_LIST_ID`**.
-- Die staan veilig in Supabase → Edge Functions → Manage secrets. **Nooit** in
+- De verzending gebruikt in Supabase twee geheimen: **`RESEND_API_KEY`** en
+  **`NIEUWSBRIEF_SECRET`**.
+  - `RESEND_API_KEY` komt uit het Resend-dashboard.
+  - `NIEUWSBRIEF_SECRET` is een zelfgekozen lange tekenreeks die de
+    afmeldlinks ondertekent. Zonder dat geheim kan niemand een afmeldlink
+    namaken en dus ook niemand anders afmelden.
+- Die staan in Supabase → Edge Functions → Manage secrets. **Nooit** in
   e-mails, documenten of de website zetten.
-- De synchronisatie loopt via de Edge Function **`laposta-sync`**.
+- De verzending loopt via de Edge Function **`nieuwsbrief-versturen`**, het
+  afmelden via **`nieuwsbrief-afmelden`**.
 
 ## 5. Andere beheertaken (op /admin.html)
 - **Aanvragen** — nieuwe toegangsverzoeken goed-/afkeuren.

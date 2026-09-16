@@ -131,6 +131,9 @@
   .mail-form input:focus, .mail-form textarea:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-08); }
   .mail-note { margin: 0 0 14px; font-size: 14px; line-height: 1.55; color: var(--grey-dark); }
   .mail-form a.btn-approve { display: inline-block; text-decoration: none; }
+  .nb-melding { margin: 14px 0 0; padding: 11px 14px; border-radius: 8px; font-size: 14px; line-height: 1.55; }
+  .nb-melding.ok { background: var(--green-tint); border: 1px solid var(--green-15); color: var(--green-deep); }
+  .nb-melding.err { background: var(--orange-tint); border: 1px solid var(--orange); color: var(--orange-deep); }
 
   .empty { color: var(--grey-soft); font-style: italic; padding: 16px 0; }
   .err-line { color: var(--orange-deep); font-size: 14px; margin: 8px 0; }
@@ -165,11 +168,32 @@
     </div>
 
     <h2>Nieuwsbrief</h2>
-    <p class="sub">E-mailupdates staan momenteel aan voor <span id="mail-aantal">…</span>. De nieuwsbrief zelf schrijf en verstuur je in Laposta.</p>
+    <p class="sub">E-mailupdates staan momenteel aan voor <span id="mail-aantal">…</span>. Schrijf de nieuwsbrief hieronder en verstuur hem rechtstreeks vanaf deze pagina.</p>
     <div class="mail-form">
-      <p class="mail-note">Bewoners beheren hun aanmelding via de schakelaar <strong>“E-mailupdates”</strong> op hun accountpagina. Dat wordt automatisch met je Laposta-lijst gesynchroniseerd — aan = toegevoegd, uit = afgemeld.</p>
-      <a class="btn-sm btn-approve" href="https://laposta.nl/" target="_blank" rel="noopener">Inloggen bij Laposta</a>
+      <p class="mail-note">Bewoners beheren hun aanmelding zelf met de schakelaar <strong>“E-mailupdates”</strong> op hun accountpagina, of via de afmeldlink onderaan elke nieuwsbrief. Alleen wie die schakelaar aan heeft staan, ontvangt post.</p>
+
+      <label for="nb-onderwerp">Onderwerp</label>
+      <input type="text" id="nb-onderwerp" maxlength="150" placeholder="bijv. Nieuw dossier: kostenverdeling gas">
+
+      <label for="nb-tekst">Tekst</label>
+      <textarea id="nb-tekst" rows="12" placeholder="Platte tekst. Een lege regel begint een nieuwe alinea. Links die met https:// beginnen worden vanzelf klikbaar."></textarea>
+
+      <div class="row-actions" style="margin-top:14px;">
+        <button class="btn-sm btn-plain" id="nb-test">Stuur testmail naar mij</button>
+        <button class="btn-sm btn-approve" id="nb-verstuur">Versturen</button>
+      </div>
+      <div id="nb-melding" class="nb-melding" hidden></div>
     </div>
+
+    <p class="sub" style="margin-top:26px;">Eerder verzonden nieuwsbrieven.</p>
+    <div id="nieuwsbrieven-err" class="err-line" hidden></div>
+    <table class="admin-table" id="nieuwsbrieven-table">
+      <thead>
+        <tr><th>Datum</th><th>Onderwerp</th><th>Ontvangers</th><th>Verzonden door</th></tr>
+      </thead>
+      <tbody id="nieuwsbrieven-body"></tbody>
+    </table>
+    <div id="nieuwsbrieven-empty" class="empty" hidden>Nog geen nieuwsbrief verzonden.</div>
 
     <h2>Draagvlak</h2>
     <p class="sub">Resultaten van de draagvlak-peiling op de hoofdpagina (1 = oneens, 5 = eens).</p>
@@ -272,6 +296,12 @@
         loadGebruikers();
         loadReacties();
         loadCorrectie();
+        loadNieuwsbrieven();
+
+        document.getElementById('nb-test')
+          .addEventListener('click', function () { nbVerstuur(true); });
+        document.getElementById('nb-verstuur')
+          .addEventListener('click', function () { nbVerstuur(false); });
       });
   });
 
@@ -287,10 +317,119 @@
   }
 
   // E-mailupdate sturen
+  var mailAantal = null;   // aantal gebruikers met E-mailupdates aan
+
   function loadMailAantal() {
-    sb.from('gebruikers').select('*', { count: 'exact', head: true }).eq('nieuwsbrief', true)
+    return sb.from('gebruikers').select('*', { count: 'exact', head: true }).eq('nieuwsbrief', true)
       .then(function (r) {
-        document.getElementById('mail-aantal').textContent = r.error ? '?' : (r.count + (r.count === 1 ? ' bewoner' : ' bewoners'));
+        mailAantal = r.error ? null : r.count;
+        document.getElementById('mail-aantal').textContent =
+          r.error ? '?' : (r.count + (r.count === 1 ? ' bewoner' : ' bewoners'));
+      });
+  }
+
+  // --- Nieuwsbrief: opstellen, testen, versturen --------------------------
+  //
+  // Het versturen zelf gebeurt in de Edge Function "nieuwsbrief-versturen".
+  // Die controleert server-side opnieuw of de aanroeper beheerder of owner is
+  // en houdt de Resend-sleutel bij zich; die komt hier dus nooit voorbij.
+  function nbMelding(tekst, soort) {
+    var el = document.getElementById('nb-melding');
+    el.textContent = tekst;
+    el.className = 'nb-melding ' + soort;
+    el.hidden = false;
+  }
+
+  function nbVerstuur(isTest) {
+    var onderwerp = (document.getElementById('nb-onderwerp').value || '').trim();
+    var tekst = (document.getElementById('nb-tekst').value || '').trim();
+    var testBtn = document.getElementById('nb-test');
+    var verstuurBtn = document.getElementById('nb-verstuur');
+
+    if (!onderwerp) { nbMelding('Vul een onderwerp in.', 'err'); return; }
+    if (!tekst) { nbMelding('Vul de tekst van de nieuwsbrief in.', 'err'); return; }
+
+    if (!isTest) {
+      if (mailAantal == null) {
+        nbMelding('Het aantal ontvangers is niet bekend. Ververs de pagina en probeer opnieuw.', 'err');
+        return;
+      }
+      if (mailAantal === 0) {
+        nbMelding('Er staat niemand op de lijst met e-mailupdates aan.', 'err');
+        return;
+      }
+      var vraag = 'Deze nieuwsbrief nu versturen naar ' + mailAantal +
+        (mailAantal === 1 ? ' ontvanger' : ' ontvangers') + '?\n\n' +
+        'Onderwerp: ' + onderwerp + '\n\n' +
+        'Dit kan niet ongedaan worden gemaakt.';
+      if (!confirm(vraag)) return;
+    }
+
+    testBtn.disabled = true;
+    verstuurBtn.disabled = true;
+    document.getElementById('nb-melding').hidden = true;
+
+    function klaar() { testBtn.disabled = false; verstuurBtn.disabled = false; }
+
+    sb.functions.invoke('nieuwsbrief-versturen', {
+      body: { onderwerp: onderwerp, tekst: tekst, test: isTest }
+    }).then(function (res) {
+      klaar();
+      if (res.error) {
+        nbMelding('Versturen mislukt: ' + (res.error.message || res.error), 'err');
+        return;
+      }
+      var d = res.data || {};
+      if (isTest) {
+        nbMelding('Testmail verstuurd naar ' + (d.naar || 'uw eigen adres') +
+                  '. Er is niets naar bewoners gegaan.', 'ok');
+        return;
+      }
+      if (d.ok) {
+        nbMelding('Verstuurd naar ' + d.verstuurd +
+                  (d.verstuurd === 1 ? ' ontvanger.' : ' ontvangers.'), 'ok');
+      } else {
+        nbMelding('Gedeeltelijk verstuurd: ' + d.verstuurd + ' gelukt, ' + d.mislukt +
+                  ' mislukt. ' + ((d.fouten || []).join(' | ') || ''), 'err');
+      }
+      loadNieuwsbrieven();
+    }).catch(function (err) {
+      klaar();
+      nbMelding('Versturen mislukt: ' + (err && err.message ? err.message : err), 'err');
+    });
+  }
+
+  function loadNieuwsbrieven() {
+    var body = document.getElementById('nieuwsbrieven-body');
+    var empty = document.getElementById('nieuwsbrieven-empty');
+    var errEl = document.getElementById('nieuwsbrieven-err');
+    errEl.hidden = true;
+
+    sb.from('nieuwsbrieven').select('id, onderwerp, aantal_ontvangers, verzonden_door, verzonden_op')
+      .order('verzonden_op', { ascending: false }).limit(50)
+      .then(function (r) {
+        if (r.error) {
+          errEl.textContent = 'Kon verzonden nieuwsbrieven niet laden: ' + r.error.message;
+          errEl.hidden = false;
+          return;
+        }
+        var rows = r.data || [];
+        body.innerHTML = '';
+        empty.hidden = rows.length > 0;
+        rows.forEach(function (n) {
+          var datum = '—';
+          try {
+            datum = new Date(n.verzonden_op).toLocaleDateString('nl-NL',
+              { day: 'numeric', month: 'short', year: 'numeric' });
+          } catch (e) { /* laat de streep staan */ }
+          var tr = document.createElement('tr');
+          tr.innerHTML =
+            '<td>' + esc(datum) + '</td>' +
+            '<td><span class="nm">' + esc(n.onderwerp) + '</span></td>' +
+            '<td>' + esc(n.aantal_ontvangers) + '</td>' +
+            '<td><span class="em">' + esc(n.verzonden_door || '—') + '</span></td>';
+          body.appendChild(tr);
+        });
       });
   }
 

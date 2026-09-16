@@ -329,6 +329,12 @@ grant execute on function public.invite_gebruiker(text) to authenticated;
 --  via deze weg z'n eigen rol of andermans gegevens wijzigen.
 -- =====================================================================
 alter table public.gebruikers add column if not exists nieuwsbrief boolean not null default true;
+-- De kolom laposta_id is niet meer in gebruik: de Laposta-koppeling is
+-- verwijderd en de nieuwsbrief loopt nu via de Edge Function
+-- "nieuwsbrief-versturen". De kolom blijft bewust staan, omdat weggooien
+-- data vernietigt en niets oplost. Wil je hem alsnog kwijt, dan is dat één
+-- losse handeling:
+--   alter table public.gebruikers drop column laposta_id;
 alter table public.gebruikers add column if not exists laposta_id text;
 
 create or replace function public.set_nieuwsbrief(p_aan boolean)

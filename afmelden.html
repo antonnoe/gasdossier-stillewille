@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>E-mailupdates afmelden · Kerndossiers Landgoed De Stille Wille</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#1F7F4E">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/components.css">
+<style>
+  .auth-wrap { min-height: 100vh; display: grid; place-items: center; padding: 48px var(--page-pad-x-mobile); background: var(--cream); }
+  .auth-card { width: 100%; max-width: 480px; background: var(--white); border: 1px solid var(--green-15); border-top: 4px solid var(--green); border-radius: 12px; padding: 40px 36px; box-shadow: 0 12px 40px rgba(19, 78, 47, 0.08); }
+  .auth-kicker { font-family: var(--font-mono); font-size: var(--fs-mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--green); font-weight: 600; margin: 0 0 14px; }
+  .auth-card h1 { font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 1.1; letter-spacing: -0.02em; color: var(--grey-dark); margin: 0 0 10px; }
+  .auth-card .lede { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--grey-mid); margin: 0 0 26px; }
+  .auth-card .adres { font-family: var(--font-mono); font-size: 14px; color: var(--grey-dark); word-break: break-all; }
+  .auth-btn { width: 100%; border: 0; border-radius: 8px; background: var(--green); color: #fff; font-family: var(--font-display); font-weight: 600; font-size: 15px; padding: 13px 26px; cursor: pointer; transition: background .2s ease; }
+  .auth-btn:hover:not(:disabled), .auth-btn:focus-visible { background: var(--green-deep); }
+  .auth-btn:disabled { opacity: .6; cursor: default; }
+  .auth-msg { margin: 20px 0 0; padding: 12px 16px; border-radius: 8px; font-size: 14px; line-height: 1.55; }
+  .auth-msg.ok { background: var(--green-tint); border: 1px solid var(--green-15); color: var(--green-deep); }
+  .auth-msg.err { background: var(--orange-tint); border: 1px solid var(--orange); color: var(--orange-deep); }
+  .auth-foot { margin: 24px 0 0; font-size: 13.5px; color: var(--grey-soft); text-align: center; }
+  .auth-foot a { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+</style>
+</head>
+<body>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+    <p class="auth-kicker">Kerndossiers · De Stille Wille</p>
+    <h1>E-mailupdates afmelden</h1>
+    <p class="lede" id="lede">Wilt u geen e-mailupdates meer ontvangen op <span class="adres" id="adres">…</span>?</p>
+
+    <button type="button" class="auth-btn" id="afmeld-btn">Ja, meld mij af</button>
+
+    <div id="msg" class="auth-msg" hidden></div>
+
+    <p class="auth-foot">
+      Van gedachten veranderd? U kunt e-mailupdates altijd weer aanzetten op uw
+      <a href="/account.html">accountpagina</a>.
+    </p>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/supabase-config.js"></script>
+<script>
+(function () {
+  'use strict';
+  var params = new URLSearchParams(window.location.search);
+  var email = params.get('e') || '';
+  var sig = params.get('s') || '';
+
+  var btn = document.getElementById('afmeld-btn');
+  var msg = document.getElementById('msg');
+
+  function show(text, kind) {
+    msg.textContent = text;
+    msg.className = 'auth-msg ' + kind;
+    msg.hidden = false;
+  }
+
+  document.getElementById('adres').textContent = email || '(onbekend)';
+
+  if (!email || !sig) {
+    document.getElementById('lede').textContent =
+      'Deze link is onvolledig. Gebruik de afmeldlink onderaan de e-mail die u ontving.';
+    btn.hidden = true;
+  }
+
+  // Bewust een knop en geen automatische afmelding bij het openen: virus- en
+  // spamscanners openen links in e-mail soms vooraf, en dat zou iemand dan
+  // ongewild afmelden.
+  btn.addEventListener('click', function () {
+    btn.disabled = true;
+    btn.textContent = 'Bezig…';
+    msg.hidden = true;
+
+    window.sb.functions.invoke('nieuwsbrief-afmelden', { body: { e: email, s: sig } })
+      .then(function (res) {
+        if (res.error) {
+          show('Afmelden mislukt: ' + (res.error.message || res.error), 'err');
+          btn.disabled = false;
+          btn.textContent = 'Ja, meld mij af';
+          return;
+        }
+        show('U bent afgemeld. U ontvangt geen e-mailupdates meer.', 'ok');
+        btn.hidden = true;
+      })
+      .catch(function (err) {
+        show('Afmelden mislukt: ' + (err && err.message ? err.message : err), 'err');
+        btn.disabled = false;
+        btn.textContent = 'Ja, meld mij af';
+      });
+  });
+})();
+</script>
+<script src="/footer.js"></script>
+</body>
+</html>
