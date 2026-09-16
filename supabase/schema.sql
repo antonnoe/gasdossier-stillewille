@@ -41,6 +41,15 @@
 --    2. supabase/sql/rls-policies.sql
 --    3. supabase/sql/bulk-authoriseer.sql   (optioneel, eigen adressen)
 --
+--  Wijzigingen aan een BESTAANDE database lopen niet via dit bestand maar
+--  via supabase/migrations/ — daar staat per wijziging één SQL-bestand.
+--  Voer die uit met de workflow "Supabase migratie"
+--  (Actions -> Supabase migratie -> Run workflow), zodat er een spoor van
+--  is en code en database niet meer uiteen kunnen lopen. Dat laatste ging
+--  op 16-09-2026 mis: de kolommen telefoon/uitgenodigd_door/gewenste_duur
+--  stonden hier wél maar niet in de database, waardoor het beheerpaneel
+--  "column aanvragen.telefoon does not exist" gaf.
+--
 --  Veilig om opnieuw te draaien: alles staat als
 --  `create table if not exists` / `add column if not exists`.
 -- =====================================================================

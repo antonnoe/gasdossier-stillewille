@@ -1,0 +1,109 @@
+name: Supabase migratie
+
+# Voert een SQL-bestand uit supabase/migrations/ uit op de live database,
+# en draait daarna de controle uit supabase/sql/controleer-aanvragen.sql.
+#
+# Waarom deze workflow bestaat
+# ----------------------------
+# De repository had wel SQL (supabase/schema.sql, supabase/sql/*.sql) maar
+# geen manier om die uit te voeren: dat gebeurde met de hand in de Supabase
+# SQL Editor. Daardoor konden code en database uiteenlopen — precies wat er
+# op 16-09-2026 misging ("column aanvragen.telefoon does not exist" in het
+# beheerpaneel). Met deze workflow is een migratie één handeling vanuit de
+# repository, met de uitvoer als bewijs in het Actions-log.
+#
+# Alleen handmatig te starten (workflow_dispatch). Er is geen trigger op
+# push: een migratie hoort een bewuste actie te zijn.
+#
+# Benodigd repository-secret: SUPABASE_DB_URL
+#   Supabase-dashboard -> Project Settings -> Database -> Connection string.
+#   Hetzelfde secret dat "Supabase backup" gebruikt.
+#
+# Let op: de uitvoer komt in het Actions-log te staan, zichtbaar voor
+# iedereen met toegang tot deze repository. Zet daarom geen queries in je
+# migratie of controle die namen of e-mailadressen afdrukken.
+
+on:
+  workflow_dispatch:
+    inputs:
+      migratie:
+        description: 'Bestandsnaam in supabase/migrations/ (leeg = alleen controleren)'
+        required: false
+        default: ''
+      controle:
+        description: 'Controlescript in supabase/sql/ (leeg = overslaan)'
+        required: false
+        default: 'controleer-aanvragen.sql'
+
+jobs:
+  migreer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Controleer of het secret is gezet
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          if [ -z "$SUPABASE_DB_URL" ]; then
+            echo "Het repository-secret SUPABASE_DB_URL ontbreekt."
+            echo "Zet het via Settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
+
+      - name: psql installeren
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client
+          psql --version
+
+      - name: Migratie uitvoeren
+        if: ${{ inputs.migratie != '' }}
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          MIGRATIE: ${{ inputs.migratie }}
+        run: |
+          set -euo pipefail
+          # Geen padtrucs: alleen een kale bestandsnaam uit de migratiemap.
+          case "$MIGRATIE" in
+            */*|*..*) echo "Geef alleen een bestandsnaam, geen pad."; exit 1 ;;
+          esac
+          bestand="supabase/migrations/$MIGRATIE"
+          if [ ! -f "$bestand" ]; then
+            echo "$bestand bestaat niet."
+            ls -1 supabase/migrations/
+            exit 1
+          fi
+          echo "--- $bestand ---"
+          cat "$bestand"
+          echo "--- uitvoeren ---"
+          psql "$SUPABASE_DB_URL" \
+            --set ON_ERROR_STOP=1 \
+            --no-psqlrc \
+            --echo-errors \
+            -f "$bestand"
+
+      - name: Controle draaien
+        if: ${{ inputs.controle != '' }}
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          CONTROLE: ${{ inputs.controle }}
+        run: |
+          set -euo pipefail
+          case "$CONTROLE" in
+            */*|*..*) echo "Geef alleen een bestandsnaam, geen pad."; exit 1 ;;
+          esac
+          bestand="supabase/sql/$CONTROLE"
+          if [ ! -f "$bestand" ]; then
+            echo "$bestand bestaat niet."
+            ls -1 supabase/sql/
+            exit 1
+          fi
+          psql "$SUPABASE_DB_URL" \
+            --set ON_ERROR_STOP=1 \
+            --no-psqlrc \
+            --echo-errors \
+            -f "$bestand"
