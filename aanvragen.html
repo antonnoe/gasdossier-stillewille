@@ -118,6 +118,14 @@
     border: 1px solid var(--orange);
     color: var(--orange-deep);
   }
+  .auth-afzender {
+    margin: 14px 0 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--grey-soft);
+    text-align: center;
+  }
+  .auth-afzender strong { color: var(--grey-mid); font-weight: 600; }
   .auth-foot {
     margin: 24px 0 0;
     font-size: 13.5px;
@@ -182,6 +190,7 @@
         <textarea id="reden" name="reden" placeholder="Bijv. uw adres of relatie tot het landgoed."></textarea>
       </div>
       <button type="submit" class="auth-btn" id="submit-btn">Aanvraag versturen</button>
+      <p class="auth-afzender">Wordt uw aanvraag goedgekeurd, dan krijgt u een uitnodiging van <strong>Kerndossiers De Stille Wille</strong>, afzender <strong>noreply@dossierfrankrijk.nl</strong>. Ziet u niets, kijk dan in uw spam- of ongewenste-mailmap.</p>
     </form>
 
     <div id="msg" class="auth-msg" hidden></div>
@@ -268,7 +277,7 @@
         btn.textContent = 'Aanvraag versturen';
         return;
       }
-      show('Bedankt! Uw aanvraag is ontvangen. U hoort van een beheerder zodra deze is beoordeeld.', 'ok');
+      show('Bedankt! Uw aanvraag is ontvangen. U hoort van een beheerder zodra deze is beoordeeld. De uitnodiging komt van Kerndossiers De Stille Wille (noreply@dossierfrankrijk.nl); kijk zo nodig in uw spammap.', 'ok');
       btn.textContent = 'Aanvraag verstuurd';
       form.querySelectorAll('.auth-field').forEach(function (f) { f.style.display = 'none'; });
     }).catch(function (err) {

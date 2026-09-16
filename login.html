@@ -114,6 +114,14 @@
     border: 1px solid var(--orange);
     color: var(--orange-deep);
   }
+  .auth-afzender {
+    margin: 14px 0 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--grey-soft);
+    text-align: center;
+  }
+  .auth-afzender strong { color: var(--grey-mid); font-weight: 600; }
   .auth-foot {
     margin: 24px 0 0;
     font-size: 13.5px;
@@ -138,6 +146,7 @@
                placeholder="naam@voorbeeld.nl" required>
       </div>
       <button type="submit" class="auth-btn" id="submit-btn">Stuur toegangslink</button>
+      <p class="auth-afzender">De mail komt van <strong>Kerndossiers De Stille Wille</strong>, afzender <strong>noreply@dossierfrankrijk.nl</strong>. Ziet u niets, kijk dan in uw spam- of ongewenste-mailmap.</p>
     </form>
 
     <div id="msg" class="auth-msg" hidden></div>
@@ -203,7 +212,7 @@
         btn.textContent = 'Stuur toegangslink';
         return;
       }
-      show('Controleer uw e-mail voor de toegangslink.', 'ok');
+      show('Controleer uw e-mail voor de toegangslink. De mail komt van Kerndossiers De Stille Wille (noreply@dossierfrankrijk.nl); kijk zo nodig in uw spammap.', 'ok');
       btn.textContent = 'Link verstuurd';
       form.querySelector('.auth-field').style.display = 'none';
     }).catch(function (err) {
