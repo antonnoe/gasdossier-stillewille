@@ -97,10 +97,13 @@ jobs:
             -H "apikey: $ANON_KEY" \
             -H "Authorization: Bearer $ANON_KEY" \
             -H 'Content-Type: application/json' \
-            -H 'Prefer: return=representation' \
+            -H 'Prefer: return=minimal' \
             -d "{\"naam\":\"Live controle\",\"email\":\"$TESTMAIL\",\"reden\":\"automatische controle\",\"categorie\":\"bewoner\",\"huisnummer\":\"042\",\"status\":\"pending\"}")
           echo "indienen: HTTP $code"
           cat /tmp/aanvraag.json
+          # return=minimal geeft 201 zonder inhoud. Anon mag deze tabel niet
+          # lezen (alleen beheerders), dus vragen om de ingevoegde rij zou de
+          # insert zelf laten mislukken; de browserclient doet dat ook niet.
           if [ "$code" != "201" ]; then
             echo "Het aanvraagformulier kan niets wegschrijven."
             exit 1
