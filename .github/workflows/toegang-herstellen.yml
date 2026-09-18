@@ -25,6 +25,10 @@ on:
         type: boolean
         required: true
         default: true
+      volg_adres:
+        description: 'Eén adres waarvan de status apart wordt gemeld (optioneel)'
+        required: false
+        default: ''
 
 jobs:
   herstel:
@@ -56,6 +60,7 @@ jobs:
           SUPABASE_URL: https://pmnquozexgxhpbpuergj.supabase.co
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           DRY: ${{ inputs.dry_run }}
+          VOLG_ADRES: ${{ inputs.volg_adres }}
         run: |
           set -euo pipefail
           if [ "$DRY" = "true" ]; then

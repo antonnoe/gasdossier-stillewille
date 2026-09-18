@@ -21,6 +21,11 @@
 // De uitvoer op stdout bevat GEEN e-mailadressen (workflow-logs zijn
 // leesbaar voor iedereen met repository-toegang). De volledige lijst gaat
 // naar out/herstel-rapport.json, dat de workflow als artifact bewaart.
+//
+// Wil je de status van één specifiek adres apart terugzien, geef dat dan mee
+// in de omgevingsvariabele VOLG_ADRES. Het adres staat dan wél in de
+// workflow-invoer, dus gebruik dat alleen als dat geen bezwaar is; het komt
+// bewust niet in dit bestand te staan.
 
 import { createClient } from '@supabase/supabase-js';
 import { writeFileSync, mkdirSync } from 'node:fs';
@@ -28,7 +33,8 @@ import { writeFileSync, mkdirSync } from 'node:fs';
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const DRY_RUN = process.argv.includes('--dry-run');
-const WIL = 'wil@stillewille.nl';
+// Optioneel: één adres waarvan de status apart wordt gerapporteerd.
+const VOLG_ADRES = (process.env.VOLG_ADRES || '').trim().toLowerCase();
 
 if (!SUPABASE_URL || !SERVICE_ROLE_KEY) {
   console.error('SUPABASE_URL en SUPABASE_SERVICE_ROLE_KEY zijn allebei nodig.');
@@ -129,25 +135,32 @@ async function main() {
   }
   console.log('aanvragen goedgekeurd :', goedgekeurd.length, DRY_RUN ? '(dry-run)' : '');
 
-  // --- Status van de aanvrager waar het mee begon -------------------------
-  const wilAuth = authOpEmail.get(WIL) ?? null;
-  const wilAanvragen = (pending ?? []).filter((a) => norm(a.email) === WIL);
-  const wil = {
-    staatInAuth: Boolean(wilAuth),
-    lastSignIn: wilAuth?.last_sign_in_at ?? null,
-    staatInGebruikers: gebruikersEmails.has(WIL),
-    accountNuAangemaakt: aangemaakt.some((a) => a.email === WIL),
-    openstaandeAanvragen: wilAanvragen.length,
-    aanvraagGoedgekeurd: goedgekeurd.some((a) => a.email === WIL),
-  };
-  console.log('betrokken aanvrager   :', JSON.stringify(wil));
+  // --- Status van één specifiek adres, als daarom gevraagd is -------------
+  let volg = null;
+  if (VOLG_ADRES) {
+    const vAuth = authOpEmail.get(VOLG_ADRES) ?? null;
+    const vAanvragen = (pending ?? []).filter((a) => norm(a.email) === VOLG_ADRES);
+    volg = {
+      staatInAuth: Boolean(vAuth),
+      authAangemaakt: vAuth?.created_at ?? null,
+      uitgenodigdOp: vAuth?.invited_at ?? null,
+      emailBevestigdOp: vAuth?.email_confirmed_at ?? null,
+      lastSignIn: vAuth?.last_sign_in_at ?? null,
+      staatInGebruikers: gebruikersEmails.has(VOLG_ADRES),
+      accountNuAangemaakt: aangemaakt.some((a) => a.email === VOLG_ADRES),
+      openstaandeAanvragen: vAanvragen.length,
+      aanvraagGoedgekeurd: goedgekeurd.some((a) => a.email === VOLG_ADRES),
+    };
+    // Alleen de statusvelden, niet het adres zelf.
+    console.log('gevolgd adres         :', JSON.stringify(volg));
+  }
 
   mkdirSync('out', { recursive: true });
   writeFileSync('out/herstel-rapport.json', JSON.stringify({
     dryRun: DRY_RUN,
     tijdstip: new Date().toISOString(),
     groepen: { inBeide, alleenGebruikers, alleenAuth },
-    aangemaakt, goedgekeurd, mislukt, wil,
+    aangemaakt, goedgekeurd, mislukt, volg,
   }, null, 2));
   console.log('rapport geschreven naar out/herstel-rapport.json');
 
