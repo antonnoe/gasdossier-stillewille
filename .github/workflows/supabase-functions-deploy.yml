@@ -21,7 +21,7 @@ on:
       functie:
         description: 'Naam van de functie (leeg = alle functies)'
         required: false
-        default: 'invite-gebruiker'
+        default: ''
 
 env:
   PROJECT_REF: pmnquozexgxhpbpuergj
