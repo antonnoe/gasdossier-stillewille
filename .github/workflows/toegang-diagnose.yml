@@ -1,0 +1,70 @@
+name: Toegang diagnose
+
+# Vergelijkt de twee lijsten waar toegang aan hangt: auth.users (de
+# Supabase-accounts) en public.gebruikers (de autorisatielijst van de site).
+# Draait supabase/sql/diagnose-toegang.sql.
+#
+# Waarom: wie alleen in `gebruikers` staat krijgt op /login.html geen
+# toegangslink, want die pagina gebruikt shouldCreateUser: false en signups
+# staan uit. Wie alleen in `auth.users` staat komt juist wél langs
+# middleware.js. Beide gevallen zijn onzichtbaar in het beheerpaneel.
+#
+# Het log toont alleen aantallen. De adressen zelf gaan als artifact mee
+# (retentie 1 dag), zoals ook bij "Supabase backup" het geval is.
+#
+# Benodigd repository-secret: SUPABASE_DB_URL (hetzelfde als bij backup).
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Welke sleutels zijn beschikbaar
+        env:
+          DB_URL:       ${{ secrets.SUPABASE_DB_URL }}
+          SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          for naam in DB_URL SERVICE_ROLE ACCESS_TOKEN; do
+            waarde="${!naam}"
+            if [ -n "$waarde" ]; then echo "$naam: gezet"; else echo "$naam: ONTBREEKT"; fi
+          done
+          if [ -z "$DB_URL" ]; then
+            echo "Zonder SUPABASE_DB_URL kan deze workflow niets."
+            exit 1
+          fi
+
+      - name: psql installeren
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client
+          psql --version
+
+      - name: Diagnose draaien
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          psql "$SUPABASE_DB_URL" \
+            --set ON_ERROR_STOP=1 \
+            --no-psqlrc \
+            --echo-errors \
+            -f supabase/sql/diagnose-toegang.sql
+          echo "--- regels per bestand ---"
+          wc -l out/*.csv
+
+      - name: Adressenlijst als artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: toegang-diagnose-${{ github.run_id }}
+          path: out/
+          retention-days: 1
+          if-no-files-found: error
