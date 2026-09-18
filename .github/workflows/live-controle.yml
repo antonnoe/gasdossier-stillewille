@@ -51,7 +51,7 @@ jobs:
             fi
           }
           controleer auth-callback.html 'Dit account heeft geen toegang, vraag toegang aan'
-          controleer admin.html 'Gebruiker toevoegen en uitnodigen'
+          controleer admin.html 'Toevoegen en uitnodigen'
           controleer admin.html 'function autoriseer(payload)'
           controleer login.html 'shouldCreateUser: false'
           exit $fout
