@@ -137,7 +137,7 @@
   <div class="auth-card">
     <p class="auth-kicker">Kerndossiers · De Stille Wille</p>
     <h1>Inloggen</h1>
-    <p class="lede">Vul uw e-mailadres in. U ontvangt een toegangslink waarmee u zonder wachtwoord kunt inloggen.</p>
+    <p class="lede">Vul uw e-mailadres in. U ontvangt een toegangslink waarmee u zonder wachtwoord kunt inloggen. <strong>Open die link op dit apparaat</strong>, in deze browser; dat is nodig om te voorkomen dat een doorgestuurde link bij iemand anders werkt.</p>
 
     <form id="login-form" novalidate>
       <div class="auth-field">
@@ -146,7 +146,7 @@
                placeholder="naam@voorbeeld.nl" required>
       </div>
       <button type="submit" class="auth-btn" id="submit-btn">Stuur toegangslink</button>
-      <p class="auth-afzender">De mail komt van <strong>Kerndossiers De Stille Wille</strong>, afzender <strong>noreply@dossierfrankrijk.nl</strong>. Ziet u niets, kijk dan in uw spam- of ongewenste-mailmap. Dit adres is alleen een afzender. U kunt er niet op antwoorden en er niet op inloggen; de kerndossiers staan uitsluitend op <strong>kerndossiers-stillewille.vercel.app</strong>.</p>
+      <p class="auth-afzender">De mail komt van <strong>Kerndossiers De Stille Wille</strong>, afzender <strong>noreply@dossierfrankrijk.nl</strong>. Ziet u niets, kijk dan in uw spam- of ongewenste-mailmap. Dit adres is alleen een afzender. U kunt er niet op antwoorden en er niet op inloggen; de kerndossiers staan uitsluitend op <strong>kerndossiers-stillewille.vercel.app</strong>. Leest u uw mail op een ander apparaat dan waarop u nu bent, vraag de link dan daar aan.</p>
     </form>
 
     <div id="msg" class="auth-msg" hidden></div>
@@ -195,6 +195,11 @@
     // nieuw account vragen en krijgt de bezoeker een technische foutmelding
     // terug in plaats van uitleg. Toegang loopt uitsluitend via een aanvraag
     // die een beheerder goedkeurt.
+    //
+    // De client draait op PKCE (zie supabase-config.js). Deze aanroep legt
+    // daarom een code verifier vast in deze browser en stuurt alleen de
+    // afgeleide challenge naar Supabase. De link in de mail werkt dus
+    // uitsluitend hier; doorsturen heeft geen zin.
     window.sb.auth.signInWithOtp({
       email: email,
       options: { emailRedirectTo: REDIRECT_TO, shouldCreateUser: false }
@@ -212,7 +217,7 @@
         btn.textContent = 'Stuur toegangslink';
         return;
       }
-      show('Controleer uw e-mail voor de toegangslink. De mail komt van Kerndossiers De Stille Wille (noreply@dossierfrankrijk.nl); kijk zo nodig in uw spammap.', 'ok');
+      show('Controleer uw e-mail voor de toegangslink. Open die link op dit apparaat, in deze browser. De mail komt van Kerndossiers De Stille Wille (noreply@dossierfrankrijk.nl); kijk zo nodig in uw spammap.', 'ok');
       btn.textContent = 'Link verstuurd';
       form.querySelector('.auth-field').style.display = 'none';
     }).catch(function (err) {

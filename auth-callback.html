@@ -125,14 +125,30 @@
     setTimeout(function () { window.location.replace('/index.html'); }, 800);
   }
 
-  // Als Supabase een fout in de hash heeft teruggegeven (bv. expired link).
+  // Supabase kan een fout op twee plekken terugmelden: in de hash (bij een
+  // uitnodigingslink, die met een token binnenkomt) of in de querystring
+  // (bij PKCE, waar de link een code meebrengt). Allebei nakijken.
   var hash = window.location.hash || '';
-  if (hash.indexOf('error') !== -1) {
-    var params = new URLSearchParams(hash.replace(/^#/, ''));
+  var query = new URLSearchParams(window.location.search || '');
+
+  function foutUit(params) {
     var desc = params.get('error_description');
     showError(desc ? decodeURIComponent(desc.replace(/\+/g, ' ')) : null);
+  }
+
+  if (hash.indexOf('error') !== -1) {
+    foutUit(new URLSearchParams(hash.replace(/^#/, '')));
     return;
   }
+  if (query.get('error')) {
+    foutUit(query);
+    return;
+  }
+
+  // Kwam deze link met een PKCE-code binnen? Dan hoort er in deze browser
+  // een code verifier te liggen. Ontbreekt die, dan is de link ergens
+  // anders aangevraagd, en dat is precies wat PKCE moet tegenhouden.
+  var heeftCode = Boolean(query.get('code'));
 
   // Een geldige sessie is niet hetzelfde als toegang. Toegang hangt aan twee
   // lijsten: auth.users (het Supabase-account, waar de inloglink aan hangt)
@@ -151,9 +167,24 @@
   // detectSessionInUrl (in supabase-config.js) verwerkt de hash automatisch.
   // We geven dat een tel, en lezen daarna de sessie uit.
   window.sb.auth.getSession().then(function (res) {
-    if (res.error) { showError(res.error.message); return; }
+    if (res.error) {
+      if (heeftCode) {
+        showError('Deze toegangslink is aangevraagd op een ander apparaat of in ' +
+                  'een andere browser. Vraag de link opnieuw aan op het apparaat ' +
+                  'waarop u wilt lezen, en open de mail daar ook.');
+      } else {
+        showError(res.error.message);
+      }
+      return;
+    }
     if (!res.data || !res.data.session) {
-      showError('Geen geldige sessie gevonden. Vraag een nieuwe toegangslink aan.');
+      if (heeftCode) {
+        showError('Deze toegangslink is aangevraagd op een ander apparaat of in ' +
+                  'een andere browser. Vraag de link opnieuw aan op het apparaat ' +
+                  'waarop u wilt lezen, en open de mail daar ook.');
+      } else {
+        showError('Geen geldige sessie gevonden. Vraag een nieuwe toegangslink aan.');
+      }
       return;
     }
 

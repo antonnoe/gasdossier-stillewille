@@ -46,14 +46,33 @@
     return;
   }
 
-  // Implicit flow → het token komt in de URL-hash terecht (#access_token=…),
-  // wat auth-callback.html via getSession() verwerkt.
+  // PKCE in plaats van implicit flow.
+  //
+  // Bij implicit flow zit het toegangstoken zélf in de link die per e-mail
+  // wordt verstuurd. Wie die mail doorstuurt, geeft zijn toegang weg: de
+  // ontvanger klikt en zit binnen, ingelogd als de oorspronkelijke bewoner.
+  //
+  // Met PKCE legt de browser die de link aanvraagt een geheim vast op dít
+  // apparaat (de code verifier, in localStorage). De link bevat dan geen
+  // token maar een code, en die code is alleen iets waard in combinatie met
+  // dat geheim. Klikt iemand anders erop in zijn eigen browser, dan mislukt
+  // het inloggen.
+  //
+  // De prijs: aanvragen en openen moet in dezelfde browser gebeuren. Vraagt
+  // een bewoner de link aan op de laptop en opent hij de mail op zijn
+  // telefoon, dan werkt het niet. auth-callback.html herkent dat geval en
+  // zegt het met zoveel woorden.
+  //
+  // Let op: uitnodigingsmails (inviteUserByEmail, verstuurd door de Edge
+  // Function) worden server-side aangemaakt zonder code verifier. Die
+  // komen dus nog wel met een token in de URL-hash binnen. Daarom blijft
+  // auth-callback.html allebei de vormen afhandelen.
   window.sb = window.supabase.createClient(
     window.SUPABASE_URL,
     window.SUPABASE_ANON_KEY,
     {
       auth: {
-        flowType: 'implicit',
+        flowType: 'pkce',
         detectSessionInUrl: true,
         persistSession: true,
         autoRefreshToken: true

@@ -56,6 +56,8 @@ jobs:
           # gewijzigd. Staat die nieuwe regel er, dan is de deploy rond.
           controleer auth-callback.html 'Dit account heeft geen toegang, vraag toegang aan'
           controleer login.html 'shouldCreateUser: false'
+          controleer login.html 'Open die link op dit apparaat'
+          controleer supabase-config.js "flowType: 'pkce'"
 
           # Tegenproef: /admin.html mag zonder sessie niet bereikbaar zijn.
           code=$(curl -sS -o /dev/null -w '%{http_code}' "$SITE/admin.html")
@@ -86,6 +88,19 @@ jobs:
             exit 1
           fi
           echo "Toegangslink verstuurd."
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 2b. Bewijs dat de inlogpagina op PKCE draait
+        env:
+          ADRES: ${{ inputs.testadres }}
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-audit --no-fund playwright
+          npx playwright install --with-deps chromium
+          node supabase/scripts/controleer-pkce.mjs "$SITE" "$ADRES"
 
       - name: 3. Aanvraagformulier indienen en weer opruimen
         env:

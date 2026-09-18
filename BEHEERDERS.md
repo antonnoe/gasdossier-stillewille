@@ -4,7 +4,16 @@ Praktische uitleg van de werkstroom voor beheerders. Voor het redactionele
 beleid (wat wel/niet op de site mag), zie `REDACTIE.md`.
 
 ## 1. Hoe bewoners toegang krijgen
-- Bewoners loggen in met een **inloglink per e-mail** (magic link) — geen wachtwoorden.
+- Bewoners loggen in met een **inloglink per e-mail** (magic link), geen wachtwoorden.
+- **De link werkt alleen in de browser waarin hij is aangevraagd** (PKCE). Dat
+  is bewust: zo geeft iemand die de mail doorstuurt zijn toegang niet weg. De
+  keerzijde is dat aanvragen en openen op hetzelfde apparaat moet gebeuren.
+  Krijgt een bewoner de melding dat de link op een ander apparaat is
+  aangevraagd, laat hem dan op dát apparaat een nieuwe link opvragen.
+- **Uitnodigingsmails vormen hierop een uitzondering.** Die worden
+  server-side aangemaakt en bevatten wél een token dat overal werkt. Ze gaan
+  eenmalig naar een adres dat jij zelf hebt goedgekeurd, maar wijs een nieuwe
+  bewoner er wel op dat hij die mail niet doorstuurt.
 - Toegang hangt aan twee lijsten: het Supabase-account (**`auth.users`**,
   waar de inloglink aan hangt) en de autorisatielijst (**`gebruikers`**).
   Beide worden in één handeling gevuld — zie paragraaf 6.
