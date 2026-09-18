@@ -1,24 +1,29 @@
 name: Supabase backup
 
-# Wekelijkse export van de Supabase-database naar een workflow-artifact.
+# Wekelijkse export van de Supabase-inhoud naar een workflow-artifact.
 #
 # Waarom: het project draait op het gratis Supabase-plan en dat maakt geen
 # automatische backups. Gaat er iets mis (een verkeerde DELETE, een verlopen
 # project), dan is er zonder deze workflow niets om op terug te vallen.
 #
-# Wat er wordt geëxporteerd (drie losse bestanden, zoals de Supabase CLI ze
-# aanlevert):
-#   schema.sql  structuur van public + auth (tabellen, functies, RLS-policies)
-#   data.sql    de rijen uit public + auth (dus ook de accounts zelf)
-#   roles.sql   database-rollen
+# Deze workflow gebruikt de service-role sleutel en de API, niet pg_dump.
+# De oude opzet werkte met SUPABASE_DB_URL en een directe
+# databaseverbinding; die bleef in september 2026 steken op de
+# wachtwoordcontrole van de pooler, waardoor er in de praktijk nooit een
+# backup is gemaakt. De service-role sleutel komt bij dezelfde gegevens en
+# staat al goed ingesteld.
 #
-# Het auth-schema zit er bewust bij: daar staan de Supabase-accounts in.
-# Zonder dat schema kun je de site wel herbouwen, maar moet iedereen zich
-# opnieuw laten autoriseren.
+# Wat er wordt geëxporteerd (JSON, in out/):
+#   <tabel>.json     alle rijen per tabel uit public
+#   auth-users.json  de Supabase-accounts
+#   manifest.json    wat er is geëxporteerd, met aantallen
 #
-# Benodigd repository-secret: SUPABASE_DB_URL
-#   Supabase-dashboard -> Project Settings -> Database -> Connection string.
-#   Zie README.md, sectie "Backups", voor de precieze stappen.
+# Wat er NIET in zit: de structuur (tabellen, functies, RLS-policies). Die
+# staat in de repository zelf: supabase/schema.sql, supabase/sql/ en
+# supabase/migrations/. Samen is dat genoeg om opnieuw op te bouwen.
+#
+# Benodigd repository-secret: SUPABASE_SERVICE_ROLE_KEY
+#   Supabase-dashboard -> Project Settings -> API -> service_role.
 #
 # Let op: het artifact bevat persoonsgegevens (e-mailadressen van bewoners).
 # Het is alleen te downloaden door wie toegang heeft tot deze repository.
@@ -34,70 +39,57 @@ on:
     - cron: '0 3 * * 1'
   workflow_dispatch: {}
 
+env:
+  SUPABASE_URL: https://pmnquozexgxhpbpuergj.supabase.co
+
 jobs:
   dump:
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
     steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Controleer of het secret is gezet
         env:
-          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
-          if [ -z "$SUPABASE_DB_URL" ]; then
-            echo "Het repository-secret SUPABASE_DB_URL ontbreekt."
+          if [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "Het repository-secret SUPABASE_SERVICE_ROLE_KEY ontbreekt."
             echo "Zet het via Settings -> Secrets and variables -> Actions."
             echo "De waarde staat in het Supabase-dashboard onder"
-            echo "Project Settings -> Database -> Connection string."
+            echo "Project Settings -> API -> service_role."
             exit 1
           fi
 
-      - name: Supabase CLI installeren
-        uses: supabase/setup-cli@v1
-        with:
-          version: latest
+      - name: Supabase-client installeren
+        run: npm install --no-save --no-audit --no-fund @supabase/supabase-js@2
 
       - name: Database exporteren
         env:
-          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
-        run: |
-          set -euo pipefail
-          mkdir -p backup
-
-          # Structuur van public én auth.
-          supabase db dump \
-            --db-url "$SUPABASE_DB_URL" \
-            --schema public,auth \
-            -f backup/schema.sql
-
-          # Inhoud van dezelfde schema's.
-          supabase db dump \
-            --db-url "$SUPABASE_DB_URL" \
-            --schema public,auth \
-            --data-only \
-            -f backup/data.sql
-
-          # Database-rollen (los, want die horen niet bij een schema).
-          supabase db dump \
-            --db-url "$SUPABASE_DB_URL" \
-            --role-only \
-            -f backup/roles.sql
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node supabase/scripts/backup-via-api.mjs
 
       - name: Controleer dat de export niet leeg is
         run: |
           set -euo pipefail
-          for f in backup/schema.sql backup/data.sql backup/roles.sql; do
+          for f in out/*.json; do
             if [ ! -s "$f" ]; then
               echo "$f is leeg — de export is mislukt."
               exit 1
             fi
-            echo "$f: $(wc -l < "$f") regels"
           done
+          echo "--- bestandsgrootte in bytes ---"
+          wc -c out/*.json
 
       - name: Backup als artifact opslaan
         uses: actions/upload-artifact@v4
         with:
           name: supabase-backup-${{ github.run_id }}
-          path: backup/
+          path: out/
           retention-days: 90
           if-no-files-found: error
