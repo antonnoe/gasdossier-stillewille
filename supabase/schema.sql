@@ -31,7 +31,8 @@
 --    1. supabase/schema.sql        (dit bestand)
 --    2. supabase/sql/rls-policies.sql
 --    3. supabase/migrations/*.sql  (op datum)
---    4. supabase/sql/bulk-authoriseer.sql   (optioneel, eigen adressen)
+--    4. gebruikers toevoegen via /admin.html (nooit rechtstreeks in SQL:
+--       zie BEHEERDERS.md, paragraaf 6)
 --
 --  Veilig om opnieuw te draaien: alles staat als
 --  `create table if not exists` / `add column if not exists`.

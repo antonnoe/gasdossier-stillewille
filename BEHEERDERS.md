@@ -5,7 +5,9 @@ beleid (wat wel/niet op de site mag), zie `REDACTIE.md`.
 
 ## 1. Hoe bewoners toegang krijgen
 - Bewoners loggen in met een **inloglink per e-mail** (magic link) — geen wachtwoorden.
-- Alleen geregistreerde adressen in de tabel **`gebruikers`** krijgen toegang.
+- Toegang hangt aan twee lijsten: het Supabase-account (**`auth.users`**,
+  waar de inloglink aan hangt) en de autorisatielijst (**`gebruikers`**).
+  Beide worden in één handeling gevuld — zie paragraaf 6.
 - Drie rollen: **gebruiker** (lezen), **beheerder** (beheer), **owner** (volledige rechten).
 - Beheer gebeurt op **/admin.html** (alleen zichtbaar voor beheerder/owner).
 
@@ -66,23 +68,36 @@ beleid (wat wel/niet op de site mag), zie `REDACTIE.md`.
 - **Reacties** — reacties van bewoners beheren.
 - **Correctieverzoeken** — verzoeken tot correctie van dossiers afhandelen.
 
-## 6. Adressen eenmalig autoriseren (zonder invite-mail)
-Toegang in dit systeem werkt via de tabel **`gebruikers`**: wie daar in staat,
-kan inloggen met de magic-link op `/login.html`. Er is géén invite-mail nodig —
-het volstaat om het adres in die tabel te zetten.
+## 6. Toegang verlenen — uitsluitend via /admin.html
+Toegang hangt aan **twee** lijsten en die moeten allebei kloppen:
 
-Om in één keer een lijst adressen te autoriseren staat er een kant-en-klaar
-SQL-script in de repository: **`supabase/sql/bulk-authoriseer.sql`**.
+- **`auth.users`** — het Supabase-account. Hier hangt de inloglink aan. Staat
+  een adres hier niet, dan krijgt die persoon op `/login.html` geen
+  toegangslink: die pagina maakt bewust geen nieuwe accounts aan en in
+  Supabase staan signups uit.
+- **`public.gebruikers`** — de autorisatielijst van de site. Staat een adres
+  hier niet, dan wordt de bezoeker na het inloggen meteen weer uitgelogd met
+  de melding "Dit account heeft geen toegang, vraag toegang aan".
 
-### Uitvoeren (Supabase-dashboard, geen CLI)
-1. Open het **Supabase-dashboard** → project → **SQL Editor**.
-2. Open `supabase/sql/bulk-authoriseer.sql` uit deze repository en plak de
-   inhoud in de editor (pas de e-mailadressen aan naar je eigen lijst).
-3. Klik **Run**. De adressen worden met rol `gebruiker` toegevoegd; bestaande
-   adressen blijven ongemoeid (`on conflict (email) do nothing`).
-4. De `select` onderaan toont meteen welke adressen nu in de tabel staan.
+Er is daarom nog maar **één manier** om iemand toe te laten, en die vult
+allebei de lijsten in één handeling:
 
-> **Toegangspauze (`app_instellingen.toegang_vanaf`).** Die datum geldt alleen
-> voor de **Goedkeuren-knop** op /admin.html (de RPC `invite_gebruiker`). Een
-> directe insert zoals hierboven gaat daarbuiten om: de adressen zijn meteen
-> geautoriseerd, ongeacht die datum.
+1. **Goedkeuren** bij een aanvraag in het blok **Aanvragen**, of
+2. het blok **Gebruiker toevoegen** als iemand geen aanvraag heeft ingediend.
+
+Beide knoppen roepen dezelfde Edge Function **`invite-gebruiker`** aan. Die
+zet de rij in `gebruikers` (met de controles uit `controleer_toegang`: rol,
+toegangspauze, accountlimieten per type) én maakt het Supabase-account aan
+met een uitnodiging per e-mail. Lukt het tweede deel niet, dan zegt het
+beheerpaneel dat er met zoveel woorden bij.
+
+> **Nooit meer rechtstreeks in de database.** Een rij in `gebruikers` zetten
+> via de SQL Editor lijkt te werken maar levert iemand op die niet kan
+> inloggen. Het oude script `supabase/sql/bulk-authoriseer.sql` ging van die
+> onjuiste aanname uit en is daarom verwijderd. Wil je controleren of de twee
+> lijsten nog gelijk lopen, draai dan de workflow **Toegang diagnose**
+> (Actions → Toegang diagnose → Run workflow); die toont aantallen per groep.
+
+> **Toegangspauze (`app_instellingen.toegang_vanaf`).** Zolang die datum in de
+> toekomst ligt, weigeren zowel Goedkeuren als Gebruiker toevoegen. Aanvragen
+> blijven wel binnenkomen.

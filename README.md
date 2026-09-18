@@ -101,7 +101,24 @@ Een leeg project opbouwen gaat in deze volgorde:
 
 1. `supabase/schema.sql` — tabellen
 2. `supabase/sql/rls-policies.sql` — RLS-policies, grants en functies
-3. `supabase/sql/bulk-authoriseer.sql` — optioneel, eigen adressenlijst
+3. `supabase/migrations/*.sql` — op volgorde van bestandsnaam
+
+Gebruikers zet je daarna niet met SQL in de database, maar via
+**/admin.html** (Goedkeuren of Gebruiker toevoegen). Alleen die weg maakt
+naast de rij in `gebruikers` ook het Supabase-account aan waar de inloglink
+aan hangt; zie `BEHEERDERS.md`, paragraaf 6.
+
+## Repository-secrets (Settings → Secrets and variables → Actions)
+
+| Naam | Waarvoor | Waar te vinden |
+| --- | --- | --- |
+| `SUPABASE_DB_URL` | workflows "Supabase backup", "Supabase migratie" en "Toegang diagnose" | Project Settings → Database → Connection string (URI), met het wachtwoord ingevuld |
+| `SUPABASE_SERVICE_ROLE_KEY` | workflow "Toegang herstellen" | Project Settings → API → `service_role` |
+| `SUPABASE_ACCESS_TOKEN` | workflow "Edge Functions deployen" | Supabase-dashboard → Account → Access Tokens |
+
+Elke workflow stopt meteen met een duidelijke melding als zijn secret
+ontbreekt. Zonder `SUPABASE_DB_URL` worden er dus ook **geen backups**
+gemaakt, hoe vaak de workflow ook draait.
 
 ## Indexering
 

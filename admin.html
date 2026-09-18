@@ -126,9 +126,9 @@
   .mail-form { max-width: 640px; background: var(--cream); border: 1px solid var(--green-15); border-radius: 10px; padding: 18px 20px; }
   .mail-form label { display: block; font-family: var(--font-display); font-weight: 600; font-size: 12px; color: var(--grey-dark); margin: 10px 0 4px; }
   .mail-form label:first-child { margin-top: 0; }
-  .mail-form input, .mail-form textarea { width: 100%; font-family: var(--font-body); font-size: 14px; color: var(--grey-dark); background: var(--white); border: 1px solid var(--green-25); border-radius: 6px; padding: 9px 11px; }
+  .mail-form input, .mail-form textarea, .mail-form select { width: 100%; font-family: var(--font-body); font-size: 14px; color: var(--grey-dark); background: var(--white); border: 1px solid var(--green-25); border-radius: 6px; padding: 9px 11px; }
   .mail-form textarea { resize: vertical; line-height: 1.5; }
-  .mail-form input:focus, .mail-form textarea:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-08); }
+  .mail-form input:focus, .mail-form textarea:focus, .mail-form select:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-08); }
   .mail-note { margin: 0 0 14px; font-size: 14px; line-height: 1.55; color: var(--grey-dark); }
   .mail-form a.btn-approve { display: inline-block; text-decoration: none; }
   .nb-melding { margin: 14px 0 0; padding: 11px 14px; border-radius: 8px; font-size: 14px; line-height: 1.55; }
@@ -215,6 +215,39 @@
     </table>
     <div id="aanvragen-empty" class="empty" hidden>Geen aanvragen.</div>
 
+    <h2>Gebruiker toevoegen</h2>
+    <p class="sub">Toegang verlenen zonder dat iemand het aanvraagformulier invult.</p>
+    <form class="mail-form" id="toevoeg-form" novalidate>
+      <p class="mail-note">Dit doet hetzelfde als <strong>Goedkeuren</strong> hierboven: het adres komt op de
+        toegangslijst én krijgt een Supabase-account met een uitnodiging per e-mail. Zonder dat account
+        krijgt iemand op de inlogpagina geen toegangslink.</p>
+
+      <label for="tv-email">E-mailadres</label>
+      <input type="email" id="tv-email" autocomplete="off" placeholder="naam@voorbeeld.nl" required>
+
+      <label for="tv-naam">Naam (optioneel)</label>
+      <input type="text" id="tv-naam" autocomplete="off" placeholder="Voor- en achternaam">
+
+      <label for="tv-categorie">Type</label>
+      <select id="tv-categorie" required>
+        <option value="">— kies —</option>
+        <option value="bewoner">Bewoner</option>
+        <option value="lsw">Directie LSW</option>
+        <option value="swb">Directie SWB</option>
+        <option value="dienstverlener">Dienstverlener</option>
+      </select>
+
+      <div id="tv-huisnummer-veld" hidden>
+        <label for="tv-huisnummer">Huisnummer (drie cijfers, 001 t/m 326)</label>
+        <input type="text" id="tv-huisnummer" inputmode="numeric" maxlength="3" placeholder="042">
+      </div>
+
+      <div class="row-actions" style="margin-top:14px;">
+        <button type="submit" class="btn-sm btn-approve" id="tv-verstuur">Toevoegen en uitnodigen</button>
+      </div>
+      <div id="tv-melding" class="nb-melding" hidden></div>
+    </form>
+
     <h2>Gebruikers</h2>
     <p class="sub">Bestaande gebruikers en hun rol.</p>
     <div id="gebruikers-err" class="err-line" hidden></div>
@@ -297,6 +330,7 @@
         loadReacties();
         loadCorrectie();
         loadNieuwsbrieven();
+        initToevoegen();
 
         document.getElementById('nb-test')
           .addEventListener('click', function () { nbVerstuur(true); });
@@ -483,6 +517,16 @@
         } else {
           banner.hidden = true;
         }
+        // Handmatig toevoegen valt onder dezelfde pauze als goedkeuren:
+        // controleer_toegang() weigert het anders alsnog, en dan is een
+        // uitgeschakelde knop duidelijker dan een foutmelding achteraf.
+        var tvBtn = document.getElementById('tv-verstuur');
+        if (tvBtn) {
+          tvBtn.disabled = toegangGepauzeerd;
+          tvBtn.title = toegangGepauzeerd
+            ? 'Gepauzeerd tot ' + fmtDatumNL(toegangVanaf)
+            : '';
+        }
         loadAanvragen();
       });
   }
@@ -573,39 +617,39 @@
       return;
     }
 
-    // Goedkeuren gebeurt in twee stappen:
-    //  1. RPC invite_gebruiker(p_email): SECURITY DEFINER functie die de
-    //     gebruiker toevoegt (rol "gebruiker") en de aanvraag op "approved"
-    //     zet. Controleert zelf of de aanroeper beheerder/owner is.
-    //  2. Edge Function invite-gebruiker: verstuurt met de service-role
-    //     sleutel een invite-mail via auth.admin.inviteUserByEmail().
+    // Goedkeuren gaat in één aanroep naar de Edge Function "invite-gebruiker".
+    // Die doet beide kanten van de toegang: de rij in public.gebruikers (via
+    // de RPC invite_gebruiker, dus mét de controles uit controleer_toegang)
+    // én het Supabase-account in auth.users (inviteUserByEmail). Zonder dat
+    // tweede deel staat iemand wel op de lijst, maar krijgt hij op
+    // /login.html geen toegangslink.
     function reEnable() { buttons.forEach(function (b) { b.disabled = false; }); }
 
-    sb.rpc('invite_gebruiker', { p_email: aanvraag.email }).then(function (r) {
-      if (r.error) {
-        alert('Goedkeuren mislukt: ' + (r.error.message || r.error));
+    autoriseer({ email: aanvraag.email, modus: 'aanvraag' }).then(function (res) {
+      if (!res.ok) {
+        alert('Goedkeuren mislukt: ' + res.message);
         reEnable();
         return;
       }
-      // 2. Invite-mail versturen via de Edge Function.
-      sendInvite(aanvraag.email).then(function (res) {
-        if (!res.ok) {
-          // Gebruiker is wel goedgekeurd; alleen de mail faalde.
-          alert('Aanvraag goedgekeurd, maar de invite-mail kon niet verstuurd worden:\n' + res.message);
-        }
-        loadAanvragen();
-        loadGebruikers();
-        loadStats();
-      });
-    }).catch(function (err) {
-      alert('Goedkeuren mislukt: ' + (err && err.message ? err.message : err));
-      reEnable();
+      if (res.data && res.data.authStatus === 'mislukt') {
+        // De autorisatie staat er wel; alleen het account ontbreekt nog.
+        alert('Aanvraag goedgekeurd, maar het Supabase-account kon niet worden ' +
+              'aangemaakt:\n' + (res.data.authMelding || 'onbekende fout') +
+              '\n\nDeze persoon kan nog niet inloggen. Probeer het opnieuw.');
+      }
+      loadAanvragen();
+      loadGebruikers();
+      loadStats();
     });
   }
 
-  // Roept de Edge Function "invite-gebruiker" aan (aparte fetch, want het
-  // versturen van de invite vereist de service-role sleutel server-side).
-  function sendInvite(email) {
+  // De enige weg om toegang te verlenen: Edge Function "invite-gebruiker".
+  // Aparte fetch (geen sb.functions.invoke) zodat de foutmelding uit het
+  // antwoord leesbaar blijft.
+  //
+  // payload: { email, modus: 'aanvraag' | 'handmatig', naam?, categorie?,
+  //            huisnummer? }
+  function autoriseer(payload) {
     return sb.auth.getSession().then(function (s) {
       var token = s.data && s.data.session ? s.data.session.access_token : '';
       return fetch(window.SUPABASE_URL + '/functions/v1/invite-gebruiker', {
@@ -615,14 +659,92 @@
           'apikey': window.SUPABASE_ANON_KEY,
           'Authorization': 'Bearer ' + token
         },
-        body: JSON.stringify({ email: email })
+        body: JSON.stringify(payload)
       }).then(function (resp) {
-        if (resp.ok) return { ok: true };
         return resp.json().catch(function () { return {}; }).then(function (j) {
-          return { ok: false, message: (j && j.error) ? j.error : ('HTTP ' + resp.status) };
+          if (!resp.ok) {
+            return { ok: false, message: (j && j.error) ? j.error : ('HTTP ' + resp.status) };
+          }
+          return { ok: true, data: j };
         });
       }).catch(function (e) {
         return { ok: false, message: e && e.message ? e.message : String(e) };
+      });
+    });
+  }
+
+  // Blok "Gebruiker toevoegen" — toegang verlenen zonder aanvraag. Loopt via
+  // exact dezelfde Edge Function als Goedkeuren, dus ook hier worden beide
+  // lijsten gevuld.
+  function initToevoegen() {
+    var form = document.getElementById('toevoeg-form');
+    if (!form) return;
+    var emailEl = document.getElementById('tv-email');
+    var naamEl = document.getElementById('tv-naam');
+    var catEl = document.getElementById('tv-categorie');
+    var nrEl = document.getElementById('tv-huisnummer');
+    var nrVeld = document.getElementById('tv-huisnummer-veld');
+    var btn = document.getElementById('tv-verstuur');
+    var melding = document.getElementById('tv-melding');
+
+    function toon(tekst, soort) {
+      melding.textContent = tekst;
+      melding.className = 'nb-melding ' + soort;
+      melding.hidden = false;
+    }
+
+    // Huisnummer is alleen van toepassing op bewoners.
+    function syncHuisnummer() {
+      nrVeld.hidden = catEl.value !== 'bewoner';
+    }
+    catEl.addEventListener('change', syncHuisnummer);
+    syncHuisnummer();
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (toegangGepauzeerd) {
+        alert('Toegang verlenen is gepauzeerd tot ' + fmtDatumNL(toegangVanaf) + ' (testfase).');
+        return;
+      }
+      var email = (emailEl.value || '').trim();
+      if (!email) { toon('Vul een e-mailadres in.', 'err'); return; }
+      if (!catEl.value) { toon('Kies een type.', 'err'); return; }
+
+      btn.disabled = true;
+      var oudeTekst = btn.textContent;
+      btn.textContent = 'Bezig…';
+      melding.hidden = true;
+
+      autoriseer({
+        email: email,
+        modus: 'handmatig',
+        naam: (naamEl.value || '').trim(),
+        categorie: catEl.value,
+        huisnummer: catEl.value === 'bewoner' ? (nrEl.value || '').trim() : ''
+      }).then(function (res) {
+        btn.disabled = false;
+        btn.textContent = oudeTekst;
+
+        if (!res.ok) { toon('Toevoegen mislukt: ' + res.message, 'err'); return; }
+
+        var d = res.data || {};
+        if (d.authStatus === 'mislukt') {
+          toon(email + ' staat nu op de toegangslijst, maar het Supabase-account ' +
+               'kon niet worden aangemaakt (' + (d.authMelding || 'onbekende fout') +
+               '). Deze persoon kan nog niet inloggen.', 'err');
+        } else if (d.authStatus === 'bestond_al') {
+          toon(email + ' is toegevoegd. Er was al een Supabase-account, dus er is ' +
+               'geen uitnodiging verstuurd; deze persoon kan meteen een toegangslink ' +
+               'opvragen op /login.html.', 'ok');
+        } else {
+          toon(email + ' is toegevoegd en heeft een uitnodiging per e-mail gekregen.', 'ok');
+        }
+
+        form.reset();
+        syncHuisnummer();
+        loadGebruikers();
+        loadAanvragen();
+        loadStats();
       });
     });
   }

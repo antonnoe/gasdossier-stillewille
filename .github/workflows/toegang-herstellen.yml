@@ -1,0 +1,74 @@
+name: Toegang herstellen
+
+# Eenmalig herstel van de scheefstand tussen public.gebruikers en auth.users,
+# en daarna de controle of het gelijk loopt. Draait
+# supabase/scripts/herstel-scheefstand.mjs.
+#
+# Wie alleen in `gebruikers` staat, krijgt een Supabase-account
+# (createUser met email_confirm, dus zonder mail). Wie alleen in `auth.users`
+# staat wordt alleen gerapporteerd — er wordt nooit iets verwijderd.
+#
+# Start eerst met dry-run = true. Dan wordt er niets geschreven en toont het
+# rapport wat er zou gebeuren.
+#
+# Het log toont alleen aantallen. De adressen staan in het artifact
+# (retentie 1 dag).
+#
+# Benodigd repository-secret: SUPABASE_SERVICE_ROLE_KEY
+#   Supabase-dashboard -> Project Settings -> API -> service_role.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Alleen rapporteren, niets wijzigen'
+        type: boolean
+        required: true
+        default: true
+
+jobs:
+  herstel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Controleer of het secret is gezet
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          if [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "Het repository-secret SUPABASE_SERVICE_ROLE_KEY ontbreekt."
+            echo "Waarde: Supabase-dashboard -> Project Settings -> API -> service_role."
+            exit 1
+          fi
+
+      - name: Supabase-client installeren
+        run: npm install --no-save --no-audit --no-fund @supabase/supabase-js@2
+
+      - name: Herstel draaien
+        env:
+          SUPABASE_URL: https://pmnquozexgxhpbpuergj.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          DRY: ${{ inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          if [ "$DRY" = "true" ]; then
+            node supabase/scripts/herstel-scheefstand.mjs --dry-run
+          else
+            node supabase/scripts/herstel-scheefstand.mjs
+          fi
+
+      - name: Rapport als artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: toegang-herstel-${{ github.run_id }}
+          path: out/
+          retention-days: 1
+          if-no-files-found: warn

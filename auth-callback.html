@@ -95,6 +95,7 @@
       <h1>Inloggen mislukt</h1>
       <p id="error-text">De toegangslink is ongeldig of verlopen.</p>
       <a class="auth-btn" href="/login.html">Terug naar inloggen</a>
+      <p style="margin-top:14px;"><a href="/aanvragen.html">Toegang aanvragen</a></p>
     </div>
 
   </div>
@@ -133,16 +134,47 @@
     return;
   }
 
+  // Een geldige sessie is niet hetzelfde als toegang. Toegang hangt aan twee
+  // lijsten: auth.users (het Supabase-account, waar de inloglink aan hangt)
+  // en public.gebruikers (de autorisatielijst van de site). Wie alleen een
+  // account heeft, komt langs de Edge Middleware en zou alle dossierpagina's
+  // kunnen lezen. Daarom wordt hier ná het inloggen gecontroleerd of het
+  // adres ook op de autorisatielijst staat; zo niet, dan meteen uitloggen.
+  //
+  // De RLS-policy "gebruikers_select_eigen_of_beheer" laat iedereen precies
+  // zijn eigen rij zien, dus geen rij = geen toegang.
+  function afwijzen(tekst) {
+    window.sb.auth.signOut().catch(function () { /* cookie is toch al leeg */ })
+      .then(function () { window.swSetAuthCookie(null); showError(tekst); });
+  }
+
   // detectSessionInUrl (in supabase-config.js) verwerkt de hash automatisch.
   // We geven dat een tel, en lezen daarna de sessie uit.
   window.sb.auth.getSession().then(function (res) {
     if (res.error) { showError(res.error.message); return; }
-    if (res.data && res.data.session) {
-      window.swSetAuthCookie(res.data.session);
-      showSuccess();
-    } else {
+    if (!res.data || !res.data.session) {
       showError('Geen geldige sessie gevonden. Vraag een nieuwe toegangslink aan.');
+      return;
     }
+
+    var session = res.data.session;
+    var email = ((session.user && session.user.email) || '').trim().toLowerCase();
+
+    return window.sb.from('gebruikers').select('email').eq('email', email).maybeSingle()
+      .then(function (g) {
+        if (g.error) {
+          // Niet kunnen controleren is geen toegang verlenen. Uitloggen en
+          // laten herproberen is hier het veilige antwoord.
+          afwijzen('Uw toegang kon niet gecontroleerd worden. Probeer het zo nog eens.');
+          return;
+        }
+        if (!g.data) {
+          afwijzen('Dit account heeft geen toegang, vraag toegang aan');
+          return;
+        }
+        window.swSetAuthCookie(session);
+        showSuccess();
+      });
   }).catch(function (err) {
     showError(err && err.message ? err.message : String(err));
   });

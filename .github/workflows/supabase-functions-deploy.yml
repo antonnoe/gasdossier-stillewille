@@ -1,0 +1,71 @@
+name: Edge Functions deployen
+
+# Zet de Edge Functions uit supabase/functions/ op het live Supabase-project.
+#
+# Waarom deze workflow bestaat: de functies stonden wel in de repository maar
+# werden met de hand gedeployd. Code in de repository en code op het project
+# konden daardoor uiteenlopen — hetzelfde probleem dat de workflow
+# "Supabase migratie" voor SQL oplost.
+#
+# Alleen handmatig te starten. Kies een functienaam of laat het veld leeg om
+# ze allemaal te deployen.
+#
+# Benodigd repository-secret: SUPABASE_ACCESS_TOKEN
+#   Supabase-dashboard -> rechtsboven op je account -> Access Tokens ->
+#   Generate new token. Dit is een persoonlijk token, niet de service-role
+#   sleutel.
+
+on:
+  workflow_dispatch:
+    inputs:
+      functie:
+        description: 'Naam van de functie (leeg = alle functies)'
+        required: false
+        default: 'invite-gebruiker'
+
+env:
+  PROJECT_REF: pmnquozexgxhpbpuergj
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Controleer of het secret is gezet
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          if [ -z "$SUPABASE_ACCESS_TOKEN" ]; then
+            echo "Het repository-secret SUPABASE_ACCESS_TOKEN ontbreekt."
+            echo "Aanmaken: Supabase-dashboard -> Account -> Access Tokens."
+            exit 1
+          fi
+
+      - name: Supabase CLI installeren
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Deployen
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          FUNCTIE: ${{ inputs.functie }}
+        run: |
+          set -euo pipefail
+          # Geen padtrucs: alleen een kale mapnaam uit supabase/functions/.
+          case "$FUNCTIE" in
+            */*|*..*) echo "Geef alleen een functienaam, geen pad."; exit 1 ;;
+          esac
+          if [ -n "$FUNCTIE" ]; then
+            if [ ! -d "supabase/functions/$FUNCTIE" ]; then
+              echo "supabase/functions/$FUNCTIE bestaat niet."
+              ls -1 supabase/functions/
+              exit 1
+            fi
+            supabase functions deploy "$FUNCTIE" --project-ref "$PROJECT_REF"
+          else
+            supabase functions deploy --project-ref "$PROJECT_REF"
+          fi
