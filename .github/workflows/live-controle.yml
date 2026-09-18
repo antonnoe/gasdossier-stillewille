@@ -59,14 +59,16 @@ jobs:
           controleer login.html 'Open die link op dit apparaat'
           controleer supabase-config.js "flowType: 'pkce'"
 
-          # Tegenproef: /admin.html mag zonder sessie niet bereikbaar zijn.
-          code=$(curl -sS -o /dev/null -w '%{http_code}' "$SITE/admin.html")
-          if [ "$code" = "307" ] || [ "$code" = "302" ]; then
-            echo "OK   admin.html stuurt zonder sessie door naar de loginpagina (HTTP $code)"
-          else
-            echo "FOUT admin.html geeft zonder sessie HTTP $code"
-            fout=1
-          fi
+          # Tegenproef: beheerpaginas mogen zonder sessie niet bereikbaar zijn.
+          for pagina in admin.html beheer-handleiding.html; do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' "$SITE/$pagina")
+            if [ "$code" = "307" ] || [ "$code" = "302" ]; then
+              echo "OK   $pagina stuurt zonder sessie door naar de loginpagina (HTTP $code)"
+            else
+              echo "FOUT $pagina geeft zonder sessie HTTP $code"
+              fout=1
+            fi
+          done
           exit $fout
 
       - name: 2. Toegangslink aanvragen voor een geautoriseerd adres

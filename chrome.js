@@ -182,8 +182,15 @@
     hBeheer.appendChild(document.createTextNode('Beheer'));
     hBeheer.hidden = true;
     hPanel.appendChild(hBeheer);
+    var hHandleiding = el('a', { href: '/beheer-handleiding.html', role: 'menuitem' });
+    hHandleiding.appendChild(document.createTextNode('Handleiding beheerders'));
+    hHandleiding.hidden = true;
+    hPanel.appendChild(hHandleiding);
     haalRol().then(function (rol) {
-      if (rol === 'beheerder' || rol === 'owner') hBeheer.hidden = false;
+      if (rol === 'beheerder' || rol === 'owner') {
+        hBeheer.hidden = false;
+        hHandleiding.hidden = false;
+      }
     });
 
     hgrp.appendChild(hPanel);

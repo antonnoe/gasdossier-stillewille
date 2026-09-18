@@ -3,6 +3,13 @@
 Praktische uitleg van de werkstroom voor beheerders. Voor het redactionele
 beleid (wat wel/niet op de site mag), zie `REDACTIE.md`.
 
+> **Voor beheerders die niet in de repository kijken** staat dezelfde uitleg,
+> in gewone taal en zonder technische omwegen, op de site zelf:
+> **/beheer-handleiding.html**. Die pagina is alleen zichtbaar voor
+> beheerders en eigenaars en is te bereiken via de balk bovenaan
+> /admin.html en via het menu onder "Hoofdpagina". Dit bestand blijft de
+> plek voor de technische kant; wijzig ze samen als er iets verandert.
+
 ## 1. Hoe bewoners toegang krijgen
 - Bewoners loggen in met een **inloglink per e-mail** (magic link), geen wachtwoorden.
 - **De link werkt alleen in de browser waarin hij is aangevraagd** (PKCE). Dat
