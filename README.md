@@ -65,30 +65,28 @@ geeft status 500 met de foutmelding, zodat het opvalt.
 Het gratis Supabase-plan maakt **geen** backups. De workflow
 `.github/workflows/supabase-backup.yml` draait daarom elke maandag om 03:00
 UTC (en handmatig via Actions → Supabase backup → **Run workflow**) en
-exporteert de database met de Supabase CLI naar drie bestanden:
-`schema.sql`, `data.sql` en `roles.sql`, inclusief het `auth`-schema met de
-accounts. Het resultaat komt als **workflow-artifact** onder de run te staan
+exporteert de inhoud van de database als JSON: één bestand per tabel uit
+`public`, plus `auth-users.json` met de accounts en `manifest.json` met de
+aantallen. Het resultaat komt als **workflow-artifact** onder de run te staan
 en blijft **90 dagen** bewaard.
+
+De export loopt via de API met het secret **`SUPABASE_SERVICE_ROLE_KEY`**,
+niet via `pg_dump`. Dat is een bewuste keuze: de oude opzet had een directe
+databaseverbinding nodig (`SUPABASE_DB_URL`) en die is er in de praktijk
+nooit gekomen, waardoor er maandenlang geen enkele backup is gemaakt. Een
+backup die op één secret minder leunt, is er een die daadwerkelijk draait.
 
 > Het artifact bevat persoonsgegevens (e-mailadressen van bewoners). Alleen
 > wie toegang heeft tot deze repository kan het downloaden. Bewaar een
 > gedownloade kopie navenant.
 
-### Het benodigde secret: `SUPABASE_DB_URL`
+### Wat er niet in de backup zit
 
-Zonder dit secret stopt de workflow meteen met een duidelijke melding.
-
-Waar Anton de waarde haalt:
-
-1. Open het **Supabase-dashboard** → project `pmnquozexgxhpbpuergj`.
-2. Ga naar **Project Settings** → **Database** → **Connection string**.
-3. Kies de **URI**-variant en vul het database-wachtwoord in op de plek van
-   `[YOUR-PASSWORD]`. Wachtwoord kwijt? Op dezelfde pagina staat
-   **Reset database password**.
-4. Zet die volledige `postgresql://…`-string in GitHub: repository →
-   **Settings** → **Secrets and variables** → **Actions** → **New repository
-   secret**, naam exact `SUPABASE_DB_URL`.
-5. Draai daarna één keer **Run workflow** om te controleren dat het werkt.
+De **structuur** van de database: tabellen, functies en RLS-policies. Die
+staat in de repository zelf, in `supabase/schema.sql`,
+`supabase/sql/rls-policies.sql` en `supabase/migrations/`. Een leeg project
+bouw je op met die bestanden en zet je daarna vol met de JSON uit het
+artifact.
 
 ### Schema in de repository
 
@@ -112,13 +110,13 @@ aan hangt; zie `BEHEERDERS.md`, paragraaf 6.
 
 | Naam | Waarvoor | Waar te vinden |
 | --- | --- | --- |
-| `SUPABASE_DB_URL` | workflows "Supabase backup", "Supabase migratie" en "Toegang diagnose" | Project Settings → Database → Connection string (URI), met het wachtwoord ingevuld |
-| `SUPABASE_SERVICE_ROLE_KEY` | workflow "Toegang herstellen" | Project Settings → API → `service_role` |
+| `SUPABASE_SERVICE_ROLE_KEY` | workflows "Supabase backup", "Toegang herstellen" en "Live controle" | Project Settings → API → `service_role` |
+| `SUPABASE_DB_URL` | alleen nog voor "Supabase migratie" en "Toegang diagnose" | Project Settings → Database → Connection string, variant **Session pooler**, URI. De gebruikersnaam moet `postgres.pmnquozexgxhpbpuergj` zijn, niet `postgres` |
 | `SUPABASE_ACCESS_TOKEN` | workflow "Edge Functions deployen" | Supabase-dashboard → Account → Access Tokens |
 
 Elke workflow stopt meteen met een duidelijke melding als zijn secret
-ontbreekt. Zonder `SUPABASE_DB_URL` worden er dus ook **geen backups**
-gemaakt, hoe vaak de workflow ook draait.
+ontbreekt. De backup leunt bewust alleen op `SUPABASE_SERVICE_ROLE_KEY`;
+zonder `SUPABASE_DB_URL` blijft hij gewoon draaien.
 
 ## Indexering
 
