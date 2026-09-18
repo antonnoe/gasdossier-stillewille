@@ -97,8 +97,13 @@ function tekstNaarHtml(tekst: string): string {
     .split(/\n\s*\n/)
     .map((alinea) => {
       const veilig = escapeHtml(alinea.trim()).replace(/\n/g, '<br>');
+      // Een webadres loopt tot de eerstvolgende spatie, maar een leesteken
+      // vlak erachter hoort er niet bij. Zonder die uitzondering werd
+      // "ga naar https://…/login.html, vul in" een link naar
+      // "/login.html," en kreeg de ontvanger een foutmelding. Het laatste
+      // teken van de link mag daarom geen . , ; : ! ? ) ] } " ' zijn.
       const metLinks = veilig.replace(
-        /(https?:\/\/[^\s<]+)/g,
+        /(https?:\/\/[^\s<]*[^\s<.,;:!?)\]}'"])/g,
         '<a href="$1" style="color:#1F7F4E;">$1</a>',
       );
       return '<p style="margin:0 0 16px;line-height:1.6;">' + metLinks + '</p>';

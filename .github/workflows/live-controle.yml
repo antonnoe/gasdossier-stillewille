@@ -50,20 +50,41 @@ jobs:
               fout=1
             fi
           }
-          # /admin.html zit achter de Edge Middleware: zonder sessie krijg je
-          # de loginpagina terug. Daarom wordt de deploy gecontroleerd op
-          # auth-callback.html, een publieke pagina die in dezelfde commit is
-          # gewijzigd. Staat die nieuwe regel er, dan is de deploy rond.
           controleer auth-callback.html 'Dit account heeft geen toegang, vraag toegang aan'
           controleer login.html 'shouldCreateUser: false'
           controleer login.html 'Open die link op dit apparaat'
           controleer supabase-config.js "flowType: 'pkce'"
 
-          # Tegenproef: beheerpaginas mogen zonder sessie niet bereikbaar zijn.
+          # Loopt de live site echt op deze commit?
+          #
+          # Zoeken op losse zinnen zegt te weinig: een zin die al in een
+          # eerdere commit stond, staat er ook nog als de nieuwste deploy
+          # mislukt is. Daarom worden twee publieke bestanden byte voor byte
+          # vergeleken met de versie uit deze checkout. Wijkt er iets af, dan
+          # is Vercel achter of de deploy is niet doorgekomen.
+          for bestand in login.html chrome.js; do
+            if curl -sS --fail "$SITE/$bestand" -o /tmp/live-$bestand; then
+              if diff -q "$bestand" "/tmp/live-$bestand" >/dev/null; then
+                echo "OK   $bestand live is gelijk aan deze commit"
+              else
+                echo "FOUT $bestand op de site wijkt af van deze commit; deploy is achter of mislukt"
+                fout=1
+              fi
+            else
+              echo "FOUT $bestand is niet op te halen"
+              fout=1
+            fi
+          done
+
+          # Beheerpaginas: zonder sessie stuurt de middleware alles door naar
+          # de loginpagina, ook een pagina die helemaal niet bestaat. Deze
+          # controle bewijst dus ALLEEN dat de pagina afgeschermd is, niet dat
+          # het bestand er staat. Of dat laatste klopt, blijkt uit de
+          # bestandsvergelijking hierboven: die zegt of deze commit live is.
           for pagina in admin.html beheer-handleiding.html; do
             code=$(curl -sS -o /dev/null -w '%{http_code}' "$SITE/$pagina")
             if [ "$code" = "307" ] || [ "$code" = "302" ]; then
-              echo "OK   $pagina stuurt zonder sessie door naar de loginpagina (HTTP $code)"
+              echo "OK   $pagina is afgeschermd (HTTP $code); bestaan is hiermee niet aangetoond"
             else
               echo "FOUT $pagina geeft zonder sessie HTTP $code"
               fout=1
