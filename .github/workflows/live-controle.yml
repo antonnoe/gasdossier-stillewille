@@ -1,0 +1,109 @@
+name: Live controle
+
+# Controleert de echte site en het echte Supabase-project, na een deploy.
+#
+# Drie dingen:
+#   1. Staat de laatste versie van de pagina's op Vercel? (zoekt op een paar
+#      herkenningspunten uit de code)
+#   2. Stuurt /login.html een toegangslink voor een geautoriseerd adres? Dit
+#      doet exact wat die pagina doet: POST /auth/v1/otp met
+#      create_user: false. Er gaat dus een echte mail naar het opgegeven
+#      adres — gebruik je eigen adres.
+#   3. Werkt het aanvraagformulier nog? Zet een testaanvraag weg als anonieme
+#      bezoeker en ruimt die daarna weer op met de service-role sleutel, zodat
+#      er niets in het beheerpaneel achterblijft.
+#
+# Benodigde secrets: SUPABASE_SERVICE_ROLE_KEY (alleen voor het opruimen).
+
+on:
+  workflow_dispatch:
+    inputs:
+      testadres:
+        description: 'Adres dat een toegangslink krijgt (een echte mail!)'
+        required: true
+        default: ''
+
+env:
+  SITE: https://kerndossiers-stillewille.vercel.app
+  SUPABASE_URL: https://pmnquozexgxhpbpuergj.supabase.co
+  ANON_KEY: sb_publishable_NMp666YWWKcObtkPD4EvAQ_p3ChGeRk
+  TESTMAIL: live-controle@example.invalid
+
+jobs:
+  controle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 1. Staat de laatste versie live
+        run: |
+          set -euo pipefail
+          fout=0
+          controleer() {
+            bestand="$1"; zin="$2"
+            if curl -sS --fail "$SITE/$bestand" | grep -qF "$zin"; then
+              echo "OK   $bestand bevat: $zin"
+            else
+              echo "FOUT $bestand mist: $zin"
+              fout=1
+            fi
+          }
+          controleer auth-callback.html 'Dit account heeft geen toegang, vraag toegang aan'
+          controleer admin.html 'Gebruiker toevoegen en uitnodigen'
+          controleer admin.html 'function autoriseer(payload)'
+          controleer login.html 'shouldCreateUser: false'
+          exit $fout
+
+      - name: 2. Toegangslink aanvragen voor een geautoriseerd adres
+        env:
+          ADRES: ${{ inputs.testadres }}
+        run: |
+          set -euo pipefail
+          code=$(curl -sS -o /tmp/otp.json -w '%{http_code}' \
+            -X POST "$SUPABASE_URL/auth/v1/otp" \
+            -H "apikey: $ANON_KEY" \
+            -H 'Content-Type: application/json' \
+            -d "{\"email\":\"$ADRES\",\"create_user\":false,\"gotrue_meta_security\":{}}")
+          echo "HTTP $code"
+          # Het adres zelf niet loggen; alleen het antwoord van de server.
+          sed "s/$ADRES/<adres>/g" /tmp/otp.json
+          if [ "$code" != "200" ]; then
+            echo "Geen toegangslink verstuurd."
+            exit 1
+          fi
+          echo "Toegangslink verstuurd."
+
+      - name: 3. Aanvraagformulier indienen en weer opruimen
+        env:
+          SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          set -euo pipefail
+          code=$(curl -sS -o /tmp/aanvraag.json -w '%{http_code}' \
+            -X POST "$SUPABASE_URL/rest/v1/aanvragen" \
+            -H "apikey: $ANON_KEY" \
+            -H 'Content-Type: application/json' \
+            -H 'Prefer: return=representation' \
+            -d "{\"naam\":\"Live controle\",\"email\":\"$TESTMAIL\",\"reden\":\"automatische controle\",\"categorie\":\"bewoner\",\"huisnummer\":\"042\",\"status\":\"pending\"}")
+          echo "indienen: HTTP $code"
+          cat /tmp/aanvraag.json
+          if [ "$code" != "201" ]; then
+            echo "Het aanvraagformulier kan niets wegschrijven."
+            exit 1
+          fi
+
+          # Opruimen met de service-role sleutel: anon mag niet verwijderen.
+          op=$(curl -sS -o /dev/null -w '%{http_code}' \
+            -X DELETE "$SUPABASE_URL/rest/v1/aanvragen?email=eq.$TESTMAIL" \
+            -H "apikey: $SERVICE_ROLE" \
+            -H "Authorization: Bearer $SERVICE_ROLE")
+          echo "opruimen: HTTP $op"
+          rest=$(curl -sS "$SUPABASE_URL/rest/v1/aanvragen?email=eq.$TESTMAIL&select=id" \
+            -H "apikey: $SERVICE_ROLE" -H "Authorization: Bearer $SERVICE_ROLE")
+          echo "resterend: $rest"
+          if [ "$rest" != "[]" ]; then
+            echo "De testaanvraag staat er nog; verwijder hem met de hand in /admin.html."
+            exit 1
+          fi
+          echo "Testaanvraag opgeruimd."
