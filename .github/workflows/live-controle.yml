@@ -50,10 +50,21 @@ jobs:
               fout=1
             fi
           }
+          # /admin.html zit achter de Edge Middleware: zonder sessie krijg je
+          # de loginpagina terug. Daarom wordt de deploy gecontroleerd op
+          # auth-callback.html, een publieke pagina die in dezelfde commit is
+          # gewijzigd. Staat die nieuwe regel er, dan is de deploy rond.
           controleer auth-callback.html 'Dit account heeft geen toegang, vraag toegang aan'
-          controleer admin.html 'Toevoegen en uitnodigen'
-          controleer admin.html 'function autoriseer(payload)'
           controleer login.html 'shouldCreateUser: false'
+
+          # Tegenproef: /admin.html mag zonder sessie niet bereikbaar zijn.
+          code=$(curl -sS -o /dev/null -w '%{http_code}' "$SITE/admin.html")
+          if [ "$code" = "307" ] || [ "$code" = "302" ]; then
+            echo "OK   admin.html stuurt zonder sessie door naar de loginpagina (HTTP $code)"
+          else
+            echo "FOUT admin.html geeft zonder sessie HTTP $code"
+            fout=1
+          fi
           exit $fout
 
       - name: 2. Toegangslink aanvragen voor een geautoriseerd adres
