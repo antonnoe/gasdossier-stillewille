@@ -109,6 +109,15 @@ jobs:
             exit 1
           fi
 
+          # Staat de rij er echt? Lezen kan alleen met de service-role sleutel.
+          gevonden=$(curl -sS "$SUPABASE_URL/rest/v1/aanvragen?email=eq.$TESTMAIL&select=status" \
+            -H "apikey: $SERVICE_ROLE" -H "Authorization: Bearer $SERVICE_ROLE")
+          echo "teruggevonden: $gevonden"
+          if [ "$gevonden" = "[]" ]; then
+            echo "De insert gaf 201 maar er staat niets in de tabel."
+            exit 1
+          fi
+
           # Opruimen met de service-role sleutel: anon mag niet verwijderen.
           op=$(curl -sS -o /dev/null -w '%{http_code}' \
             -X DELETE "$SUPABASE_URL/rest/v1/aanvragen?email=eq.$TESTMAIL" \
