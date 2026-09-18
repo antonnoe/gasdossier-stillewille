@@ -75,6 +75,7 @@ jobs:
           code=$(curl -sS -o /tmp/otp.json -w '%{http_code}' \
             -X POST "$SUPABASE_URL/auth/v1/otp" \
             -H "apikey: $ANON_KEY" \
+            -H "Authorization: Bearer $ANON_KEY" \
             -H 'Content-Type: application/json' \
             -d "{\"email\":\"$ADRES\",\"create_user\":false,\"gotrue_meta_security\":{}}")
           echo "HTTP $code"
@@ -94,6 +95,7 @@ jobs:
           code=$(curl -sS -o /tmp/aanvraag.json -w '%{http_code}' \
             -X POST "$SUPABASE_URL/rest/v1/aanvragen" \
             -H "apikey: $ANON_KEY" \
+            -H "Authorization: Bearer $ANON_KEY" \
             -H 'Content-Type: application/json' \
             -H 'Prefer: return=representation' \
             -d "{\"naam\":\"Live controle\",\"email\":\"$TESTMAIL\",\"reden\":\"automatische controle\",\"categorie\":\"bewoner\",\"huisnummer\":\"042\",\"status\":\"pending\"}")
