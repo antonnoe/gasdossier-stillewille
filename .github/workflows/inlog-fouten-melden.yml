@@ -36,6 +36,12 @@ on:
         description: 'Aantal uren terugkijken (standaard 24)'
         required: false
         default: '24'
+      zelftest:
+        description: 'ja = eerst een proefregel schrijven als anon en daarna opruimen'
+        required: false
+        default: 'nee'
+        type: choice
+        options: [nee, ja]
 
 env:
   PROJECT_REF: pmnquozexgxhpbpuergj
@@ -48,7 +54,6 @@ jobs:
 
     steps:
       - name: Zijn de sleutels er?
-        id: sleutels
         env:
           SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           RESEND:       ${{ secrets.RESEND_API_KEY }}
@@ -58,7 +63,7 @@ jobs:
             exit 1
           fi
           if [ -z "$RESEND" ]; then
-            echo "::warning::RESEND_API_KEY ontbreekt. De melding wordt niet verstuurd."
+            echo "::warning::RESEND_API_KEY ontbreekt. De aantallen komen wel in dit log, maar er gaat geen mail uit."
             echo
             echo "Om dit aan te zetten:"
             echo "  1. Maak een API-sleutel aan op https://resend.com/api-keys"
@@ -71,14 +76,34 @@ jobs:
             echo "     de variabele MELD_ADRES als de melding ergens anders heen moet"
             echo "     dan naar antonnoe@gmail.com."
             echo
-            echo "Tot die tijd slaat deze workflow over zonder te falen."
-            echo "overslaan=ja" >> "$GITHUB_OUTPUT"
-          else
-            echo "overslaan=nee" >> "$GITHUB_OUTPUT"
+            echo "Tot die tijd blijft deze workflow gewoon draaien; hij mailt alleen niet."
           fi
 
+      # Schrijft één proefregel met exact de rechten die de browser heeft (de
+      # publishable key, rol anon) en ruimt hem daarna met de service-role
+      # sleutel weer op. Zo is te zien dat het logboek in de praktijk werkt,
+      # en niet alleen op papier.
+      - name: Zelftest — regel schrijven als anon en opruimen
+        if: ${{ inputs.zelftest == 'ja' }}
+        env:
+          SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          ANON_KEY: sb_publishable_NMp666YWWKcObtkPD4EvAQ_p3ChGeRk
+        run: |
+          set -euo pipefail
+          merk="zelftest-${{ github.run_id }}"
+          echo "--- schrijven als anon ---"
+          code=$(curl -sS -o schrijf.txt -w "%{http_code}" -X POST             "https://$PROJECT_REF.supabase.co/rest/v1/inlog_fouten"             -H "apikey: $ANON_KEY" -H "Authorization: Bearer $ANON_KEY"             -H "Content-Type: application/json"             -d "{\"soort\":\"code-fout\",\"email\":\"zelftest@voorbeeld.nl\",\"detail\":\"$merk\"}")
+          echo "HTTP $code"
+          if [ "$code" != "201" ]; then cat schrijf.txt; echo "Anon mag niet schrijven — dat hoort wel."; exit 1; fi
+
+          echo "--- lezen als anon (hoort niets op te leveren) ---"
+          anon_rijen=$(curl -sS "https://$PROJECT_REF.supabase.co/rest/v1/inlog_fouten?select=id"             -H "apikey: $ANON_KEY" -H "Authorization: Bearer $ANON_KEY")
+          echo "anon leest: $anon_rijen"
+          if [ "$anon_rijen" != "[]" ]; then echo "Anon kan het logboek lezen — dat hoort niet."; exit 1; fi
+          echo "Goed: schrijven mag, lezen niet."
+          echo "OPRUIMEN=$merk" >> "$GITHUB_ENV"
+
       - name: Fouten ophalen en zo nodig mailen
-        if: ${{ steps.sleutels.outputs.overslaan == 'nee' }}
         env:
           SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           RESEND:       ${{ secrets.RESEND_API_KEY }}
@@ -161,6 +186,12 @@ jobs:
                 dan kunt u hem toevoegen in het beheerpaneel.
               </p>`;
 
+            if (!process.env.RESEND) {
+              console.log('RESEND_API_KEY ontbreekt — er gaat geen mail uit. '
+                        + 'De aantallen hierboven zijn wel de werkelijke stand.');
+              return;
+            }
+
             const mail = await fetch('https://api.resend.com/emails', {
               method: 'POST',
               headers: {
@@ -182,3 +213,18 @@ jobs:
             console.log(`Melding verstuurd naar ${naar}.`);
           })().catch((e) => { console.error(e); process.exitCode = 1; });
           NODE
+
+      - name: Zelftest opruimen
+        if: ${{ always() && inputs.zelftest == 'ja' && env.OPRUIMEN != '' }}
+        env:
+          SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          set -euo pipefail
+          code=$(curl -sS -o /dev/null -w "%{http_code}" -X DELETE \
+            "https://$PROJECT_REF.supabase.co/rest/v1/inlog_fouten?detail=eq.$OPRUIMEN" \
+            -H "apikey: $SERVICE_ROLE" -H "Authorization: Bearer $SERVICE_ROLE")
+          echo "Proefregel opgeruimd (HTTP $code)."
+          rest=$(curl -sS "https://$PROJECT_REF.supabase.co/rest/v1/inlog_fouten?select=id&detail=eq.$OPRUIMEN" \
+            -H "apikey: $SERVICE_ROLE" -H "Authorization: Bearer $SERVICE_ROLE")
+          echo "Resterend: $rest"
+          if [ "$rest" != "[]" ]; then echo "De proefregel staat er nog."; exit 1; fi
