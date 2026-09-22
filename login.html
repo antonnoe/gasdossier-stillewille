@@ -264,7 +264,12 @@
   // alsnog het formulier in plaats van een eeuwig draaiend rondje.
   var wachtTimer = setTimeout(toonFormulier, 8000);
 
-  if (kortGeledenDoorgestuurd()) {
+  if (!window.sb) {
+    // Supabase-bundel niet geladen. Niets te controleren; toon het formulier
+    // meteen in plaats van de bezoeker naar een draaiend rondje te laten kijken.
+    clearTimeout(wachtTimer);
+    toonFormulier();
+  } else if (kortGeledenDoorgestuurd()) {
     // Tweede keer hier: niet nog eens doorsturen.
     clearTimeout(wachtTimer);
     try { window.sessionStorage.removeItem(LUS_SLEUTEL); } catch (e) { /* idem */ }
@@ -313,6 +318,13 @@
     // daarom een code verifier vast in deze browser en stuurt alleen de
     // afgeleide challenge naar Supabase. De link in de mail werkt dus
     // uitsluitend hier; doorsturen heeft geen zin.
+    if (!window.sb) {
+      show('De inlogdienst kon niet geladen worden. Ververs de pagina en probeer het nog eens.', 'err');
+      btn.disabled = false;
+      btn.textContent = 'Stuur toegangslink';
+      return;
+    }
+
     window.sb.auth.signInWithOtp({
       email: email,
       options: { emailRedirectTo: REDIRECT_TO, shouldCreateUser: false }
