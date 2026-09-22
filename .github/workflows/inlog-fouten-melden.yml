@@ -1,0 +1,184 @@
+name: Inlogfouten melden
+
+# Kijkt één keer per dag in public.inlog_fouten en mailt een samenvatting van
+# de afgelopen 24 uur — maar alleen als er iets te melden is. Zijn er geen
+# mislukte pogingen geweest, dan gebeurt er niets.
+#
+# Waarom: een bewoner die niet binnenkomt is anders onzichtbaar. Hij mailt,
+# belt, of hij geeft het op. Zo staat het 's ochtends in de mailbox.
+#
+# Leest via de REST-API met de service-role sleutel, niet via psql. De
+# service-role sleutel gaat langs RLS heen, dus de leespolicy (alleen
+# beheerder/owner) hoeft hier niet te gelden. Bewust niet via
+# SUPABASE_DB_URL: dat secret werd op 22-09-2026 door de database geweigerd
+# ("password authentication failed"), en deze melding hoort niet stil te
+# vallen doordat een ander secret verloopt.
+#
+# Benodigde repository-secrets:
+#   SUPABASE_SERVICE_ROLE_KEY  — Supabase-dashboard -> Project Settings -> API.
+#   RESEND_API_KEY             — resend.com/api-keys. Ontbreekt die, dan slaat
+#                                deze workflow netjes over en zegt in het log
+#                                wat er moet gebeuren.
+#
+# Optionele repository-variabele (geen secret):
+#   MELD_ADRES — waar de melding heen gaat. Standaard antonnoe@gmail.com.
+#
+# Let op: het Actions-log is zichtbaar voor iedereen met toegang tot deze
+# repository. Daarom komen er alleen aantallen in het log; de adressen staan
+# uitsluitend in de mail.
+
+on:
+  schedule:
+    - cron: '35 5 * * *'
+  workflow_dispatch:
+    inputs:
+      uren:
+        description: 'Aantal uren terugkijken (standaard 24)'
+        required: false
+        default: '24'
+
+env:
+  PROJECT_REF: pmnquozexgxhpbpuergj
+  VAN_ADRES: 'Kerndossiers De Stille Wille <noreply@dossierfrankrijk.nl>'
+
+jobs:
+  melden:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Zijn de sleutels er?
+        id: sleutels
+        env:
+          SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          RESEND:       ${{ secrets.RESEND_API_KEY }}
+        run: |
+          if [ -z "$SERVICE_ROLE" ]; then
+            echo "SUPABASE_SERVICE_ROLE_KEY ontbreekt — zonder die sleutel is er niets te lezen."
+            exit 1
+          fi
+          if [ -z "$RESEND" ]; then
+            echo "::warning::RESEND_API_KEY ontbreekt. De melding wordt niet verstuurd."
+            echo
+            echo "Om dit aan te zetten:"
+            echo "  1. Maak een API-sleutel aan op https://resend.com/api-keys"
+            echo "     (het domein dossierfrankrijk.nl moet daar geverifieerd zijn;"
+            echo "      zo niet, doe dat eerst op https://resend.com/domains)."
+            echo "  2. Zet die sleutel als repository-secret RESEND_API_KEY op"
+            echo "     https://github.com/antonnoe/gasdossier-stillewille/settings/secrets/actions/new"
+            echo "  3. Eventueel: zet op"
+            echo "     https://github.com/antonnoe/gasdossier-stillewille/settings/variables/actions/new"
+            echo "     de variabele MELD_ADRES als de melding ergens anders heen moet"
+            echo "     dan naar antonnoe@gmail.com."
+            echo
+            echo "Tot die tijd slaat deze workflow over zonder te falen."
+            echo "overslaan=ja" >> "$GITHUB_OUTPUT"
+          else
+            echo "overslaan=nee" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Fouten ophalen en zo nodig mailen
+        if: ${{ steps.sleutels.outputs.overslaan == 'nee' }}
+        env:
+          SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          RESEND:       ${{ secrets.RESEND_API_KEY }}
+          MELD_ADRES:   ${{ vars.MELD_ADRES }}
+          UREN:         ${{ inputs.uren }}
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const ref   = process.env.PROJECT_REF;
+          const sleutel = process.env.SERVICE_ROLE;
+          const naar  = (process.env.MELD_ADRES || '').trim() || 'antonnoe@gmail.com';
+          const uren  = Number(process.env.UREN) > 0 ? Number(process.env.UREN) : 24;
+          const vanaf = new Date(Date.now() - uren * 3600 * 1000).toISOString();
+
+          const escape = (t) => String(t == null ? '' : t)
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+          const UITLEG = {
+            'mail-versturen-mislukt': 'De toegangslink kon niet verstuurd worden',
+            'geen-account':           'Adres heeft nog geen account (toegang nooit verleend)',
+            'link-ongeldig':          'De link uit de mail was ongeldig of verlopen',
+            'link-ander-apparaat':    'Link geopend op een ander apparaat dan waar hij is aangevraagd',
+            'geen-sessie':            'Geen bruikbare sessie na het openen van de link',
+            'code-fout':              'Overgetypte code klopte niet of was verlopen',
+            'niet-op-lijst':          'Wel ingelogd, maar niet op de autorisatielijst',
+            'toegang-controle-fout':  'De controle op de autorisatielijst gaf een fout',
+          };
+
+          (async () => {
+            const url = `https://${ref}.supabase.co/rest/v1/inlog_fouten`
+              + `?select=tijd,email,soort,detail`
+              + `&tijd=gte.${encodeURIComponent(vanaf)}`
+              + `&order=tijd.desc&limit=500`;
+
+            const res = await fetch(url, {
+              headers: { apikey: sleutel, Authorization: `Bearer ${sleutel}` },
+            });
+            if (!res.ok) {
+              console.error(`Supabase gaf ${res.status}: ${(await res.text()).slice(0, 300)}`);
+              process.exitCode = 1;
+              return;
+            }
+            const rijen = await res.json();
+
+            console.log(`Periode: laatste ${uren} uur (vanaf ${vanaf}).`);
+            console.log(`Aantal mislukte pogingen: ${rijen.length}`);
+            if (rijen.length === 0) {
+              console.log('Niets te melden — er gaat geen mail uit.');
+              return;
+            }
+
+            const perSoort = {};
+            for (const r of rijen) perSoort[r.soort] = (perSoort[r.soort] || 0) + 1;
+            for (const [soort, n] of Object.entries(perSoort)) console.log(`  ${soort}: ${n}`);
+
+            const adressen = new Set(rijen.map((r) => r.email).filter(Boolean));
+            console.log(`Betrokken adressen: ${adressen.size}`);
+
+            const tijd = (t) => new Date(t).toLocaleString('nl-NL',
+              { timeZone: 'Europe/Amsterdam', dateStyle: 'short', timeStyle: 'short' });
+
+            const html = `
+              <p>In de afgelopen ${uren} uur ${rijen.length === 1 ? 'is er één poging' : `zijn er ${rijen.length} pogingen`} om in te loggen misgegaan.</p>
+              <table cellpadding="6" cellspacing="0" border="1" style="border-collapse:collapse;font-family:sans-serif;font-size:14px;">
+                <tr style="background:#f5f3ee;"><th align="left">Aantal</th><th align="left">Wat er misging</th></tr>
+                ${Object.entries(perSoort).sort((a, b) => b[1] - a[1]).map(([s, n]) =>
+                  `<tr><td align="right">${n}</td><td>${escape(UITLEG[s] || s)}</td></tr>`).join('')}
+              </table>
+              <p style="font-family:sans-serif;font-size:14px;">Wie het betrof:</p>
+              <table cellpadding="6" cellspacing="0" border="1" style="border-collapse:collapse;font-family:sans-serif;font-size:13px;">
+                <tr style="background:#f5f3ee;"><th align="left">Wanneer</th><th align="left">Adres</th><th align="left">Wat er misging</th></tr>
+                ${rijen.slice(0, 50).map((r) =>
+                  `<tr><td>${escape(tijd(r.tijd))}</td><td>${escape(r.email || '(onbekend)')}</td>`
+                  + `<td>${escape(UITLEG[r.soort] || r.soort)}</td></tr>`).join('')}
+              </table>
+              ${rijen.length > 50 ? `<p style="font-family:sans-serif;font-size:13px;">(alleen de eerste 50 van ${rijen.length} getoond)</p>` : ''}
+              <p style="font-family:sans-serif;font-size:13px;color:#666;">
+                Verstuurd door de workflow "Inlogfouten melden" van
+                kerndossiers-stillewille. Staat hier iemand bij die er wél in hoort,
+                dan kunt u hem toevoegen in het beheerpaneel.
+              </p>`;
+
+            const mail = await fetch('https://api.resend.com/emails', {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${process.env.RESEND}`,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                from: process.env.VAN_ADRES,
+                to: [naar],
+                subject: `Kerndossiers: ${rijen.length} mislukte inlogpoging${rijen.length === 1 ? '' : 'en'}`,
+                html,
+              }),
+            });
+            if (!mail.ok) {
+              console.error(`Resend gaf ${mail.status}: ${(await mail.text()).slice(0, 300)}`);
+              process.exitCode = 1;
+              return;
+            }
+            console.log(`Melding verstuurd naar ${naar}.`);
+          })().catch((e) => { console.error(e); process.exitCode = 1; });
+          NODE
