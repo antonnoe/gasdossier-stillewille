@@ -141,6 +141,19 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
   @media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 3s; } }
+  #code-blok {
+    margin: 22px 0 0;
+    padding: 20px 0 0;
+    border-top: 1px solid var(--green-15);
+  }
+  #code-blok .auth-field { margin-bottom: 14px; }
+  #code-blok input {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    letter-spacing: 0.22em;
+    text-align: center;
+  }
+  #code-blok .auth-btn { background: var(--green-deep); }
 </style>
 </head>
 <body>
@@ -161,7 +174,7 @@
 
     <div id="login-view" hidden>
     <h1>Inloggen</h1>
-    <p class="lede">Vul uw e-mailadres in. U ontvangt een toegangslink waarmee u zonder wachtwoord kunt inloggen. <strong>Open die link op dit apparaat</strong>, in deze browser; dat is nodig om te voorkomen dat een doorgestuurde link bij iemand anders werkt.</p>
+    <p class="lede">Vul uw e-mailadres in. U ontvangt een toegangslink waarmee u zonder wachtwoord kunt inloggen. De link werkt alleen in deze browser; dat voorkomt dat een doorgestuurde link bij iemand anders werkt. <strong>Leest u uw mail op een ander apparaat? Typ dan de code uit de mail hieronder over.</strong></p>
 
     <form id="login-form" novalidate>
       <div class="auth-field">
@@ -170,10 +183,27 @@
                placeholder="naam@voorbeeld.nl" required>
       </div>
       <button type="submit" class="auth-btn" id="submit-btn">Stuur toegangslink</button>
-      <p class="auth-afzender">De mail komt van <strong>Kerndossiers De Stille Wille</strong>, afzender <strong>noreply@dossierfrankrijk.nl</strong>. Ziet u niets, kijk dan in uw spam- of ongewenste-mailmap. Dit adres is alleen een afzender. U kunt er niet op antwoorden en er niet op inloggen; de kerndossiers staan uitsluitend op <strong>kerndossiers-stillewille.vercel.app</strong>. Leest u uw mail op een ander apparaat dan waarop u nu bent, vraag de link dan daar aan.</p>
+      <p class="auth-afzender">De mail komt van <strong>Kerndossiers De Stille Wille</strong>, afzender <strong>noreply@dossierfrankrijk.nl</strong>. Ziet u niets, kijk dan in uw spam- of ongewenste-mailmap. Dit adres is alleen een afzender. U kunt er niet op antwoorden en er niet op inloggen; de kerndossiers staan uitsluitend op <strong>kerndossiers-stillewille.vercel.app</strong>. Leest u uw mail op een ander apparaat? Typ dan de code uit de mail hieronder over.</p>
     </form>
 
     <div id="msg" class="auth-msg" hidden></div>
+
+    <!-- Tweede weg naar binnen. De link werkt alleen in de browser die hem
+         aanvroeg (PKCE); wie zijn mail op een ander apparaat leest, komt met
+         die link niet binnen. De code uit dezelfde mail werkt overal. -->
+    <div id="code-blok" hidden>
+      <form id="code-form" novalidate>
+        <div class="auth-field">
+          <label for="code">Of typ hier de code uit de mail</label>
+          <input type="text" id="code" name="code"
+                 inputmode="numeric" autocomplete="one-time-code"
+                 pattern="[0-9]*" placeholder="00000000"
+                 aria-describedby="code-uitleg" required>
+        </div>
+        <button type="submit" class="auth-btn" id="code-btn">Inloggen met code</button>
+        <p class="auth-afzender" id="code-uitleg">De code van acht cijfers staat onder de knop in de mail en is een uur geldig.</p>
+      </form>
+    </div>
 
     <p class="auth-foot">
       Nog geen toegang? <a href="/aanvragen.html">Vraag toegang aan</a>.
@@ -193,6 +223,10 @@
   var msg = document.getElementById('msg');
   var controleView = document.getElementById('controle-view');
   var loginView = document.getElementById('login-view');
+  var codeBlok = document.getElementById('code-blok');
+  var codeForm = document.getElementById('code-form');
+  var codeInput = document.getElementById('code');
+  var codeBtn = document.getElementById('code-btn');
 
   var REDIRECT_TO = 'https://kerndossiers-stillewille.vercel.app/auth-callback.html';
 
@@ -334,22 +368,118 @@
         // account heeft. Dat is geen storing maar de normale gang van zaken.
         var t = (res.error.message || '').toLowerCase();
         if (t.indexOf('signup') !== -1 || t.indexOf('not allowed') !== -1 || t.indexOf('not found') !== -1) {
+          window.swMeldInlogFout('geen-account', res.error.message, email);
           show('Dit e-mailadres heeft nog geen toegang. Vraag toegang aan via het aanvraagformulier hieronder; een beheerder beoordeelt uw aanvraag.', 'err');
         } else {
+          window.swMeldInlogFout('mail-versturen-mislukt', res.error.message, email);
           show('Er ging iets mis: ' + res.error.message, 'err');
         }
         btn.disabled = false;
         btn.textContent = 'Stuur toegangslink';
         return;
       }
-      show('Controleer uw e-mail voor de toegangslink. Open die link op dit apparaat, in deze browser. De mail komt van Kerndossiers De Stille Wille (noreply@dossierfrankrijk.nl); kijk zo nodig in uw spammap.', 'ok');
+      show('Controleer uw e-mail. De mail bevat een link én een code. Bent u op dit apparaat, klik dan de link aan; leest u de mail elders, typ dan de code hieronder over. De mail komt van Kerndossiers De Stille Wille (noreply@dossierfrankrijk.nl); kijk zo nodig in uw spammap.', 'ok');
       btn.textContent = 'Link verstuurd';
       form.querySelector('.auth-field').style.display = 'none';
+      toonCodeBlok();
     }).catch(function (err) {
-      show('Er ging iets mis: ' + (err && err.message ? err.message : err), 'err');
+      var tekst = (err && err.message) ? err.message : String(err);
+      window.swMeldInlogFout('mail-versturen-mislukt', tekst, email);
+      show('Er ging iets mis: ' + tekst, 'err');
       btn.disabled = false;
       btn.textContent = 'Stuur toegangslink';
     });
+  });
+
+  // ---------------------------------------------------------------------
+  // Tweede weg naar binnen: de code uit de mail
+  //
+  // De link werkt alleen in de browser die hem aanvroeg — dat is de prijs van
+  // PKCE en die blijft zo. Maar wie zijn mail op de telefoon leest en op de
+  // laptop wil lezen, stond daarmee buiten. Dezelfde mail bevat een code van
+  // acht cijfers ({{ .Token }} in de Supabase-template); die werkt overal.
+  //
+  // Na een geldige code gebeurt hetzelfde als na een geldige link: eerst
+  // controleren of het adres op public.gebruikers staat (een account is nog
+  // geen toegang), dan pas de cookie zetten en doorsturen.
+  // ---------------------------------------------------------------------
+  function toonCodeBlok() {
+    codeBlok.hidden = false;
+    try { codeInput.focus(); } catch (e) { /* niet erg */ }
+  }
+
+  function codeKnopVrij() {
+    codeBtn.disabled = false;
+    codeBtn.textContent = 'Inloggen met code';
+  }
+
+  // Alleen cijfers, en niet meer dan de acht die Supabase verstuurt.
+  //
+  // Geen maxlength op het veld: dat kapt de invoer af vóór het opschonen, dus
+  // wie de code met een spatie erin plakt ("1234 5678") zou zonder dit maar
+  // zeven cijfers overhouden — en dan klopt de code niet meer.
+  var CODE_LENGTE = 8;
+  codeInput.addEventListener('input', function () {
+    var schoon = codeInput.value.replace(/[^0-9]/g, '').slice(0, CODE_LENGTE);
+    if (schoon !== codeInput.value) codeInput.value = schoon;
+  });
+
+  codeForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = (emailInput.value || '').trim();
+    var code = (codeInput.value || '').replace(/[^0-9]/g, '').slice(0, CODE_LENGTE);
+
+    if (!email) { show('Vul eerst uw e-mailadres in.', 'err'); return; }
+    if (!code) { show('Vul de code uit de mail in.', 'err'); return; }
+    if (!window.sb) {
+      show('De inlogdienst kon niet geladen worden. Ververs de pagina en probeer het nog eens.', 'err');
+      return;
+    }
+
+    codeBtn.disabled = true;
+    codeBtn.textContent = 'Controleren…';
+    msg.hidden = true;
+
+    window.sb.auth.verifyOtp({ email: email, token: code, type: 'email' })
+      .then(function (res) {
+        if (res.error || !res.data || !res.data.session) {
+          window.swMeldInlogFout('code-fout',
+            (res.error && res.error.message) || 'geen sessie na verifyOtp', email);
+          show('Deze code klopt niet of is verlopen. Vraag een nieuwe aan.', 'err');
+          codeKnopVrij();
+          return;
+        }
+
+        var session = res.data.session;
+        var adres = ((session.user && session.user.email) || email);
+
+        return window.swControleerToegang(adres).then(function (uitslag) {
+          if (uitslag.ok) {
+            window.swSetAuthCookie(session);
+            window.swVergeetBestemming();
+            location.replace(bestemming);
+            return;
+          }
+          // Wel een geldige sessie, geen toegang. Uitloggen en het zeggen,
+          // met dezelfde tekst als na een link (auth-callback.html).
+          window.swMeldInlogFout(uitslag.reden, uitslag.detail || null, adres);
+          var tekst = uitslag.reden === 'niet-op-lijst'
+            ? 'Dit account heeft geen toegang, vraag toegang aan'
+            : 'Uw toegang kon niet gecontroleerd worden. Probeer het zo nog eens.';
+          window.sb.auth.signOut().catch(function () { /* cookie is toch al leeg */ })
+            .then(function () {
+              window.swSetAuthCookie(null);
+              show(tekst, 'err');
+              codeKnopVrij();
+            });
+        });
+      })
+      .catch(function (err) {
+        var tekst = (err && err.message) ? err.message : String(err);
+        window.swMeldInlogFout('code-fout', tekst, email);
+        show('Deze code klopt niet of is verlopen. Vraag een nieuwe aan.', 'err');
+        codeKnopVrij();
+      });
   });
 })();
 </script>

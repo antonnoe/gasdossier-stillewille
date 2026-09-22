@@ -139,7 +139,9 @@
 
   function foutUit(params) {
     var desc = params.get('error_description');
-    showError(desc ? decodeURIComponent(desc.replace(/\+/g, ' ')) : null);
+    var tekst = desc ? decodeURIComponent(desc.replace(/\+/g, ' ')) : null;
+    window.swMeldInlogFout('link-ongeldig', tekst || params.get('error'), null);
+    showError(tekst);
   }
 
   if (hash.indexOf('error') !== -1) {
@@ -156,64 +158,57 @@
   // anders aangevraagd, en dat is precies wat PKCE moet tegenhouden.
   var heeftCode = Boolean(query.get('code'));
 
-  // Een geldige sessie is niet hetzelfde als toegang. Toegang hangt aan twee
-  // lijsten: auth.users (het Supabase-account, waar de inloglink aan hangt)
-  // en public.gebruikers (de autorisatielijst van de site). Wie alleen een
-  // account heeft, komt langs de Edge Middleware en zou alle dossierpagina's
-  // kunnen lezen. Daarom wordt hier ná het inloggen gecontroleerd of het
-  // adres ook op de autorisatielijst staat; zo niet, dan meteen uitloggen.
-  //
-  // De RLS-policy "gebruikers_select_eigen_of_beheer" laat iedereen precies
-  // zijn eigen rij zien, dus geen rij = geen toegang.
+  // Een geldige sessie is niet hetzelfde als toegang: zie swControleerToegang
+  // in supabase-config.js. Die functie wordt ook door login.html gebruikt, na
+  // een overgetypte code, zodat de twee wegen naar binnen niet uit elkaar
+  // kunnen lopen. Komt er geen toegang uit, dan meteen uitloggen.
   function afwijzen(tekst) {
     window.sb.auth.signOut().catch(function () { /* cookie is toch al leeg */ })
       .then(function () { window.swSetAuthCookie(null); showError(tekst); });
   }
 
+  var ANDER_APPARAAT =
+    'Deze toegangslink is aangevraagd op een ander apparaat of in een andere ' +
+    'browser. Vraag de link opnieuw aan op het apparaat waarop u wilt lezen, ' +
+    'en open de mail daar ook — of typ de code uit de mail over op de ' +
+    'inlogpagina; die werkt op elk apparaat.';
+
   // detectSessionInUrl (in supabase-config.js) verwerkt de hash automatisch.
   // We geven dat een tel, en lezen daarna de sessie uit.
+  function geenSessie(detail) {
+    if (heeftCode) {
+      // PKCE-code binnen, maar geen code verifier in deze browser: de link is
+      // ergens anders aangevraagd. Precies wat PKCE moet tegenhouden.
+      window.swMeldInlogFout('link-ander-apparaat', detail, null);
+      showError(ANDER_APPARAAT);
+    } else {
+      window.swMeldInlogFout('geen-sessie', detail, null);
+      showError(detail || 'Geen geldige sessie gevonden. Vraag een nieuwe toegangslink aan.');
+    }
+  }
+
   window.sb.auth.getSession().then(function (res) {
-    if (res.error) {
-      if (heeftCode) {
-        showError('Deze toegangslink is aangevraagd op een ander apparaat of in ' +
-                  'een andere browser. Vraag de link opnieuw aan op het apparaat ' +
-                  'waarop u wilt lezen, en open de mail daar ook.');
-      } else {
-        showError(res.error.message);
-      }
-      return;
-    }
-    if (!res.data || !res.data.session) {
-      if (heeftCode) {
-        showError('Deze toegangslink is aangevraagd op een ander apparaat of in ' +
-                  'een andere browser. Vraag de link opnieuw aan op het apparaat ' +
-                  'waarop u wilt lezen, en open de mail daar ook.');
-      } else {
-        showError('Geen geldige sessie gevonden. Vraag een nieuwe toegangslink aan.');
-      }
-      return;
-    }
+    if (res.error) { geenSessie(res.error.message); return; }
+    if (!res.data || !res.data.session) { geenSessie(null); return; }
 
     var session = res.data.session;
     var email = ((session.user && session.user.email) || '').trim().toLowerCase();
 
-    return window.sb.from('gebruikers').select('email').eq('email', email).maybeSingle()
-      .then(function (g) {
-        if (g.error) {
-          // Niet kunnen controleren is geen toegang verlenen. Uitloggen en
-          // laten herproberen is hier het veilige antwoord.
-          afwijzen('Uw toegang kon niet gecontroleerd worden. Probeer het zo nog eens.');
-          return;
-        }
-        if (!g.data) {
-          afwijzen('Dit account heeft geen toegang, vraag toegang aan');
-          return;
-        }
+    return window.swControleerToegang(email).then(function (uitslag) {
+      if (uitslag.ok) {
         window.swSetAuthCookie(session);
         showSuccess();
-      });
+        return;
+      }
+      window.swMeldInlogFout(uitslag.reden, uitslag.detail || null, email);
+      afwijzen(uitslag.reden === 'niet-op-lijst'
+        ? 'Dit account heeft geen toegang, vraag toegang aan'
+        : 'Uw toegang kon niet gecontroleerd worden. Probeer het zo nog eens.');
+    });
   }).catch(function (err) {
-    showError(err && err.message ? err.message : String(err));
+    var tekst = (err && err.message) ? err.message : String(err);
+    window.swMeldInlogFout('geen-sessie', tekst, null);
+    showError(tekst);
   });
 })();
 </script>
