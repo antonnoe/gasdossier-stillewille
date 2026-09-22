@@ -122,7 +122,13 @@
     loadingView.style.display = 'none';
     errorView.style.display = 'none';
     successView.style.display = 'block';
-    setTimeout(function () { window.location.replace('/index.html'); }, 800);
+    // De bezoeker kwam hier binnen via de mail en die link draagt geen
+    // bestemming mee. login.html heeft bij het aanvragen vastgelegd waar hij
+    // naartoe wilde; swLeesBestemming keurt die waarde opnieuw en valt terug
+    // op /index.html.
+    var bestemming = window.swLeesBestemming();
+    window.swVergeetBestemming();
+    setTimeout(function () { window.location.replace(bestemming); }, 800);
   }
 
   // Supabase kan een fout op twee plekken terugmelden: in de hash (bij een
