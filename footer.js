@@ -30,10 +30,10 @@
         ['/#peiling', 'Draagvlak-peiling'],
         ['/#deel', 'Nodig een bewoner uit'],
         ['/#correctie', 'Correctieverzoek indienen'],
-        ['mailto:sw-bieb@proton.me?subject=Werkgroep%20SW-Bieb', 'Meehelpen in de werkgroep']
+        ['mailto:antonnoe@yahoo.com?subject=Werkgroep%20SW-Bieb', 'Meehelpen in de werkgroep']
       ] },
       { titel: 'Contact & praktisch', links: [
-        ['mailto:sw-bieb@proton.me', 'sw-bieb@proton.me'],
+        ['mailto:antonnoe@yahoo.com', 'antonnoe@yahoo.com'],
         ['/faq.html#privacy', 'Privacy & gegevens'],
         ['/feed.xml', 'RSS-feed'],
         ['/redactie.html', 'Over dit archief']
