@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: 'Georgia', serif; background: #f5f3ee; margin: 0; padding: 0; }
+    .wrap { max-width: 560px; margin: 40px auto; background: #ffffff; border-radius: 8px; overflow: hidden; }
+    .header { background: #1a5c35; padding: 28px 32px; }
+    .header h1 { color: #ffffff; font-size: 18px; margin: 0; font-weight: normal; letter-spacing: 0.5px; }
+    .header p { color: rgba(255,255,255,0.7); font-size: 12px; margin: 4px 0 0 0; }
+    .body { padding: 32px; color: #2d2d2d; font-size: 15px; line-height: 1.7; }
+    .btn-wrap { text-align: center; margin: 32px 0; }
+    .btn { background: #1a5c35; color: #ffffff !important; text-decoration: none; padding: 14px 36px; border-radius: 6px; font-size: 15px; display: inline-block; }
+    .divider { border: none; border-top: 1px solid #e0dbd0; margin: 28px 0; }
+    .info { background: #f5f3ee; border-left: 3px solid #c8a84b; padding: 16px 20px; border-radius: 4px; font-size: 13px; color: #555; line-height: 1.7; }
+    .footer { padding: 20px 32px; font-size: 12px; color: #999; border-top: 1px solid #e0dbd0; }
+    a { color: #1a5c35; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <h1>Kerndossiers · De Stille Wille</h1>
+      <p>Bewonersarchief — besloten toegang</p>
+    </div>
+    <div class="body">
+      <p>Klik op de knop hieronder om in te loggen. Deze link is persoonlijk, werkt één keer en verloopt na één uur.</p>
+
+      <div class="btn-wrap">
+        <a class="btn" href="{{ .ConfirmationURL }}">Inloggen</a>
+      </div>
+
+      <div class="info">
+        <strong>Hoe werkt het inloggen?</strong><br>
+        U heeft geen wachtwoord nodig. Telkens als u het archief wilt bezoeken, vraagt u op de inlogpagina een link aan met uw e-mailadres. U ontvangt dan een mail zoals deze — één klik en u bent binnen.
+      </div>
+
+      <hr class="divider">
+
+      <div class="info">
+        <strong>Bewaar de toegang</strong><br>
+        Voeg het archief toe aan uw bladwijzers, of zet het op het beginscherm van uw telefoon (menu openen → "Zet op beginscherm" of "Toevoegen aan startscherm"). Zo vindt u het altijd snel terug.<br><br>
+        Archief: <a href="https://kerndossiers-stillewille.vercel.app">kerndossiers-stillewille.vercel.app</a>
+      </div>
+    </div>
+    <div class="footer">
+      Toegang is voorbehouden aan bewoners van Landgoed De Stille Wille en direct betrokkenen. Ontving u deze mail onverwacht? Dan kunt u hem negeren.
+    </div>
+  </div>
+</body>
+</html>
