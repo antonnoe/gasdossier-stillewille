@@ -56,10 +56,14 @@ export default function middleware(request) {
 
   // Geen (geldige) sessie → naar de loginpagina. Bestaat er wél een token maar
   // is het verlopen, geef dat mee zodat login.html een passende melding toont.
+  // Geef ook het oorspronkelijke pad mee, zodat de bezoeker na het inloggen
+  // terugkomt op de pagina die hij wilde lezen in plaats van op de voorpagina.
+  // login.html keurt die waarde zelf nog: alleen een pad op deze site.
   const loginUrl = new URL('/login.html', request.url);
   if (token) {
     loginUrl.searchParams.set('reden', 'verlopen');
   }
+  loginUrl.searchParams.set('naar', path + url.search);
   return Response.redirect(loginUrl, 307);
 }
 
