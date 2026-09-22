@@ -1,0 +1,137 @@
+name: Auth e-mailtemplates
+
+# Leest en zet de e-mailtemplates van Supabase Auth via de Management API.
+#
+# Waarom via een workflow: de templates staan niet in de repository maar in
+# het Supabase-dashboard. Ze konden dus ongemerkt afwijken van wat hier
+# beschreven staat. Met deze workflow is de inhoud op te vragen ("tonen"),
+# staat de gewenste tekst als bestand in supabase/templates/, en is
+# bijwerken één handeling met het Actions-log als bewijs.
+#
+# Benodigd repository-secret: SUPABASE_ACCESS_TOKEN
+#   Supabase-dashboard -> Account -> Access Tokens.
+#
+# actie = tonen      : haalt de huidige templates op en drukt ze af.
+# actie = bijwerken  : zet de inhoud van
+#                      supabase/templates/magic-link.nieuw.html en
+#                      supabase/templates/confirm-signup.nieuw.html.
+#                      Daarna wordt opnieuw opgehaald en vergeleken.
+
+on:
+  workflow_dispatch:
+    inputs:
+      actie:
+        description: 'tonen of bijwerken'
+        required: true
+        default: 'tonen'
+        type: choice
+        options: [tonen, bijwerken]
+
+env:
+  PROJECT_REF: pmnquozexgxhpbpuergj
+
+jobs:
+  templates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Welke sleutels zijn beschikbaar
+        env:
+          ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          DB_URL:       ${{ secrets.SUPABASE_DB_URL }}
+          SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          RESEND:       ${{ secrets.RESEND_API_KEY }}
+        run: |
+          for naam in ACCESS_TOKEN DB_URL SERVICE_ROLE RESEND; do
+            if [ -n "${!naam}" ]; then echo "$naam: gezet"; else echo "$naam: ONTBREEKT"; fi
+          done
+          if [ -z "$ACCESS_TOKEN" ]; then
+            echo "Zonder SUPABASE_ACCESS_TOKEN kan deze workflow niets."
+            exit 1
+          fi
+
+      - name: Huidige instellingen ophalen
+        env:
+          ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          curl -sS -f \
+            -H "Authorization: Bearer $ACCESS_TOKEN" \
+            "https://api.supabase.com/v1/projects/$PROJECT_REF/config/auth" > huidig.json
+          node -e '
+            const c = require("./huidig.json");
+            const toon = (naam) => {
+              const v = c[naam];
+              console.log("\n===== " + naam + " =====");
+              console.log(v === null || v === undefined || v === ""
+                ? "(leeg — Supabase gebruikt zijn eigen standaardtekst)"
+                : v);
+              console.log("===== einde " + naam + " =====");
+            };
+            console.log("mailer_otp_length : " + c.mailer_otp_length);
+            console.log("mailer_otp_exp    : " + c.mailer_otp_exp + " seconden");
+            toon("mailer_subjects_magic_link");
+            toon("mailer_templates_magic_link_content");
+            toon("mailer_subjects_confirmation");
+            toon("mailer_templates_confirmation_content");
+          '
+
+      - name: Templates bijwerken
+        if: ${{ inputs.actie == 'bijwerken' }}
+        env:
+          ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          for f in supabase/templates/magic-link.nieuw.html supabase/templates/confirm-signup.nieuw.html; do
+            [ -s "$f" ] || { echo "$f ontbreekt of is leeg."; exit 1; }
+          done
+          node -e '
+            const fs = require("fs");
+            const body = {
+              mailer_templates_magic_link_content:
+                fs.readFileSync("supabase/templates/magic-link.nieuw.html", "utf8"),
+              mailer_templates_confirmation_content:
+                fs.readFileSync("supabase/templates/confirm-signup.nieuw.html", "utf8"),
+            };
+            fs.writeFileSync("patch.json", JSON.stringify(body));
+            console.log("Te zetten: magic link " + body.mailer_templates_magic_link_content.length +
+                        " tekens, confirm signup " + body.mailer_templates_confirmation_content.length + " tekens.");
+          '
+          curl -sS -f -X PATCH \
+            -H "Authorization: Bearer $ACCESS_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data @patch.json \
+            "https://api.supabase.com/v1/projects/$PROJECT_REF/config/auth" > /dev/null
+          echo "PATCH verstuurd."
+
+      - name: Nalopen dat het er echt staat
+        if: ${{ inputs.actie == 'bijwerken' }}
+        env:
+          ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          curl -sS -f \
+            -H "Authorization: Bearer $ACCESS_TOKEN" \
+            "https://api.supabase.com/v1/projects/$PROJECT_REF/config/auth" > na.json
+          node -e '
+            const fs = require("fs");
+            const c = require("./na.json");
+            let fout = 0;
+            const paren = [
+              ["mailer_templates_magic_link_content",   "supabase/templates/magic-link.nieuw.html"],
+              ["mailer_templates_confirmation_content", "supabase/templates/confirm-signup.nieuw.html"],
+            ];
+            for (const [veld, bestand] of paren) {
+              const gewenst = fs.readFileSync(bestand, "utf8");
+              const live = c[veld] || "";
+              const gelijk = live === gewenst;
+              const heeftCode = live.includes("{{ .Token }}");
+              console.log(veld + ": " + (gelijk ? "gelijk aan het bestand" : "WIJKT AF") +
+                          ", code-alinea " + (heeftCode ? "aanwezig" : "ONTBREEKT"));
+              if (!gelijk || !heeftCode) fout = 1;
+            }
+            process.exit(fout);
+          '
