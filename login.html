@@ -129,6 +129,18 @@
     text-align: center;
   }
   .auth-foot a { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+  #controle-view { text-align: center; }
+  #controle-view .lede { margin-bottom: 0; }
+  .spinner {
+    width: 34px; height: 34px;
+    margin: 4px auto 20px;
+    border: 3px solid var(--green-15);
+    border-top-color: var(--green);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 3s; } }
 </style>
 </head>
 <body>
@@ -136,6 +148,18 @@
 <div class="auth-wrap">
   <div class="auth-card">
     <p class="auth-kicker">Kerndossiers · De Stille Wille</p>
+
+    <!-- Zolang de sessiecontrole loopt staat hier alleen een neutrale tekst.
+         Pas als vaststaat dat er geen geldige sessie is, verschijnt het
+         formulier; anders zou een bezoeker die gewoon ingelogd is te lezen
+         krijgen dat zijn sessie verlopen was. -->
+    <div id="controle-view">
+      <div class="spinner" aria-hidden="true"></div>
+      <h1>Een moment</h1>
+      <p class="lede">Even controleren of u nog bent ingelogd…</p>
+    </div>
+
+    <div id="login-view" hidden>
     <h1>Inloggen</h1>
     <p class="lede">Vul uw e-mailadres in. U ontvangt een toegangslink waarmee u zonder wachtwoord kunt inloggen. <strong>Open die link op dit apparaat</strong>, in deze browser; dat is nodig om te voorkomen dat een doorgestuurde link bij iemand anders werkt.</p>
 
@@ -154,6 +178,7 @@
     <p class="auth-foot">
       Nog geen toegang? <a href="/aanvragen.html">Vraag toegang aan</a>.
     </p>
+    </div>
   </div>
 </div>
 
@@ -166,8 +191,15 @@
   var emailInput = document.getElementById('email');
   var btn = document.getElementById('submit-btn');
   var msg = document.getElementById('msg');
+  var controleView = document.getElementById('controle-view');
+  var loginView = document.getElementById('login-view');
 
   var REDIRECT_TO = 'https://kerndossiers-stillewille.vercel.app/auth-callback.html';
+
+  var params = new URLSearchParams(location.search);
+  // ?naar= komt van de Edge Middleware en is dus door de bezoeker te sturen.
+  // swVeiligPad laat alleen een pad op deze site door.
+  var bestemming = window.swVeiligPad(params.get('naar')) || '/index.html';
 
   function show(text, kind) {
     msg.textContent = text;
@@ -175,10 +207,86 @@
     msg.hidden = false;
   }
 
-  // Vriendelijke melding wanneer de gebruiker hierheen kwam door een
-  // verlopen sessie (?reden=verlopen, gezet door de Edge Middleware).
-  if (new URLSearchParams(location.search).get('reden') === 'verlopen') {
-    show('Uw sessie is verlopen. Vraag een nieuwe toegangslink aan.', 'err');
+  // ---------------------------------------------------------------------
+  // Stille sessiecontrole vóór alles.
+  //
+  // De middleware stuurt hierheen zodra het access-token in de cookie
+  // verlopen is. Dat betekent niet dat de bezoeker uitgelogd is: het
+  // refresh-token in localStorage is dertig dagen geldig. Vraagt hij dan
+  // toch een nieuwe link aan, dan komen er meerdere PKCE-verifiers in
+  // localStorage en mislukt de link uit de mail. Dus eerst kijken of de
+  // sessie nog te herstellen is; lukt dat, dan meteen door.
+  // ---------------------------------------------------------------------
+  var afgerond = false;
+
+  // Lusrem. Stuurt de middleware ons hierheen terwijl deze pagina denkt dat de
+  // sessie in orde is, dan blijven de twee elkaar heen en weer sturen. Dat kan
+  // gebeuren bij een klok die een paar minuten afwijkt van die van de server.
+  // Kwamen we hier binnen tien seconden na een eigen doorsturing terug, dan
+  // stoppen we en laten we gewoon het formulier zien.
+  var LUS_SLEUTEL = 'sw-doorstuurpoging';
+  function kortGeledenDoorgestuurd() {
+    try {
+      var t = parseInt(window.sessionStorage.getItem(LUS_SLEUTEL), 10);
+      return t > 0 && (Date.now() - t) < 10000;
+    } catch (e) { return false; }
+  }
+
+  function toonFormulier() {
+    if (afgerond) return;
+    afgerond = true;
+    controleView.hidden = true;
+    loginView.hidden = false;
+    if (params.get('reden') === 'verlopen') {
+      show('Uw sessie is verlopen. Vraag een nieuwe toegangslink aan.', 'err');
+    }
+  }
+
+  function doorsturen(session) {
+    if (afgerond) return;
+    afgerond = true;
+    window.swSetAuthCookie(session);
+    window.swVergeetBestemming();
+    try { window.sessionStorage.setItem(LUS_SLEUTEL, String(Date.now())); } catch (e) { /* privémodus */ }
+    location.replace(bestemming);
+  }
+
+  // Het access-token zelf kan al verlopen zijn terwijl de sessie nog in
+  // localStorage staat. expires_at is in seconden; een marge van tien
+  // seconden voorkomt dat we net over de grens doorsturen.
+  function nogGeldig(session) {
+    if (!session || !session.access_token) return false;
+    if (!session.expires_at) return true;
+    return (session.expires_at * 1000) - Date.now() > 10000;
+  }
+
+  // Blijft de controle hangen (trage of geblokkeerde verbinding), toon dan
+  // alsnog het formulier in plaats van een eeuwig draaiend rondje.
+  var wachtTimer = setTimeout(toonFormulier, 8000);
+
+  if (kortGeledenDoorgestuurd()) {
+    // Tweede keer hier: niet nog eens doorsturen.
+    clearTimeout(wachtTimer);
+    try { window.sessionStorage.removeItem(LUS_SLEUTEL); } catch (e) { /* idem */ }
+    toonFormulier();
+  } else {
+    window.sb.auth.getSession().then(function (res) {
+      var session = (res && res.data) ? res.data.session : null;
+      if (nogGeldig(session)) { doorsturen(session); return null; }
+      if (session && session.refresh_token) {
+        return window.sb.auth.refreshSession().then(function (r) {
+          var vers = (r && r.data) ? r.data.session : null;
+          if (!r.error && nogGeldig(vers)) { doorsturen(vers); return; }
+          toonFormulier();
+        });
+      }
+      toonFormulier();
+      return null;
+    }).catch(function () {
+      toonFormulier();
+    }).then(function () {
+      clearTimeout(wachtTimer);
+    });
   }
 
   form.addEventListener('submit', function (e) {
@@ -189,6 +297,11 @@
     btn.disabled = true;
     btn.textContent = 'Versturen…';
     msg.hidden = true;
+
+    // De link in de mail komt terug op auth-callback.html en draagt ?naar=
+    // niet mee. Leg de bestemming daarom hier vast; de callbackpagina leest
+    // hem weer uit.
+    window.swBewaarBestemming(bestemming);
 
     // shouldCreateUser expliciet uit. In Supabase staat "Allow new users to
     // sign up" ook uit, maar zonder deze regel zou de client alsnog om een

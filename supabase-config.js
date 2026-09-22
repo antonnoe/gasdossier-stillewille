@@ -41,6 +41,58 @@
     }
   };
 
+  // ---------------------------------------------------------------------
+  // Bestemming na inloggen
+  //
+  // De Edge Middleware geeft bij een redirect naar de loginpagina het
+  // oorspronkelijke pad mee als ?naar=<pad>. Na het inloggen moet de bezoeker
+  // daar weer uitkomen in plaats van steevast op de voorpagina. Omdat die
+  // waarde uit de URL komt, wordt hij eerst gekeurd: alleen een pad op deze
+  // site is toegestaan. Een absolute URL (https://evil.com) of een
+  // protocol-relatieve verwijzing (//evil.com) zou een open redirect zijn.
+  //
+  // Bij een inloglink per mail komt de bezoeker terug op auth-callback.html,
+  // en die pagina krijgt ?naar= niet mee: de link in de mail is los van de
+  // oorspronkelijke URL. Daarom wordt de bestemming bij het aanvragen van de
+  // link opgeslagen in deze browser, en op de callbackpagina weer gelezen.
+  // Opslag kan falen (privémodus, geblokkeerde site-gegevens); dat mag het
+  // inloggen nooit tegenhouden, vandaar de try/catch.
+  // ---------------------------------------------------------------------
+  var BESTEMMING_SLEUTEL = 'sw-naar';
+  var STANDAARD_BESTEMMING = '/index.html';
+
+  window.swVeiligPad = function (pad) {
+    if (typeof pad !== 'string' || !pad) return null;
+    if (pad.charAt(0) !== '/') return null;
+    // //evil.com is protocol-relatief; /\evil.com lezen browsers net zo.
+    if (pad.charAt(1) === '/' || pad.charAt(1) === '\\') return null;
+    return pad;
+  };
+
+  window.swBewaarBestemming = function (pad) {
+    var veilig = window.swVeiligPad(pad);
+    var opslagen = [];
+    try { opslagen.push(window.sessionStorage); } catch (e) { /* niet beschikbaar */ }
+    try { opslagen.push(window.localStorage); } catch (e) { /* niet beschikbaar */ }
+    for (var i = 0; i < opslagen.length; i++) {
+      try {
+        if (veilig) opslagen[i].setItem(BESTEMMING_SLEUTEL, veilig);
+        else opslagen[i].removeItem(BESTEMMING_SLEUTEL);
+      } catch (e) { /* vol of geweigerd */ }
+    }
+  };
+
+  window.swLeesBestemming = function () {
+    var pad = null;
+    try { pad = window.sessionStorage.getItem(BESTEMMING_SLEUTEL); } catch (e) { /* idem */ }
+    if (!pad) {
+      try { pad = window.localStorage.getItem(BESTEMMING_SLEUTEL); } catch (e) { /* idem */ }
+    }
+    return window.swVeiligPad(pad) || STANDAARD_BESTEMMING;
+  };
+
+  window.swVergeetBestemming = function () { window.swBewaarBestemming(null); };
+
   if (!window.supabase || !window.supabase.createClient) {
     console.error('Supabase JS niet geladen — controleer de CDN-<script> vóór supabase-config.js.');
     return;
