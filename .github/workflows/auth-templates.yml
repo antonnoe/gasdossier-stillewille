@@ -4,28 +4,30 @@ name: Auth e-mailtemplates
 #
 # Waarom via een workflow: de templates staan niet in de repository maar in
 # het Supabase-dashboard. Ze konden dus ongemerkt afwijken van wat hier
-# beschreven staat. Met deze workflow is de inhoud op te vragen ("tonen"),
-# staat de gewenste tekst als bestand in supabase/templates/, en is
-# bijwerken één handeling met het Actions-log als bewijs.
+# beschreven staat. Met deze workflow is de inhoud op te vragen, staat de
+# gewenste tekst als bestand in supabase/templates/, en is bijwerken één
+# handeling met het Actions-log als bewijs.
 #
 # Benodigd repository-secret: SUPABASE_ACCESS_TOKEN
 #   Supabase-dashboard -> Account -> Access Tokens.
 #
-# actie = tonen      : haalt de huidige templates op en drukt ze af.
-# actie = bijwerken  : zet de inhoud van
-#                      supabase/templates/magic-link.nieuw.html en
-#                      supabase/templates/confirm-signup.nieuw.html.
-#                      Daarna wordt opnieuw opgehaald en vergeleken.
+# actie = tonen       : drukt de huidige templates af, plus een base64-regel
+#                       per template zodat de tekst byte-exact over te nemen is.
+# actie = vergelijken : legt de live tekst naast supabase/templates/*.oud.html.
+# actie = bijwerken   : zet *.nieuw.html, maar alléén als de live tekst nog
+#                       precies gelijk is aan *.oud.html. Zo overschrijft deze
+#                       workflow nooit een wijziging die intussen in het
+#                       dashboard is gemaakt.
 
 on:
   workflow_dispatch:
     inputs:
       actie:
-        description: 'tonen of bijwerken'
+        description: 'tonen, vergelijken of bijwerken'
         required: true
         default: 'tonen'
         type: choice
-        options: [tonen, bijwerken]
+        options: [tonen, vergelijken, bijwerken]
 
 env:
   PROJECT_REF: pmnquozexgxhpbpuergj
@@ -63,20 +65,52 @@ jobs:
             "https://api.supabase.com/v1/projects/$PROJECT_REF/config/auth" > huidig.json
           node -e '
             const c = require("./huidig.json");
-            const toon = (naam) => {
-              const v = c[naam];
-              console.log("\n===== " + naam + " =====");
-              console.log(v === null || v === undefined || v === ""
-                ? "(leeg — Supabase gebruikt zijn eigen standaardtekst)"
-                : v);
-              console.log("===== einde " + naam + " =====");
-            };
             console.log("mailer_otp_length : " + c.mailer_otp_length);
             console.log("mailer_otp_exp    : " + c.mailer_otp_exp + " seconden");
-            toon("mailer_subjects_magic_link");
-            toon("mailer_templates_magic_link_content");
-            toon("mailer_subjects_confirmation");
-            toon("mailer_templates_confirmation_content");
+            for (const naam of ["mailer_subjects_magic_link", "mailer_subjects_confirmation"]) {
+              console.log(naam + " : " + (c[naam] || "(leeg)"));
+            }
+            for (const naam of ["mailer_templates_magic_link_content",
+                                "mailer_templates_confirmation_content"]) {
+              const v = c[naam] || "";
+              console.log("\n===== " + naam + " (" + v.length + " tekens) =====");
+              console.log(v === "" ? "(leeg — Supabase gebruikt zijn eigen standaardtekst)" : v);
+              console.log("===== base64 " + naam + " =====");
+              console.log(Buffer.from(v, "utf8").toString("base64"));
+              console.log("===== einde " + naam + " =====");
+            }
+          '
+
+      - name: Live tekst naast de repository leggen
+        if: ${{ inputs.actie != 'tonen' }}
+        run: |
+          set -euo pipefail
+          node -e '
+            const fs = require("fs");
+            const c = require("./huidig.json");
+            const paren = [
+              ["mailer_templates_magic_link_content",   "supabase/templates/magic-link.oud.html"],
+              ["mailer_templates_confirmation_content", "supabase/templates/confirm-signup.oud.html"],
+            ];
+            let fout = 0;
+            for (const [veld, bestand] of paren) {
+              const live = c[veld] || "";
+              const opgeslagen = fs.readFileSync(bestand, "utf8");
+              if (live === opgeslagen) {
+                console.log(bestand + ": gelijk aan wat er live staat.");
+              } else {
+                fout = 1;
+                console.log(bestand + ": WIJKT AF van wat er live staat (" +
+                            opgeslagen.length + " tegen " + live.length + " tekens).");
+                fs.writeFileSync(bestand.replace(".oud.html", ".live.html"), live);
+              }
+            }
+            if (fout) {
+              console.log("\nDe live tekst is veranderd sinds die is vastgelegd.");
+              console.log("Draai eerst \"tonen\", neem de nieuwe tekst over in de repository,");
+              console.log("en probeer het daarna opnieuw. Er is niets gewijzigd.");
+            }
+            process.exit(fout);
           '
 
       - name: Templates bijwerken
@@ -85,9 +119,6 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
         run: |
           set -euo pipefail
-          for f in supabase/templates/magic-link.nieuw.html supabase/templates/confirm-signup.nieuw.html; do
-            [ -s "$f" ] || { echo "$f ontbreekt of is leeg."; exit 1; }
-          done
           node -e '
             const fs = require("fs");
             const body = {
@@ -96,6 +127,12 @@ jobs:
               mailer_templates_confirmation_content:
                 fs.readFileSync("supabase/templates/confirm-signup.nieuw.html", "utf8"),
             };
+            for (const [veld, tekst] of Object.entries(body)) {
+              if (!tekst.includes("{{ .Token }}")) {
+                console.error(veld + ": de code-alinea ({{ .Token }}) ontbreekt in het bestand.");
+                process.exit(1);
+              }
+            }
             fs.writeFileSync("patch.json", JSON.stringify(body));
             console.log("Te zetten: magic link " + body.mailer_templates_magic_link_content.length +
                         " tekens, confirm signup " + body.mailer_templates_confirmation_content.length + " tekens.");

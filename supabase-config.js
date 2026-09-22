@@ -136,4 +136,65 @@
   window.sb.auth.onAuthStateChange(function (_event, session) {
     window.swSetAuthCookie(session);
   });
+
+  // ---------------------------------------------------------------------
+  // Toegangscontrole na het inloggen
+  //
+  // Een geldige sessie is niet hetzelfde als toegang. Toegang hangt aan twee
+  // lijsten: auth.users (het Supabase-account, waar de inloglink aan hangt)
+  // en public.gebruikers (de autorisatielijst van de site). Wie alleen een
+  // account heeft, komt langs de Edge Middleware en zou alle dossierpagina's
+  // kunnen lezen. Daarom wordt ná het inloggen gecontroleerd of het adres
+  // ook op de autorisatielijst staat.
+  //
+  // De RLS-policy "gebruikers_select_eigen_of_beheer" laat een gewone
+  // bewoner precies zijn eigen rij zien (een beheerder of de owner ziet
+  // alles), dus geen rij = geen toegang.
+  //
+  // Zowel auth-callback.html (na de link) als login.html (na een
+  // overgetypte code) gebruikt deze functie, zodat de twee wegen naar
+  // binnen niet uit elkaar kunnen lopen.
+  // ---------------------------------------------------------------------
+  window.swControleerToegang = function (email) {
+    var adres = (email || '').trim().toLowerCase();
+    return window.sb.from('gebruikers').select('email').eq('email', adres).maybeSingle()
+      .then(function (g) {
+        // Niet kunnen controleren is geen toegang verlenen.
+        if (g.error) return { ok: false, reden: 'toegang-controle-fout', detail: g.error.message };
+        if (!g.data)  return { ok: false, reden: 'niet-op-lijst' };
+        return { ok: true };
+      })
+      .catch(function (err) {
+        return { ok: false, reden: 'toegang-controle-fout', detail: (err && err.message) || String(err) };
+      });
+  };
+
+  // ---------------------------------------------------------------------
+  // Logboek van mislukte inlogpogingen
+  //
+  // Een bewoner die vastloopt is anders onzichtbaar: hij mailt, belt, of hij
+  // geeft het op. Elke mislukte poging schrijft hier een regel, zodat een
+  // dagelijkse melding kan laten zien wie er niet binnenkomt en waarom.
+  //
+  // Dit mag nooit in de weg zitten. De aanroep is "erbij", niet "ervoor":
+  // de belofte wordt niet afgewacht en een fout wordt ingeslikt. De tabel
+  // begrenst de veldlengtes zelf, maar we korten hier alvast in zodat een
+  // lange foutmelding of user agent niet tot een afgewezen insert leidt.
+  // ---------------------------------------------------------------------
+  window.swMeldInlogFout = function (soort, detail, email) {
+    function kort(waarde, max) {
+      if (waarde === null || waarde === undefined) return null;
+      var t = String(waarde);
+      return t.length > max ? t.slice(0, max) : t;
+    }
+    try {
+      window.sb.from('inlog_fouten').insert({
+        soort: soort,
+        email: kort((email || '').trim().toLowerCase(), 320) || null,
+        detail: kort(detail, 500),
+        user_agent: kort(navigator.userAgent, 400)
+      }).then(function () { /* gelukt of niet, de bezoeker merkt er niets van */ },
+              function () { /* idem */ });
+    } catch (e) { /* idem */ }
+  };
 })();
