@@ -1,16 +1,49 @@
 # gasdossier-stillewille
 
-Statische landingspagina met downloadbare documenten over de gasnaheffing 2024-2025 op Landgoed De Stille Wille.
+Kerndossiers Landgoed De Stille Wille: statische dossierpagina's over gas, erfpacht, bovengrondse infrastructuur en andere onderwerpen, met daarachter Supabase-login (inloglink per mail) en een beheeromgeving voor toegang.
 
 ## Structuur
 
 ```
 /
-├── index.html                              # de pagina zelf
-├── Dossier_V2.2.docx                       # juridisch dossier
-├── Bezwaarbrief_Template_Bewoners.docx     # invulbare voorbeeldbrief
-└── README.md                               # dit bestand
+├── *.html            # dossierpagina's, hulppagina's (login, account, admin) en bronnen
+├── tokens.css        # ontwerpvariabelen (kleuren, lettertypen)
+├── components.css    # gedeelde componenten (callouts, tabellen, pager, kaarten)
+├── dossiers.js       # register van alle dossiers en secties
+├── chrome.js         # rendert navigatie, kicker en pager uit dossiers.js
+├── footer.js         # gedeelde footer
+├── sw.js             # service worker (network-first)
+├── supabase-config.js# publieke Supabase-configuratie voor de pagina's
+├── middleware.js     # toegangscontrole voor de pagina's
+├── feed.xml          # RSS-feed met update-mededelingen
+├── vercel.json       # redirects en cron
+├── api/              # Vercel-functions (keep-alive)
+├── kennisbank/       # inventarisaties van brondocumenten (markdown)
+├── downloads/        # PDF- en Word-bestanden die op de site worden aangeboden
+├── supabase/         # schema, RLS-policies, migraties, edge functions, mailtemplates
+├── .github/          # workflows: backup, keep-alive, migratie, live controle, toegang
+├── BEHEERDERS.md     # handleiding voor beheerders
+└── REDACTIE.md       # redactionele afspraken
 ```
+
+## Hoe de dossierpagina's zijn opgebouwd
+
+Elke pagina laadt `tokens.css` en `components.css` voor de opmaak en sluit af met drie scripts: `dossiers.js`, `chrome.js` en `footer.js`.
+
+- `dossiers.js` is de enige bron voor welke dossiers en secties bestaan. Per dossier staat er een slug, titel, categorie, status en een lijst secties, met per sectie de bestandsnaam van de pagina.
+- `chrome.js` leest dat register en bouwt daaruit de navigatie, de kicker boven de titel en, op pagina's met `data-sw-pager`, de pager met vorige en volgende. De huidige pagina wordt herkend aan `<body data-slug="...">`. Hoofdstukken van het gasdossier gebruiken de slug `gas`.
+- `footer.js` voegt de gedeelde footer toe.
+- Hoofdstukpagina's van het gasdossier (`gas-historie.html`, `gas-juridisch.html`, `gas-kosten.html`, `gas-toekomst.html`) hebben een handgeschreven pager onderaan; `gas.html` is het overzicht met een kaart per hoofdstuk.
+
+## Een nieuwe pagina toevoegen
+
+1. Maak het HTML-bestand in de root, naar het voorbeeld van een bestaand hoofdstuk (bijvoorbeeld `gas-kosten.html`), met `noindex, nofollow` en dezelfde stylesheets en scripts.
+2. Registreer de pagina als sectie in `dossiers.js`. Daarmee volgen navigatie, pager en de zoekindex van `zoeken.html` vanzelf; die laatste leest de paginalijst uit het register.
+3. Is het een hoofdstuk van het gasdossier: voeg een kaart toe op `gas.html` en pas de handgeschreven pager van het vorige hoofdstuk aan.
+4. Staan er bronnen of uitspraken in: voeg ze toe aan `bronnen.html` in de bestaande opmaak, en het verificatieregister als er claims met cijfers bijkomen.
+5. Wil je een update melden: voeg een `<item>` toe aan `feed.xml` (uitleg staat bovenin dat bestand).
+6. `sw.js` heeft geen precache-lijst en vraagt geen registratie.
+7. Wijzigt een bestaande URL: zet een redirect in `vercel.json`.
 
 ## Hosting
 
