@@ -108,7 +108,8 @@ window.SW_DOSSIERS = [
     secties: [
       { titel: "Historie",        omschrijving: "Tijdlijn van het gasnet.",                 pagina: "gas-historie.html" },
       { titel: "Juridische basis", omschrijving: "Hofuitspraken en contractuele basis.",     pagina: "gas-juridisch.html" },
-      { titel: "Kosten",          omschrijving: "De gasrekening ontleed.",                   pagina: "gas-kosten.html" }
+      { titel: "Kosten",          omschrijving: "De gasrekening ontleed.",                   pagina: "gas-kosten.html" },
+      { titel: "Toekomst",        omschrijving: "Kantelpunt, kostentoewijzing en alternatieven.", pagina: "gas-toekomst.html" }
     ]
   },
   {
