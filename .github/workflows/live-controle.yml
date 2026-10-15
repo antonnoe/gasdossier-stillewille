@@ -52,7 +52,7 @@ jobs:
           }
           controleer auth-callback.html 'Dit account heeft geen toegang, vraag toegang aan'
           controleer login.html 'shouldCreateUser: false'
-          controleer login.html 'Open die link op dit apparaat'
+          controleer login.html 'De link werkt alleen in deze browser'
           controleer supabase-config.js "flowType: 'pkce'"
           controleer chrome.js 'Handleiding beheerders'
 
