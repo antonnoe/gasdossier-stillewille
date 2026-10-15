@@ -41,15 +41,43 @@ jobs:
         run: |
           set -euo pipefail
           fout=0
+
+          # Haal elk bestand één keer op en zoek daarna in die kopie.
+          #
+          # Niet "curl ... | grep -q": grep stopt bij de eerste treffer, curl
+          # schrijft daarna nog naar een gesloten pijp en eindigt met een
+          # foutcode, en met pipefail telt dat als "niet gevonden". Of dat
+          # gebeurt hangt af van waar in het bestand de zin staat, dus de
+          # controle sloeg willekeurig om. Dat kostte op 15-10-2026 een
+          # vals alarm op login.html.
+          ophalen() {
+            if curl -sS --fail "$SITE/$1" -o "/tmp/live-$1"; then
+              return 0
+            fi
+            echo "FOUT $1 is niet op te halen"
+            fout=1
+            return 1
+          }
+
           controleer() {
             bestand="$1"; zin="$2"
-            if curl -sS --fail "$SITE/$bestand" | grep -qF "$zin"; then
+            if [ ! -s "/tmp/live-$bestand" ]; then
+              echo "OVER $bestand niet opgehaald, controle overgeslagen: $zin"
+              fout=1
+              return
+            fi
+            if grep -qF "$zin" "/tmp/live-$bestand"; then
               echo "OK   $bestand bevat: $zin"
             else
               echo "FOUT $bestand mist: $zin"
               fout=1
             fi
           }
+
+          for bestand in auth-callback.html login.html supabase-config.js chrome.js; do
+            ophalen "$bestand" || true
+          done
+
           controleer auth-callback.html 'Dit account heeft geen toegang, vraag toegang aan'
           controleer login.html 'shouldCreateUser: false'
           controleer login.html 'De link werkt alleen in deze browser'
@@ -61,18 +89,12 @@ jobs:
           # Zoeken op losse zinnen zegt te weinig: een zin die al in een
           # eerdere commit stond, staat er ook nog als de nieuwste deploy
           # mislukt is. Daarom worden twee publieke bestanden byte voor byte
-          # vergeleken met de versie uit deze checkout. Wijkt er iets af, dan
-          # is Vercel achter of de deploy is niet doorgekomen.
+          # vergeleken met de versie uit deze checkout.
           for bestand in login.html chrome.js; do
-            if curl -sS --fail "$SITE/$bestand" -o /tmp/live-$bestand; then
-              if diff -q "$bestand" "/tmp/live-$bestand" >/dev/null; then
-                echo "OK   $bestand live is gelijk aan deze commit"
-              else
-                echo "FOUT $bestand op de site wijkt af van deze commit; deploy is achter of mislukt"
-                fout=1
-              fi
+            if [ -s "/tmp/live-$bestand" ] && diff -q "$bestand" "/tmp/live-$bestand" >/dev/null; then
+              echo "OK   $bestand live is gelijk aan deze commit"
             else
-              echo "FOUT $bestand is niet op te halen"
+              echo "FOUT $bestand op de site wijkt af van deze commit; deploy is achter of mislukt"
               fout=1
             fi
           done
