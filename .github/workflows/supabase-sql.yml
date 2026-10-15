@@ -1,0 +1,109 @@
+name: Supabase SQL
+
+# Voert een SQL-bestand uit de repository uit op de live database, via de
+# Management API van Supabase.
+#
+# Waarom niet via de workflow "Supabase migratie": die werkt met psql en
+# SUPABASE_DB_URL, en dat secret heeft op dit project nooit gewerkt. Gevolg:
+# migraties stonden wel in de repository maar niet in de database. Dat kwam
+# op 15-10-2026 aan het licht toen "Gebruiker toevoegen" meldde dat de
+# functie voeg_gebruiker_toe niet bestond, terwijl de migratie die hem
+# aanmaakt er sinds 16-09 in staat.
+#
+# Deze workflow gebruikt SUPABASE_ACCESS_TOKEN, hetzelfde secret waarmee de
+# Edge Functions worden gedeployd, en heeft dus geen databasewachtwoord
+# nodig.
+#
+# Kies een bestand uit supabase/migrations/ of supabase/sql/. De uitvoer van
+# de query komt in het log te staan: zet er dus geen query in die namen of
+# e-mailadressen afdrukt.
+
+on:
+  workflow_dispatch:
+    inputs:
+      map:
+        description: 'Map waarin het bestand staat'
+        type: choice
+        required: true
+        default: 'supabase/migrations'
+        options:
+          - supabase/migrations
+          - supabase/sql
+      bestand:
+        description: 'Bestandsnaam in die map'
+        required: true
+
+env:
+  PROJECT_REF: pmnquozexgxhpbpuergj
+
+jobs:
+  sql:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Controleer of het secret is gezet
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          if [ -z "$SUPABASE_ACCESS_TOKEN" ]; then
+            echo "Het repository-secret SUPABASE_ACCESS_TOKEN ontbreekt."
+            echo "Aanmaken: Supabase-dashboard -> Account -> Access Tokens."
+            exit 1
+          fi
+
+      - name: SQL uitvoeren
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          MAP: ${{ inputs.map }}
+          BESTAND: ${{ inputs.bestand }}
+        run: |
+          set -euo pipefail
+          # Geen padtrucs: alleen een kale bestandsnaam uit de gekozen map.
+          case "$BESTAND" in
+            */*|*..*) echo "Geef alleen een bestandsnaam, geen pad."; exit 1 ;;
+          esac
+          pad="$MAP/$BESTAND"
+          if [ ! -f "$pad" ]; then
+            echo "$pad bestaat niet."
+            ls -1 "$MAP"
+            exit 1
+          fi
+
+          echo "--- $pad ---"
+          cat "$pad"
+          echo "--- uitvoeren ---"
+
+          jq -Rs '{query: .}' < "$pad" > /tmp/body.json
+          code=$(curl -sS -o /tmp/antwoord.json -w '%{http_code}' \
+            -X POST "https://api.supabase.com/v1/projects/$PROJECT_REF/database/query" \
+            -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+            -H 'Content-Type: application/json' \
+            --data-binary @/tmp/body.json)
+
+          echo "HTTP $code"
+          jq . /tmp/antwoord.json 2>/dev/null || cat /tmp/antwoord.json
+          if [ "$code" != "200" ] && [ "$code" != "201" ]; then
+            echo "De SQL is niet uitgevoerd."
+            exit 1
+          fi
+          echo "Klaar."
+
+      - name: Schema-cache van PostgREST verversen
+        if: success()
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          # Nieuwe of gewijzigde functies zijn pas via de API aanroepbaar als
+          # PostgREST zijn schema opnieuw inleest. Zonder dit blijft de
+          # melding "Could not find the function ... in the schema cache"
+          # staan, ook als de functie er wel is.
+          code=$(curl -sS -o /tmp/reload.json -w '%{http_code}' \
+            -X POST "https://api.supabase.com/v1/projects/$PROJECT_REF/database/query" \
+            -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+            -H 'Content-Type: application/json' \
+            -d '{"query":"notify pgrst, '"'"'reload schema'"'"';"}')
+          echo "schema herladen: HTTP $code"
