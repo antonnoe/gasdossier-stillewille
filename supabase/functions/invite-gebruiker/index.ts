@@ -27,6 +27,10 @@
 //   modus 'handmatig' — verleent toegang zonder aanvraag, met gegevens uit
 //                     het formulier "Gebruiker toevoegen" op /admin.html.
 //                     RPC: voeg_gebruiker_toe(p_email, p_naam, …)
+//   modus 'opnieuw'   — stuurt een nieuwe inloglink aan iemand die al op de
+//                     toegangslijst staat. Verleent dus géén toegang en
+//                     wijzigt niets; weigert zelfs als het adres niet in
+//                     public.gebruikers staat.
 //
 // Beide RPC's zijn SECURITY DEFINER en draaien controleer_toegang(): de
 // rolcontrole, de toegangspauze (app_instellingen.toegang_vanaf) en de
@@ -153,8 +157,66 @@ Deno.serve(async (req) => {
     return json({ error: 'E-mailadres ontbreekt' }, 400);
   }
   const modus = (body.modus ?? 'aanvraag').trim().toLowerCase();
-  if (modus !== 'aanvraag' && modus !== 'handmatig') {
+  if (modus !== 'aanvraag' && modus !== 'handmatig' && modus !== 'opnieuw') {
     return json({ error: 'Onbekende modus: ' + modus }, 400);
+  }
+
+  // 3b. Opnieuw een inloglink sturen ------------------------------------------
+  //
+  //     Dit pad verleent geen toegang: het adres moet al op de
+  //     toegangslijst staan. Daarmee kan een beheerder iemand helpen die
+  //     zijn uitnodiging kwijt is of wiens link verlopen is, zonder dat er
+  //     iets aan rechten verandert.
+  //
+  //     Let op: deze link wordt server-side aangevraagd en is dus niet aan
+  //     een browser gebonden, anders dan een link die de bewoner zelf op
+  //     /login.html opvraagt. Hij werkt overal, en doorsturen geeft de
+  //     ontvanger toegang. Gebruik hem dus alleen op verzoek van de bewoner
+  //     zelf. /admin.html zegt dat er bij de knop bij.
+  if (modus === 'opnieuw') {
+    const { data: rij, error: zoekErr } = await admin
+      .from('gebruikers')
+      .select('email')
+      .eq('email', email)
+      .maybeSingle();
+
+    if (zoekErr) {
+      return json({ error: 'Opzoeken mislukt: ' + zoekErr.message }, 500);
+    }
+    if (!rij) {
+      return json({
+        error: 'Dit adres staat niet op de toegangslijst. Voeg de gebruiker ' +
+               'eerst toe; een inloglink alleen geeft geen toegang.',
+        stap: 'gebruiker',
+      }, 400);
+    }
+
+    // Met de anon-sleutel, want dit is precies wat /login.html ook doet.
+    const publiek = createClient(SUPABASE_URL, ANON_KEY, {
+      auth: { autoRefreshToken: false, persistSession: false },
+    });
+    const { error: otpErr } = await publiek.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: INVITE_REDIRECT, shouldCreateUser: false },
+    });
+
+    if (otpErr) {
+      return json({
+        ok: false,
+        email,
+        modus,
+        authStatus: 'mislukt',
+        authMelding: otpErr.message,
+      }, 200);
+    }
+
+    return json({
+      ok: true,
+      email,
+      modus,
+      authStatus: 'link-verstuurd',
+      authMelding: null,
+    }, 200);
   }
 
   // 4. Stap 1 — de rij in public.gebruikers ----------------------------------

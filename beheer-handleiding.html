@@ -112,7 +112,7 @@
         <li>Iemand de toegang ontnemen</li>
         <li>Inloggen: wat bewoners je gaan vragen</li>
         <li>De nieuwsbrief versturen</li>
-        <li>Reacties en correctieverzoeken</li>
+        <li>Reacties, correctieverzoeken en mislukte inlogpogingen</li>
         <li>Wat er onder de motorkap draait</li>
         <li>Als er iets stuk is</li>
         <li>Wat nog niet kan</li>
@@ -173,6 +173,12 @@
     </ul>
     <p>Een bewoner kan de site op meerdere apparaten gebruiken. Hij doet het dan één keer per apparaat en blijft daarna op allebei ongeveer een maand ingelogd.</p>
 
+    <h3>Zelf een inloglink sturen</h3>
+    <p>Komt iemand er echt niet uit, dan staat achter zijn regel in het blok <strong>Gebruikers</strong> de knop <strong>Stuur inloglink</strong>. Die verandert niets aan zijn rechten en werkt alleen voor wie al op de toegangslijst staat.</p>
+    <div class="hl-let">
+      <p><strong>Eén verschil dat telt.</strong> Een link die jij zo verstuurt werkt in elke browser, anders dan een link die de bewoner zelf op de inlogpagina opvraagt. Wie hem doorstuurt geeft zijn toegang weg. Gebruik die knop dus alleen als de bewoner er zelf om vraagt, en zeg erbij dat hij de mail meteen opent en voor zichzelf houdt.</p>
+    </div>
+
     <h2>5. De nieuwsbrief versturen</h2>
     <ol>
       <li>Ga naar het blok <strong>Nieuwsbrief</strong>. Boven het scherm staat voor hoeveel bewoners e-mailupdates aan staan; dat is je aantal ontvangers.</li>
@@ -186,9 +192,10 @@
     </div>
     <p>Bewoners melden zich zelf af met de schakelaar E-mailupdates op hun accountpagina of via de afmeldlink onderaan elke nieuwsbrief. Beide zetten dezelfde schakelaar om; er is geen aparte lijst meer. Houd updates kort en feitelijk, zonder oordeel.</p>
 
-    <h2>6. Reacties en correctieverzoeken</h2>
+    <h2>6. Reacties, correctieverzoeken en mislukte inlogpogingen</h2>
     <p>Beide blokken staan onderaan het beheerpaneel. Reacties van bewoners kun je verwijderen. Bij een correctieverzoek kun je een antwoord van de redactie plaatsen, dat onder het verzoek op de site komt te staan.</p>
     <p>Een correctieverzoek is een serieus signaal: het archief staat of valt met zijn bronnen. Verwerk een terechte correctie in het dossier zelf en laat het verzoek staan, zodat zichtbaar blijft dat het is opgemerkt en opgelost.</p>
+    <p>Onderaan staat verder het blok <strong>Mislukte inlogpogingen</strong>. Dat is geen beheertaak maar een hulpmiddel: wie belt dat het niet lukt, staat daar meestal al in. Wat de meldingen betekenen staat in paragraaf 8.</p>
 
     <h2>7. Wat er onder de motorkap draait</h2>
     <p>Handig om te weten, niet om dagelijks aan te komen.</p>
@@ -207,7 +214,16 @@
     <h3>Niemand kan inloggen</h3>
     <p>Meestal staat het Supabase-project op pauze. Gratis projecten pauzeren na zeven dagen zonder verkeer. Open het Supabase-dashboard; staat er dat het project gepauzeerd is, zet het dan weer aan. Het duurt daarna een paar minuten.</p>
     <h3>Eén iemand kan niet inloggen</h3>
-    <p>Loop de drie punten uit paragraaf 4 langs. Blijft het hangen, draai dan in GitHub onder Actions de controle <strong>Toegang diagnose</strong>. Die zegt hoeveel adressen op allebei de lijsten staan en hoeveel er maar op één. Hoort dat laatste nul te zijn en is het dat niet, dan is er iets misgegaan bij het toelaten.</p>
+    <p>Kijk eerst in het blok <strong>Mislukte inlogpogingen</strong> onderaan het beheerpaneel. Daar staat per poging wie het was, wanneer, wat er misging en op wat voor apparaat. Dat scheelt raden.</p>
+    <p>Wat je daar tegenkomt en wat het betekent:</p>
+    <ul>
+      <li><strong>Dit adres heeft geen account</strong> — hij typt een ander adres in dan het adres dat op de lijst staat. Vergelijk het letterlijk met het blok Gebruikers; bij Gmail is een punt op de verkeerde plek al genoeg.</li>
+      <li><strong>De link was verlopen of al gebruikt</strong> — hij klikt op een oude mail. Een link is kort geldig en werkt één keer. Laat hem een nieuwe halen, of gebruik de knop Stuur inloglink.</li>
+      <li><strong>Link geopend op een ander apparaat</strong> — hij vroeg de link aan op zijn laptop en opende hem op zijn telefoon, of andersom.</li>
+      <li><strong>In een app-venster</strong> in de kolom Apparaat — hij klikte vanuit zijn mail- of berichten-app, en dat telt als een andere browser. Laat hem het webadres kopiëren en in zijn gewone browser plakken.</li>
+      <li><strong>Wel een account, maar niet op de toegangslijst</strong> — hij is verwijderd of nooit toegevoegd.</li>
+    </ul>
+    <p>Blijft het hangen, draai dan in GitHub onder Actions de controle <strong>Toegang diagnose</strong>. Die zegt hoeveel adressen op allebei de lijsten staan en hoeveel er maar op één. Hoort dat laatste nul te zijn en is het dat niet, dan is er iets misgegaan bij het toelaten.</p>
     <h3>Het beheerpaneel meldt een fout</h3>
     <p>Lees de melding letterlijk voor en geef hem door. "Het doet het niet" kost een middag; de exacte zin kost tien minuten.</p>
     <h3>De nieuwsbrief geeft "Failed to send a request"</h3>
@@ -218,6 +234,7 @@
       <li><strong>Mailen naar één persoon of een groep.</strong> De nieuwsbrief gaat naar iedereen met updates aan, of als testmail naar jezelf. Werkgroepen en projectgroepen bestaan nog niet in het systeem.</li>
       <li><strong>Inloggen met vingerafdruk of gezichtsherkenning.</strong> Staat op de lijst, is nog niet gebouwd.</li>
       <li><strong>Iemand per direct uitsluiten.</strong> Verwijderen werkt, maar een lopende sessie op zijn eigen apparaat loopt nog door.</li>
+      <li><strong>De geldigheidsduur van een inloglink aanpassen.</strong> Die staat nu kort, waardoor een mail die in de spam belandt en pas later gelezen wordt al verlopen is. Het is één instelling in Supabase; vraag erom als het vaak misgaat.</li>
       <li><strong>Een uitnodigingsmail is wél doorstuurbaar.</strong> De gewone inloglink niet, maar de eenmalige uitnodiging aan een nieuwe bewoner werkt in elke browser. Zeg er bij het toelaten van een nieuwe bewoner bij dat hij die mail voor zichzelf houdt.</li>
     </ul>
 

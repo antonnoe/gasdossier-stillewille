@@ -259,6 +259,17 @@
     </table>
     <div id="gebruikers-empty" class="empty" hidden>Nog geen gebruikers.</div>
 
+    <h2>Mislukte inlogpogingen</h2>
+    <p class="sub">Wie liep er vast bij het inloggen, en waaraan. De laatste veertien dagen.</p>
+    <div id="inlogfouten-err" class="err-line" hidden></div>
+    <table class="admin-table" id="inlogfouten-table">
+      <thead>
+        <tr><th>Wanneer</th><th>E-mail</th><th>Wat ging er mis</th><th>Apparaat</th></tr>
+      </thead>
+      <tbody id="inlogfouten-body"></tbody>
+    </table>
+    <div id="inlogfouten-empty" class="empty" hidden>Geen mislukte pogingen in de afgelopen twee weken.</div>
+
     <h2>Reacties</h2>
     <p class="sub">Geplaatste reacties op de dossierpagina's.</p>
     <div id="reacties-err" class="err-line" hidden></div>
@@ -330,6 +341,7 @@
         loadReacties();
         loadCorrectie();
         loadNieuwsbrieven();
+        loadInlogFouten();
         initToevoegen();
 
         document.getElementById('nb-test')
@@ -776,6 +788,12 @@
           if (currentRol === 'owner' && rol === 'beheerder') {
             acties += '<button class="btn-sm btn-plain" data-act="demote">Maak gebruiker</button>';
           }
+          // "Stuur inloglink": voor iemand die zijn uitnodiging kwijt is of
+          // wiens link verlopen is. Verandert niets aan zijn rechten.
+          acties += '<button class="btn-sm btn-plain" data-act="inloglink" ' +
+                    'title="Stuurt een nieuwe inloglink. Die werkt in elke browser, ' +
+                    'dus alleen doen op verzoek van de bewoner zelf.">Stuur inloglink</button>';
+
           // "Verwijderen": voor beheerders/owners. Niet je eigen account, en
           // owners kun je niet zomaar verwijderen.
           if (g.email !== currentEmail && rol !== 'owner') {
@@ -814,6 +832,30 @@
       return;
     }
 
+    if (act === 'inloglink') {
+      if (!confirm('Een nieuwe inloglink sturen naar ' + g.email + '?\n\n' +
+                   'Let op: deze link werkt in elke browser, anders dan een link ' +
+                   'die de bewoner zelf op de inlogpagina opvraagt. Wie hem ' +
+                   'doorstuurt geeft zijn toegang weg. Doe dit alleen op verzoek ' +
+                   'van de bewoner zelf.')) {
+        reEnable();
+        return;
+      }
+      autoriseer({ email: g.email, modus: 'opnieuw' }).then(function (res) {
+        reEnable();
+        if (!res.ok) { alert('Versturen mislukt: ' + res.message); return; }
+        var d = res.data || {};
+        if (d.authStatus === 'link-verstuurd') {
+          alert('Er is een inloglink verstuurd naar ' + g.email + '.\n\n' +
+                'De link is kort geldig en werkt één keer. Zeg erbij dat hij ' +
+                'de mail meteen moet openen.');
+        } else {
+          alert('Versturen mislukt: ' + (d.authMelding || 'onbekende fout'));
+        }
+      });
+      return;
+    }
+
     if (act === 'delete') {
       if (!confirm('Gebruiker "' + g.email + '" verwijderen? Dit kan niet ongedaan worden gemaakt.')) {
         reEnable();
@@ -826,6 +868,78 @@
           loadStats();
         });
     }
+  }
+
+  // Mislukte inlogpogingen.
+  //
+  // De tabel public.inlog_fouten is op databaseniveau alleen leesbaar voor
+  // beheerders en owners; een gewone gebruiker krijgt hier niets te zien,
+  // ook niet als hij de pagina zou openen.
+  var FOUT_UITLEG = {
+    'mail-versturen-mislukt': 'De toegangslink kon niet verstuurd worden',
+    'geen-account':           'Dit adres heeft geen account; let op een tikfout',
+    'link-ongeldig':          'De link was verlopen of al gebruikt',
+    'link-ander-apparaat':    'Link geopend op een ander apparaat dan waar hij is aangevraagd',
+    'geen-sessie':            'Geen bruikbare sessie na het openen van de link',
+    'code-fout':              'De overgetypte code klopte niet of was verlopen',
+    'niet-op-lijst':          'Wel een account, maar niet op de toegangslijst',
+    'toegang-controle-fout':  'De controle op de toegangslijst gaf een fout'
+  };
+
+  // Uit een lange browserregel de twee dingen halen waar je iets aan hebt:
+  // welk apparaat, en of het de gewone browser was of een venster binnen
+  // een app. Dat laatste verklaart de meeste mislukte links.
+  function apparaatKort(ua) {
+    if (!ua) return '—';
+    var soort = /iPhone|iPad/.test(ua) ? 'iPhone of iPad'
+              : /Android/.test(ua)     ? 'Android'
+              : /Macintosh/.test(ua)   ? 'Mac'
+              : /Windows/.test(ua)     ? 'Windows'
+              : 'onbekend';
+    // Safari en Chrome zetten een "Version/" of "Chrome/" in de regel. Een
+    // venster binnen een app (mail, WhatsApp) doet dat niet.
+    var inApp = /iPhone|iPad|Android/.test(ua) && !/Version\/|CriOS|Chrome\//.test(ua);
+    return soort + (inApp ? ' · in een app-venster' : '');
+  }
+
+  function loadInlogFouten() {
+    var body = document.getElementById('inlogfouten-body');
+    var empty = document.getElementById('inlogfouten-empty');
+    var errEl = document.getElementById('inlogfouten-err');
+    errEl.hidden = true;
+
+    var vanaf = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
+
+    sb.from('inlog_fouten').select('tijd, email, soort, detail, user_agent')
+      .gte('tijd', vanaf).order('tijd', { ascending: false }).limit(100)
+      .then(function (r) {
+        if (r.error) {
+          errEl.textContent = 'Kon de mislukte inlogpogingen niet laden: ' + r.error.message;
+          errEl.hidden = false;
+          return;
+        }
+        var rows = r.data || [];
+        body.innerHTML = '';
+        empty.hidden = rows.length > 0;
+        rows.forEach(function (f) {
+          var wanneer = '—';
+          try {
+            wanneer = new Date(f.tijd).toLocaleString('nl-NL',
+              { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+          } catch (e) { /* laat de streep staan */ }
+
+          var uitleg = FOUT_UITLEG[f.soort] || f.soort;
+          var tr = document.createElement('tr');
+          tr.innerHTML =
+            '<td>' + esc(wanneer) + '</td>' +
+            '<td><span class="em">' + esc(f.email || '—') + '</span></td>' +
+            '<td>' + esc(uitleg) +
+              (f.detail ? '<br><span class="empty" style="padding:0;font-size:12px;">' + esc(f.detail) + '</span>' : '') +
+            '</td>' +
+            '<td style="font-size:13px;color:var(--grey-mid);">' + esc(apparaatKort(f.user_agent)) + '</td>';
+          body.appendChild(tr);
+        });
+      });
   }
 
   // 4. Reacties

@@ -54,6 +54,7 @@ jobs:
           controleer login.html 'shouldCreateUser: false'
           controleer login.html 'Open die link op dit apparaat'
           controleer supabase-config.js "flowType: 'pkce'"
+          controleer chrome.js 'Handleiding beheerders'
 
           # Loopt de live site echt op deze commit?
           #
