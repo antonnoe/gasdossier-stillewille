@@ -104,6 +104,59 @@
         .lr-lijst { grid-template-columns: 1fr; }
       }
 
+      /* Oproep eindredactie — bewust afwijkend zodat hij opvalt */
+      .oproep {
+        border-top: 1px solid var(--green-15);
+        padding: 48px var(--page-pad-x);
+        background: var(--green-tint);
+      }
+      .oproep-inner {
+        max-width: 760px; margin: 0 auto;
+        background: var(--white);
+        border: 1px solid var(--green-25);
+        border-left: 5px solid var(--green);
+        border-radius: 12px;
+        padding: 28px 30px;
+      }
+      .oproep-kicker {
+        font-family: var(--font-mono); font-size: var(--fs-mono);
+        letter-spacing: 0.16em; text-transform: uppercase;
+        color: var(--green); font-weight: 600; margin: 0 0 10px;
+      }
+      .oproep h2 {
+        font-family: var(--font-display); font-weight: 700; font-size: 22px;
+        letter-spacing: -0.01em; color: var(--grey-dark); margin: 0 0 12px;
+      }
+      .oproep p { font-family: var(--font-body); font-size: 15px; line-height: 1.7; color: var(--grey-dark); margin: 0 0 14px; max-width: 64ch; }
+      .oproep a { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+      .oproep-tel {
+        display: inline-block; margin: 4px 0 18px;
+        font-family: var(--font-display); font-weight: 700; font-size: 18px;
+        color: var(--green-deep); text-decoration: none;
+      }
+      .oproep-tel:hover { text-decoration: underline; }
+      .oproep-meer { border-top: 1px solid var(--green-15); padding-top: 16px; margin-top: 4px; }
+      .oproep-meer > summary {
+        cursor: pointer; list-style: none;
+        font-family: var(--font-display); font-weight: 600; font-size: 14.5px;
+        color: var(--green); padding: 2px 0;
+      }
+      .oproep-meer > summary::-webkit-details-marker { display: none; }
+      .oproep-meer > summary::after { content: " \25BE"; }
+      .oproep-meer[open] > summary::after { content: " \25B4"; }
+      .oproep-meer h3 {
+        font-family: var(--font-display); font-weight: 600; font-size: 15px;
+        color: var(--grey-dark); margin: 18px 0 6px;
+      }
+      .oproep-meer p, .oproep-meer li { font-size: 14.5px; line-height: 1.7; color: var(--grey-mid); }
+      .oproep-meer ul { margin: 0 0 14px; padding-left: 20px; }
+      .oproep-meer li { margin-bottom: 6px; }
+      .oproep-meer li strong { color: var(--grey-dark); }
+      @media (max-width: 700px) {
+        .oproep { padding: 40px var(--page-pad-x-mobile); }
+        .oproep-inner { padding: 22px 20px; }
+      }
+
       /* "Over dit archief" — redactionele verklaring boven de footer */
       .over-archief {
         border-top: 1px solid var(--green-15);
@@ -593,6 +646,41 @@
 
       <div data-sw-tile-grid></div>
     </main>
+
+    <!-- ─── OPROEP: twee leden voor de eindredactie ───── -->
+    <section class="oproep" id="eindredactie">
+      <div class="oproep-inner">
+        <p class="oproep-kicker">Oproep</p>
+        <h2>Gevraagd: twee leden voor de eindredactie</h2>
+        <p>Dit archief heeft een eindredactie nodig die breder is dan één persoon. Wij zoeken <strong>twee bewoners</strong> die samen met de huidige redactie de eindverantwoordelijkheid dragen voor wat hier gepubliceerd wordt.</p>
+        <p>Het werk bestaat uit het beoordelen van aangeleverde teksten: klopt elk cijfer met de bron, staat er geen oordeel waar een feit hoort, zijn alle betrokken partijen eerlijk weergegeven. U hoeft geen verstand te hebben van computers of van juridische stukken. Wat telt is een nuchtere blik en de bereidheid om een tekst tegen te houden zolang de onderbouwing niet rond is, ook als u het inhoudelijk eens bent met de strekking.</p>
+        <p>Aanmelden gaat telefonisch bij Anton Noë:</p>
+        <a class="oproep-tel" href="tel:+31654754474">+31 6 54 75 44 74</a>
+
+        <details class="oproep-meer">
+          <summary>Lees meer over waar dit archief voor staat</summary>
+
+          <p>Dit archief is geen partij in de kwesties die het beschrijft. Het is de plek waar bewoners, de bewonersvereniging, de bewonersraad, de grondeigenaar, de exploitant en de gemeente dezelfde controleerbare feiten aantreffen. Dat is ook het enige dat het archief gezag geeft: zodra het een pleitbezorger wordt, is het waardeloos voor iedereen, de bewoners voorop.</p>
+
+          <h3>Vier toetsen, in deze volgorde</h3>
+          <ul>
+            <li><strong>Feiten, geen meningen.</strong> Een bewering zonder bron komt er niet in. Een mening kan wel worden opgenomen als mening van een met name genoemde partij, met bron en datum, nooit als feit.</li>
+            <li><strong>Ratio, geen emotie.</strong> Wij beschrijven wat is vastgesteld. Geen kwalificaties, geen verontwaardiging, en geen veronderstellingen over de motieven van personen of organisaties.</li>
+            <li><strong>Relevant, geen oude koeien.</strong> De vraag is niet of iets waar is, maar of het iets verandert aan een kwestie die nu speelt. Een geverifieerd feit zonder gevolg hoort in de tijdlijn, niet in een dossier.</li>
+            <li><strong>Evenwichtig naar alle partijen.</strong> Heeft een partij een standpunt, dan staat dat erbij, met bron. Ook als de redactie het onjuist acht; dan staat het weerwoord ernaast en weegt de lezer zelf.</li>
+          </ul>
+
+          <h3>Hoe hard een bewering is</h3>
+          <p>Elk cijfer en elke claim krijgt een status die iedere lezer zelf kan natrekken in het <a href="/bronnen.html#verificatieregister">verificatieregister</a>: <strong>groen</strong> bij een primaire bron plus een onafhankelijke tweede bron, <strong>geel</strong> bij één primaire bron, <strong>oranje</strong> wanneer het cijfer klopt maar er een kanttekening bij hoort die de lezer moet kennen. Oranje is geen zwakte maar een eerlijk etiket. Wat niet mag, is iets groen noemen omdat het goed uitkomt.</p>
+          <p>Bij tegenstrijdige bronnen wint de hogere: een rechterlijke uitspraak gaat boven een jaarrekening, een jaarrekening boven een nieuwsbrief, en een individuele verklaring telt alleen mee met naam en verificatiestatus erbij.</p>
+
+          <h3>Geen enkel dossier is af</h3>
+          <p>&ldquo;Bijgewerkt&rdquo; betekent dat de informatie actueel is tot de genoemde peildatum, niet dat het onderwerp is afgerond. Naast wat wij weten, staat op elke pagina ook wat onduidelijk is en welke vragen openstaan. Dat is met opzet: wie opschrijft wat hij niet weet, kan niet suggereren dat hij het wel weet.</p>
+
+          <p>Het volledige redactionele protocol staat op de pagina <a href="/redactie.html">Redactioneel protocol</a>.</p>
+        </details>
+      </div>
+    </section>
 
     <!-- ─── LAATSTE REACTIES (via Supabase, alleen zichtbaar als er reacties zijn) ─ -->
     <section class="laatste-reacties" id="laatste-reacties" hidden>
