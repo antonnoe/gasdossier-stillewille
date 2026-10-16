@@ -1,0 +1,681 @@
+ 
+ 
+   
+     
+       ECLI:NL:GHSHE:2014:3639 
+       text/xml 
+       public 
+       2020-02-05T09:48:53 
+       2014-09-16 
+       Raad voor de Rechtspraak 
+       nl 
+       Gerechtshof 's-Hertogenbosch 
+       2014-09-16 
+       HD 200.105.350_01 
+       Uitspraak 
+       Hoger beroep 
+       NL 
+       's-Hertogenbosch 
+       Civiel recht 
+       Eerste aanleg: ECLI:NL:RBSHE:2008:648 
+       Tussenuitspraak: ECLI:NL:GHSHE:2013:3708 
+       
+         
+           Rechtspraak.nl 
+         
+       
+     
+     
+       http://deeplink.rechtspraak.nl/uitspraak?id=ECLI:NL:GHSHE:2014:3639 
+       text/html 
+       public 
+       2020-02-05T09:48:27 
+       2020-02-05 
+       Raad voor de Rechtspraak 
+       nl 
+       ECLI:NL:GHSHE:2014:3639 Gerechtshof 's-Hertogenbosch , 16-09-2014 / HD 200.105.350_01 
+       
+     
+   
+   
+       Servicekosten bungalowpark; erfpacht, contractsvrijheid 
+     
+   
+   
+     GERECHTSHOF ’s-HERTOGENBOSCH  
+     Afdeling civiel recht 
+     
+     
+       zaaknummer HD 200.105.350/01 
+     
+     
+     
+       
+         arrest van 16 september 2014 
+       
+     
+     
+     
+       in de zaak van  
+     
+     
+     2 [appellante 2] , 
+     wonende te [woonplaats] , 
+     3.  [appellante 3] , 
+     wonende te [woonplaats] , 
+     4.  [appellant 4] , 
+     wonende te [woonplaats] , 
+     5.  [appellant 5] , 
+     wonende te [woonplaats] , 
+     6.  [appellante 6] , 
+     wonende te [woonplaats] , 
+     9.  [appellant 9] , 
+     wonende te [woonplaats] , 
+     10.  [appellante 10] , 
+     wonende te [woonplaats] , 
+     11.  [appellante 11] , 
+     wonende te [woonplaats] , 
+     12.  [appellante 12] , 
+     wonende te [woonplaats] , 
+     14.  [appellante 14] , 
+     wonende te [woonplaats] , 
+     15.  [appellant 15]  en 
+     16.  [appellante 16] , 
+     beiden wonende te [woonplaats] , 
+     17.  [appellant 17] , 
+     wonende te [woonplaats] , 
+     20.  [appellant 20]  en 
+     21.  [appellante 21] , 
+     beiden wonende te [woonplaats] , 
+     22.  [appellant 22]  en 
+     23.  [appellante 23] , 
+     beiden wonende te [woonplaats] , 
+     26.  [appellant 26]  en 
+     27.  [appellante 27] , 
+     beiden wonende te [woonplaats] , 
+     28.  [appellante 28] , 
+     29.  [appellante 29]  en 
+     30.  [appellant 30] , 
+     allen wonende c.q. woonplaats gekozen hebbende te [woonplaats] , 
+     31.  [appellant 31] , 
+     wonende te [woonplaats] , 
+     34.  [appellant 34] , 
+     wonende te [woonplaats] , 
+     35 . [appellant 35]  en 
+     36.  [appellante 36] , 
+     beiden wonende te [woonplaats] , 
+     37.  [appellante 37] , 
+     wonende te [woonplaats] , 
+     38.  [appellante 38] , 
+     wonende te [woonplaats] , 
+     39.  [appellante 39] , 
+     wonende te [woonplaats] , 
+     40.  [appellant 40]  en 
+     41.  [appellante 41] , 
+     beiden wonende te [woonplaats] , 
+     43.  [appellante 43] , 
+     wonende te [woonplaats] , 
+     44.  [appellant 44] , 
+     wonende te [woonplaats] , 
+     45.  [appellant 45]  en 
+     46.  [appellant 46] , 
+     beiden wonende te [woonplaats] , 
+     47.  [appellant 47] , 
+     wonende te [woonplaats] , 
+     48.  [appellant 48] , 
+     wonende te [woonplaats] . 
+     49.  [appellant 49]  en 
+     50.  [appellant 50] , 
+     
+       beiden wonende te [woonplaats] , 
+       advocaat: mr. M.J.A. Verhagen, 
+     
+     
+     7 [appellante 7] en 
+     8.  [appellant 8] , 
+     beiden wonende te [woonplaats] , 
+     13.  [appellante 13] , 
+     wonende te [woonplaats] , 
+     24.  [appellante 24] , 
+     wonende te [woonplaats] , 
+     25.  [appellante 25] , 
+     wonende te [woonplaats] , 
+     32.  [appellant 32]  en 
+     33.  [appellante 33] , 
+     beiden wonende te [woonplaats] , 
+     51.  [appellante 51] , 
+     
+       wonende te [woonplaats] , 
+       advocaat: mr. F.G.J. van der Kruis, 
+     
+     
+     
+       tegen 
+     
+     
+   
+   
+     
+       1  [Beleggingen ] BELEGGINGEN B.V., 
+     
+       gevestigd te [vestigingsplaats] , 
+       
+         2. STILLE WILLE BRABANT B.V., 
+       
+       gevestigd te [vestigingsplaats] , 
+       geïntimeerden in principaal hoger beroep, 
+       appellanten in incidenteel hoger beroep, 
+       advocaat mr. G.C., Vergouwen te Eindhoven, 
+     
+     
+     
+       als vervolg op het door het hof gewezen tussenarrest van 13 augustus 2013 in het hoger beroep van de door de rechtbank 's-Hertogenbosch onder zaaknummer 217517/HA ZA 10-2033 gewezen vonnissen van 13 juli 2011, 9 november 2011 en 1 februari 2012. 
+     
+     
+   
+   
+     
+       7 Het verloop van de procedure 
+     
+     
+       Het verloop van de procedure blijkt uit: 
+     
+     
+       
+         het tussenarrest van 13 augustus 2013 
+       
+       
+         de brief met bijlagen van mr. Verhagen van 4 november 2013 
+       
+       
+         de brief met bijlagen van mr. Wagemakers van 7 november 2013 
+       
+       
+         e brief van mr. Verhagen van 12 november 2013 
+       
+       
+         het proces-verbaal van 13 november 2013 
+       
+       
+         de brief met bijlagen van mr. Wagemakers van 8 januari 2014 
+       
+       
+         de brief van mr. Verhagen van 8 januari 2014 
+       
+       
+         de brief van mr. Van der Kruis van 8 januari 2014 
+       
+       
+         de brief van mr. Van der Kruis van 14 januari 2014 met producties 28 tot en met 31 
+       
+       
+         het proces-verbaal van 22 januari 2014, waarbij het hof de stukken b) tot en met d) en f) tot en met i) als in het geding gebracht heeft aangemerkt 
+       
+       
+         de akte van [Beleggingen ] /SWB van 18 maart 2014, met producties 
+       
+       
+         de akte van de door mr. Verhagen vertegenwoordigde erfpachters ( [appellante 2] c.s.) 
+       
+       
+         de akte van de door mr. van der Kruis vertegenwoordigde erfpachters ( [appellante 7] c.s.) 
+       
+     
+     
+     
+       Op 21 en 25 februari 2014 zijn eveneens brieven aan het hof gezonden, doch blijkens een brief van het hof van 4 maart 2014 maken deze geen deel uit van het dossier; het daarin verwoorde hebben de advocaten nadien opgenomen in hun aktes. 
+     
+     
+     
+       Het hof heeft uitspraak bepaald. 
+     
+     
+   
+   
+     
+       8 De verdere beoordeling 
+     
+     
+       
+         in principaal en incidenteel hoger beroep 
+       
+     
+     
+     
+       8.1. 
+       Het hof verwijst naar en volhardt bij het tussenarrest. In r.o. 5.6.11 dient in de voorlaatste regel in plaats van “SWM”, “SWB” te worden gelezen. 
+     
+     
+       8.2. 
+       Er is inmiddels sprake van vijf concepten van de exploitatie-overeenkomst, zoals [Beleggingen ] /SWM deze aan de erfpachters ter tekening hebben voorgelegd: 
+       
+         
+           de exploitatie-overeenkomst zoals die ook voor de overige bewoners geldt; versie A; 
+         
+         
+           idem, met daaraan toegevoegd art. 5.9 lid 1 sub 6 (zie tussenarrest r.o. 5.3.3 en 5.4); versie B; 
+         
+         
+           de aangepaste exploitatie-overeenkomst zoals door mr. Wagemakers toegezonden bij zijn brief van 7 november 2013; versie C; 
+         
+         
+           de aangepaste exploitatie-overeenkomst zoals door mr. Wagemakers toegezonden bij zijn brief van 8 januari 2014; versie D; 
+         
+         
+           de aangepaste exploitatie-overeenkomst zoals overgelegd bij de akte van [Beleggingen ] /SWM van 18 maart 2014; versie E. 
+         
+       
+       
+         8.2.1. 
+         Versie E is door (de advocaat van) [Beleggingen ] /SWB mede tot stand gebracht naar aanleiding van de opmerkingen over en weer – alsmede naar aanleiding van voorlopige commentaren van de raadsheer-commissaris – gemaakt c.q. gegeven bij gelegenheid van de comparities van partijen op 13 november 2013 en 22 januari 2014. Dat betekent dat voor de beoordeling die laatste versie E tot uitgangspunt genomen kan worden. Zoals in het tussenarrest reeds aangekondigd kan voor de inhoud de AB, versie 1997, veelal als referentie worden gehanteerd. 
+       
+       
+         8.2.2. 
+         Inmiddels is over een groot aantal bepalingen overeenstemming bereikt. In versie E zijn de bepalingen waarover geen overeenstemming is bereikt, door (de advocaat van) [Beleggingen ] /SWB onderstreept. De beide groepen procederende erfpachters hebben praktisch gelijkluidende antwoordakten genomen. Uit die antwoordakten blijkt dat de weergave, door middel van onderstreping, van de resterende geschilpunten correct is. Er resteren mitsdien geen andere geschilpunten met betrekking tot de tekst van de exploitatieovereenkomst (wel dient nog aandacht besteed te worden aan de financiële administratie). 
+       
+       
+         8.2.3. 
+         De artikelnummering heeft inmiddels geen enkele relatie meer met de artikelnummers welke voor de andere bewoners gelden. Dat kan lastig zijn, maar vormt geen onoverkomelijk bezwaar. Wel moet opgemerkt worden dat artikel 13, reclames, inmiddels is geschrapt, zodat artikelen 14, 15 en 16 in de definitieve versie hernummerd dienen te worden tot 13, 14 en 15. In dit arrest zal het hof echter de nummers hanteren welke door partijen tot nog toe zijn gehanteerd. 
+       
+     
+     
+       8.3. 
+       Alvorens op de verschillende artikelen in te gaan besteedt het hof kort aandacht aan het gestelde in het (bij de brief van 8 januari 2014 overgelegde) commentaar van [Beleggingen ] /SWB op de brief van 12 november 2013 van mr. Verhagen, in de derde alinea onder randnummer 1, in randnummer 5 onder e. en in randnummer 6 onder e.  Kort gezegd komt het erop neer dat [Beleggingen ] daarbij als haar standpunt te kennen geeft dat bepaalde kosten (bijvoorbeeld kosten voor de vervanging van het gasnet) niet voor haar rekening komen, zodat, als die kosten niet ten laste van de thans procederende bewoners kunnen worden gebracht, deze uiteindelijk over de andere bewoners dienen te worden omgeslagen.  Het hof treedt niet in de relatie tussen [Beleggingen ] (of SWB) en de overige bewoners, en volstaat met de overweging dat in het in het tussenarrest overwogene besloten ligt dat bepaalde kosten naar het oordeel van het hof voor rekening van [Beleggingen ] als erfverpachter zèlf komen en dat de tegenprestatie daarvoor geacht moet worden in de erfpachtcanon besloten te liggen. 
+     
+     
+       8.4. 
+       De resterende geschilpunten zijn de volgende: 
+       1. Artikel 4.9: 
+       
+         a. renovatie, vervanging en instandhouding van: 
+         1. gemalen 
+         2. waterlopen 
+         3. waterpartijen 
+         4. filterinstallaties 
+         5. zuiveringsinstallaties 
+         6. waterzuiveringsinstallaties 
+         b. renovatie, vervanging en instandhouding van: 
+         1. tennisbanen 
+         2. zwembaden c.a. 
+         c. reguleren oppervlakte- en grondwaterpeil 
+         d. overige noodzakelijke kosten 
+       
+       2. Art. 8.1 sub j: permanente bewoning 
+       3. Art. 15: kettingbeding 
+       4. Aansprakelijkheden over en weer 
+       5. Financiële verantwoording 
+     
+     
+       8.5. 
+       
+         Wat art. 4.9 betreft :  
+       
+         8.5.1. 
+         Het hof maakt bij de onder a.1 en 2 genoemde gemalen en waterlopen onderscheid tussen gemalen en waterlopen, bedoeld voor de handhaving van het waterpeil, en voor gemalen, onderdeel uitmakende van de afvoer van afvalwater. 
+       
+       
+         8.5.2. 
+         Naar ’s hofs oordeel behoort in een geval als het onderhavige, waarbij de erfverpachter deelpercelen van een groter perceel in erfpacht uitgeeft maar zelf een groot gedeelte van het grotere perceel onder zich houdt, de verplichting tot handhaving van een dusdanig grondwaterpeil dat de percelen daadwerkelijk gebruikt kunnen worden tot de verplichtingen van de erfverpachter (dus van [Beleggingen ] zelf), waarvoor in de canon geacht moet worden een tegenprestatie te zijn begrepen. De renovatie, vervanging en instandhouding van de waterlopen en van de gemalen bedoeld voor handhaving van het grondwaterpeil, (posten a.2 en a.1, beide voor een deel) en ook de kosten van reguleren van het oppervlakte- en grondwaterpeil (post c) behoren dus uit de exploitatieovereenkomst te worden geschrapt. Alle overige kosten onder post a. behoren naar hun aard niet tot posten welke voor rekening van de erfverpachter zouden moeten komen. Deze posten hangen ook voor een groot deel samen met het gebruik door de bewoners. Deze zijn terecht in de exploitatieovereenkomst opgenomen. Herhaald zij dat als de kosten niet laste van [Beleggingen ] komen, deze onvermijdelijk, uiteindelijk, ten laste van de bewoners komen. 
+       
+       
+         8.5.3. 
+         Wat post b, de zwembaden en tennisbanen, betreft: deze waren van oudsher aanwezig. In het verleden moest voor het gebruik daarvan worden betaald, inmiddels niet meer.  Het gaat naar het hof begrijpt om vrij normale tennisbanen en zwembad, geen bijzonder luxueuze voorzieningen. In de kosten van onderhoud, renovatie en instandhouding dienen alle bewoners bij te dragen maar dat gaat niet zo ver dat dit ook voor totale vervanging zou gelden of voor renovatie welke de facto op een nagenoeg complete vervanging zou uitdraaien. Het is duidelijk dat het wederzijdse wantrouwen groot is, doch dat laat onverlet dat het onvermijdelijk is dat bij grootschalige renovatie of vernieuwing er vooraf overleg plaats vindt. 
+       
+       
+         8.5.4. 
+         Post d, hiervoor genoemd bij art. 4.9, dient niet te worden opgenomen. Het moge praktisch zijn een dergelijke bepaling op te nemen, daartegen zijn nu juist de bezwaren van de erfpachters gericht. Zij wensen, zo begrijpt het hof, geen carte blanche te verlenen en zulks kan in redelijkheid van hen ook niet worden verwacht. Dit is onpraktisch, maar het gevolg van de door [Beleggingen ] /SWB zelf gekozen constructie. 
+       
+     
+     
+       8.6. 
+       
+         Permanente bewoning : 
+       
+         8.6.1. 
+         De erfpachters wijzen erop (in de akte van mr. Verhagen ontbreekt als gevolg van een kennelijk abuis het woordje “niet”) dat in de AB een met art. 8 lid j overeenkomende bepaling niet voor kwam. Die constatering is op zichzelf juist. Het hof overwoog reeds in het tussenarrest – en volhardt daarbij – dat er geen afdoende reden is om in de exploitatieovereenkomst op te nemen dat permanente bewoning wèl zou zijn toegestaan. Nu is de vraag of expliciet opgenomen moet worden dat dit níet is toegestaan. Het hof wijst erop, dat in versie D van de exploitatieovereenkomst, welke versie onderwerp was van het debat bij gelegenheid van de comparitie op 22 januari 2014, deze bepaling luidde: “Ingevolge de vigerende bestemmingsplanvoorschriften is het niet toegestaan de opstallen te gebruiken als hoofdverblijf of voor permanente bewoning”. De erfpachters maakten daartegen bezwaar.  In die versie D kwamen ook twee bepalingen voor, 2.2 en 2.3, welke geheel gelijkluidend waren aan 2.2 en 2.3 in versie E. Deze houden, kort gezegd, in dat exploitant het gebruik gedoogt zolang de overheid dat doet.  Ter comparitie is hierover gedebatteerd en uit de door de raadsheer-commissaris bijgehouden aantekeningen blijkt dat aan de bezwaren van de erfpachters tegemoet gekomen zou kunnen worden als in art. 8 sub j een voorbehoud in de vorm van een verwijzing naar art. 2.2 en 2.3 opgenomen zou worden.  Ook als daaromtrent geen instemming van de zijde van de erfpachters zou zijn bereikt valt niet in te zien welk bezwaar tegen de thans voorgestelde bepaling zou kunnen bestaan. Strikt genomen omschrijft art. 8 lid j helemaal geen verplichtingen of aanspraken van de exploitant en de erfpachter over en weer; de bepaling strekt er slechts toe duidelijk te maken dat er een bestemmingsplan bestaat dat permanente bewoning verbiedt. Art. 8 lid j jo. art. 2.2 en 2.3 houden dan, kort gezegd, in dat de exploitant volstrekt lijdelijk is en altijd de overheid volgt; op die wijze kan de exploitant ook niet door de overheid voor het blok worden gezet omdat de exploitant tegen de planvoorschriften in permanente bewoning mogelijk zou maken. Deze bepaling kan daarom worden gehandhaafd. 
+       
+     
+     
+       8.7. 
+       
+         Kettingbeding :  
+       
+         8.7.1. 
+         Het hof heeft reeds zonder voorbehoud beslist dat dit kettingbeding kan worden opgenomen. Van een kennelijke misslag waarvan teruggekomen kan worden is geen sprake. 
+       
+     
+     
+       8.8. 
+       
+         Aansprakelijkheden over en weer (exoneratie en vrijwaring) : 
+       
+         8.8.1. 
+         
+           Art. 16 (verzekeringen) sub c van de AB 1978, 1992 en 1997 luidde: 
+           “De erfpachter is volledig en onverkort aansprakelijk voor schade door gasten en gebruiker.” 
+         
+       
+       
+         8.8.2. 
+         
+           Art. 17 (vrijwaring door de erfpachter) van de AB 1992 en 1997 (een dergelijke bepaling kwam in de AB 1978 niet voor) luidde: 
+           “a. De Erfpachter vrijwaart de Exploitant voor alle verplichtingen tot vergoeding van schade, rente en kosten waartoe zij ingevolge het bepaalde in artikel 6:174 van het Burgerlijk Wetboek wegens gehele of gedeeltelijke instorting van de opstallen gehouden mocht zijn.  
+           b. De Erfpachter vrijwaart zowel de Exploitant als Grondeigenaar voor alle aanspraken van derden tot vergoeding van schade die na de ingangsdatum van het erfpachtrecht, dan wel – indien dit moment eerder is gelegen – na de ingebruikneming van de opstal, is ontstaan als gevolg van zodanige verontreiniging van de bodem door of vanwege de Erfpachter dat gevaar bestaat voor volksgezondheid en/of het milieu.” 
+         
+       
+       
+         8.8.3. 
+         
+           In versie A en B van de exploitatieovereenkomst was artikel 15, getiteld “vrijwaring” opgenomen. Lid 1 daarvan luidde als volgt: 
+           “De exploitant is niet aansprakelijk voor schade, rente en kosten waartoe de erfpachter, dan wel de exploitant ingevolge het bepaalde in artikel 6:174 van het Burgerlijk Wetboek wegens gehele of gedeeltelijke instorting van de opstallen, waaronder begrepen vallende takken, gehouden mocht zijn.”  
+           Afgezien van de expliciete vermelding van de vallende takken is het verschil met art. 17 sub a van de AB 1992 en 1997 dat het woordje “zij” in versies A en B was vervangen door “de erfpachter, dan wel de exploitant”. 
+         
+       
+       
+         8.8.4. 
+         In versies A en B bevatte art. 15 leden 2 tot en met 6 en lid 8 exoneraties welke eerder in de AB 1992-1997 niet voor kwamen. Lid 7 jo. lid 2 kwam echter, voor wat betreft aanspraken van derden in verband met milieuverontreiniging, vergaand overeen met art. 17 sub b van de AB 1992-1997. 
+       
+       
+         8.8.5. 
+         In versie E is echter het gehele art. 15 van versies A en B geschrapt en is [Beleggingen ] /SWB teruggevallen op de bepalingen uit de AB.  
+       
+       
+         8.8.6. 
+         
+           
+            [Beleggingen ] /SWB stelt de volgende tekst voor de artikelen 10 (getiteld “vrijwaring”) voor. 
+           Artikel 10 (bestemd voor erfpachters voor wie voorheen de AB 1992 of 1997 golden; de tekst is ontleend aan die AB): 
+           “10.1	De Erfpachter vrijwaart de Exploitant voor alle verplichtingen tot vergoeding van schade, rente en kosten waartoe *zij* ingevolge het bepaalde in artikel 6:174 van het Burgerlijk Wetboek wegens gehele of gedeeltelijke instorting van de opstallen gehouden mocht zijn. [Hof: het ingelaste woordje *zij* komt in het tekstvoorstel van [Beleggingen ] /SWB niet voor, doch het hof ontleent dit aan de AB 1992-1997.] 
+         
+       
+     
+     
+       10.2 
+       
+         De Erfpachter vrijwaart zowel de Exploitant als Grondeigenaar voor alle aanspraken van derden tot vergoeding van schade die na de ingangsdatum van het erfpachtrecht, dan wel – indien dit moment eerder is gelegen – na de ingebruikneming van de opstal, is ontstaan als gevolg van zodanige verontreiniging van de bodem door of vanwege de Erfpachter dat gevaar bestaat voor volksgezondheid en/of het milieu.” 
+         Artikel 10 (bestemd voor erfpachters voor wie voorheen de AB 1978 golden; de tekst is ontleend aan die AB): 
+         “De Erfpachter is volledig en onverkort aansprakelijk voor schade door gasten en gebruiker.” 
+       
+       
+         8.8.7. 
+         
+           
+            [Beleggingen ] /SWB stelt de volgende tekst voor artikel 11 lid 1 (getiteld “aansprakelijkheid erfpachter overtreding regels”) voor. 
+           “De Erfpachter is verantwoordelijk voor de gedragingen van zijn gasten en/of de gebruikers van zijn Opstallen/Perceel en is aansprakelijk voor de schade die door hen mocht worden veroorzaakt.” 
+         
+       
+       
+         8.8.8. 
+         Het hof wees er reeds op dat [Beleggingen ] /SWB bij het weergeven van art. 10.1 abusievelijk het woordje “zij” waren vergeten weer te geven. Doch wat daarvan zij: het is niet aanstonds duidelijk of het woordje “zij” terug slaat op de erfpachter, dan wel op de exploitant. In art. 15 lid 1 van versie A en B van de exploitatieovereenkomst heeft [Beleggingen ] /SWB getracht dit op te lossen door de hiervoor aangehaalde tekst, doch deze tekst geldt niet meer.  
+       
+       
+         8.8.9. 
+         Het hof acht het ongewenst om in art. 10, voor zover ontleend aan de AB 1992-1997, de hiervoor gesignaleerde onduidelijkheid te laten bestaan.  Het hof is van oordeel dat niet alleen art. 17b, maar ook art. 17a van de AB 1992-1997 kennelijk zag op aanspraken van derden. Ook de titel van de bepaling, “vrijwaring”, wijst daarop.  
+       
+       
+         8.8.10. 
+         Mitsdien zal het hof art. 10.1 (doch uitsluitend voor die erfpachters ten aanzien waarvan voorheen de AB 1992 of 1997 golden) aldus vast stellen: 
+       
+     
+     
+       10.1 
+       De Erfpachter vrijwaart de Exploitant voor alle verplichtingen tot vergoeding van schade, rente en kosten waartoe  deze  ingevolge het bepaalde in artikel 6:174 van het Burgerlijk Wetboek wegens gehele of gedeeltelijke instorting van de op het verpachte perceel opgerichte of in stand gehouden opstallen  jegens derden  gehouden mocht zijn [cursivering hof; cursivering in definitieve versie verwijderen]. 
+       
+         8.8.11. 
+         Aangezien van een exoneratie ten gunste van de exploitant, waar het ging om eventuele aanspraken van de erfpachter, in de AB 1992-1997 geen sprake was, dient zulks ook niet het geval te zijn in de nieuwe exploitatieovereenkomst. 
+       
+       
+         8.8.12. 
+         Art. 10, bestemd voor erfpachters ten aanzien waarvan voorheen de AB 1978 golden, kan geheel worden geschrapt. Op zichzelf komt deze bepaling overeen met art. 16 sub c van de AB 1978, maar dit geval wordt feitelijk reeds geheel bestreken door art. 11 lid 1 zodat dit artikel 10 overbodig is. Om te voorkomen dat er ook nummerverschillen ontstaan tussen de tekst, geldend voor erfpachters ten aanzien waarvan voorheen de AB 1978 golden, en die waarvoor voorheen de AB 1992 en 1997 golden, stelt het hof voor dat in de exploitatieovereenkomst bestemd voor erfpachters voor wie voorheen de AB 1978 golden, na het kopje “Artikel 10” wordt vermeld: “(Niet Opgenomen)”. Dan blijven de nummeringen voor het overige synchroon lopen. 
+       
+     
+     
+       8.9. 
+       
+         Financiële verantwoording 
+       
+       
+         8.9.1. 
+         De financiële verantwoording vormde in zoverre geen zelfstandig onderwerp van geschil, dat geen daarop betrekking hebbende vordering is ingesteld (er is in eerste aanleg ook geen vordering in reconventie ingesteld). De erfpachters zagen echter in de naar hun inzicht tekortschietende financiële verantwoording een aanleiding om niet met de exploitatieovereenkomst te hoeven instemmen. Immers, die exploitatieovereenkomst zou hen dan kunnen verplichten tot financiële verplichtingen waarvan bij gebreke van deugdelijke financiële verantwoording de reikwijdte niet viel te overzien, zodat die verplichtingen – zo begrijpt het hof de bezwaren althans de vrees van de erfpachters – een beloop zouden kunnen krijgen dat hun mogelijkheden of bereidheid aanzienlijk zou overschrijden. 
+       
+       
+         8.9.2. 
+         
+           Het proces-verbaal van comparitie van 13 november 2013 luidt op dit onderdeel als volgt. 
+           
+             Uit het debat van partijen komt voorts naar voren dat er van de zijde van de bewoners bezwaren bestaan tegen de in hun ogen gebrekkige en ondoorzichtige boekhouding. Mr. Wagemakers stelt dat er met de boekhouding niets mis is, dat het ook gaat om een eenvoudige boekhouding en dat Stille Wille bereid is –zoals zij zich in het verleden ook reeds bereid heeft verklaard- om mee te werken aan een onderzoek naar de juistheid en de getrouwheid van de boekhouding over de door de wederpartij aan te wijzen achterliggende jaren, waarbij de deskundige inzage kan krijgen in de onderliggende stukken. De raadsheer-commissaris merkt op dat het, gelet op de positie van de bewoners die exploitatiekosten moeten betalen welke kosten worden vastgesteld aan de hand van de financiële administratie van Stille Wille, niet alleen gaat om de juistheid en getrouwheid maar ook om de mate waarin door leken zoals de bewoners inzicht kan worden verkregen in de kosten op basis waarvan de hoogte van de exploitatievergoeding wordt berekend.  
+           
+           
+             Mr. Van der Kruis en mr. Verhagen stellen als deskundige voor dhr. [de deskundige aan de zijde van beide partijen] , die regelmatig als deskundige voor de rechtbank optreedt en mr. Wagemakers heeft daartegen geen bezwaar, tenzij zou blijken dat [de deskundige aan de zijde van beide partijen] een relatie is van een van de wederpartijen. 
+           
+           
+             De raadsheer-commissaris merkt op dat dhr. [de deskundige aan de zijde van beide partijen] zich daarover zou moeten uitlaten. 
+           
+           
+             In de visie van mr. Wagemakers dient het onderzoek te geschieden op kosten van ongelijk, en ofschoon de bewoners en hun advocaten daar in beginsel niet onwelwillend tegenover staan dienen zij eerst ruggespraak te houden met de rechtsbijstandverzekeraars van de bewoners.  
+           
+         
+       
+       
+         8.9.3. 
+         Mr. van der Kruis heeft bij brief van 14 januari 2014 een viertal producties aan het hof gezonden, deze producties 28, 29, 30 en 31 maken deel uit van het procesdossier. Prod. 28 betreft het door mr. Van der Kruis geformuleerde verzoek aan mr. drs. [de deskundige aan de zijde van beide partijen] ; mr. Van der Kruis formuleert hierin 21 onderzoeksvragen. Prod. 29 betreft aanvullende informatie van mr. Van der Kruis. Prod. 30 is het onderzoeksrapport. Prod. 31 betreft een enkel kort commentaar van mr. Wagemakers. 
+       
+       
+         8.9.4. 
+         
+           Het proces-verbaal van comparitie van 22 januari 2014 luidt op dit onderdeel als volgt. 
+           
+             De raadsheer-commissaris bespreekt met partijen de financiële rapportage zoals die is opgemaakt door dhr. [de deskundige aan de zijde van beide partijen] . De erfpachters hebben op diverse onderdelen commentaar en zijn van oordeel dat uit deze stukken niet het inzicht zoals eerder door het hof in het proces-verbaal van comparitie van 13 november 2013 werd omschreven, kan worden verkregen.  
+           
+         
+       
+       
+         8.9.5. 
+         
+           
+            [de deskundige aan de zijde van beide partijen] schrijft in antwoord op vraag nr. 20 van Mr. Van der Kruis onder meer: 
+           
+             Naar mijn mening is het voor de erfpachters mogelijk om als leken zelf inzicht te hebben in de door hen te betalen exploitatiekosten. 
+           
+         
+       
+       
+         8.9.6. 
+         Het hof is gelet op het rapport van [de deskundige aan de zijde van beide partijen] , gelet voorts op het bestaan van een Bewonersraad waaraan ook de erfpachters, eventueel door middel van een door hen op te richten vereniging, kunnen deelnemen, van oordeel dat er thans in elk geval geen sprake (meer) is van een dusdanig gebrekkige financiële verantwoording dat deze ertoe zou leiden dat van de erfpachters in redelijkheid niet kan worden verlangd dat zij de exploitatieovereenkomst tekenen. 
+       
+     
+     
+       8.10. 
+       Resumerend:  Uitgangspunt vormt versie E van de concept-exploitatieovereenkomst, zoals overgelegd bij akte van [Beleggingen ] /SWB van 18 maart 2014, met dien verstande dat: 
+        artikel 4.9 komt te luiden als volgt. 
+       
+         
+           De kosten voor het normale beheer en onderhoud van de algemene voorzieningen zoals deze alle reeds aanwezig waren per juni 2003, daaronder begrepen;  
+         
+         
+           de gescheiden afvoer van glas, papier, plastic en klein huisvuil; 
+         
+         
+           het ter beschikking stellen van vuilcontainers voor de afvoer van klein huisvuil; 
+         
+         
+           het fungeren als centraal post- en telefoonadres; 
+         
+         
+           het fungeren als sleutelcentrale en sleutelbewaarder; 
+         
+         
+           het schoonhouden van het terrein; 
+         
+         
+           het onderhoud, de eventuele renovatie en vervanging en in stand houden van alle percelen grond, voor zover niet in Erfpacht uitgegeven, met alle daarmee verbonden zaken, waaronder begrepen de wegen, straatverlichting park, parktoegangssysteem, gemalen en waterlopen  (uitgezonderd gemalen en waterlopen welke behoren tot het systeem met betrekking tot het reguleren van het grond- en oppervlaktewaterpeil)  , waterpartijen, filter- en zuiveringinstallaties, hekwerken, bos, groenvoorzieningen, parkeerplaatsen, greppels, sloten bermen, paden, straatmeubilair, waterzuiveringsinstallaties en erfverhardingen; 
+         
+         
+           het onderhoud,  en  eventuele renovatie  vervanging  en instandhouding van de tennisbanen; 
+         
+         
+           het onderhoud,  en  eventuele renovatie  vervanging  en instandhouding van de zwembaden met bijbehorende sanitaire voorzieningen; 
+         
+         
+           
+             het reguleren van het oppervlakte- en grondwaterpeil; 
+           
+         
+         
+           de instandhouding en het onderhoud van de bestaande netten voor toevoer van gas en water; 
+         
+         
+           het opbouwen en in stand houden van reserves, o.a. voor groot onderhoud, renovatie en vervanging en vereffeningen, een en ander conform een meerjarig onderhouds- en investeringsplan dat door de Exploitant in overleg met de Bewonersraad zal worden vastgesteld; 
+         
+         
+           het houden van algemeen toezicht; 
+         
+         
+           het verrichten en bevorderen in de meest uitgebreide zin van al hetgeen met het bovenstaande direct verband houdt of in het belang van de Erfpachters en het leefklimaat noodzakelijk of gewenst is; 
+         
+         
+           de assurantiepremie van de door de Exploitant aangegane verzekeringen. 
+         
+         
+           
+             alle overige noodzakelijke kosten die door de Exploitant in verband met de uitoefening van zijn taak en met inachtneming van het bepaalde in deze Exploitatieovereenkomst worden gemaakt;  
+           
+         
+       
+       
+         
+           art. 8 sub j. komt te luiden zoals in versie E van de concept-exploitatieovereenkomst weergegeven.  
+         
+         
+           art. 10, voor zover het betreft erfpachters waarvoor de AB 1992 of 1997 golden, komt te luiden als volgt:  
+         
+       
+       
+         
+           10.1	Erfpachter vrijwaart de Exploitant voor alle verplichtingen tot vergoeding van schade, rente en kosten waartoe deze ingevolge het bepaalde in artikel 6:174 van het Burgerlijk Wetboek wegens gehele of gedeeltelijke instorting van de op het verpachte perceel opgerichte of in stand gehouden opstallen jegens derden gehouden mocht zijn. 
+         
+         
+           10.2	conform versie E van de concept-exploitatieovereenkomst. 
+         
+       
+       
+         
+           art. 10, voor zover het betreft erfpachters waarvoor de AB 1978 golden, niet zal worden opgenomen (in plaats waarvan zal worden vermeld: “niet opgenomen”). 
+         
+         
+           art. 15 komt te luiden zoals in versie E van de concept-exploitatieovereenkomst weergegeven. 
+         
+       
+       De onderdelen van art. 4.9, waaromtrent geen verschil van mening bestond, zijn enkel opgenomen voor de overzichtelijkheid. De toevoegingen zijn hiervoor gecursiveerd en de geschrapte onderdelen zijn hiervoor zichtbaar doorgehaald; vanzelfsprekend dient deze lay-out bij de definitie versie van de te tekenen exploitatieovereenkomst te worden weggelaten. 
+     
+     
+       8.11. 
+       Vorderingen in eerste aanleg, beslissingen rechtbank, vorderingen in hoger beroep. 
+       
+         8.11.1. 
+         Bij navolgende vorderingen en beslissingen laat het hof de vorderingen en beslissingen omtrent de proceskosten vooralsnog onvermeld. 
+       
+       
+         8.11.2. 
+         Bij inleidende dagvaarding heeft [Beleggingen ] /SWM de volgende vorderingen ingesteld.  Vordering sub 1 hield in een verklaring voor recht dat tussen partijen de exploitatieovereenkomst gold. Vordering sub 2 hield een verklaring voor recht in omtrent de toepasselijke verdeelsleutel. Vordering sub 3 hield in een gebod tot het ondertekenen van de overeenkomst op straffe van verbeurte van een dwangsom. 
+       
+       
+         8.11.3. 
+         
+           De rechtbank heeft tegen een aantal niet verschenen gedaagden de vorderingen gaaf toegewezen en met betrekking tot de wel verschenen gedaagden (de erfpachters in de onderhavige procedure alsmede aan aantal gedaagden/bewoners welke niet in hoger beroep zijn gekomen) verklaard voor recht  
+           “dat met ingang van 30 juni 2003 ten aanzien van de serviceverlening alsmede de levering van gas en water op het verblijfsrecreatieve park “De Stille Wille” te [vestigingsplaats] , een rechtsverhouding geldt tussen ieder van de verschenen gedaagden en eiseres sub 2, “De Stille Wille Brabant BV”, zoals neergelegd in de navolgende door de rechtbank vastgestelde akte van exploitatieovereenkomst, luidende na de op pagina 1 gestelde inhoudsopgave als volgt: [volgt de integrale tekst van de exploitatieovereenkomst] alles onder bepaling dat de in overweging 2.11 van dit vonnis gegeven toelichtingen op de ten opzichte van de oorspronkelijke tekst gewijzigde onderdelen van de concepttekst deel uitmaken van de overeenkomst”,  
+           en 
+           “wijst af het in de zaken tussen eisers en de verschenen gedaagden meer of anders gevorderde”. 
+         
+       
+       
+         8.11.4. 
+         In de memorie van grieven van mr. Verhagen concludeerde deze namens de door hem vertegenwoordigde erfpachters tot vernietiging van het vonnis en afwijzing van de vorderingen van [Beleggingen ] /SWB. 
+       
+       
+         8.11.5. 
+         In de memorie van grieven van mr. Van der Kruis concludeerde deze namens de door hem vertegenwoordigde erfpachters: 
+         
+           
+             tot vernietiging van het vonnis en afwijzing van de vorderingen 
+           
+           
+             primair: tot bepaling dat [Beleggingen ] /SWB wel gehouden waren om de erfpachters aan de sluiten op gas en water, op straffe van een dwangsom; 
+           
+           
+             subsidiair: te bepalen dat tussen SWB en de erfpachters een overeenkomst tot stand komt vanaf de datum van het wijzen van arrest met een gelijke inhoud als de AB waarbij de in de AB genoemde service op kostendekkende wijze in rekening wordt gebracht; 
+           
+           
+             meer subsidiair: te bepalen dat tussen SWB en de erfpachters een overeenkomst tot stand komt vanaf de datum van het wijzen van arrest met een gelijke inhoud als weergegeven in de memorie van grieven sub 8.2 met benoeming van een deskundige (zie verder de memorie van grieven) 
+           
+         
+       
+       
+         8.11.6. 
+         Bij memorie van antwoord tevens grieven in het incidenteel appel concludeerde [Beleggingen ] /SWB deels tot bekrachtiging, deels tot vernietiging, en 
+         
+           
+             te verklaren voor recht dat met ingang van 30 juni 2003 althans een door het hof vast te stellen datum ten aanzien van de serviceverdeling, levering van gas en water en kostentoedeling tussen de erfpachters en SWB een rechtsverhouding geldt zoals neergelegd in versie B van de concept-exploitatieovereenkomst 
+           
+           
+             (primair en subsidiair) tot het geven van een verklaring voor recht omtrent de toepasselijke verdeelsleutel 
+           
+           
+             de erfpachters te gebieden de exploitatieovereenkomst te tekenen op straffe van verbeurte van een dwangsom. 
+           
+         
+       
+       
+         8.11.7. 
+         Het hof stelt voorop dat de vordering sub 2 van de door mr. Van der Kruis vertegenwoordigde erfpachters niet toewijsbaar is, omdat dit een vordering in reconventie betreft welke niet voor het eerst in hoger beroep kan worden ingesteld. Strikt genomen geldt dat ook voor de subsidiaire en meer subsidiaire vordering, maar die gaan in feite op in de vraag welke van de vorderingen van [Beleggingen ] /SWB toewijsbaar zijn. 
+       
+       
+         8.11.8. 
+         In hetgeen in het tussenarrest en dit arrest is overwogen en beslist ligt besloten dat in elk geval het vonnis waarvan beroep niet in stand kan blijven.  
+       
+       
+         8.11.9. 
+         Toewijsbaar is in elk geval de vordering dat de erfpachters een exploitatieovereenkomst dienen te tekenen met een inhoud als weergegeven in versie E met de hierboven omschreven modificaties. Deze overeenkomst kan echter slechts ingaan met ingang van de eerste dag van de kalendermaand volgend op de kalendermaand waarin dit arrest wordt betekend.  
+       
+       
+         8.11.10. 
+         Sedert 30 juni 2003 zijn dan al meer dan elf jaren verstreken. Het hof overwoog reeds in het tussenarrest dat partijen al die tijd in een contractuele relatie tot elkaar hebben gestaan met een niet nader omschreven inhoud. Partijen hebben er ook geen belang bij dat de exacte inhoud daarvan nader wordt omschreven. Hun belang over de voorbije periode beperkt zich tot een financiële afwikkeling. Daarbij kan echter wel worden aangesloten bij de te sluiten exploitatieovereenkomst, in die zin dat afgerekend dient te worden alsof die exploitatieovereenkomst had gegolden vanaf 30 juni 2003. Om misverstanden te voorkomen wijst het hof erop dat er onvoldoende grond bestaat om ook vertragingsrente verschuldigd te achten. 
+       
+     
+     
+       8.12. 
+       De rechtbank heeft de proceskosten gecompenseerd. Het hof sluit zich daarbij aan. Een deel van de wensen van [Beleggingen ] /SWB is gehonoreerd, een deel ook niet. Een deel van de weren van de erfpachters is gevolgd, een ander deel is verworpen. 
+     
+   
+   
+     
+       9 De uitspraak 
+     
+     
+       Het hof: 
+     
+     
+     
+       op het principaal en het incidenteel appel: 
+     
+     
+       
+         vernietigt het vonnis, waarvan beroep, en opnieuw rechtdoende: 
+       
+       
+         gebiedt elk van principaal appellanten – voor zover zij hun appel hebben gehandhaafd – om binnen veertien dagen na betekening van dit arrest een exploitatieovereenkomst met SWB te tekenen, zulks overeenkomstig versie E van de concept-exploitatieovereenkomst, zoals overgelegd bij akte van [Beleggingen ] /SWB van 18 maart 2014, met dien verstande dat de artikelen 4.9, 8 sub j, 10, 11 en 15 zullen luiden zoals hiervoor in r.o. 8.10 omschreven, en verklaart dit gebod uitvoerbaar bij voorraad; 
+       
+       
+         verklaart voor recht dat elk van principaal appellanten gehouden is om – over de periode van 30 juni 2003 tot het moment waarop de nieuw te tekenen exploitatieovereenkomst tussen hen en SWB zal gaan gelden, en met inachtneming van de in de inleidende dagvaarding onder 4k aangeduide verdeelsleutel tussen recreërende erfpachters en permanent woonachtige erfpachters – aan Stille Wille Brabant BV een bedrag aan servicekosten te betalen overeenkomstig datgene wat zij hadden moeten betalen indien de thans te sluiten exploitatieovereenkomst reeds gegolden zou hebben vanaf 30 juni 2003, doch niet meer dan het bedrag aan servicekosten dat – afgezien van de korting aangeduid onder 3e en 3f van de inleidende dagvaarding – de overige bewoners van de desbetreffende categorie, hetzij recreërend, hetzij permanent woonachtig, in de desbetreffende jaren aan Stille Wille Brabant hebben betaald c.q. dienden te betalen; 
+       
+       
+         compenseert de proceskosten in beide instanties, aldus dat elke partij haar eigen kosten dient te dragen; 
+       
+       
+         wijst het meer of anders gevorderde af. 
+       
+     
+     Dit arrest is gewezen door mrs. J.M. Brandenburg, N.J.M. van Etten en I. Bouter en is in het openbaar uitgesproken door de rolraadsheer op 16 september 2014. 
+   
+ 
+ 
