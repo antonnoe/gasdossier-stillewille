@@ -76,7 +76,7 @@ jobs:
             fi
           }
 
-          for bestand in auth-callback.html login.html supabase-config.js chrome.js faq.html; do
+          for bestand in auth-callback.html login.html supabase-config.js chrome.js faq.html dossiers.js feed.xml; do
             ophalen "$bestand" || true
           done
 
@@ -91,9 +91,18 @@ jobs:
           #
           # Zoeken op losse zinnen zegt te weinig: een zin die al in een
           # eerdere commit stond, staat er ook nog als de nieuwste deploy
-          # mislukt is. Daarom worden twee publieke bestanden byte voor byte
+          # mislukt is. Daarom worden de publieke bestanden byte voor byte
           # vergeleken met de versie uit deze checkout.
-          for bestand in login.html chrome.js faq.html; do
+          #
+          # dossiers.js en feed.xml staan er bewust bij: die veranderen bij
+          # iedere inhoudelijke release (peildatum, updatelog, feed-item),
+          # terwijl login.html en chrome.js maanden gelijk kunnen blijven.
+          # Zonder zo'n meeveranderend bestand zegt een geslaagde
+          # vergelijking alleen dat er ooit is gedeployd, niet dat de
+          # nieuwste release live staat. De dossierpagina's zelf zijn
+          # afgeschermd en dus niet op te halen; zij zitten in dezelfde
+          # deploy als deze twee.
+          for bestand in login.html chrome.js faq.html dossiers.js feed.xml; do
             if [ -s "/tmp/live-$bestand" ] && diff -q "$bestand" "/tmp/live-$bestand" >/dev/null; then
               echo "OK   $bestand live is gelijk aan deze commit"
             else
@@ -107,7 +116,7 @@ jobs:
           # controle bewijst dus ALLEEN dat de pagina afgeschermd is, niet dat
           # het bestand er staat. Of dat laatste klopt, blijkt uit de
           # bestandsvergelijking hierboven: die zegt of deze commit live is.
-          for pagina in admin.html beheer-handleiding.html redactieomgeving.html; do
+          for pagina in admin.html beheer-handleiding.html redactieomgeving.html sww.html bronnen.html; do
             code=$(curl -sS -o /dev/null -w '%{http_code}' "$SITE/$pagina")
             if [ "$code" = "307" ] || [ "$code" = "302" ]; then
               echo "OK   $pagina is afgeschermd (HTTP $code); bestaan is hiermee niet aangetoond"
