@@ -2,7 +2,7 @@
 
 Automatisch rapport van `tools/bron-controle.mjs`. Per bron: is hij op te halen, en staat elk opgegeven citaat er letterlijk in. Witruimte en aanhalingstekens zijn gelijkgetrokken voordat er vergeleken wordt.
 
-Gedraaid op: 2026-10-16 06:39 UTC
+Gedraaid op: 2026-10-16 06:41 UTC
 
 ## Statuten Vereniging Stille Wille Wonen, 27 juni 2023
 
@@ -11,10 +11,13 @@ Gedraaid op: 2026-10-16 06:39 UTC
 - HTTP: 200
 - Grootte: 12254606 bytes
 - Soort: PDF
-- Tekst: 0 tekens, opgeslagen als `statuten-sww-2023.txt`
+- Tekstlaag: leeg of vrijwel leeg, dus een scan. OCR geprobeerd (Nederlands).
+- OCR: 9 pagina's, 25404 tekens. Let op: OCR, geen letterlijke tekstlaag.
+- Tekst: 25277 tekens, opgeslagen als `statuten-sww-2023.txt`
 
 - **NIET GEVONDEN**: `De termijn van de bijeenroeping bedraagt ten minste veertien dagen`
-- **NIET GEVONDEN**: `De algemene vergaderingen worden bijeengeroepen door het bestuur`
+- GEVONDEN (VIA OCR, niet letterlijk): `De algemene vergaderingen worden bijeengeroepen door het bestuur`
+  > …etreffende verenigingsjaar gevoerde -- beleid, voor zover van dat beleid uit de jaarstukken blijkt of dat beleid aan de algemene vergadering bekend is gemaakt. De algemene vergaderingen worden bijeengeroepen door het bestuur, met inachtneming van een termijn van acht dagen. De bijeenroeping vindt plaats door - een aan alle leden te zenden schriftelijke mededeling. Een algemene vergadering kan zowel fysiek als elektronisch als in hybride vor…
 
 ## Huishoudelijk Reglement Vereniging Stille Wille Wonen V1.0
 
@@ -147,4 +150,4 @@ Geen citaten opgegeven; alleen opgehaald zodat de tekst na te lezen is.
 
 ---
 
-Aantal niet gevonden of niet op te halen: 3. Die regels staan hierboven met **NIET GEVONDEN** of een HTTP-fout.
+Aantal niet gevonden of niet op te halen: 2. Die regels staan hierboven met **NIET GEVONDEN** of een HTTP-fout.
