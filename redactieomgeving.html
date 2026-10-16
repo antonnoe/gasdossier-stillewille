@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Redactieomgeving · Kerndossiers Landgoed De Stille Wille</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#1F7F4E">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mulish:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/components.css">
+<style>
+  .admin-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+    padding: 16px var(--page-pad-x);
+    background: var(--green-deep);
+    color: #fff;
+  }
+  .admin-bar .brand {
+    font-family: var(--font-display);
+    font-weight: 700; font-size: 15px; letter-spacing: -0.01em;
+  }
+  .admin-bar .who { font-size: 13px; color: rgba(255,255,255,.8); }
+  .admin-bar .who a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+
+  .admin-state {
+    max-width: var(--content-max);
+    margin: 0 auto; padding: 64px var(--page-pad-x);
+    font-size: 16px; color: var(--grey-mid);
+  }
+  .admin-state .auth-btn {
+    display: inline-block; margin-top: 18px;
+    border: 0; border-radius: 8px; background: var(--green); color: #fff;
+    font-family: var(--font-display); font-weight: 600; font-size: 15px;
+    padding: 12px 26px; text-decoration: none;
+  }
+
+  .ro-main { max-width: 820px; margin: 0 auto; padding: 36px var(--page-pad-x) 80px; }
+  .ro-main h1 {
+    font-family: var(--font-display); font-weight: 700; font-size: 30px;
+    letter-spacing: -0.02em; color: var(--grey-dark); margin: 0 0 8px;
+  }
+  .ro-main .lede { font-size: 15.5px; line-height: 1.65; color: var(--grey-mid); margin: 0 0 8px; }
+  .ro-main h2 {
+    font-family: var(--font-display); font-weight: 700; font-size: 20px;
+    color: var(--grey-dark); margin: 40px 0 6px; padding-top: 18px;
+    border-top: 1px solid var(--green-15);
+  }
+  .ro-main h3 {
+    font-family: var(--font-display); font-weight: 600; font-size: 16px;
+    color: var(--grey-dark); margin: 24px 0 4px;
+  }
+  .ro-main p, .ro-main li { font-size: 15px; line-height: 1.7; color: var(--grey-dark); }
+  .ro-main ul, .ro-main ol { padding-left: 22px; margin: 8px 0 14px; }
+  .ro-main li { margin: 5px 0; }
+  .ro-main a { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+  .ro-main code {
+    font-family: var(--font-mono); font-size: 13px;
+    background: var(--cream); border: 1px solid var(--green-15);
+    border-radius: 4px; padding: 1px 5px;
+  }
+  .ro-toc {
+    background: var(--cream); border: 1px solid var(--green-15);
+    border-radius: 10px; padding: 16px 20px; margin: 22px 0 8px;
+  }
+  .ro-toc ol { margin: 6px 0 0; }
+  .ro-let {
+    background: var(--orange-tint); border: 1px solid var(--orange);
+    border-radius: 8px; padding: 12px 16px; margin: 14px 0;
+  }
+  .ro-let p { color: var(--orange-deep); margin: 0; }
+  .ro-let p + p { margin-top: 8px; }
+  .ro-ok {
+    background: var(--green-tint); border: 1px solid var(--green-15);
+    border-radius: 8px; padding: 12px 16px; margin: 14px 0;
+  }
+  .ro-ok p { color: var(--green-deep); margin: 0; }
+  .ro-tabel { width: 100%; border-collapse: collapse; margin: 12px 0 18px; font-size: 14.5px; }
+  .ro-tabel th, .ro-tabel td {
+    text-align: left; vertical-align: top;
+    padding: 8px 10px; border-bottom: 1px solid var(--green-15);
+    line-height: 1.6; color: var(--grey-dark);
+  }
+  .ro-tabel th { font-family: var(--font-display); font-weight: 600; color: var(--grey-mid); font-size: 13px; }
+  .ro-tabel td:last-child { color: var(--grey-mid); }
+  #app { display: none; }
+</style>
+</head>
+<body>
+
+<div id="loading" class="admin-state">Bezig met laden…</div>
+
+<div id="denied" class="admin-state" style="display:none;">
+  <h2 style="margin-top:0;">Geen toegang</h2>
+  <p>Deze pagina is alleen toegankelijk voor de redactie.</p>
+  <a class="auth-btn" href="/index.html">Naar de dossiers</a>
+</div>
+
+<div id="app">
+  <div class="admin-bar">
+    <span class="brand">Redactieomgeving · Kerndossiers De Stille Wille</span>
+    <span class="who">Ingelogd als <span id="who-email"></span> · <a href="/admin.html">Beheerpaneel</a> · <a href="/beheer-handleiding.html">Handleiding</a></span>
+  </div>
+
+  <main class="ro-main">
+    <h1>Redactieomgeving</h1>
+    <p class="lede">De werkruimte van de redactie. Hier staat hoe het overleg gaat, hoe een nieuwsbrief wordt voorbereid en langs welke weg de inbreng van domeinspecialisten en werkgroepen in het archief terechtkomt. Voor het inhoudelijke beleid zie het <a href="/redactie.html">redactioneel protocol</a>, voor de techniek de <a href="/beheer-handleiding.html">handleiding voor beheerders</a>.</p>
+
+    <div class="ro-toc">
+      <strong>Op deze pagina</strong>
+      <ol>
+        <li>Wie hier mogen komen</li>
+        <li>Het overleg</li>
+        <li>Een nieuwsbrief voorbereiden</li>
+        <li>Inbreng van domeinspecialisten en werkgroepen</li>
+        <li>Waar het werk op dit moment ligt</li>
+        <li>Waar de eindredactie op toetst</li>
+        <li>Wat hier nog niet kan</li>
+      </ol>
+    </div>
+
+    <h2>1. Wie hier mogen komen</h2>
+    <p>Deze pagina is zichtbaar voor wie in de toegangslijst de rol <strong>beheerder</strong> of <strong>eigenaar</strong> heeft. Dat zijn op dit moment ook de leden van de eindredactie; er is nog geen aparte rol voor redactieleden die geen beheertaken hebben. Komt die er, dan verandert alleen de rolcontrole in deze pagina, niet de inhoud.</p>
+    <p>De eindredactie is een rol en geen persoon. Wie inlogt en hier komt, draagt op dat moment de eindverantwoordelijkheid voor wat er op de site staat. De bedoeling is dat die rol bij twee à drie mensen ligt, zodat geen enkel oordeel van één iemand afhangt. Daarvoor staat een oproep op de <a href="/index.html#eindredactie">hoofdpagina</a>.</p>
+    <div class="ro-let">
+      <p>Wie materiaal aanlevert, publiceert het niet zelf. Dat geldt ook voor wie het archief beheert: een eigen stuk gaat langs een ander redactielid voordat het online komt. Zolang de eindredactie uit één persoon bestaat, is die scheiding er niet, en dat is precies waarom er twee mensen bij moeten.</p>
+    </div>
+
+    <h2>2. Het overleg</h2>
+    <p>Overleggen gaat via <strong>Google Meet</strong>, zodat niemand voor een vergadering naar het landgoed hoeft en bewoners die er maar een deel van het jaar zijn gewoon kunnen meedoen. De redactie gebruikt daarvoor één vaste vergaderruimte, zodat de link niet elke keer rondgestuurd hoeft te worden.</p>
+    <div class="ro-let">
+      <p>De vaste vergaderruimte is nog niet aangemaakt. Zodra die er is, komt de link hier te staan, samen met het vaste tijdstip.</p>
+    </div>
+    <p>Vaste punten op de agenda, in deze volgorde:</p>
+    <ol>
+      <li><strong>Wat ligt er ter beoordeling.</strong> Aangeleverde stukken, teksten van specialisten en werkgroepen, correctieverzoeken van bewoners.</li>
+      <li><strong>Welke dossiers lopen achter.</strong> Een dossier waarvan de peildatum te oud wordt, moet worden bijgewerkt of op <em>In bewerking</em> worden gezet. Stilzwijgend laten verouderen is geen optie.</li>
+      <li><strong>Openstaande vragen.</strong> Wat weten we niet, en bij wie moet dat worden opgevraagd. Die vragen staan ook op de dossierpagina's zelf, zichtbaar voor de lezer.</li>
+      <li><strong>De nieuwsbrief.</strong> Gaat er een uit, en zo ja waarover.</li>
+    </ol>
+    <p>Van elk overleg wordt vastgelegd wat er is besloten over wat wel en niet gepubliceerd wordt, en op welke grond. Niet als verslag van de discussie, maar zodat later navolgbaar is waarom een stuk is opgenomen of tegengehouden.</p>
+
+    <h2>3. Een nieuwsbrief voorbereiden</h2>
+    <p>Een nieuwsbrief gaat uit zodra een dossier inhoudelijk is bijgewerkt, niet op een vast ritme. De volgorde staat vast, omdat een verstuurde brief niet terug te halen is.</p>
+    <ol>
+      <li><strong>Concept opstellen.</strong> Wat is er veranderd, in welk dossier, en wat betekent dat voor de lezer. Elk cijfer komt uit het dossier zelf, niet uit het hoofd.</li>
+      <li><strong>Nalezen in het overleg.</strong> Dezelfde toetsen als bij een dossier: klopt elk cijfer met de bron, staat er geen oordeel waar een feit hoort, zijn alle betrokken partijen eerlijk weergegeven.</li>
+      <li><strong>Links natrekken.</strong> Elke link in de brief één keer aanklikken in de testmail. Een link die in de tekst klopte kan na verwerking alsnog stuk zijn; dat is eerder gebeurd.</li>
+      <li><strong>Testmail.</strong> In het <a href="/admin.html">beheerpaneel</a> eerst naar de redactie zelf versturen. Dat gaat niet naar bewoners.</li>
+      <li><strong>Akkoord en versturen.</strong> Pas na akkoord van de eindredactie gaat de brief naar de bewoners die e-mailupdates aan hebben staan.</li>
+    </ol>
+    <div class="ro-ok">
+      <p>Gaat er onverhoopt iets fout in een verstuurde brief, dan is een rectificatie de enige weg: een korte tweede mail die zegt wat er niet klopte en wat er wel klopt. Niet stilhouden en niet corrigeren in de volgende gewone brief.</p>
+    </div>
+
+    <h2>4. Inbreng van domeinspecialisten en werkgroepen</h2>
+    <p>Veel van wat hier ligt vraagt kennis die de redactie niet zelf heeft. Bewoners met verstand van een onderwerp, en werkgroepen van de bewonersvereniging, kunnen daarom materiaal en duiding aanleveren. Zij leveren aan; de eindredactie toetst en publiceert. Dat onderscheid is de kern: het houdt het archief leesbaar voor alle betrokkenen, ook als een werkgroep zelf een standpunt heeft.</p>
+    <p>De route is dezelfde als voor al het andere materiaal:</p>
+    <ol>
+      <li><strong>Aanmelden.</strong> Telefonisch bij Anton Noë op <a href="tel:+31654754474">+31 6 54 75 44 74</a> of per mail via <a href="mailto:sw-bieb@proton.me">sw-bieb@proton.me</a>, met vermelding van het onderwerp.</li>
+      <li><strong>Aanleveren.</strong> Stukken met bron en datum. Een scan van het origineel is meer waard dan een samenvatting ervan.</li>
+      <li><strong>Klaarzetten.</strong> De redactie legt de inbreng naast wat er al in het dossier staat en zoekt uit waar het elkaar tegenspreekt.</li>
+      <li><strong>Toetsen en publiceren.</strong> In het overleg, langs de vier toetsen hieronder. Wat erin komt, komt met bronvermelding en verificatiestatus.</li>
+    </ol>
+    <p>Een standpunt van een werkgroep kan worden opgenomen <em>als standpunt</em>, met bron en datum, nooit als feit. Heeft een andere partij een ander standpunt, dan staat dat ernaast en weegt de lezer zelf.</p>
+    <h3>Onderwerpen waarvoor kennis gezocht wordt</h3>
+    <table class="ro-tabel">
+      <tr><th>Onderwerp</th><th>Waar het om gaat</th></tr>
+      <tr><td>Erfpacht en notariële stukken</td><td>Contracten, canonherzieningen, eigendomsverhoudingen</td></tr>
+      <tr><td>Jaarrekeningen</td><td>Exploitatiecijfers lezen en naast elkaar leggen</td></tr>
+      <tr><td>Gastechniek</td><td>Net, verliezen, meting, tarieven</td></tr>
+      <tr><td>Bouwkundig onderhoud</td><td>Meerjarenonderhoudsplan, staat van de opstallen</td></tr>
+      <tr><td>Ecologie en bomenbeheer</td><td>Groenbeheer, kapvergunningen, waterhuishouding</td></tr>
+      <tr><td>Bestuursrecht</td><td>Besluitvorming bij de gemeente, bezwaar en beroep</td></tr>
+    </table>
+    <p>Dit is geen vaste indeling. Komt er een onderwerp bij waar een bewoner verstand van heeft, dan hoort dat hier ook.</p>
+
+    <h2>5. Waar het werk op dit moment ligt</h2>
+    <p>Er is nog geen gedeelde werklijst in deze omgeving. Wat er binnenkomt, staat op de plekken waar het is binnengekomen:</p>
+    <ul>
+      <li><strong>Reacties en correctieverzoeken van bewoners</strong> staan in het <a href="/admin.html">beheerpaneel</a>, met de knoppen om ze af te handelen.</li>
+      <li><strong>Toegangsaanvragen</strong> staan daar ook, bovenaan.</li>
+      <li><strong>De stand van elk dossier</strong> staat op het <a href="/overzicht.html">overzicht</a>: <em>Bijgewerkt</em>, <em>In bewerking</em> of <em>Later</em>, met de peildatum erbij.</li>
+      <li><strong>Welke cijfers hoe hard zijn</strong> staat in het <a href="/bronnen.html#verificatieregister">verificatieregister</a>.</li>
+    </ul>
+    <p>Aangeleverde stukken die nog niet getoetst zijn, gaan voorlopig per mail tussen de redactieleden. Dat is het zwakke punt van deze opzet en het eerste dat verbeterd moet worden; zie punt 7.</p>
+
+    <h2>6. Waar de eindredactie op toetst</h2>
+    <p>Vier toetsen, in deze volgorde. Ze staan ook, in dezelfde woorden, in de <a href="/index.html#eindredactie">oproep op de hoofdpagina</a> en in het <a href="/redactie.html">redactioneel protocol</a>, zodat iedereen weet waarop beoordeeld wordt.</p>
+    <ul>
+      <li><strong>Feiten, geen meningen.</strong> Een bewering zonder bron komt er niet in. Een mening kan worden opgenomen als mening van een met name genoemde partij, met bron en datum, nooit als feit.</li>
+      <li><strong>Ratio, geen emotie.</strong> Beschrijven wat is vastgesteld. Geen kwalificaties, geen verontwaardiging, geen veronderstellingen over motieven van personen of organisaties.</li>
+      <li><strong>Relevant, geen oude koeien.</strong> Niet of iets waar is, maar of het iets verandert aan een kwestie die nu speelt. Een geverifieerd feit zonder gevolg hoort in de tijdlijn, niet in een dossier.</li>
+      <li><strong>Evenwichtig naar alle partijen.</strong> Heeft een partij een standpunt, dan staat dat erbij, met bron. Ook als de redactie het onjuist acht; dan staat het weerwoord ernaast.</li>
+    </ul>
+    <p>Een tekst tegenhouden zolang de onderbouwing niet rond is, is geen onwil maar het werk zelf. Ook als je het inhoudelijk eens bent met de strekking.</p>
+
+    <h2>7. Wat hier nog niet kan</h2>
+    <p>Deze omgeving is bewust eenvoudig begonnen. Wat eraan ontbreekt, in volgorde van belang:</p>
+    <ul>
+      <li><strong>Een gedeelde werklijst.</strong> Aangeleverde stukken en concepten staan nu niet in de site zelf, dus er is geen plek waar de redactie samen ziet wat er ligt en wie eraan werkt.</li>
+      <li><strong>Een aparte rol voor redactieleden.</strong> Nu moet een redactielid beheerder zijn, en daarmee kan hij ook gebruikers toelaten en de nieuwsbrief versturen. Dat is meer recht dan de rol vraagt.</li>
+      <li><strong>Vastleggen van besluiten.</strong> Wat het overleg besluit over publiceren, staat nu nergens in de site. Terugzoeken waarom een stuk is tegengehouden, kan dus niet.</li>
+      <li><strong>Mailen aan een groep.</strong> Een bericht aan alleen de redactie, of aan één werkgroep, kan nog niet vanuit het beheerpaneel.</li>
+    </ul>
+    <p style="margin-top:36px; color: var(--grey-soft); font-size: 13.5px;">Deze pagina is alleen zichtbaar voor de redactie. Er staan bewust geen sleutels, wachtwoorden of e-mailadressen van bewoners in.</p>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/supabase-config.js"></script>
+<script>
+(function () {
+  'use strict';
+  var sb = window.sb;
+  // Zolang er geen aparte redactierol bestaat, vallen de redactieleden samen
+  // met de beheerders. Komt die rol er, dan hoeft alleen deze lijst mee.
+  var REDACTIE_ROLLEN = ['beheerder', 'owner'];
+
+  var loadingEl = document.getElementById('loading');
+  var deniedEl = document.getElementById('denied');
+  var appEl = document.getElementById('app');
+
+  function showDenied() { loadingEl.style.display = 'none'; deniedEl.style.display = 'block'; }
+  function showApp() { loadingEl.style.display = 'none'; appEl.style.display = 'block'; }
+
+  // Dezelfde rolcontrole als /admin.html en /beheer-handleiding.html.
+  sb.auth.getSession().then(function (res) {
+    var session = res.data && res.data.session;
+    if (!session) { window.location.replace('/login.html'); return; }
+
+    var email = session.user.email;
+    document.getElementById('who-email').textContent = email;
+
+    sb.from('gebruikers').select('rol').eq('email', email).maybeSingle()
+      .then(function (r) {
+        var rol = r.data && r.data.rol;
+        if (r.error || !rol || REDACTIE_ROLLEN.indexOf(rol) === -1) { showDenied(); return; }
+        showApp();
+      });
+  }).catch(function () { showDenied(); });
+})();
+</script>
+<script src="/footer.js"></script>
+</body>
+</html>
