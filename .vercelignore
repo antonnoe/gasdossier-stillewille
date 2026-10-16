@@ -1,0 +1,12 @@
+# Wat niet mee hoeft naar de site.
+#
+# Belangrijk: de middleware laat bestanden met een extensie als .txt zonder
+# inloggen door, zodat de loginpagina haar eigen stijl en scripts kan laden.
+# Werkmateriaal met brontekst erin zou daardoor publiek leesbaar worden. Het
+# staat hier dus uitdrukkelijk op de uitsluitlijst, naast de mappen die
+# alleen voor beheer en onderzoek dienen.
+_bron-tekst/
+kennisbank/
+supabase/
+tools/
+.github/

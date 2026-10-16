@@ -20,4 +20,8 @@ node_modules/
 Thumbs.db
 .vscode/
 .idea/
-_bron-tekst/*.pdf
+
+# Werkmateriaal van de broncontrole; de workflow Broncontrole zet dit er
+# bewust met `git add -f` op een bijdragetak op, maar het hoort nooit in een
+# gewone commit en nooit op main.
+_bron-tekst/
