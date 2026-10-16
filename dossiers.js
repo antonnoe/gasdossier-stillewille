@@ -74,7 +74,8 @@ window.SW_UPDATES = [
       "Het voorstel \"het verleden opruimen\" van oktober 2026 beschreven in drie onderdelen, met per onderdeel wat de arresten van 2013 en 2014 en de verenigingsstukken daarover bevatten. Een besluit van de ledenvergadering erover is in de beschikbare stukken niet aangetroffen.",
       "Bronnenregister uitgebreid met de statuten, het huishoudelijk reglement, twee bewonersraadverslagen, het model van de exploitatieovereenkomst en de niet-openbare stukken rond het voorstel; tien nieuwe regels in het verificatieregister.",
       "Drie verwijzingen naar rechtsoverwegingen in de arresten van 2013 en 2014 gecorrigeerd nadat beide arresten woordelijk tegen de tekst op rechtspraak.nl zijn gelegd: r.o. 5.13.10 in plaats van 5.13.13, r.o. 5.19.4 in plaats van 5.20.1 en r.o. 8.5.3 in plaats van 8.5.4. De citaten zelf bleken juist.",
-      "Tijdlijn aangevuld met twee gebeurtenissen: de financiering van de vereniging uit de algemene middelen (25 augustus 2025) en de informatiebijeenkomst van 6 oktober 2026."
+      "Tijdlijn aangevuld met twee gebeurtenissen: de financiering van de vereniging uit de algemene middelen (25 augustus 2025) en de informatiebijeenkomst van 6 oktober 2026.",
+      "De eigen pagina's van de vereniging erbij: zij meldt zelf dat de onkosten inclusief lidmaatschap met ingang van 2026 uit de exploitatiebegroting van SWB worden betaald en dat aan het lidmaatschap geen kosten zijn verbonden. Het besluit van de Bewonersraad dat aan het voorstel ten grondslag ligt, is gedateerd op 20 augustus 2026."
     ]
   },
   {
