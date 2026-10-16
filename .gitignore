@@ -21,3 +21,6 @@ Thumbs.db
 .vscode/
 .idea/
 _bron-tekst/*.pdf
+
+# Werkmateriaal van de broncontrole; wordt door de workflow aangemaakt.
+_bron-tekst/

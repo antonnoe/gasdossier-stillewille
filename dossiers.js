@@ -55,7 +55,7 @@ window.SW_META = {
   // {datum}"-badge verschijnt. Pas aan bij iedere INHOUDELIJKE release —
   // een puur structurele wijziging (zoals deze nav-herstructurering)
   // ververst de inhoudelijke peildatum niet.
-  bijgewerkt: "augustus 2026"
+  bijgewerkt: "oktober 2026"
 };
 
 /* ── UPDATELOG ──────────────────────────────────────────────────────────
@@ -67,6 +67,16 @@ window.SW_META = {
  * handmatig in index.html.
  * ─────────────────────────────────────────────────────────────────────── */
 window.SW_UPDATES = [
+  {
+    datum: "16 oktober 2026",
+    items: [
+      "SWW-dossier uitgebreid met de besluitvorming van de vereniging: wat de statuten en het huishoudelijk reglement bepalen over de ledenvergadering, de bijeenroepingstermijn, de deelnamedrempel en het stemrecht. Statuten en reglement spreken elkaar op het punt van stemrecht tegen; dat staat erbij.",
+      "Het voorstel \"het verleden opruimen\" van oktober 2026 beschreven in drie onderdelen, met per onderdeel wat de arresten van 2013 en 2014 en de verenigingsstukken daarover bevatten. Een besluit van de ledenvergadering erover is in de beschikbare stukken niet aangetroffen.",
+      "Bronnenregister uitgebreid met de statuten, het huishoudelijk reglement, twee bewonersraadverslagen, het model van de exploitatieovereenkomst en de niet-openbare stukken rond het voorstel; tien nieuwe regels in het verificatieregister.",
+      "Drie verwijzingen naar rechtsoverwegingen in de arresten van 2013 en 2014 gecorrigeerd nadat beide arresten woordelijk tegen de tekst op rechtspraak.nl zijn gelegd: r.o. 5.13.10 in plaats van 5.13.13, r.o. 5.19.4 in plaats van 5.20.1 en r.o. 8.5.3 in plaats van 8.5.4. De citaten zelf bleken juist.",
+      "Tijdlijn aangevuld met twee gebeurtenissen: de financiering van de vereniging uit de algemene middelen (25 augustus 2025) en de informatiebijeenkomst van 6 oktober 2026."
+    ]
+  },
   {
     datum: "25 augustus 2026",
     items: [
@@ -234,9 +244,10 @@ window.SW_DOSSIERS = [
     status: "voltooid",
     omschrijving: "De bewonersvereniging: historie, herstructurering en bestuur.",
     secties: [
-      { titel: "De fusiehistorie", omschrijving: "Achtergrond van het samengaan van de voorgaande verenigingen." },
-      { titel: "Herstructurering", omschrijving: "Het plan om de exploitatievorm te wijzigen en de analyses daarop." },
-      { titel: "Bestuur & commissies", omschrijving: "Overzicht van werkgroepen, taken en vacatures." }
+      { titel: "De weg naar één vereniging", omschrijving: "Bestwil, de VHSW en het samengaan in Stille Wille Wonen." },
+      { titel: "Hoe de vereniging besluit", omschrijving: "Wat de statuten en het huishoudelijk reglement bepalen over de ledenvergadering." },
+      { titel: "Het voorstel \"het verleden opruimen\"", omschrijving: "De drie onderdelen van oktober 2026 en wat de stukken daarover bevatten." },
+      { titel: "Contributie en financiering", omschrijving: "De vereniging uit de algemene middelen, en het lidmaatschap." }
     ]
   },
   {
