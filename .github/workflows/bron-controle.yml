@@ -55,10 +55,13 @@ jobs:
           set -euo pipefail
           # De PDF's zelf niet meenemen: die staan al op de site van de
           # vereniging en horen niet in de repository.
-          rm -f _bron-tekst/*.pdf
+          find _bron-tekst -name '*.pdf' -delete
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add -A _bron-tekst
+          # -f omdat _bron-tekst in .gitignore staat: werkmateriaal hoort niet
+          # per ongeluk mee te liften in een gewone commit, maar deze workflow
+          # zet het er bewust op zodat de teksten na te lezen zijn.
+          git add -A -f _bron-tekst
           if git diff --cached --quiet; then
             echo "Geen wijziging in het rapport."
             exit 0
