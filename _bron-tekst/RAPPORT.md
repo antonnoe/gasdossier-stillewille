@@ -2,16 +2,16 @@
 
 Automatisch rapport van `tools/bron-controle.mjs`. Per bron: is hij op te halen, en staat elk opgegeven citaat er letterlijk in. Witruimte en aanhalingstekens zijn gelijkgetrokken voordat er vergeleken wordt.
 
-Gedraaid op: 2026-10-16 06:37 UTC
+Gedraaid op: 2026-10-16 06:39 UTC
 
 ## Statuten Vereniging Stille Wille Wonen, 27 juni 2023
 
 - Bron-id: `statuten-sww-2023`
 - URL: https://stillewillewonen.nl/wp-content/uploads/2023/10/Statuten-SWW-27-juni-2023.pdf
-- HTTP: 202
-- Grootte: 232 bytes
-- Soort: tekst of HTML
-- Tekst: 232 tekens, opgeslagen als `statuten-sww-2023.txt`
+- HTTP: 200
+- Grootte: 12254606 bytes
+- Soort: PDF
+- Tekst: 0 tekens, opgeslagen als `statuten-sww-2023.txt`
 
 - **NIET GEVONDEN**: `De termijn van de bijeenroeping bedraagt ten minste veertien dagen`
 - **NIET GEVONDEN**: `De algemene vergaderingen worden bijeengeroepen door het bestuur`
@@ -20,16 +20,20 @@ Gedraaid op: 2026-10-16 06:37 UTC
 
 - Bron-id: `huishoudelijk-reglement-sww`
 - URL: https://stillewillewonen.nl/wp-content/uploads/2023/10/Huishoudelijk-Reglement-Vereniging-V1.0.pdf
-- HTTP: 202
-- Grootte: 246 bytes
-- Soort: tekst of HTML
-- Tekst: 246 tekens, opgeslagen als `huishoudelijk-reglement-sww.txt`
+- HTTP: 200
+- Grootte: 112129 bytes
+- Soort: PDF
+- Tekst: 31323 tekens, opgeslagen als `huishoudelijk-reglement-sww.txt`
 
-- **NIET GEVONDEN**: `aanmerkelijke impact hebben op de kwaliteit van leven`
-- **NIET GEVONDEN**: `substantiële impact hebben op de hoogte van de woonlasten`
+- GEVONDEN: `aanmerkelijke impact hebben op de kwaliteit van leven`
+  > …de vergadering aanwezig zijn, dan wel een schriftelijke bereidverklaring aan de voorzitter hebben gestuurd. Artikel 6 Besluiten van de ALV 1. Besluiten die een aanmerkelijke impact hebben op de kwaliteit van leven op het Landgoed dan wel een substantiële impact hebben op de hoogte van de woonlasten zijn voorbehouden aan de ALV. 2. Besluiten worden na agendering tijdens een ALV genomen. 3. Voor het nemen van een geldig besluit moe…
+- GEVONDEN: `substantiële impact hebben op de hoogte van de woonlasten`
+  > …orzitter hebben gestuurd. Artikel 6 Besluiten van de ALV 1. Besluiten die een aanmerkelijke impact hebben op de kwaliteit van leven op het Landgoed dan wel een substantiële impact hebben op de hoogte van de woonlasten zijn voorbehouden aan de ALV. 2. Besluiten worden na agendering tijdens een ALV genomen. 3. Voor het nemen van een geldig besluit moet minimaal 15 leden deelnemen aan de vergadering door eigen deelname of door afgifte v…
 - **NIET GEVONDEN**: `de jaarcijfers, het bestuursverslag`
-- **NIET GEVONDEN**: `Per bewoond perceel met in erfpacht uitgegeven grond`
-- **NIET GEVONDEN**: `Contributie`
+- GEVONDEN: `Per bewoond perceel met in erfpacht uitgegeven grond`
+  > … personen dan beslist het lot. 7. Ieder lid heeft toegang tot de ledenvergadering en heeft de bevoegdheid aldaar het woord te voeren en voorstellen te doen. 8. Per bewoond perceel met in erfpacht uitgegeven grond, of in eigendom zijnde grond kan één stem worden uitgebracht. 9. Bijzondere leden kunnen geen stem uitbrengen. 10.Een lid kan een ander lid schriftelijk machtigen in zijn plaats een stem uit te brengen op een ALV. Daarb…
+- GEVONDEN: `Contributie`
+  > …eiden zich van structurele zaken door hun beperkte tijdsduur en gedefinieerde einddoel te behalen door een gedefinieerd projectteam met gedefinieerd mandaat.  Contributie: de periodiek geldelijke bijdragen van de leden aan de vereniging.  Decharge verlenen: het goedkeuren van door het bestuur gevoerde beleid en het ontslag van aansprakelijkheid.  De statuten: de statuten van de verenig…
 
 ## Gerechtshof 's-Hertogenbosch 13 augustus 2013
 
@@ -101,10 +105,10 @@ Gedraaid op: 2026-10-16 06:37 UTC
 
 - Bron-id: `br-notulen-2025-03-10`
 - URL: https://stillewillewonen.nl/wp-content/uploads/2025/05/20250407_Notulen_Bewonersraad_10-03-2025.pdf
-- HTTP: 202
-- Grootte: 247 bytes
-- Soort: tekst of HTML
-- Tekst: 247 tekens, opgeslagen als `br-notulen-2025-03-10.txt`
+- HTTP: 200
+- Grootte: 186166 bytes
+- Soort: PDF
+- Tekst: 16026 tekens, opgeslagen als `br-notulen-2025-03-10.txt`
 
 Geen citaten opgegeven; alleen opgehaald zodat de tekst na te lezen is.
 
@@ -123,30 +127,24 @@ Geen citaten opgegeven; alleen opgehaald zodat de tekst na te lezen is.
 
 - Bron-id: `model-exploitatieovereenkomst-2021`
 - URL: https://stillewillewonen.nl/wp-content/uploads/2023/12/Model-Exploitatieovereenkomst-StilleWille-25-3-2021.pdf
-- HTTP: 202
-- Grootte: 258 bytes
-- Soort: tekst of HTML
-- Tekst: 258 tekens, opgeslagen als `model-exploitatieovereenkomst-2021.txt`
+- HTTP: 200
+- Grootte: 542711 bytes
+- Soort: PDF
+- Tekst: 46489 tekens, opgeslagen als `model-exploitatieovereenkomst-2021.txt`
 
 Geen citaten opgegeven; alleen opgehaald zodat de tekst na te lezen is.
-
-## Groenvisie HAS, Stille Wille
-
-- Bron-id: `groenvisie-has`
-- URL: https://www.stillewille.nl/images/bestanden/documenten/Stille_Wille_Groenvisie_HAS_compressed.pdf
-- HTTP: 404
 
 ## Artikel begroting en fondsen, SWW
 
 - Bron-id: `artikel-begroting-fondsen`
 - URL: https://stillewillewonen.nl/wp-content/uploads/2023/10/artikel-begroting-en-fondsen-definitief-2.1.pdf
-- HTTP: 202
-- Grootte: 250 bytes
-- Soort: tekst of HTML
-- Tekst: 250 tekens, opgeslagen als `artikel-begroting-fondsen.txt`
+- HTTP: 200
+- Grootte: 83188 bytes
+- Soort: PDF
+- Tekst: 7646 tekens, opgeslagen als `artikel-begroting-fondsen.txt`
 
 Geen citaten opgegeven; alleen opgehaald zodat de tekst na te lezen is.
 
 ---
 
-Aantal niet gevonden of niet op te halen: 8. Die regels staan hierboven met **NIET GEVONDEN** of een HTTP-fout.
+Aantal niet gevonden of niet op te halen: 3. Die regels staan hierboven met **NIET GEVONDEN** of een HTTP-fout.
