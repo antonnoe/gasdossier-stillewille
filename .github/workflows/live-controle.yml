@@ -6,6 +6,8 @@ name: Live controle
 #   1. Staat de laatste versie van de pagina's op Vercel? (zoekt op een paar
 #      herkenningspunten uit de code)
 #   2. Stuurt /login.html een toegangslink voor een geautoriseerd adres? Dit
+#      gebeurt alleen als er een adres is opgegeven; laat het leeg om zonder
+#      mail te controleren of de nieuwste commit live staat.
 #      doet exact wat die pagina doet: POST /auth/v1/otp met
 #      create_user: false. Er gaat dus een echte mail naar het opgegeven
 #      adres — gebruik je eigen adres.
@@ -19,8 +21,8 @@ on:
   workflow_dispatch:
     inputs:
       testadres:
-        description: 'Adres dat een toegangslink krijgt (een echte mail!)'
-        required: true
+        description: 'Adres dat een toegangslink krijgt (een echte mail!). Leeg laten = alleen de pagina- en formuliercontrole, geen mail.'
+        required: false
         default: ''
 
 env:
@@ -74,7 +76,7 @@ jobs:
             fi
           }
 
-          for bestand in auth-callback.html login.html supabase-config.js chrome.js; do
+          for bestand in auth-callback.html login.html supabase-config.js chrome.js faq.html; do
             ophalen "$bestand" || true
           done
 
@@ -83,6 +85,7 @@ jobs:
           controleer login.html 'De link werkt alleen in deze browser'
           controleer supabase-config.js "flowType: 'pkce'"
           controleer chrome.js 'Handleiding beheerders'
+          controleer faq.html 'Hoe werkt de redactie onderling samen?'
 
           # Loopt de live site echt op deze commit?
           #
@@ -90,7 +93,7 @@ jobs:
           # eerdere commit stond, staat er ook nog als de nieuwste deploy
           # mislukt is. Daarom worden twee publieke bestanden byte voor byte
           # vergeleken met de versie uit deze checkout.
-          for bestand in login.html chrome.js; do
+          for bestand in login.html chrome.js faq.html; do
             if [ -s "/tmp/live-$bestand" ] && diff -q "$bestand" "/tmp/live-$bestand" >/dev/null; then
               echo "OK   $bestand live is gelijk aan deze commit"
             else
@@ -104,7 +107,7 @@ jobs:
           # controle bewijst dus ALLEEN dat de pagina afgeschermd is, niet dat
           # het bestand er staat. Of dat laatste klopt, blijkt uit de
           # bestandsvergelijking hierboven: die zegt of deze commit live is.
-          for pagina in admin.html beheer-handleiding.html; do
+          for pagina in admin.html beheer-handleiding.html redactieomgeving.html; do
             code=$(curl -sS -o /dev/null -w '%{http_code}' "$SITE/$pagina")
             if [ "$code" = "307" ] || [ "$code" = "302" ]; then
               echo "OK   $pagina is afgeschermd (HTTP $code); bestaan is hiermee niet aangetoond"
@@ -116,6 +119,7 @@ jobs:
           exit $fout
 
       - name: 2. Toegangslink aanvragen voor een geautoriseerd adres
+        if: inputs.testadres != ''
         env:
           ADRES: ${{ inputs.testadres }}
         run: |
@@ -136,10 +140,12 @@ jobs:
           echo "Toegangslink verstuurd."
 
       - uses: actions/setup-node@v4
+        if: inputs.testadres != ''
         with:
           node-version: '22'
 
       - name: 2b. Bewijs dat de inlogpagina op PKCE draait
+        if: inputs.testadres != ''
         env:
           ADRES: ${{ inputs.testadres }}
         run: |
