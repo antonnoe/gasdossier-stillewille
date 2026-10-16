@@ -40,6 +40,11 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Browser klaarzetten voor bronnen achter een captcha
+        run: |
+          npm install --no-save --no-audit --no-fund playwright
+          npx playwright install --with-deps chromium
+
       - name: Bronnen ophalen en citaten controleren
         id: controle
         continue-on-error: true

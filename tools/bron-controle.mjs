@@ -31,6 +31,40 @@ function normaliseer(s) {
     .trim();
 }
 
+// stillewillewonen.nl staat achter een captcha van de hoster (SiteGround).
+// Die geeft op een gewone download HTTP 202 met een verwijspagina naar
+// /.well-known/sgcaptcha/ in plaats van het bestand. Een echte browser komt
+// er wel langs: eenmaal de voorpagina openen levert het cookie op, waarna de
+// download via dezelfde browsercontext lukt. De browser wordt alleen gestart
+// als dat nodig blijkt.
+let browserContexts = null;
+
+function isUitdaging(buf) {
+  const kop = buf.subarray(0, 600).toString('latin1');
+  return kop.includes('sgcaptcha') || kop.includes('http-equiv="refresh"');
+}
+
+async function viaBrowser(url) {
+  if (!browserContexts) {
+    const { chromium } = await import('playwright');
+    const browser = await chromium.launch();
+    browserContexts = { browser, perHost: new Map() };
+  }
+  const host = new URL(url).origin;
+  let context = browserContexts.perHost.get(host);
+  if (!context) {
+    context = await browserContexts.browser.newContext();
+    const page = await context.newPage();
+    // De voorpagina openen zet het cookie dat de captcha afgeeft.
+    await page.goto(host + '/', { waitUntil: 'domcontentloaded', timeout: 60000 });
+    await page.waitForTimeout(6000);
+    await page.close();
+    browserContexts.perHost.set(host, context);
+  }
+  const res = await context.request.get(url, { timeout: 60000 });
+  return { status: res.status(), body: Buffer.from(await res.body()) };
+}
+
 const regels = [];
 regels.push('# Broncontrole');
 regels.push('');
@@ -56,6 +90,26 @@ for (const bron of config.bronnen) {
     regels.push('- HTTP: ' + res.status);
     if (!res.ok) { mislukt++; regels.push(''); continue; }
     ruw = Buffer.from(await res.arrayBuffer());
+
+    if (isUitdaging(ruw)) {
+      regels.push('- Eerste poging gaf een captcha van de hoster; opnieuw geprobeerd via een browser.');
+      try {
+        const tweede = await viaBrowser(bron.url);
+        regels.push('- HTTP via browser: ' + tweede.status);
+        if (tweede.status >= 400 || isUitdaging(tweede.body)) {
+          regels.push('- **NIET OP TE HALEN**: de captcha blijft staan. Dit bestand moet met de hand worden aangeleverd.');
+          mislukt++;
+          regels.push('');
+          continue;
+        }
+        ruw = tweede.body;
+      } catch (e) {
+        regels.push('- **NIET OP TE HALEN** via browser: ' + e.message);
+        mislukt++;
+        regels.push('');
+        continue;
+      }
+    }
   } catch (e) {
     regels.push('- HTTP: niet op te halen (' + e.message + ')');
     mislukt++;
@@ -124,6 +178,8 @@ regels.push('');
 regels.push(mislukt === 0
   ? 'Alles gevonden.'
   : 'Aantal niet gevonden of niet op te halen: ' + mislukt + '. Die regels staan hierboven met **NIET GEVONDEN** of een HTTP-fout.');
+
+if (browserContexts) { await browserContexts.browser.close(); }
 
 writeFileSync(join(uit, 'RAPPORT.md'), regels.join('\n') + '\n');
 console.log(regels.join('\n'));
