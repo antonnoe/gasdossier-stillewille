@@ -65,6 +65,39 @@ async function viaBrowser(url) {
   return { status: res.status(), body: Buffer.from(await res.body()) };
 }
 
+// Tekst uit HTML: scripts en stijl eruit, tags weg, entiteiten terug.
+function striptags(h) {
+  return h
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<br\s*\/?>|<\/(p|div|li|h\d|tr)>/gi, '\n')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&rsquo;|&lsquo;/g, "'")
+    .replace(/&ldquo;|&rdquo;/g, '"')
+    .replace(/&euro;/g, '€')
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\n{3,}/g, '\n\n');
+}
+
+// Haalt een bestand op, met de browser als de hoster een captcha geeft.
+async function haal(url) {
+  const res = await fetch(url, {
+    redirect: 'follow',
+    headers: { 'User-Agent': 'SW-Bieb broncontrole (archief Landgoed De Stille Wille)' },
+  });
+  if (!res.ok) return { status: res.status, body: null };
+  let body = Buffer.from(await res.arrayBuffer());
+  if (isUitdaging(body)) {
+    const tweede = await viaBrowser(url);
+    if (tweede.status >= 400 || isUitdaging(tweede.body)) return { status: tweede.status, body: null };
+    body = tweede.body;
+  }
+  return { status: res.status, body };
+}
+
 const ocrGebruikt = new Set();
 const regels = [];
 regels.push('# Broncontrole');
@@ -174,6 +207,7 @@ for (const bron of config.bronnen) {
     } else {
       regels.push('- Soort: tekst of HTML');
     }
+    tekst = tekst.includes('<body') || tekst.includes('<p>') ? striptags(tekst) : tekst;
   }
 
   writeFileSync(join(uit, bron.id + '.txt'), tekst);
@@ -208,6 +242,74 @@ regels.push('');
 regels.push(mislukt === 0
   ? 'Alles gevonden.'
   : 'Aantal niet gevonden of niet op te halen: ' + mislukt + '. Die regels staan hierboven met **NIET GEVONDEN** of een HTTP-fout.');
+
+// ── Overzichtspagina's volgen ─────────────────────────────────────────────
+// Een mededelingenpagina verwijst naar losse berichten en naar PDF's. Die
+// worden hier opgehaald zodat de inhoud na te lezen is; er wordt niets
+// gecontroleerd, alleen verzameld.
+for (const volg of config.volgen || []) {
+  regels.push('## ' + volg.titel);
+  regels.push('');
+  regels.push('- Overzichtspagina: ' + volg.url);
+
+  const index = await haal(volg.url);
+  regels.push('- HTTP: ' + index.status);
+  if (!index.body) { mislukt++; regels.push(''); continue; }
+
+  const basis = new URL(volg.url);
+  const ruweLinks = [...index.body.toString('utf8').matchAll(/href\s*=\s*["']([^"']+)["']/gi)].map((m) => m[1]);
+  const patroon = new RegExp(volg.patroon || '.', 'i');
+  const links = [];
+  for (const l of ruweLinks) {
+    let u;
+    try { u = new URL(l, basis); } catch { continue; }
+    if (u.hostname.replace(/^www\./, '') !== basis.hostname.replace(/^www\./, '')) continue;
+    const isPdfLink = /\.pdf$/i.test(u.pathname);
+    if (!isPdfLink && !patroon.test(u.pathname)) continue;
+    if (u.href === volg.url) continue;
+    u.hash = '';
+    if (!links.includes(u.href)) links.push(u.href);
+  }
+  regels.push('- Gevonden verwijzingen: ' + links.length);
+
+  mkdirSync(join(uit, volg.id), { recursive: true });
+  writeFileSync(join(uit, volg.id, '_index.txt'), striptags(index.body.toString('utf8')));
+
+  let n = 0;
+  const pdfs = [];
+  for (const link of links.slice(0, volg.maxPaginas || 20)) {
+    const res = await haal(link);
+    if (!res.body) { regels.push('  - ' + link + ' -> HTTP ' + res.status); continue; }
+    const isPdf = res.body.subarray(0, 5).toString('latin1') === '%PDF-';
+    const naam = (new URL(link).pathname.replace(/\W+/g, '-').replace(/^-|-$/g, '') || 'pagina') + (isPdf ? '.pdf' : '.txt');
+    if (isPdf) {
+      const pad = join(uit, volg.id, naam);
+      writeFileSync(pad, res.body);
+      try {
+        const t = execFileSync('pdftotext', ['-layout', '-enc', 'UTF-8', pad, '-'], { maxBuffer: 1 << 26 }).toString('utf8');
+        writeFileSync(pad.replace(/\.pdf$/, '.txt'), t);
+        regels.push('  - PDF ' + link + ' -> ' + t.length + ' tekens');
+      } catch (e) {
+        regels.push('  - PDF ' + link + ' -> pdftotext mislukt');
+      }
+      pdfs.push(link);
+    } else {
+      const t = striptags(res.body.toString('utf8'));
+      writeFileSync(join(uit, volg.id, naam), t);
+      regels.push('  - ' + link + ' -> ' + t.length + ' tekens');
+      // Op de pagina zelf kunnen weer PDF's staan.
+      for (const m of res.body.toString('utf8').matchAll(/href\s*=\s*["']([^"']+\.pdf)["']/gi)) {
+        try {
+          const u = new URL(m[1], link);
+          if (!pdfs.includes(u.href) && !links.includes(u.href)) links.push(u.href);
+        } catch { /* ongeldige link overslaan */ }
+      }
+    }
+    n++;
+  }
+  regels.push('- Opgehaald: ' + n + " bestanden, opgeslagen in `" + volg.id + "/`");
+  regels.push('');
+}
 
 if (browserContexts) { await browserContexts.browser.close(); }
 
