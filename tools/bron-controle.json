@@ -1,0 +1,97 @@
+{
+  "doel": "Controleert aangeleverde citaten tegen de openbare bron. Draait op een GitHub-runner, want de sessie van Claude komt alleen bij github.com. Het rapport en de ruwe tekst komen terug op de tak, zodat de citaten letterlijk nagelezen kunnen worden.",
+  "bronnen": [
+    {
+      "id": "statuten-sww-2023",
+      "titel": "Statuten Vereniging Stille Wille Wonen, 27 juni 2023",
+      "url": "https://stillewillewonen.nl/wp-content/uploads/2023/10/Statuten-SWW-27-juni-2023.pdf",
+      "citaten": [
+        "De termijn van de bijeenroeping bedraagt ten minste veertien dagen",
+        "De algemene vergaderingen worden bijeengeroepen door het bestuur"
+      ]
+    },
+    {
+      "id": "huishoudelijk-reglement-sww",
+      "titel": "Huishoudelijk Reglement Vereniging Stille Wille Wonen V1.0",
+      "url": "https://stillewillewonen.nl/wp-content/uploads/2023/10/Huishoudelijk-Reglement-Vereniging-V1.0.pdf",
+      "citaten": [
+        "aanmerkelijke impact hebben op de kwaliteit van leven",
+        "substantiële impact hebben op de hoogte van de woonlasten",
+        "de jaarcijfers, het bestuursverslag",
+        "Per bewoond perceel met in erfpacht uitgegeven grond",
+        "Contributie"
+      ]
+    },
+    {
+      "id": "ghshe-2013-3708",
+      "titel": "Gerechtshof 's-Hertogenbosch 13 augustus 2013",
+      "url": "https://data.rechtspraak.nl/uitspraken/content?id=ECLI:NL:GHSHE:2013:3708",
+      "citaten": [
+        "niet gehouden zijn tot ondertekening van een overeenkomst",
+        "niet behoefden bij te dragen in de huur",
+        "het gebruiksrecht van de niet in erfpacht uitgegeven delen",
+        "de kosten van vervanging van het gasnet niet door middel van een bepaling",
+        "Omstreeks 1975",
+        "Als regel kunnen"
+      ]
+    },
+    {
+      "id": "ghshe-2014-3639",
+      "titel": "Gerechtshof 's-Hertogenbosch 16 september 2014",
+      "url": "https://data.rechtspraak.nl/uitspraken/content?id=ECLI:NL:GHSHE:2014:3639",
+      "citaten": [
+        "In de kosten van onderhoud, renovatie en instandhouding dienen alle bewoners bij te dragen",
+        "nagenoeg complete vervanging"
+      ]
+    },
+    {
+      "id": "br-notulen-2025-08-25",
+      "titel": "Notulen Bewonersraad 25 augustus 2025",
+      "url": "https://www.stillewille.nl/images/bestanden/verslagen/20250911_Notulen_Bewonersraad_-aug_25_.pdf",
+      "citaten": [
+        "7500",
+        "gratis lid",
+        "uit de algemene middelen"
+      ]
+    },
+    {
+      "id": "br-verslag-2025-10-25",
+      "titel": "Verslag Bewonersraad 25 oktober 2025",
+      "url": "https://www.stillewille.nl/images/bestanden/verslagen/20250111_BR-verslag_van_25_okt_25.pdf",
+      "citaten": [
+        "snuffelaar",
+        "tien lekkages"
+      ]
+    },
+    {
+      "id": "br-notulen-2025-03-10",
+      "titel": "Notulen Bewonersraad 10 maart 2025",
+      "url": "https://stillewillewonen.nl/wp-content/uploads/2025/05/20250407_Notulen_Bewonersraad_10-03-2025.pdf",
+      "citaten": []
+    },
+    {
+      "id": "br-verslag-2025-05-12",
+      "titel": "Verslag Bewonersraadvergadering 12 mei 2025",
+      "url": "https://www.stillewille.nl/images/bestanden/verslagen/Verslag_2025-05-12_Bewonersraadvergadering_v6.pdf",
+      "citaten": []
+    },
+    {
+      "id": "model-exploitatieovereenkomst-2021",
+      "titel": "Model Exploitatieovereenkomst Stille Wille, 25 maart 2021",
+      "url": "https://stillewillewonen.nl/wp-content/uploads/2023/12/Model-Exploitatieovereenkomst-StilleWille-25-3-2021.pdf",
+      "citaten": []
+    },
+    {
+      "id": "groenvisie-has",
+      "titel": "Groenvisie HAS, Stille Wille",
+      "url": "https://www.stillewille.nl/images/bestanden/documenten/Stille_Wille_Groenvisie_HAS_compressed.pdf",
+      "citaten": []
+    },
+    {
+      "id": "artikel-begroting-fondsen",
+      "titel": "Artikel begroting en fondsen, SWW",
+      "url": "https://stillewillewonen.nl/wp-content/uploads/2023/10/artikel-begroting-en-fondsen-definitief-2.1.pdf",
+      "citaten": []
+    }
+  ]
+}

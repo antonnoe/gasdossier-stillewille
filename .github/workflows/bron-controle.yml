@@ -1,0 +1,69 @@
+name: Broncontrole
+
+# Controleert de citaten uit tools/bron-controle.json tegen de openbare bron
+# en schrijft het resultaat terug naar de tak waarop de workflow draait.
+#
+# Waarom terugschrijven: de sessie waarin dit dossier wordt voorbereid komt
+# alleen bij github.com, dus niet bij rechtspraak.nl of stillewillewonen.nl,
+# en kan de logregels van een workflow niet lezen. Door het rapport en de
+# opgehaalde tekst op de tak te zetten, zijn de citaten daar letterlijk na te
+# lezen.
+#
+# De map _bron-tekst/ is werkmateriaal: die hoort vóór samenvoegen met main
+# weer verwijderd te worden.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  controle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stop als dit main is
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "Deze workflow schrijft werkmateriaal weg; draai hem op een bijdragetak, niet op main."
+            exit 1
+          fi
+
+      - name: pdftotext installeren
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Bronnen ophalen en citaten controleren
+        id: controle
+        continue-on-error: true
+        run: node tools/bron-controle.mjs _bron-tekst
+
+      - name: Rapport en tekst terugschrijven naar de tak
+        run: |
+          set -euo pipefail
+          # De PDF's zelf niet meenemen: die staan al op de site van de
+          # vereniging en horen niet in de repository.
+          rm -f _bron-tekst/*.pdf
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -A _bron-tekst
+          if git diff --cached --quiet; then
+            echo "Geen wijziging in het rapport."
+            exit 0
+          fi
+          git commit -m "Broncontrole: rapport en opgehaalde tekst (werkmateriaal)"
+          git push origin HEAD:${{ github.ref_name }}
+
+      - name: Resultaat van de controle
+        run: |
+          if [ "${{ steps.controle.outcome }}" != "success" ]; then
+            echo "De controle liep niet schoon; lees _bron-tekst/RAPPORT.md op de tak."
+            exit 1
+          fi
