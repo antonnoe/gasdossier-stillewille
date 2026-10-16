@@ -9,7 +9,7 @@
  *
  * Gebruik: node tools/bron-controle.mjs <uitvoermap>
  */
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 
@@ -65,6 +65,7 @@ async function viaBrowser(url) {
   return { status: res.status(), body: Buffer.from(await res.body()) };
 }
 
+const ocrGebruikt = new Set();
 const regels = [];
 regels.push('# Broncontrole');
 regels.push('');
@@ -135,6 +136,35 @@ for (const bron of config.bronnen) {
       continue;
     }
     regels.push('- Soort: PDF');
+
+    // Een gescande akte levert geen tekstlaag op: pdftotext geeft dan (bijna)
+    // niets terug. In dat geval de pagina's omzetten naar afbeeldingen en er
+    // OCR over halen. OCR is geen letterlijke bron: een citaat dat alleen zo
+    // gevonden wordt, blijft "te controleren aan het origineel".
+    if (tekst.replace(/\s/g, '').length < 200) {
+      regels.push('- Tekstlaag: leeg of vrijwel leeg, dus een scan. OCR geprobeerd (Nederlands).');
+      try {
+        const map = join(uit, bron.id + '-ocr');
+        mkdirSync(map, { recursive: true });
+        execFileSync('pdftoppm', ['-r', '200', '-png', pad, join(map, 'p')], { maxBuffer: 1 << 28 });
+        const pagina = readdirSync(map).filter((n) => n.endsWith('.png')).sort();
+        const delen = [];
+        for (const n of pagina) {
+          const uitvoer = execFileSync('tesseract', [join(map, n), 'stdout', '-l', 'nld'], {
+            maxBuffer: 1 << 26,
+            stdio: ['ignore', 'pipe', 'ignore'],
+          }).toString('utf8');
+          delen.push('--- ' + n + ' ---\n' + uitvoer);
+        }
+        tekst = delen.join('\n');
+        for (const n of pagina) rmSync(join(map, n));
+        rmSync(map, { recursive: true, force: true });
+        regels.push('- OCR: ' + pagina.length + " pagina's, " + tekst.length + ' tekens. Let op: OCR, geen letterlijke tekstlaag.');
+        ocrGebruikt.add(bron.id);
+      } catch (e) {
+        regels.push('- OCR mislukt: ' + e.message);
+      }
+    }
   } else {
     tekst = ruw.toString('utf8');
     // Open data van rechtspraak.nl komt als XML; alleen de tekst eruit.
@@ -166,7 +196,7 @@ for (const bron of config.bronnen) {
     } else {
       const van = Math.max(0, pos - 160);
       const tot = Math.min(plat.length, pos + naald.length + 220);
-      regels.push('- GEVONDEN: `' + citaat + '`');
+      regels.push('- GEVONDEN' + (ocrGebruikt.has(bron.id) ? ' (VIA OCR, niet letterlijk)' : '') + ': `' + citaat + '`');
       regels.push('  > …' + plat.slice(van, tot) + '…');
     }
   }
